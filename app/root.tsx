@@ -14,6 +14,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const localePath = getLocalePathFromPathname(location.pathname);
 
+  // if url is include lang, and url lang is not the same as the i18n language, change the i18n language
   if (localePath && localePath !== i18n.language) {
     i18n.changeLanguage(localePath);
   }
