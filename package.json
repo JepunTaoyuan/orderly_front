@@ -10,7 +10,8 @@
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc",
-    "copyLocales": "node scripts/copyLocales.mjs"
+    "copyLocales": "node scripts/copyLocales.mjs",
+    "prepare": "husky"
   },
   "dependencies": {
     "@orderly.network/affiliate": "2.5.3",
@@ -47,6 +48,8 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "fs-extra": "^11.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
     "typescript": "^5.1.6",
     "vite": "^5.1.0",
     "vite-plugin-cjs-interop": "^2.1.6",
