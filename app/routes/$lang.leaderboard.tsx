@@ -1,7 +1,7 @@
 import { Outlet } from "@remix-run/react";
+import { useScreen } from "@orderly.network/ui";
 import { BaseLayout } from "@/components/baseLayout";
 import { PathEnum } from "@/constant";
-import { useScreen } from "@orderly.network/ui";
 
 export default function LeaderboardLayout() {
   const { isDesktop } = useScreen();

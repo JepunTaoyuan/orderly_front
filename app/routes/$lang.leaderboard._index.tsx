@@ -1,12 +1,12 @@
-import { MetaFunction } from "@remix-run/node";
 import { useMemo } from "react";
-import { useScaffoldContext } from "@orderly.network/ui-scaffold";
-import { Box, useScreen } from "@orderly.network/ui";
+import { MetaFunction } from "@remix-run/node";
+import { i18n, parseI18nLang } from "@orderly.network/i18n";
 import {
   Campaign,
   LeaderboardWidget,
 } from "@orderly.network/trading-leaderboard";
-import { i18n, parseI18nLang } from "@orderly.network/i18n";
+import { Box, useScreen } from "@orderly.network/ui";
+import { useScaffoldContext } from "@orderly.network/ui-scaffold";
 import { PageTitleMap, PathEnum } from "@/constant";
 import { getSymbol } from "@/storage";
 import { generatePageTitle } from "@/utils";
@@ -40,7 +40,7 @@ function getCampaigns() {
         image: "/images/leaderboard/campaign.jpg",
         href: "https://orderly.network/",
         ...date,
-      } as Campaign)
+      }) as Campaign,
   );
 }
 

@@ -1,8 +1,8 @@
 import { MetaFunction } from "@remix-run/node";
-import { Box } from "@orderly.network/ui";
 import { OrdersModule } from "@orderly.network/portfolio";
-import { generatePageTitle } from "@/utils";
+import { Box } from "@orderly.network/ui";
 import { PageTitleMap, PathEnum } from "@/constant";
+import { generatePageTitle } from "@/utils";
 
 export const meta: MetaFunction = () => {
   return [{ title: generatePageTitle(PageTitleMap[PathEnum.Orders]) }];

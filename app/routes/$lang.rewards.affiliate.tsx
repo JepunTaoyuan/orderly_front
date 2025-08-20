@@ -1,6 +1,6 @@
 import { MetaFunction } from "@remix-run/node";
-import { PageTitleMap, PathEnum } from "@/constant";
 import { Dashboard, ReferralProvider } from "@orderly.network/affiliate";
+import { PageTitleMap, PathEnum } from "@/constant";
 import { generatePageTitle } from "@/utils";
 
 export const meta: MetaFunction = () => {

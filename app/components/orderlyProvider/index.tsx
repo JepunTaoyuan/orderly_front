@@ -1,10 +1,10 @@
 import { FC, ReactNode } from "react";
-import { WalletConnectorProvider } from "@orderly.network/wallet-connector";
-import { OrderlyAppProvider } from "@orderly.network/react-app";
 import { LocaleProvider, LocaleCode, LocaleEnum } from "@orderly.network/i18n";
+import { OrderlyAppProvider } from "@orderly.network/react-app";
+import { WalletConnectorProvider } from "@orderly.network/wallet-connector";
+import { useNav } from "@/hooks/useNav";
 import { useOrderlyConfig } from "@/hooks/useOrderlyConfig";
 import { usePathWithoutLang } from "@/hooks/usePathWithoutLang";
-import { useNav } from "@/hooks/useNav";
 
 const OrderlyProvider: FC<{ children: ReactNode }> = (props) => {
   const config = useOrderlyConfig();

@@ -6,8 +6,8 @@ import {
   ScrollRestoration,
   useLocation,
 } from "@remix-run/react";
-import OrderlyProvider from "@/components/orderlyProvider";
 import { getLocalePathFromPathname, i18n } from "@orderly.network/i18n";
+import OrderlyProvider from "@/components/orderlyProvider";
 import "./styles/index.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {

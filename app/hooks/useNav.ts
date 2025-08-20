@@ -1,10 +1,10 @@
 import { useCallback } from "react";
 import { useNavigate } from "@remix-run/react";
-import { RouteOption } from "@orderly.network/ui-scaffold";
-import { getSymbol } from "@/storage";
-import { PathEnum } from "@/constant";
-import { PortfolioLeftSidebarPath } from "@orderly.network/portfolio";
 import { i18n, parseI18nLang } from "@orderly.network/i18n";
+import { PortfolioLeftSidebarPath } from "@orderly.network/portfolio";
+import { RouteOption } from "@orderly.network/ui-scaffold";
+import { PathEnum } from "@/constant";
+import { getSymbol } from "@/storage";
 
 export function useNav() {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ export function useNav() {
 
       navigate(`/${lang}${path}`);
     },
-    [navigate]
+    [navigate],
   );
 
   return { onRouteChange };
