@@ -50,6 +50,9 @@ export default async function handleRequest(
   if (pathWithoutLang === PathEnum.Perp) {
     url.pathname = `/${localePath}${PathEnum.Perp}/${DEFAULT_SYMBOL}`;
     return redirect(url.toString());
+  } else if (pathWithoutLang === PathEnum.Strategy) {
+    url.pathname = `/${localePath}${PathEnum.Strategy}/${DEFAULT_SYMBOL}`;
+    return redirect(url.toString());
   }
 
   // If the pathname has a locale path, return

@@ -62,6 +62,7 @@ export const useOrderlyConfig = () => {
                 },
               ],
             },
+            { name: t("common.strategy"), href: PathEnum.Strategy },
           ],
           initialMenu: PathEnum.Root,
         },

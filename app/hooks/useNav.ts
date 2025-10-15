@@ -24,6 +24,13 @@ export function useNav() {
         return;
       }
 
+      // Strategy 需要符號子路由，與 Perp 行為一致
+      if (option.href === PathEnum.Strategy) {
+        const symbol = getSymbol();
+        navigate(`/${lang}${PathEnum.Strategy}/${symbol}`);
+        return;
+      }
+
       // if href not equal to the route path, we need to convert it to the route path
       const routeMap = {
         [PortfolioLeftSidebarPath.FeeTier]: PathEnum.FeeTier,
