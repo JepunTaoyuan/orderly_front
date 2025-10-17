@@ -3,5 +3,10 @@
   "extend.affiliate.tag": "40% 返佣",
   "extend.affiliate.description": "成为 Orderly 推荐人赚取更多收益",
   "extend.staking": "质押",
-  "extend.staking.description": "质押 ORDER/esORDER 以获取 VALOR"
+  "extend.staking.description": "质押 ORDER/esORDER 以获取 VALOR",
+  "common": {  
+    "strategy": "策略交易",
+    "strategy.apikey1": "要使用策略交易或其他我們提供的服務（包括點數計算），我們需要您的 API 密鑰來啟用。",
+    "strategy.apikey2": "以下 API 密鑰功能將被應用："
+  }  
 }

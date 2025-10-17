@@ -6,6 +6,7 @@ import { registerSimpleDialog, registerSimpleSheet } from "@orderly.network/ui";
 import { WalletConnectorProvider } from "@orderly.network/wallet-connector";
 import { AccountCreationListener } from "@/components/custom/accountCreationListener";
 import { CustomWalletConnectorWidget } from "@/components/custom/customWalletConnectorWidget";
+import { KeyPairGenerator } from "@/components/custom/keyPairGenerator";
 import { ReferralCodeInterceptor } from "@/components/custom/referralCodeInterceptor";
 import { useNav } from "@/hooks/useNav";
 import { useOrderlyConfig } from "@/hooks/useOrderlyConfig";
@@ -51,6 +52,7 @@ const OrderlyProvider: FC<{ children: ReactNode }> = (props) => {
           appIcons={config.orderlyAppProvider.appIcons}
           onRouteChange={onRouteChange}
         >
+          <KeyPairGenerator />
           <ReferralCodeInterceptor />
           <AccountCreationListener />
           {props.children}
