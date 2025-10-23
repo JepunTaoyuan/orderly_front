@@ -131,9 +131,9 @@ export interface MetricsResponse {
  * 挑戰回應
  */
 export interface ChallengeResponse {
-  challenge: string;
   timestamp: number;
-  expires_at: number;
+  nonce: string;
+  message: string;
 }
 
 // ==================== Grid Bot Service ====================

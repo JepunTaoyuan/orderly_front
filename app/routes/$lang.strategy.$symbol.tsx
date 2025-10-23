@@ -1,10 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import { MetaFunction } from "@remix-run/node";
 import { useNavigate, useParams } from "@remix-run/react";
 import { i18n, parseI18nLang } from "@orderly.network/i18n";
-import { TradingPage } from "@orderly.network/trading";
+import { TradingPage, TradingFeatures } from "@orderly.network/trading";
 import { API } from "@orderly.network/types";
+import { BaseLayout } from "@/components/baseLayout";
+import { CustomOrderEntryWrapper } from "@/components/custom/CustomOrderEntryWrapper";
 import { PathEnum } from "@/constant";
+import { GirdPage } from "@/gridPage/pages/trading";
 import { useOrderlyConfig } from "@/hooks/useOrderlyConfig";
 import { updateSymbol } from "@/storage";
 import { formatSymbol, generatePageTitle } from "@/utils";
@@ -34,8 +37,9 @@ export default function StrategyPage() {
     [navigate],
   );
 
+  // Show TradingPage with custom grid bot section below
   return (
-    <TradingPage
+    <GirdPage
       symbol={symbol}
       onSymbolChange={onSymbolChange}
       tradingViewConfig={config.tradingPage.tradingViewConfig}

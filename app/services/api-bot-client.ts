@@ -2,7 +2,7 @@
 
 // In Remix, process.env is not available in browser context
 // We need to use a fallback value
-const API_URL = "http://127.0.0.1:8001";
+const API_URL = "http://127.0.0.1:8000";
 
 /**
  * 簡單的 API 錯誤
