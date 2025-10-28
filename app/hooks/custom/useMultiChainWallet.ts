@@ -17,7 +17,7 @@ export function useMultiChainWallet(wallet: string) {
   });
 
   // 偵測錢包類型
-  const detectChainType = useCallback((): ChainType => {
+  const detectChainType = useCallback((wallet: string): ChainType => {
     if (wallet.startsWith("0x")) {
       return "evm";
     } else {
@@ -27,15 +27,15 @@ export function useMultiChainWallet(wallet: string) {
 
   // 簽署訊息
   const signMessage = useCallback(
-    async (message: string): Promise<string> => {
-      if (state.chainType === "solana") {
+    async (message: string, chainType: ChainType): Promise<string> => {
+      if (chainType === "solana") {
         const encodedMessage = new TextEncoder().encode(message);
         const { signature } = await window.solana.signMessage(
           encodedMessage,
           "utf8",
         );
         return Buffer.from(signature).toString("hex");
-      } else if (state.chainType === "evm") {
+      } else if (chainType === "evm") {
         const provider = new BrowserProvider(window.ethereum);
         const signer = await provider.getSigner();
         return await signer.signMessage(message);
@@ -43,11 +43,12 @@ export function useMultiChainWallet(wallet: string) {
 
       throw new Error("Invalid chain type");
     },
-    [state.chainType],
+    [],
   );
 
   return {
     ...state,
     signMessage,
+    detectChainType,
   };
 }

@@ -35,6 +35,7 @@ import { OrderEntryWidget } from "@orderly.network/ui-order-entry";
 import { TradingviewWidget } from "@orderly.network/ui-tradingview";
 import { DepositStatusWidget } from "@orderly.network/ui-transfer";
 import { CustomOrderEntryWrapper } from "@/components/custom/CustomOrderEntryWrapper";
+import { DataListTabType } from "../../components/desktop/dataList/dataList.script";
 import { SortablePanel } from "../../components/desktop/layout/sortablePanel";
 import { SplitLayout } from "../../components/desktop/layout/splitLayout";
 import {
@@ -425,7 +426,7 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = (props) => {
   const dataListWidget = (
     <React.Suspense fallback={null}>
       <LazyDataListWidget
-        current={undefined}
+        current={DataListTabType.strategy}
         symbol={props.symbol}
         sharePnLConfig={props.sharePnLConfig}
       />

@@ -7,6 +7,7 @@ import {
   Divider,
   Flex,
   InfoCircleIcon,
+  Spinner,
   TabPanel,
   Tabs,
   Tooltip,
@@ -18,6 +19,8 @@ import {
   PositionHistoryWidget,
   PositionsWidget,
 } from "@orderly.network/ui-positions";
+import { GridStrategiesProviderWrapper } from "@/components/GridStrategiesProviderWrapper";
+import { useGridStrategiesGlobal } from "@/contexts/GridStrategiesContext";
 import { DataListState, DataListTabType } from "./dataList.script";
 
 const LazySettingWidget = React.lazy(() =>
@@ -29,6 +32,12 @@ const LazySettingWidget = React.lazy(() =>
 const LazyPositionHeaderWidget = React.lazy(() =>
   import("../../base/positionHeader").then((mod) => {
     return { default: mod.PositionHeaderWidget };
+  }),
+);
+
+const LazyGridStrategiesView = React.lazy(() =>
+  import("./gridStrategiesView").then((mod) => {
+    return { default: mod.GridStrategiesView };
   }),
 );
 
@@ -54,6 +63,14 @@ const PositionsView: React.FC<DataListState> = (props) => {
         />
       </Box>
     </Flex>
+  );
+};
+
+const StrategyView: React.FC<DataListState> = (props) => {
+  return (
+    <Box className="w-full h-full">
+      <LazyGridStrategiesView />
+    </Box>
   );
 };
 
@@ -91,8 +108,9 @@ export const LiquidationTab: React.FC = () => {
   );
 };
 
-export const DataList: React.FC<DataListState> = (props) => {
+const DataListWithProvider: React.FC<DataListState> = (props) => {
   const { t } = useTranslation();
+  const { setStrategyPageVisible } = useGridStrategiesGlobal();
 
   const {
     positionCount = 0,
@@ -108,13 +126,25 @@ export const DataList: React.FC<DataListState> = (props) => {
     unPnlPriceBasis,
     setUnPnlPriceBasic,
     setPnlNotionalDecimalPrecision,
+    gridStrategies,
   } = props;
+
+  // Detect when user switches to strategy tab
+  React.useEffect(() => {
+    const isStrategyTab = current === DataListTabType.strategy;
+    setStrategyPageVisible(isStrategyTab);
+  }, [current, setStrategyPageVisible]);
 
   const tabPanelItems: (TabPanelProps & { content?: React.ReactNode })[] = [
     {
       value: DataListTabType.positions,
       title: `${t("common.positions")} ${positionCount > 0 ? `(${positionCount})` : ""}`,
       content: <PositionsView {...props} />,
+    },
+    {
+      value: DataListTabType.strategy,
+      title: `${t("common.strategy")} ${gridStrategies?.strategyCount > 0 ? `(${gridStrategies.strategyCount})` : ""}`,
+      content: <StrategyView {...props} />,
     },
     {
       value: DataListTabType.pending,
@@ -234,4 +264,8 @@ export const DataList: React.FC<DataListState> = (props) => {
       })}
     </Tabs>
   );
+};
+
+export const DataList: React.FC<DataListState> = (props) => {
+  return <DataListWithProvider {...props} />;
 };

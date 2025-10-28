@@ -12,6 +12,7 @@ import {
   Flex,
   Text,
 } from "@orderly.network/ui";
+import { DataListTabType } from "../../components/mobile/dataList/dataList.script";
 import type { TradingState } from "./trading.script";
 
 const LazyTopTabWidget = React.lazy(() =>
@@ -134,6 +135,7 @@ export const MobileLayout: React.FC<TradingState> = (props) => {
         </React.Suspense>
         <React.Suspense fallback={null}>
           <LazyDataListWidget
+            current={DataListTabType.strategy}
             symbol={props.symbol}
             className="oui-mx-1 oui-rounded-xl"
             sharePnLConfig={props.sharePnLConfig}

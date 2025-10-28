@@ -8,6 +8,7 @@ import { AccountCreationListener } from "@/components/custom/accountCreationList
 import { CustomWalletConnectorWidget } from "@/components/custom/customWalletConnectorWidget";
 import { KeyPairGenerator } from "@/components/custom/keyPairGenerator";
 import { ReferralCodeInterceptor } from "@/components/custom/referralCodeInterceptor";
+import { GridStrategiesProvider } from "@/contexts/GridStrategiesContext";
 import { useNav } from "@/hooks/useNav";
 import { useOrderlyConfig } from "@/hooks/useOrderlyConfig";
 import { usePathWithoutLang } from "@/hooks/usePathWithoutLang";
@@ -52,10 +53,12 @@ const OrderlyProvider: FC<{ children: ReactNode }> = (props) => {
           appIcons={config.orderlyAppProvider.appIcons}
           onRouteChange={onRouteChange}
         >
-          <KeyPairGenerator />
-          <ReferralCodeInterceptor />
-          <AccountCreationListener />
-          {props.children}
+          <GridStrategiesProvider>
+            <KeyPairGenerator />
+            <ReferralCodeInterceptor />
+            <AccountCreationListener />
+            {props.children}
+          </GridStrategiesProvider>
         </OrderlyAppProvider>
       </WalletConnectorProvider>
     </LocaleProvider>

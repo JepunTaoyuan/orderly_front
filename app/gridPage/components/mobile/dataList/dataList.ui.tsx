@@ -8,6 +8,7 @@ import {
   Checkbox,
   Divider,
   Flex,
+  Spinner,
   TabPanel,
   Tabs,
   Text,
@@ -19,6 +20,8 @@ import {
   MobilePositionHistoryWidget,
   MobilePositionsWidget,
 } from "@orderly.network/ui-positions";
+import { GridStrategiesProviderWrapper } from "@/components/GridStrategiesProviderWrapper";
+import { useGridStrategiesGlobal } from "@/contexts/GridStrategiesContext";
 import {
   type DataListState,
   DataListTabSubType,
@@ -28,6 +31,18 @@ import {
 const LazyPositionHeaderWidget = React.lazy(() =>
   import("../../base/positionHeader").then((mod) => {
     return { default: mod.PositionHeaderWidget };
+  }),
+);
+
+const LazyGridStrategiesView = React.lazy(() =>
+  import("./gridStrategiesView").then((mod) => {
+    return { default: mod.GridStrategiesView };
+  }),
+);
+
+const LazyMobileGridHeaderWidget = React.lazy(() =>
+  import("./gridHeader").then((mod) => {
+    return { default: mod.MobileGridHeaderWidget };
   }),
 );
 
@@ -123,6 +138,23 @@ const PositionsView: React.FC<DataListState> = (props) => {
   );
 };
 
+const StrategyView: React.FC<DataListState> = (props) => {
+  return (
+    <Flex direction={"column"} gap={2}>
+      <React.Suspense fallback={null}>
+        <LazyMobileGridHeaderWidget
+          symbol={props.showAllSymbol ? undefined : props.symbol}
+          showAllSymbol={props.showAllSymbol}
+          setShowAllSymbol={props.setShowAllSymbol}
+        />
+      </React.Suspense>
+      <React.Suspense fallback={null}>
+        <LazyGridStrategiesView />
+      </React.Suspense>
+    </Flex>
+  );
+};
+
 const HistoryTab: React.FC<DataListState> = (props) => {
   const { t } = useTranslation();
   return (
@@ -155,10 +187,12 @@ const HistoryTab: React.FC<DataListState> = (props) => {
   );
 };
 
-export const DataList: React.FC<DataListState & { className?: string }> = (
+const DataListWithProvider: React.FC<DataListState & { className?: string }> = (
   props,
 ) => {
   const { t } = useTranslation();
+  const { setStrategyPageVisible } = useGridStrategiesGlobal();
+
   const {
     positionCount = 0,
     pendingOrderCount = 0,
@@ -168,13 +202,25 @@ export const DataList: React.FC<DataListState & { className?: string }> = (
     tab,
     setTab,
     className,
+    gridStrategies,
   } = props;
+
+  // Detect when user switches to strategy tab
+  React.useEffect(() => {
+    const isStrategyTab = tab === DataListTabType.strategy;
+    setStrategyPageVisible(isStrategyTab);
+  }, [tab, setStrategyPageVisible]);
 
   const tabPanelItems: (TabPanelProps & { content?: React.ReactNode })[] = [
     {
       title: `${t("common.positions")} ${positionCount > 0 ? `(${positionCount})` : ""}`,
       value: DataListTabType.position,
       content: <PositionsView {...props} />,
+    },
+    {
+      title: `${t("common.strategy")} ${gridStrategies?.strategyCount > 0 ? `(${gridStrategies.strategyCount})` : ""}`,
+      value: DataListTabType.strategy,
+      content: <StrategyView {...props} />,
     },
     {
       title: `${t("orders.status.pending")} ${pendingOrderCount > 0 ? `(${pendingOrderCount})` : ""}`,
@@ -243,4 +289,10 @@ export const DataList: React.FC<DataListState & { className?: string }> = (
       })}
     </Tabs>
   );
+};
+
+export const DataList: React.FC<DataListState & { className?: string }> = (
+  props,
+) => {
+  return <DataListWithProvider {...props} />;
 };

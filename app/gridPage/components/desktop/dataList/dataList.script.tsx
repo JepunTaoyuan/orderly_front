@@ -1,4 +1,5 @@
 import type { PositionsProps } from "@orderly.network/ui-positions";
+import { useGridStrategies } from "../../../../hooks/custom/useGridStrategies";
 import {
   usePendingOrderCount,
   usePositionsCount,
@@ -9,6 +10,7 @@ import { useTradingPageContext } from "../../../provider/tradingPageContext";
 export enum DataListTabType {
   positions = "Positions",
   pending = "Pending",
+  strategy = "Strategy",
   tp_sl = "TP/SL",
   filled = "Filled",
   positionHistory = "Position history",
@@ -36,6 +38,9 @@ export const useDataListScript = (
 
   const { pendingOrderCount, tpSlOrderCount } = usePendingOrderCount(symbol);
 
+  // Strategy related state
+  const gridStrategies = useGridStrategies();
+
   return {
     current,
     sharePnLConfig,
@@ -47,6 +52,8 @@ export const useDataListScript = (
     pendingOrderCount,
     tpSlOrderCount,
     onSymbolChange,
+    // Add strategy state
+    gridStrategies,
   };
 };
 

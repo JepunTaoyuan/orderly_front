@@ -4,6 +4,7 @@ import { useTranslation } from "@orderly.network/i18n";
 import { modal, Text } from "@orderly.network/ui";
 import { TabType } from "@orderly.network/ui-orders";
 import { SharePnLConfig } from "@orderly.network/ui-share";
+import { useGridStrategies } from "@/hooks/custom/useGridStrategies";
 import {
   usePendingOrderCount,
   usePositionsCount,
@@ -14,6 +15,7 @@ import { useTradingPageContext } from "../../../provider/tradingPageContext";
 export enum DataListTabType {
   position = "Position",
   pending = "Pending",
+  strategy = "Strategy",
   tp_sl = "TP/SL",
   history = "History",
   liquidation = "Liquidation",
@@ -29,9 +31,12 @@ export const useDataListScript = (props: {
   symbol: string;
   className?: string;
   sharePnLConfig?: SharePnLConfig;
+  current?: DataListTabType;
 }) => {
-  const { symbol, sharePnLConfig } = props;
-  const [tab, setTab] = useState<DataListTabType>(DataListTabType.position);
+  const { symbol, sharePnLConfig, current } = props;
+  const [tab, setTab] = useState<DataListTabType>(
+    current || DataListTabType.position,
+  );
   const [subTab, setSubTab] = useState<DataListTabSubType>(
     DataListTabSubType.positionHistory,
   );
@@ -43,6 +48,9 @@ export const useDataListScript = (props: {
   const [_, { cancelAllOrders, cancelAllTPSLOrders }] = useOrderStream({});
   const { positionCount } = usePositionsCount(symbol);
   const { pendingOrderCount, tpSlOrderCount } = usePendingOrderCount(symbol);
+
+  // Strategy related state
+  const gridStrategies = useGridStrategies();
 
   const onCloseAll = (type: TabType) => {
     const title =
@@ -97,6 +105,8 @@ export const useDataListScript = (props: {
     ...localStorage,
     onCloseAll,
     onSymbolChange,
+    // Add strategy state
+    gridStrategies,
   };
 };
 
