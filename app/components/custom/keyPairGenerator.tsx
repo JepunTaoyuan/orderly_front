@@ -64,6 +64,7 @@ export const KeyPairGenerator: React.FC = () => {
           generateKeyRes.key,
           generateKeyRes.secretKey,
           state.accountId,
+          state.address,
         );
       }
     } catch (error) {

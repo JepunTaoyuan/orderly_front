@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { toast } from "@orderly.network/ui";
 import { gridBotService } from "@/services/gridBot.client";
+import { userService } from "@/services/user.client";
 
 export type SaveApiKeyOptions = {
   onSuccess?: () => void;
@@ -12,11 +13,23 @@ export const useSaveApiKeyToBackend = (options: SaveApiKeyOptions) => {
   const [isSaving, setIsSaving] = useState(false);
 
   const saveToBackend = useCallback(
-    async (apiKey: string, secretKey: string, userId?: string) => {
+    async (
+      apiKey: string,
+      secretKey: string,
+      userId?: string,
+      walletAddress?: string,
+    ) => {
       setIsSaving(true);
       try {
         if (!userId) {
           throw new Error("Missing userId when saving API key to backend");
+        }
+        if (!(await userService.checkUserExist(userId!))) {
+          console.log("User does not exist, creating new user");
+          await userService.createUser({
+            user_id: userId!,
+            wallet_address: walletAddress!,
+          });
         }
         const response = await gridBotService.enableBotTrading({
           user_api_key: apiKey,

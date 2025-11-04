@@ -65,6 +65,14 @@ export const userService = {
   },
 
   /**
+   * 檢查用戶是否存在
+   * GET /users/{user_id}/exist
+   */
+  async checkUserExist(userId: string): Promise<boolean> {
+    return api.get<boolean>(`/users/${userId}/exist`);
+  },
+
+  /**
    * 獲取用戶信息
    * GET /users/{user_id}
    * 需要認證
