@@ -1,8 +1,8 @@
 // app/services/api-bot-client.ts
 
-// In Remix, process.env is not available in browser context
-// We need to use a fallback value
-const API_URL = "http://127.0.0.1:8001";
+// Use Remix API proxy route for all environments
+// This proxy runs on the server-side and can access internal Docker services
+const API_URL = "/api/proxy/grid";
 
 /**
  * 簡單的 API 錯誤

@@ -169,7 +169,7 @@ export const GridStrategiesView: React.FC = () => {
         },
       },
       {
-        title: t("common.actions"),
+        title: t("strategy.actions"),
         dataIndex: "actions",
         width: 100,
         align: "center",

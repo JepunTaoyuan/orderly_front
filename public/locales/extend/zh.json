@@ -54,6 +54,7 @@
     "filterStopped": "已停止",
     "noRunningStrategies": "沒有運行中的策略",
     "noStoppedStrategies": "沒有已停止的策略",
-    "groupBySymbol": "按交易對分組"
+    "groupBySymbol": "按交易對分組",
+    "actions": "操作"
   }  
 }

@@ -54,6 +54,7 @@
     "filterRunning": "Running",
     "filterStopped": "Stopped",
     "noRunningStrategies": "No running strategies",
-    "noStoppedStrategies": "No stopped strategies"
+    "noStoppedStrategies": "No stopped strategies",
+    "actions": "Actions"
   }  
 }

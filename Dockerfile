@@ -1,5 +1,5 @@
 # https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
-FROM node:20-slim AS base
+FROM node:24-slim AS base
 
 FROM base AS deps
 WORKDIR /app
@@ -22,6 +22,9 @@ RUN npm run build
 
 FROM base AS runtime
 WORKDIR /app
+
+# Install curl for health checks
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 # COPY --from=production-deps /app/node_modules ./node_modules
 COPY --from=builder /app/node_modules ./node_modules

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useOrderStream } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
-import { modal, Text } from "@orderly.network/ui";
+import { modal, Text, toast } from "@orderly.network/ui";
 import { TabType } from "@orderly.network/ui-orders";
 import { SharePnLConfig } from "@orderly.network/ui-share";
 import { useGridStrategies } from "@/hooks/custom/useGridStrategies";
@@ -45,7 +45,9 @@ export const useDataListScript = (props: {
   const { onSymbolChange } = useTradingPageContext();
   const localStorage = useTradingLocalStorage();
 
-  const [_, { cancelAllOrders, cancelAllTPSLOrders }] = useOrderStream({});
+  const [_, { cancelAllOrders, cancelAllTPSLOrders, refresh }] = useOrderStream(
+    {},
+  );
   const { positionCount } = usePositionsCount(symbol);
   const { pendingOrderCount, tpSlOrderCount } = usePendingOrderCount(symbol);
 
@@ -77,6 +79,8 @@ export const useDataListScript = (props: {
           } else {
             await cancelAllOrders();
           }
+          // Reload datalist to ensure the UI reflects the changes
+          refresh();
           return Promise.resolve(true);
         } catch (error) {
           // @ts-ignore
