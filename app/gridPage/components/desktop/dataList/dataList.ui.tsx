@@ -14,13 +14,13 @@ import {
 } from "@orderly.network/ui";
 import type { TabPanelProps } from "@orderly.network/ui";
 import { DesktopOrderListWidget, TabType } from "@orderly.network/ui-orders";
+import { GridStrategiesProviderWrapper } from "@/components/GridStrategiesProviderWrapper";
+import { useGridStrategiesGlobal } from "@/contexts/GridStrategiesContext";
 import {
   LiquidationWidget,
   PositionHistoryWidget,
   PositionsWidget,
-} from "@orderly.network/ui-positions";
-import { GridStrategiesProviderWrapper } from "@/components/GridStrategiesProviderWrapper";
-import { useGridStrategiesGlobal } from "@/contexts/GridStrategiesContext";
+} from "@/packages/ui-positions";
 import { DataListState, DataListTabType } from "./dataList.script";
 
 const LazySettingWidget = React.lazy(() =>

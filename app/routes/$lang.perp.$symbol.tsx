@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 import { MetaFunction } from "@remix-run/node";
 import { useNavigate, useParams } from "@remix-run/react";
 import { i18n, parseI18nLang } from "@orderly.network/i18n";
-import { TradingPage } from "@orderly.network/trading";
 import { API } from "@orderly.network/types";
 import { PathEnum } from "@/constant";
 import { useOrderlyConfig } from "@/hooks/useOrderlyConfig";
+import { TradingPage } from "@/packages/trading";
 import { updateSymbol } from "@/storage";
 import { formatSymbol, generatePageTitle } from "@/utils";
 

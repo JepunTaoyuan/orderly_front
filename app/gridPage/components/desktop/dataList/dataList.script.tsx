@@ -1,4 +1,4 @@
-import type { PositionsProps } from "@orderly.network/ui-positions";
+import type { PositionsProps } from "@/packages/ui-positions";
 import { useGridStrategies } from "../../../../hooks/custom/useGridStrategies";
 import {
   usePendingOrderCount,

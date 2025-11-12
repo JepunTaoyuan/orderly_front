@@ -15,13 +15,13 @@ import {
 } from "@orderly.network/ui";
 import type { TabPanelProps } from "@orderly.network/ui";
 import { MobileOrderListWidget, TabType } from "@orderly.network/ui-orders";
+import { GridStrategiesProviderWrapper } from "@/components/GridStrategiesProviderWrapper";
+import { useGridStrategiesGlobal } from "@/contexts/GridStrategiesContext";
 import {
   MobileLiquidationWidget,
   MobilePositionHistoryWidget,
   MobilePositionsWidget,
-} from "@orderly.network/ui-positions";
-import { GridStrategiesProviderWrapper } from "@/components/GridStrategiesProviderWrapper";
-import { useGridStrategiesGlobal } from "@/contexts/GridStrategiesContext";
+} from "@/packages/ui-positions";
 import {
   type DataListState,
   DataListTabSubType,
