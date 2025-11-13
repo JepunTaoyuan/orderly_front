@@ -90,11 +90,12 @@ export const GridStrategiesProvider: React.FC<GridStrategiesProviderProps> = ({
 
   // Refs for debouncing and state tracking
   const fetchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const sseRef = useRef<EventSource | null>(null);
   const isLoadingRef = useRef(false);
   const isStrategyPageActiveRef = useRef(false);
   const lastAccountIdRef = useRef<string | null>(null);
 
-  // Calculate aggregated metrics
+  // Calculate aggregated metrics with optimized performance
   const aggregatedData = React.useMemo(() => {
     if (!strategies.length) {
       return {
@@ -121,16 +122,16 @@ export const GridStrategiesProvider: React.FC<GridStrategiesProviderProps> = ({
       }
     > = {};
 
-    strategies.forEach((strategy) => {
+    // Single pass through strategies for all calculations
+    for (let i = 0; i < strategies.length; i++) {
+      const strategy = strategies[i];
       const symbol = strategy.ticker;
-      const gridProfit = parseFloat(
-        strategy.status?.profit_statistics?.grid_profit || "0",
-      );
-      const marginUsed = parseFloat(
-        strategy.status?.profit_statistics?.total_margin_used || "0",
-      );
+      const profitStats = strategy.status?.profit_statistics;
+
+      const gridProfit = parseFloat(profitStats?.grid_profit || "0");
+      const marginUsed = parseFloat(profitStats?.total_margin_used || "0");
       const capitalUtilization = parseFloat(
-        strategy.status?.profit_statistics?.capital_utilization || "0",
+        profitStats?.capital_utilization || "0",
       );
       const activeOrdersCount = strategy.status?.active_orders_count || 0;
 
@@ -139,7 +140,7 @@ export const GridStrategiesProvider: React.FC<GridStrategiesProviderProps> = ({
       totalMarginUsed += marginUsed;
       totalCapitalUtilization += capitalUtilization;
 
-      // Group by symbol
+      // Group by symbol - initialize if needed
       if (!strategiesBySymbol[symbol]) {
         strategiesBySymbol[symbol] = [];
         symbolSummaries[symbol] = {
@@ -160,16 +161,16 @@ export const GridStrategiesProvider: React.FC<GridStrategiesProviderProps> = ({
       summary.totalMarginUsed += marginUsed;
       summary.avgCapitalUtilization += capitalUtilization;
       summary.activeOrdersCount += activeOrdersCount;
-    });
+    }
 
-    // Calculate averages for each symbol
-    Object.keys(symbolSummaries).forEach((symbol) => {
+    // Calculate averages for each symbol in single pass
+    for (const symbol in symbolSummaries) {
       const summary = symbolSummaries[symbol];
       if (summary.count > 0) {
         summary.avgCapitalUtilization =
           summary.avgCapitalUtilization / summary.count;
       }
-    });
+    }
 
     return {
       totalGridProfit,
@@ -244,10 +245,6 @@ export const GridStrategiesProvider: React.FC<GridStrategiesProviderProps> = ({
           setStrategies(activeStrategies);
           setLastFetchTime(now);
           setError(null);
-          console.log(
-            "[GridStrategiesContext] Successfully fetched strategies:",
-            activeStrategies.length,
-          );
         } catch (err) {
           console.error(
             "[GridStrategiesContext] Failed to fetch strategies:",
@@ -380,6 +377,51 @@ export const GridStrategiesProvider: React.FC<GridStrategiesProviderProps> = ({
       if (visible && state?.accountId) {
         refetch();
       }
+
+      // Manage SSE connection based on visibility
+      try {
+        if (visible && state?.accountId && !sseRef.current) {
+          const url = `/api/proxy/grid/api/grid/stream/${state.accountId}`;
+          const es = new EventSource(url);
+          sseRef.current = es;
+
+          es.onmessage = (ev) => {
+            try {
+              const payload = JSON.parse(ev.data);
+              const list: UserGridStrategy[] = Array.isArray(
+                payload?.strategies,
+              )
+                ? payload.strategies
+                : [];
+              const activeStrategies = list.filter(
+                (s) => s.is_running && s.status?.is_running,
+              );
+              setStrategies(activeStrategies);
+              setLastFetchTime(Date.now());
+            } catch (e) {
+              console.error("[GridStrategiesContext] SSE parse error:", e);
+            }
+          };
+
+          es.onerror = (err) => {
+            console.warn("[GridStrategiesContext] SSE error:", err);
+            // Close and retry later
+            try {
+              es.close();
+            } catch {}
+            sseRef.current = null;
+          };
+        }
+
+        if (!visible && sseRef.current) {
+          try {
+            sseRef.current.close();
+          } catch {}
+          sseRef.current = null;
+        }
+      } catch (e) {
+        console.warn("[GridStrategiesContext] SSE setup failed:", e);
+      }
     },
     [refetch, state?.accountId],
   );
@@ -405,6 +447,12 @@ export const GridStrategiesProvider: React.FC<GridStrategiesProviderProps> = ({
     return () => {
       if (fetchTimeoutRef.current) {
         clearTimeout(fetchTimeoutRef.current);
+      }
+      if (sseRef.current) {
+        try {
+          sseRef.current.close();
+        } catch {}
+        sseRef.current = null;
       }
     };
   }, []);

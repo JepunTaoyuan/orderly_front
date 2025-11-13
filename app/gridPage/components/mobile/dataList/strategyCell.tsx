@@ -62,19 +62,41 @@ export const StrategyCell: React.FC<StrategyCellProps> = ({
     });
   };
 
-  const gridProfit = parseFloat(
-    item.status?.profit_statistics?.grid_profit || "0",
+  // 🔍 詳細的數據追蹤和調試日誌
+  console.log("🔍 StrategyCell 數據追蹤 - 原始 item:", item);
+  console.log("🔍 StrategyCell 數據追蹤 - item.status:", item.status);
+  console.log(
+    "🔍 StrategyCell 數據追蹤 - profit_statistics:",
+    item.status?.profit_statistics,
   );
-  const marginUsed = parseFloat(
-    item.status?.profit_statistics?.total_margin_used || "0",
-  );
-  const capitalUtilization = parseFloat(
-    item.status?.profit_statistics?.capital_utilization || "0",
-  );
-  const currentPosition = parseFloat(
-    item.status?.profit_statistics?.current_position_qty || "0",
-  );
+
+  const profitStats = item.status?.profit_statistics;
+  const gridProfitStr = profitStats?.grid_profit || "0";
+  const marginUsedStr = profitStats?.total_margin_used || "0";
+  const capitalUtilizationStr = profitStats?.capital_utilization || "0";
+  const currentPositionStr = profitStats?.current_position_qty || "0";
   const activeOrdersCount = item.status?.active_orders_count || 0;
+
+  console.log("🔍 StrategyCell 數據解析:", {
+    gridProfitStr,
+    marginUsedStr,
+    capitalUtilizationStr,
+    currentPositionStr,
+    debugInfo: profitStats?.debug_info,
+  });
+
+  const gridProfit = parseFloat(gridProfitStr);
+  const marginUsed = parseFloat(marginUsedStr);
+  const capitalUtilization = parseFloat(capitalUtilizationStr);
+  const currentPosition = parseFloat(currentPositionStr);
+
+  console.log("🔍 StrategyCell 最終數值:", {
+    gridProfit,
+    marginUsed,
+    capitalUtilization,
+    currentPosition,
+    activeOrdersCount,
+  });
 
   const profitColor = gridProfit >= 0 ? "trade-profit" : "trade-loss";
 
