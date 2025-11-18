@@ -2,10 +2,6 @@ import React, { useEffect, useMemo } from "react";
 import { useGetRwaSymbolInfo } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import {
-  MarketsSheetWidget,
-  SymbolInfoBarWidget,
-} from "@orderly.network/markets";
-import {
   Box,
   SimpleSheet,
   EyeCloseIcon,
@@ -14,6 +10,7 @@ import {
   Text,
   NewsFillIcon,
 } from "@orderly.network/ui";
+import { MarketsSheetWidget, SymbolInfoBarWidget } from "@/packages/markets";
 import { Countdown } from "../../components/base/countdown";
 import { showRwaOutsideMarketHoursNotify } from "../../components/desktop/notify/rwaNotification";
 import type { TradingState } from "./trading.script";

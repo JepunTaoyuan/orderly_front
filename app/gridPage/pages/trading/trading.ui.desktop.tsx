@@ -22,11 +22,6 @@ import {
 import { CSS, Transform } from "@dnd-kit/utilities";
 import { useLocalStorage } from "@orderly.network/hooks";
 import {
-  SideMarketsWidget,
-  SymbolInfoBarFullWidget,
-  HorizontalMarketsWidget,
-} from "@orderly.network/markets";
-import {
   OrderEntrySortKeys,
   TradingviewFullscreenKey,
 } from "@orderly.network/types";
@@ -35,6 +30,11 @@ import { OrderEntryWidget } from "@orderly.network/ui-order-entry";
 import { TradingviewWidget } from "@orderly.network/ui-tradingview";
 import { DepositStatusWidget } from "@orderly.network/ui-transfer";
 import { CustomOrderEntryWrapper } from "@/components/custom/CustomOrderEntryWrapper";
+import {
+  SideMarketsWidget,
+  SymbolInfoBarFullWidget,
+  HorizontalMarketsWidget,
+} from "@/packages/markets";
 import { DataListTabType } from "../../components/desktop/dataList/dataList.script";
 import { SortablePanel } from "../../components/desktop/layout/sortablePanel";
 import { SplitLayout } from "../../components/desktop/layout/splitLayout";

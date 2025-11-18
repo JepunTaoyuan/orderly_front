@@ -1,6 +1,6 @@
 import { MetaFunction } from "@remix-run/node";
-import { MarketsHomePage } from "@orderly.network/markets";
 import { PageTitleMap, PathEnum } from "@/constant";
+import { MarketsHomePage } from "@/packages/markets";
 import { generatePageTitle } from "@/utils";
 
 export const meta: MetaFunction = () => {

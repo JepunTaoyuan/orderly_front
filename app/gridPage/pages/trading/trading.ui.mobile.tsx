@@ -1,10 +1,6 @@
 import React from "react";
 import { useTranslation } from "@orderly.network/i18n";
 import {
-  MarketsSheetWidget,
-  SymbolInfoBarWidget,
-} from "@orderly.network/markets";
-import {
   Box,
   SimpleSheet,
   EyeCloseIcon,
@@ -12,6 +8,7 @@ import {
   Flex,
   Text,
 } from "@orderly.network/ui";
+import { MarketsSheetWidget, SymbolInfoBarWidget } from "@/packages/markets";
 import { DataListTabType } from "../../components/mobile/dataList/dataList.script";
 import type { TradingState } from "./trading.script";
 

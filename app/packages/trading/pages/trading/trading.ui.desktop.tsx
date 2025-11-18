@@ -25,11 +25,6 @@ import {
   useLocalStorage,
 } from "@orderly.network/hooks";
 import {
-  SideMarketsWidget,
-  SymbolInfoBarFullWidget,
-  HorizontalMarketsWidget,
-} from "@orderly.network/markets";
-import {
   OrderEntrySortKeys,
   TradingviewFullscreenKey,
 } from "@orderly.network/types";
@@ -37,6 +32,11 @@ import { Box, cn, Flex } from "@orderly.network/ui";
 import { OrderEntryWidget } from "@orderly.network/ui-order-entry";
 import { TradingviewWidget } from "@orderly.network/ui-tradingview";
 import { DepositStatusWidget } from "@orderly.network/ui-transfer";
+import {
+  SideMarketsWidget,
+  SymbolInfoBarFullWidget,
+  HorizontalMarketsWidget,
+} from "@/packages/markets";
 import { SortablePanel } from "../../components/desktop/layout/sortablePanel";
 import { SplitLayout } from "../../components/desktop/layout/splitLayout";
 import { showRwaOutsideMarketHoursNotify } from "../../components/desktop/notify/rwaNotification";

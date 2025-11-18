@@ -40,8 +40,18 @@
   --oui-color-base-6: 43 38 56;
   --oui-color-base-7: 36 32 47;
   --oui-color-base-8: 29 26 38;
-  --oui-color-base-9: 22 20 28;
+  --oui-color-base-9: 19 21 25;
   --oui-color-base-10: 14 13 18;
+
+  --oui-color-base-100: 201 189 255;
+  --oui-color-base-200: 81 72 107;
+  --oui-color-base-300: 68 61 89;
+  --oui-color-base-400: 57 52 74;
+  --oui-color-base-500: 51 46 66;
+  --oui-color-base-600: 43 38 56;
+  --oui-color-base-700: 36 32 47;
+  --oui-color-base-800: 29 26 38;
+  --oui-color-base-900: 22 20 28;
 
   --oui-color-base-foreground: 255 255 255;
   --oui-color-line: 255 255 255;
@@ -91,4 +101,22 @@
   --oui-spacing-md: 26.25rem;
   --oui-spacing-lg: 30rem;
   --oui-spacing-xl: 33.75rem;
-}
+
+  /* custom */
+  .search-input {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  .add-icon {
+    background-color: rgba(130, 110, 221, 0.3)
+  }
+  .text-80 {
+    color: rgba(255, 255, 255, 0.04);
+  }
+  .market-select [data-state="active"] {  
+    color: rgb(var(--oui-color-primary)) !important;  
+  }  
+  
+  .market-select [data-state="active"]::after {  
+    background-color: rgb(var(--oui-color-primary)) !important;  
+  }
+} 
