@@ -66,7 +66,7 @@ export const useMarketsListFullColumns = (
       {
         title: t("markets.column.market"),
         dataIndex: "symbol",
-        width: 90,
+        width: 150,
         align: "left",
         onSort: true,
         render: (value) => {
@@ -147,7 +147,7 @@ export const useMarketsListFullColumns = (
       {
         title: t("markets.dataList.column.8hFunding"),
         dataIndex: "8h_funding",
-        width: 100,
+        width: 80,
         align: "left",
         onSort: true,
         render: (value) => {
@@ -170,11 +170,11 @@ export const useMarketsListFullColumns = (
       {
         dataIndex: "action",
         type: "action",
-        width: 40,
+        width: 20,
         render: (value, record) => {
           if (isFavoriteList) {
             return (
-              <Flex justify="end" mr={4}>
+              <Flex justify="end">
                 <Tooltip
                   content={t("markets.dataList.column.moveTop")}
                   align="center"
