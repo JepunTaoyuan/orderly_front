@@ -17,7 +17,9 @@ export default function TradingRewardsLayout() {
       footer={<CustomFooter {...config.scaffold.footerProps} />}
       mainNavProps={{
         ...config.scaffold.mainNavProps,
-        initialMenu: PathEnum.Rewards,
+        // 把子路由移到主路由需要改這
+        // initialMenu: PathEnum.Rewards,
+        initialMenu: PathEnum.RewardsAffiliate,
       }}
       routerAdapter={{
         onRouteChange,
