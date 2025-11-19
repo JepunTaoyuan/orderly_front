@@ -35,8 +35,8 @@ export const useOrderlyConfig = () => {
             { name: t("common.markets"), href: PathEnum.Markets },
             {
               name: t("tradingRewards.rewards"),
-              href: PathEnum.RewardsTrading,
-              // 關掉原本的
+              href: PathEnum.RewardsAffiliate,
+              // 關掉原本
               // href: PathEnum.Rewards,
               // children: [
               //   {
@@ -65,6 +65,7 @@ export const useOrderlyConfig = () => {
               href: PathEnum.Leaderboard,
             },
             { name: t("common.strategy"), href: PathEnum.Strategy },
+            { name: t("common.vaults"), href: PathEnum.Vaults },
           ],
           initialMenu: PathEnum.Root,
         },

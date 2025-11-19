@@ -171,6 +171,7 @@ export const NavItem: FC<
           "oui-group oui-relative oui-h-[32px] oui-rounded oui-px-4 oui-py-1 oui-text-sm oui-text-base-contrast-36",
           classNames?.navItem,
         )}
+        // 原本的
         // className={cn(
         //   "oui-group oui-relative oui-h-[32px] oui-rounded oui-px-3 oui-py-1 oui-text-sm oui-text-base-contrast-36 hover:oui-bg-base-7",
         //   classNames?.navItem,
@@ -180,6 +181,7 @@ export const NavItem: FC<
         <span className={"oui-flex oui-items-center"}>
           <ItemIcon isActive={isActive} item={item} />
           <Text.gradient
+            // 原本的
             // color={isActive ? "brand" : "inherit"}
             // angle={45}
             // className="oui-whitespace-nowrap oui-break-normal"
@@ -200,7 +202,7 @@ export const NavItem: FC<
             </span>
           )}
         </span>
-        {/* Box是底線 */}
+        {/* Box是每個navitem的底線 */}
         {/* <Box
           invisible={!isActive}
           position="absolute"
