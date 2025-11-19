@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "@orderly.network/i18n";
-import { AssetsModule } from "@orderly.network/portfolio";
 import { OrderStatus } from "@orderly.network/types";
 import {
   Box,
@@ -14,6 +13,7 @@ import {
 } from "@orderly.network/ui";
 import type { TabPanelProps } from "@orderly.network/ui";
 import { DesktopOrderListWidget, TabType } from "@orderly.network/ui-orders";
+import { AssetsModule } from "@/packages/portfolio";
 import {
   LiquidationWidget,
   PositionHistoryWidget,

@@ -1,6 +1,6 @@
 import { MetaFunction } from "@remix-run/node";
-import { APIManagerModule } from "@orderly.network/portfolio";
 import { PageTitleMap, PathEnum } from "@/constant";
+import { APIManagerModule } from "@/packages/portfolio";
 import { generatePageTitle } from "@/utils";
 
 export const meta: MetaFunction = () => {

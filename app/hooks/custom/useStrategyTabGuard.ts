@@ -33,9 +33,14 @@ export const useStrategyTabGuard = () => {
 
       // 檢查 localStorage 是否已記錄此錢包的 API key 檢查通過
       const cachedResult = localStorage.getItem(localStorageKey);
-      if (cachedResult === "true") {
+      // 檢查是否已跳過 API key 創建 (開發用)
+      const isSkipped = localStorage.getItem(
+        "orderly_console_skip_apikey_creation",
+      );
+
+      if (cachedResult === "true" || isSkipped === "true") {
         console.log(
-          "[useStrategyTabGuard] Using cached API key check result for account:",
+          "[useStrategyTabGuard] Using cached API key check result or skipped for account:",
           accountId,
         );
         setHasApiKey(true);

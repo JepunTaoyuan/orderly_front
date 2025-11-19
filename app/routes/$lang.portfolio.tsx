@@ -1,13 +1,14 @@
 import { useMemo } from "react";
 import { Outlet } from "@remix-run/react";
-import {
-  PortfolioLayoutWidget,
-  PortfolioLeftSidebarPath,
-} from "@orderly.network/portfolio";
+import { CustomFooter } from "@/components/custom/customFooter";
 import { PathEnum } from "@/constant";
 import { useNav } from "@/hooks/useNav";
 import { useOrderlyConfig } from "@/hooks/useOrderlyConfig";
 import { usePathWithoutLang } from "@/hooks/usePathWithoutLang";
+import {
+  PortfolioLayoutWidget,
+  PortfolioLeftSidebarPath,
+} from "@/packages/portfolio";
 
 export default function PortfolioLayout() {
   const config = useOrderlyConfig();
@@ -26,7 +27,7 @@ export default function PortfolioLayout() {
 
   return (
     <PortfolioLayoutWidget
-      footerProps={config.scaffold.footerProps}
+      footer={<CustomFooter {...config.scaffold.footerProps} />}
       mainNavProps={{
         ...config.scaffold.mainNavProps,
         initialMenu: PathEnum.Portfolio,

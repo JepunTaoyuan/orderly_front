@@ -1,5 +1,6 @@
 import { Outlet } from "@remix-run/react";
 import { TradingRewardsLayoutWidget } from "@orderly.network/trading-rewards";
+import { CustomFooter } from "@/components/custom/customFooter";
 import { PathEnum } from "@/constant";
 import { useNav } from "@/hooks/useNav";
 import { useOrderlyConfig } from "@/hooks/useOrderlyConfig";
@@ -13,7 +14,7 @@ export default function TradingRewardsLayout() {
 
   return (
     <TradingRewardsLayoutWidget
-      footerProps={config.scaffold.footerProps}
+      footer={<CustomFooter {...config.scaffold.footerProps} />}
       mainNavProps={{
         ...config.scaffold.mainNavProps,
         initialMenu: PathEnum.Rewards,

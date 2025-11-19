@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { useTranslation } from "@orderly.network/i18n";
-import { AssetsModule } from "@orderly.network/portfolio";
 import { OrderStatus } from "@orderly.network/types";
 import {
   Button,
@@ -14,6 +13,7 @@ import {
 } from "@orderly.network/ui";
 import type { TabPanelProps } from "@orderly.network/ui";
 import { MobileOrderListWidget, TabType } from "@orderly.network/ui-orders";
+import { AssetsModule } from "@/packages/portfolio";
 import {
   MobileLiquidationWidget,
   MobilePositionHistoryWidget,

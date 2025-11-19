@@ -71,6 +71,12 @@ export const KeyPairGenerator: React.FC = () => {
       console.error("Failed to create API key:", error);
     }
   };
+  const handleSkip = () => {
+    localStorage.setItem("orderly_console_skip_apikey_creation", "true");
+    setShowDialog(false);
+    setIsBlurred(false);
+  };
+
   return (
     <div className={isBlurred ? "oui-blur-sm" : ""}>
       {showDialog && (
@@ -83,6 +89,10 @@ export const KeyPairGenerator: React.FC = () => {
               label: "Create API Key",
               onClick: handleCreateApiKey,
               disabled: isSaving,
+            },
+            secondary: {
+              label: "Skip",
+              onClick: handleSkip,
             },
           }}
         >

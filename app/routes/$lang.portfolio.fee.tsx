@@ -1,6 +1,6 @@
 import { MetaFunction } from "@remix-run/node";
-import { FeeTierModule } from "@orderly.network/portfolio";
 import { PageTitleMap, PathEnum } from "@/constant";
+import { FeeTierModule } from "@/packages/portfolio";
 import { generatePageTitle } from "@/utils";
 
 export const meta: MetaFunction = () => {

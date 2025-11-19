@@ -2,12 +2,12 @@ import { useCallback } from "react";
 import { MetaFunction } from "@remix-run/node";
 import { useNavigate } from "@remix-run/react";
 import { i18n, parseI18nLang } from "@orderly.network/i18n";
-import { PositionsModule } from "@orderly.network/portfolio";
 import { useTradingLocalStorage } from "@orderly.network/trading";
 import { API } from "@orderly.network/types";
 import { Box } from "@orderly.network/ui";
 import { PageTitleMap, PathEnum } from "@/constant";
 import { useOrderlyConfig } from "@/hooks/useOrderlyConfig";
+import { PositionsModule } from "@/packages/portfolio";
 import { updateSymbol } from "@/storage";
 import { generatePageTitle } from "@/utils";
 

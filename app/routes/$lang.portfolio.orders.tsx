@@ -1,7 +1,7 @@
 import { MetaFunction } from "@remix-run/node";
-import { OrdersModule } from "@orderly.network/portfolio";
 import { Box } from "@orderly.network/ui";
 import { PageTitleMap, PathEnum } from "@/constant";
+import { OrdersModule } from "@/packages/portfolio";
 import { generatePageTitle } from "@/utils";
 
 export const meta: MetaFunction = () => {
