@@ -1,6 +1,14 @@
 import React, { FC, useState } from "react";
 import { useTranslation } from "@orderly.network/i18n";
-import { Box, cn, TabPanel, Tabs, useScreen } from "@orderly.network/ui";
+import {
+  Divider,
+  Box,
+  cn,
+  TabPanel,
+  Tabs,
+  useScreen,
+  Flex,
+} from "@orderly.network/ui";
 import {
   LeftNavProps,
   RouterAdapter,
@@ -107,28 +115,29 @@ const MarketsDesktopContent: React.FC<MarketsContentProps> = (props) => {
         }}
         style={{ paddingLeft: "0px" }}
       >
-        <TabPanel
-          title={t("common.markets")}
-          value={MarketsPageTab.Markets}
-          testid="oui-testid-markets-tab"
-        >
-          <React.Suspense fallback={null}>
-            <LazyMarketsHeaderWidget className="oui-mt-4" />
-          </React.Suspense>
-          <React.Suspense fallback={null}>
-            <LazyMarketsDataListWidget />
-          </React.Suspense>
-        </TabPanel>
-
-        <TabPanel
-          title={t("common.funding")}
-          value={MarketsPageTab.Funding}
-          testid="oui-testid-funding-tab"
-        >
-          <React.Suspense fallback={null}>
-            <LazyFundingWidget />
-          </React.Suspense>
-        </TabPanel>
+        <Flex>
+          <TabPanel
+            title={t("common.markets")}
+            value={MarketsPageTab.Markets}
+            testid="oui-testid-markets-tab"
+          >
+            <React.Suspense fallback={null}>
+              <LazyMarketsHeaderWidget className="oui-mt-4" />
+            </React.Suspense>
+            <React.Suspense fallback={null}>
+              <LazyMarketsDataListWidget />
+            </React.Suspense>
+          </TabPanel>
+          <TabPanel
+            title={t("common.funding")}
+            value={MarketsPageTab.Funding}
+            testid="oui-testid-funding-tab"
+          >
+            <React.Suspense fallback={null}>
+              <LazyFundingWidget />
+            </React.Suspense>
+          </TabPanel>
+        </Flex>
       </Tabs>
     </Box>
   );

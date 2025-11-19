@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { CustomFooter } from "@/components/custom/customFooter";
 import { PathEnum } from "@/constant";
 import { useNav } from "@/hooks/useNav";
 import { useOrderlyConfig } from "@/hooks/useOrderlyConfig";
@@ -21,11 +22,14 @@ export const BaseLayout: FC<BaseLayoutProps> = (props) => {
         ...config.scaffold.mainNavProps,
         initialMenu: props.initialMenu || PathEnum.Root,
       }}
-      footerProps={config.scaffold.footerProps}
+      footer={<CustomFooter {...config.scaffold.footerProps} />}
       routerAdapter={{
         onRouteChange,
       }}
-      classNames={props.classNames}
+      classNames={{
+        ...props.classNames,
+        footer: "oui-border-none oui-bg-base-9",
+      }}
     >
       {props.children}
     </Scaffold>

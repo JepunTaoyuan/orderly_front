@@ -1,4 +1,4 @@
-import { KeyboardEventHandler } from "react";
+import { KeyboardEventHandler, useState } from "react";
 import { FavoriteTab } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import {
@@ -9,6 +9,7 @@ import {
   Tooltip,
   Input,
   modal,
+  SimpleDialog,
 } from "@orderly.network/ui";
 import { AddIcon, ActiveAddIcon, EditIcon, TrashIcon } from "../../icons";
 import {
@@ -45,6 +46,10 @@ export const FavoritesTab: React.FC<FavoritesTabProps> = (props) => {
   const { selectedFavoriteTab, favoriteTabs, updateSelectedFavoriteTab } =
     props.favorite;
 
+  // 添加狀態管理
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<any>(null);
+
   const addIconWidth = size === "sm" ? 18 : 20;
   const tabHeight = size === "sm" ? 18 : 20;
   const overLen = value?.length > 15;
@@ -53,20 +58,17 @@ export const FavoritesTab: React.FC<FavoritesTabProps> = (props) => {
     "oui-bg-gradient-to-r oui-from-[rgb(var(--oui-gradient-brand-start)_/_0.12)] oui-to-[rgb(var(--oui-gradient-brand-end)_/_0.12)]";
 
   const onDel = (item: any) => {
-    modal.confirm({
-      title: t("markets.favorites.tabs.delete.dialog.title"),
-      content: (
-        <Text size="sm">
-          {t("markets.favorites.tabs.delete.dialog.description", {
-            name: item.name,
-          })}
-        </Text>
-      ),
-      onOk() {
-        delTab(item);
-        return Promise.resolve();
-      },
-    });
+    setItemToDelete(item);
+    setDeleteDialogOpen(true);
+  };
+
+  // 新增處理函數
+  const handleConfirmDelete = async () => {
+    if (itemToDelete) {
+      delTab(itemToDelete);
+      setDeleteDialogOpen(false);
+      setItemToDelete(null);
+    }
   };
 
   const onKeyUp: KeyboardEventHandler = (e) => {
@@ -242,49 +244,112 @@ export const FavoritesTab: React.FC<FavoritesTabProps> = (props) => {
   };
 
   return (
-    <Flex width="100%" gapX={3} className="oui-py-4">
-      <Flex
-        ref={container}
-        id="oui-markets-favorites-tabs-container"
-        className={cn(
-          "oui-hide-scrollbar oui-relative oui-cursor-pointer",
-          "oui-overflow-hidden oui-overflow-x-auto",
-        )}
-        // my={3}
-        gapX={size === "sm" ? 2 : 3}
-        width="100%"
-      >
-        {favoriteTabs?.slice(0, 10)?.map((item: any) => {
-          const isActive = selectedFavoriteTab.id === item.id;
-          return (
-            <Tooltip
-              key={item.id}
-              open={isActive && !editing ? open : false}
-              onOpenChange={(open) => {
-                if (isActive) {
-                  setOpen(open);
-                }
-              }}
-              // @ts-ignore
-              content={renderActions(item)}
-              delayDuration={0}
-              className={cn("oui-bg-base-9")}
-              arrow={{
-                className: "oui-fill-base-9",
-              }}
-            >
-              {renderContent(item, isActive)}
-            </Tooltip>
-          );
-        })}
+    <>
+      <Flex width="100%" gapX={3} className={props.className}>
+        <Flex
+          ref={container}
+          id="oui-markets-favorites-tabs-container"
+          className={cn(
+            "oui-hide-scrollbar oui-relative oui-cursor-pointer",
+            "oui-overflow-hidden oui-overflow-x-auto",
+          )}
+          // my={3}
+          gapX={size === "sm" ? 2 : 3}
+          width="100%"
+        >
+          {favoriteTabs?.slice(0, 10)?.map((item: any) => {
+            const isActive = selectedFavoriteTab.id === item.id;
+            return (
+              <Tooltip
+                key={item.id}
+                open={isActive && !editing ? open : false}
+                onOpenChange={(open) => {
+                  if (isActive) {
+                    setOpen(open);
+                  }
+                }}
+                // @ts-ignore
+                content={renderActions(item)}
+                delayDuration={0}
+                className={cn("oui-bg-base-9")}
+                arrow={{
+                  className: "oui-fill-base-9",
+                }}
+              >
+                {renderContent(item, isActive)}
+              </Tooltip>
+            );
+          })}
 
-        {!scrollable && renderAdd()}
+          {!scrollable && renderAdd()}
 
-        <Text size="xs" ref={spanRef} className="oui-invisible">
-          {value}
-        </Text>
+          <Text size="xs" ref={spanRef} className="oui-invisible">
+            {value}
+          </Text>
+        </Flex>
+        {scrollable && renderAdd()}
       </Flex>
-      {scrollable && renderAdd()}
-    </Flex>
+      <SimpleDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        title={t("markets.favorites.tabs.delete.dialog.title")}
+        size="sm"
+        classNames={{
+          content: "oui-bg-base-10 oui-rounded-2xl",
+          body: "lg:oui-py-10 oui-py-4 oui-pb-9",
+        }}
+        actions={{
+          primary: {
+            label: t("common.confirm"),
+            onClick: handleConfirmDelete,
+            variant: "contained",
+            className: cn(
+              "oui-h-10 oui-rounded-full",
+              "!oui-bg-[rgba(110, 85, 223, 1)]",
+              // Hover 狀態
+              "!hover:oui-bg-[rgba(110, 85, 223, 1)]",
+              // Active 狀態
+              "!active:oui-bg-[rgba(110, 85, 223, 1)]",
+              // Disabled 狀態(可選)
+              "disabled:oui-bg-base-3",
+              "disabled:hover:oui-bg-base-3",
+            ),
+            size: "md",
+          },
+          secondary: {
+            label: t("common.cancel"),
+            onClick: () => setDeleteDialogOpen(false),
+            color: "gray",
+            variant: "outlined",
+            className: cn(
+              "oui-h-10 oui-rounded-full",
+              "!oui-bg-[rgba(110, 85, 223, 1)]",
+              // Hover 狀態
+              "!hover:oui-bg-[rgba(110, 85, 223, 1)]",
+              // Active 狀態
+              "!active:oui-bg-[rgba(110, 85, 223, 1)]",
+              // Disabled 狀態(可選)
+              "disabled:oui-bg-base-3",
+              "disabled:hover:oui-bg-base-3",
+            ),
+            size: "md",
+          },
+        }}
+      >
+        <Text size="sm" style={{ color: "rgba(255, 255, 255, 0.9)" }}>
+          {t("markets.favorites.tabs.delete.dialog.description", {
+            name: "",
+          })}
+          <Text
+            size="sm"
+            className="oui-inline"
+            style={{ color: "rgba(186, 179, 216, 1)" }}
+          >
+            {itemToDelete?.name}
+          </Text>
+          ?
+        </Text>
+      </SimpleDialog>
+    </>
   );
 };

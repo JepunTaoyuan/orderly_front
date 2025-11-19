@@ -101,5 +101,8 @@
     "circuitBreakerOpen": "Service temporarily unavailable, please try again later",
     "userApiKeyPairNotFound": "The specified user API key pair not found",
     "userApiKeyPairCheckFailed": "Failed to check user API key"
+  },
+  "customs": {
+    "howtotrade": "How to trade on Dexless?"
   }
 }

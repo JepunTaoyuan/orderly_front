@@ -101,5 +101,8 @@
     "circuitBreakerOpen": "服務暫時不可用，請稍後重試",
     "userApiKeyPairNotFound": "找不到指定的用戶API密鑰對",
     "userApiKeyPairCheckFailed": "檢查用戶API密鑰失敗"
+  },
+  "customs": {
+    "howtotrade": "如何在Dexless上交易？"
   }
 }
