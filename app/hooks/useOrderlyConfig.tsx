@@ -34,33 +34,35 @@ export const useOrderlyConfig = () => {
             { name: t("common.portfolio"), href: PathEnum.Portfolio },
             { name: t("common.markets"), href: PathEnum.Markets },
             {
-              name: t("tradingLeaderboard.leaderboard"),
-              href: PathEnum.Leaderboard,
+              name: t("tradingRewards.rewards"),
+              href: PathEnum.RewardsTrading,
+              // 關掉原本的
+              // href: PathEnum.Rewards,
+              // children: [
+              //   {
+              //     name: t("common.tradingRewards"),
+              //     href: PathEnum.RewardsTrading,
+              //     description: t("extend.tradingRewards.description"),
+              //   },
+              //   {
+              //     name: t("common.affiliate"),
+              //     href: PathEnum.RewardsAffiliate,
+              //     tag: t("extend.affiliate.tag"),
+              //     description: t("extend.affiliate.description"),
+              //   },
+              //   {
+              //     name: t("extend.staking"),
+              //     href: "https://app.orderly.network/staking",
+              //     description: t("extend.staking.description"),
+              //     target: "_blank",
+              //     icon: <OrderlyIcon size={14} />,
+              //     activeIcon: <OrderlyActiveIcon size={14} />,
+              //   },
+              // ],
             },
             {
-              name: t("tradingRewards.rewards"),
-              href: PathEnum.Rewards,
-              children: [
-                {
-                  name: t("common.tradingRewards"),
-                  href: PathEnum.RewardsTrading,
-                  description: t("extend.tradingRewards.description"),
-                },
-                {
-                  name: t("common.affiliate"),
-                  href: PathEnum.RewardsAffiliate,
-                  tag: t("extend.affiliate.tag"),
-                  description: t("extend.affiliate.description"),
-                },
-                {
-                  name: t("extend.staking"),
-                  href: "https://app.orderly.network/staking",
-                  description: t("extend.staking.description"),
-                  target: "_blank",
-                  icon: <OrderlyIcon size={14} />,
-                  activeIcon: <OrderlyActiveIcon size={14} />,
-                },
-              ],
+              name: t("tradingLeaderboard.leaderboard"),
+              href: PathEnum.Leaderboard,
             },
             { name: t("common.strategy"), href: PathEnum.Strategy },
           ],
