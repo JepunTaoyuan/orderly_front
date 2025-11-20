@@ -37,7 +37,7 @@ export const useAssetsColumns = (options: ColumnsOptions) => {
         render(val: string) {
           return (
             <Flex itemAlign="center" gap={2}>
-              <TokenIcon name={val} />
+              <TokenIcon name={val} className="oui-size-4" />
               {val}
             </Flex>
           );
