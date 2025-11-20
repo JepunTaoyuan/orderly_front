@@ -10,6 +10,7 @@ import {
   Tooltip,
   useModal,
   useScreen,
+  Divider,
 } from "@orderly.network/ui";
 import {
   RouterAdapter,
@@ -116,14 +117,11 @@ export const DesktopHeaderItem: React.FC<FeeTierHeaderItemProps> = (props) => {
   const { routerAdapter } = useScaffoldContext();
   return (
     <Box
-      gradient="neutral"
-      r="lg"
-      px={4}
-      py={2}
+      r="sm"
+      p={5}
       angle={184}
-      width="100%"
-      border
-      borderColor={6}
+      width="300px"
+      style={{ backgroundColor: "rgba(255, 255, 255, 0.05)" }}
     >
       <Flex itemAlign="center" justify="between">
         <Text
@@ -198,15 +196,7 @@ export const FeeTierHeader: React.FC<FeeTierHeaderProps> = (props) => {
     {
       label: t("portfolio.feeTier.header.yourTier"),
       interactive: false,
-      value: (
-        <Text.gradient
-          color={"brand"}
-          angle={270}
-          size={isMobile ? "xs" : "base"}
-        >
-          {tier || "--"}
-        </Text.gradient>
-      ),
+      value: <Text size={isMobile ? "xs" : "base"}>{tier || "--"}</Text>,
     },
     {
       label: `${t("portfolio.feeTier.header.30dVolume")} (USDC)`,
@@ -226,40 +216,60 @@ export const FeeTierHeader: React.FC<FeeTierHeaderProps> = (props) => {
       label: t("portfolio.feeTier.header.takerFeeRate"),
       interactive: isEffectiveFee,
       value: (
-        <Text.gradient
-          color={"brand"}
-          angle={270}
-          size={isMobile ? "xs" : "base"}
-        >
-          {isEffectiveFee
-            ? others.effectiveTakerFee || "--"
-            : others.takerFee || "--"}{" "}
-          (RWA:{" "}
-          {(isEffectiveFee
-            ? others.rwaEffectiveTakerFee
-            : others.rwaTakerFee) || "--"}
-          )
-        </Text.gradient>
+        <Flex>
+          <Text size={isMobile ? "xs" : "base"}>
+            {isEffectiveFee
+              ? others.effectiveTakerFee || "--"
+              : others.takerFee || "--"}{" "}
+          </Text>
+          <Divider
+            direction="vertical"
+            className="oui-h-4"
+            mx={2}
+            intensity={10}
+            style={{ borderColor: "rgba(227, 231, 234, 0.1)" }}
+          />
+          <Text
+            style={{ color: "rgba(201, 189, 255, 1)" }}
+            size={isMobile ? "xs" : "base"}
+          >
+            (RWA:{" "}
+            {(isEffectiveFee
+              ? others.rwaEffectiveTakerFee
+              : others.rwaTakerFee) || "--"}
+            )
+          </Text>
+        </Flex>
       ),
     },
     {
       label: t("portfolio.feeTier.header.makerFeeRate"),
       interactive: isEffectiveFee,
       value: (
-        <Text.gradient
-          color={"brand"}
-          angle={270}
-          size={isMobile ? "xs" : "base"}
-        >
-          {isEffectiveFee
-            ? others.effectiveMakerFee || "--"
-            : others.makerFee || "--"}{" "}
-          (RWA:{" "}
-          {(isEffectiveFee
-            ? others.rwaEffectiveMakerFee
-            : others.rwaMakerFee) || "--"}
-          )
-        </Text.gradient>
+        <Flex>
+          <Text size={isMobile ? "xs" : "base"}>
+            {isEffectiveFee
+              ? others.effectiveMakerFee || "--"
+              : others.makerFee || "--"}{" "}
+          </Text>
+          <Divider
+            direction="vertical"
+            className="oui-h-4"
+            mx={2}
+            intensity={10}
+            style={{ borderColor: "rgba(227, 231, 234, 0.1)" }}
+          />
+          <Text
+            style={{ color: "rgba(201, 189, 255, 1)" }}
+            size={isMobile ? "xs" : "base"}
+          >
+            (RWA:{" "}
+            {(isEffectiveFee
+              ? others.rwaEffectiveMakerFee
+              : others.rwaMakerFee) || "--"}
+            )
+          </Text>
+        </Flex>
       ),
     },
   ];
@@ -291,7 +301,15 @@ export const FeeTierHeader: React.FC<FeeTierHeaderProps> = (props) => {
   }
 
   return (
-    <Flex className="" direction="row" gapX={4} my={4} itemAlign={"stretch"}>
+    <Flex
+      width="100%"
+      direction="column"
+      gap={1}
+      itemAlign={"stretch"}
+      justify="between"
+      className="oui-relative"
+      style={{ marginTop: "-47px" }}
+    >
       {mergedData.map((item, index) => (
         <DesktopHeaderItem {...item} key={`desktop-item-${index}`} />
       ))}

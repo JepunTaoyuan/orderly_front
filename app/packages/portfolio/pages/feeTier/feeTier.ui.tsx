@@ -125,7 +125,7 @@ export const FeeTierTable: React.FC<FeeTierTableProps> = (props) => {
       <DataTable
         bordered
         className="oui-font-semibold"
-        classNames={{ root: "oui-bg-transparent" }}
+        classNames={{ root: "oui-bg-transparent oui-pt-4" }}
         onRow={internalOnRow}
         onCell={internalOnCell}
         columns={columns}
@@ -179,21 +179,23 @@ export const FeeTier: React.FC<FeeTierProps> = (props) => {
       }}
     >
       {!isMobile && <Divider />}
-      <React.Suspense fallback={null}>
-        <LazyFeeTierHeader
+      <Flex direction="row" gap={4}>
+        <React.Suspense fallback={null}>
+          <LazyFeeTierHeader
+            vol={vol}
+            tier={tier}
+            headerDataAdapter={headerDataAdapter}
+          />
+        </React.Suspense>
+        <FeeTierTable
+          dataSource={dataSource}
+          columns={columns}
           vol={vol}
           tier={tier}
-          headerDataAdapter={headerDataAdapter}
+          onRow={onRow}
+          onCell={onCell}
         />
-      </React.Suspense>
-      <FeeTierTable
-        dataSource={dataSource}
-        columns={columns}
-        vol={vol}
-        tier={tier}
-        onRow={onRow}
-        onCell={onCell}
-      />
+      </Flex>
     </Card>
   );
 };
