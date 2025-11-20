@@ -14,7 +14,7 @@ import {
   Flex,
   EmptyDataState,
 } from "@orderly.network/ui";
-import { SelectOption } from "@orderly.network/ui/src/select/withOptions";
+import { SelectOption } from "@orderly.network/ui";
 import type { useAssetsScriptReturn } from "./assets.script";
 import { AccountType } from "./assets.ui.desktop";
 
