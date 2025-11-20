@@ -137,6 +137,7 @@ export const useAssetsColumns = (options: ColumnsOptions) => {
                   size={"sm"}
                   variant={"outlined"}
                   color={"secondary"}
+                  className="oui-rounded-full"
                   onClick={() => onTransfer?.(id, token)}
                 >
                   {t("common.transfer")}

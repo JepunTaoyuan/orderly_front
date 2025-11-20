@@ -18,8 +18,8 @@ import {
   ArrowDownShortIcon,
   Button,
 } from "@orderly.network/ui";
+import type { SelectOption } from "@orderly.network/ui";
 import { AuthGuard, AuthGuardDataTable } from "@orderly.network/ui-connector";
-import type { SelectOption } from "@orderly.network/ui/src/select/withOptions";
 import type { useAssetsScriptReturn } from "./assets.script";
 import type {
   AssetsDataTableWidgetProps,
@@ -48,9 +48,9 @@ const TotalValueInfo: React.FC<
   const { t } = useTranslation();
   const Icon = visible ? EyeIcon : EyeCloseIcon;
   return (
-    <Flex direction="column" gap={1} className="oui-text-2xs" itemAlign="start">
+    <Flex direction="column" gap={1} className="oui-text-xs" itemAlign="start">
       <Flex gap={1} justify="start" itemAlign="center">
-        <Text size="2xs" color="neutral" weight="semibold">
+        <Text size="xs" color="neutral" weight="semibold">
           {t("common.totalValue")}
         </Text>
         <button onClick={onToggleVisibility}>
@@ -62,14 +62,13 @@ const TotalValueInfo: React.FC<
           visible={visible}
           weight="bold"
           size="2xl"
-          className={gradientTextVariants({ color: "brand" })}
           as="div"
           padding={false}
           dp={2}
         >
           {totalValue ?? "--"}
         </Text.numeral>
-        <Text as="div" weight="bold">
+        <Text as="div" weight="bold" color="neutral" size="xs">
           USDC
         </Text>
       </Flex>
@@ -91,37 +90,35 @@ const DepositAndWithdrawButton: React.FC<
   const mergedDisabled = wrongNetwork || disabledConnect;
   return (
     <Flex
-      className="oui-text-2xs oui-text-base-contrast-54"
+      className="oui-text-xs oui-text-base-contrast-54"
       itemAlign="center"
       gap={3}
     >
       <Button
         disabled={mergedDisabled}
+        variant="gradient"
+        angle={90}
         data-testid="oui-testid-assetView-deposit-button"
         fullWidth
         size="md"
         onClick={onDeposit}
+        className="oui-rounded-full oui-text-white oui-text-xs oui-px-4 oui-font-semibold oui-leading-5"
+        style={{
+          background:
+            "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
+        }}
       >
-        <ArrowDownShortIcon
-          color="white"
-          opacity={mergedDisabled ? 0.4 : 1}
-          className="oui-rotate-0 oui-text-primary-contrast"
-        />
         <Text>{t("common.deposit")}</Text>
       </Button>
       <Button
         fullWidth
         disabled={mergedDisabled}
-        color="secondary"
+        variant="outlined"
         size="md"
         onClick={onWithdraw}
         data-testid="oui-testid-assetView-withdraw-button"
+        className="oui-rounded-full oui-border-white/[0.36] oui-text-white/[0.5] oui-text-xs oui-px-4 oui-font-semibold oui-leading-5"
       >
-        <ArrowDownShortIcon
-          color="white"
-          opacity={mergedDisabled ? 0.4 : 1}
-          className="oui-rotate-180 oui-text-base-contrast"
-        />
         <Text>{t("common.withdraw")}</Text>
       </Button>
     </Flex>
@@ -192,7 +189,7 @@ const DataFilterSection: React.FC<
 
   return (
     <DataFilter
-      className="oui-border-none oui-py-0"
+      className="oui-border-none oui-py-5 oui-bg-base-10"
       onFilter={onFilter}
       items={[
         {
@@ -200,12 +197,18 @@ const DataFilterSection: React.FC<
           name: "account",
           value: selectedAccount,
           options: memoizedOptions,
+          classNames: {
+            trigger: "oui-py-[2px]",
+          },
         },
         {
           type: "select",
           name: "asset",
           value: selectedAsset,
           options: memoizedAssetOptions,
+          classNames: {
+            trigger: "oui-py-[2px]",
+          },
         },
       ]}
     />
@@ -246,7 +249,12 @@ export const AssetsDataTable: React.FC<
   }
 
   return (
-    <Flex width="100%" height="100%" direction={"column"} className={root}>
+    <Flex
+      width="100%"
+      height="100%"
+      direction={"column"}
+      className={cn(root, "oui-gap-1", "oui-bg-base-10")}
+    >
       <DataFilterSection
         {...pick(
           [
@@ -264,20 +272,21 @@ export const AssetsDataTable: React.FC<
         return (
           <Flex
             key={`item-${index}`}
-            className={cn("oui-rounded-xl oui-bg-base-9 oui-p-6", scrollRoot)}
+            className={cn("oui-rounded-xl oui-bg-base-9 oui-p-5", scrollRoot)}
             direction={"column"}
             itemAlign={"start"}
             justify={"between"}
-            my={4}
           >
-            <Text
-              className={cn("oui-mb-4", desc)}
-              intensity={98}
-              weight="semibold"
-              size="lg"
-            >
-              {item?.description || formatAddress(item?.id ?? "")}
-            </Text>
+            <div className="oui-w-full oui-mb-4 oui-pb-4 oui-border-b oui-border-line oui-pl-3">
+              <Text
+                className={cn(desc)}
+                intensity={98}
+                weight="semibold"
+                size="lg"
+              >
+                {item?.description || formatAddress(item?.id ?? "")}
+              </Text>
+            </div>
             <AuthGuardDataTable
               bordered
               className="oui-font-semibold"
@@ -300,22 +309,21 @@ export const AssetsTable: React.FC<AssetsWidgetProps> = (props) => {
   const { t } = useTranslation();
   return (
     <Card
-      className={"oui-bg-transparent oui-p-0"}
+      className={"oui-bg-base-9 oui-p-0"}
       classNames={{ content: "!oui-pt-0" }}
     >
       <Tabs
         defaultValue="assets"
-        variant="contained"
-        classNames={{ tabsList: "" }}
-        size="lg"
+        variant="text"
+        classNames={{ tabsList: "oui-pt-3 oui-px-5" }}
+        size="xs"
       >
         <TabPanel value="assets" className="" title={t("common.assets")}>
           <Flex
-            className="oui-rounded-xl oui-bg-base-9 oui-p-6"
+            className="oui-rounded-xl oui-bg-base-9 oui-p-5"
             direction={"row"}
             itemAlign={"center"}
             justify={"between"}
-            my={4}
           >
             <TotalValueInfo
               {...pick(["totalValue", "visible", "onToggleVisibility"], props)}
@@ -342,6 +350,9 @@ export const AssetsTable: React.FC<AssetsWidgetProps> = (props) => {
             classNames={{
               scrollRoot:
                 "oui-max-h-[700px] oui-overflow-y-auto oui-custom-scrollbar oui-w-full",
+            }}
+            dataTableClassNames={{
+              header: "oui-mr-[-1px]",
             }}
           />
         </TabPanel>
