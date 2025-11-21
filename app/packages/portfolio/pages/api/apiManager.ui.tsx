@@ -50,15 +50,17 @@ export const APIManager: React.FC<ApiManagerScriptReturns> = (props) => {
   const { t } = useTranslation();
   return (
     <Card
-      title={t("portfolio.apiKeys")}
+      title={
+        <div className="oui-text-xs oui-pl-3">{t("portfolio.apiKeys")}</div>
+      }
       id="portfolio-apikey-manager"
-      className="oui-bg-base-9 oui-font-semibold"
+      className="oui-bg-base-9 oui-font-semibold oui-pr-5 oui-pl-3"
     >
       <Flex
         direction={"column"}
         gap={4}
         width={"100%"}
-        className="oui-font-semibold"
+        className="oui-font-semibold oui-pl-3"
       >
         <AccountInfo {...props} />
         <Subtitle {...props} />
@@ -82,18 +84,19 @@ const AccountInfo: React.FC<ApiManagerScriptReturns> = (props) => {
     <Flex
       width={"100%"}
       gap={4}
+      justify="start"
       className="oui-border-t-2 oui-border-line-6 oui-pt-4"
     >
       <Flex
-        py={2}
-        px={4}
+        py={5}
+        px={5}
         direction={"column"}
         itemAlign={"start"}
-        r="xl"
-        gradient="neutral"
-        angle={27}
-        border
-        className="oui-w-1/2"
+        r="sm"
+        width={256}
+        style={{
+          backgroundColor: "rgba(255,255,255,0.05)",
+        }}
       >
         <Text size="xs" intensity={36}>
           {t("common.accountId")}
@@ -111,15 +114,15 @@ const AccountInfo: React.FC<ApiManagerScriptReturns> = (props) => {
         </Text.formatted>
       </Flex>
       <Flex
-        py={2}
-        px={4}
+        py={5}
+        px={5}
         direction={"column"}
         itemAlign={"start"}
-        r="xl"
-        gradient="neutral"
-        angle={27}
-        border
-        className="oui-w-1/2"
+        r="sm"
+        width={256}
+        style={{
+          backgroundColor: "rgba(255,255,255,0.05)",
+        }}
       >
         <Text size="xs" intensity={36}>
           {t("portfolio.apiKey.uid")}
@@ -170,13 +173,16 @@ const Subtitle: React.FC<ApiManagerScriptReturns> = (props) => {
       >
         <Button
           size="md"
-          icon={<PlusIcon />}
-          variant="contained"
-          color="primary"
+          variant="gradient"
+          angle={90}
           onClick={props.onCreateApiKey}
           disabled={!props.canCreateApiKey}
-          // className="disabled:oui-cursor-default"
           data-testid="oui-testid-apiKey-createApiKey-btn"
+          className="oui-rounded-full oui-text-white oui-text-xs"
+          style={{
+            background:
+              "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
+          }}
         >
           {t("portfolio.apiKey.create.dialog.title")}
         </Button>
@@ -191,7 +197,6 @@ const KeyList: React.FC<ApiManagerScriptReturns> = (props) => {
     {
       title: t("portfolio.apiKey.column.apiKey"),
       dataIndex: "orderly_key",
-      width: 150,
       render: (value) => {
         return (
           <Text.formatted
@@ -261,10 +266,11 @@ const KeyList: React.FC<ApiManagerScriptReturns> = (props) => {
       title: "",
       type: "action",
       dataIndex: "action",
-      width: 120,
+      align: "right",
+      width: 1,
       render: (_, item) => {
         return (
-          <Flex direction={"row"} gap={2}>
+          <Flex direction={"row"} gap={2} justify="end">
             <EditButton
               item={item}
               onUpdate={props.doEdit}
@@ -286,6 +292,11 @@ const KeyList: React.FC<ApiManagerScriptReturns> = (props) => {
       emptyView={<AuthGuardEmpty />}
       pagination={props.pagination}
       manualPagination={false}
+      onRow={(record, index) => {
+        return {
+          className: "oui-h-[40px] oui-py-1",
+        };
+      }}
     />
   );
 };
@@ -302,14 +313,17 @@ const EditButton: React.FC<{
   return (
     <>
       <Button
-        size="xs"
-        color="primary"
+        size="sm"
         variant="contained"
         onClick={(e) => {
           e.stopPropagation();
           setOpen(true);
         }}
         data-testid="oui-testid-apiKey-keyList-edit-btn"
+        style={{
+          background: "rgba(110, 85, 223, 1)",
+        }}
+        className="oui-rounded-full oui-px-4"
       >
         {t("common.edit")}
       </Button>
@@ -338,14 +352,14 @@ const DeleteButton: React.FC<{
   return (
     <>
       <Button
-        size="xs"
-        color="gray"
-        variant="contained"
+        size="sm"
+        variant="outlined"
         onClick={(e) => {
           e.stopPropagation();
           setOpen(true);
         }}
         data-testid="oui-testid-apiKey-keyList-delete-btn"
+        className="oui-rounded-full oui-border-white/[0.36] oui-text-white/[0.5] oui-text-xs oui-px-4 oui-py-1 oui-font-semibold oui-leading-5"
       >
         {t("common.delete")}
       </Button>

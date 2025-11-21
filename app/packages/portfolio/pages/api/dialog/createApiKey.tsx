@@ -35,7 +35,7 @@ export const CreateAPIKeyDialog: FC<ApiManagerScriptReturns> = (props) => {
       actions={{
         primary: {
           label: t("common.confirm"),
-          className: "oui-w-[120px] lg:oui-w-[154px]",
+          className: "oui-rounded-full",
           "data-testid": "oui-testid-apiKey-createApiKey-dialog-comfirm-btn",
           onClick: async () => {
             if (ipText.length > 0) {
@@ -56,13 +56,14 @@ export const CreateAPIKeyDialog: FC<ApiManagerScriptReturns> = (props) => {
             await props.doCreate(ipText, scopes.join(",") as ScopeType);
           },
           disabled: !trade && !read,
-          size: "md",
+          size: "lg",
+          style: { backgroundColor: "rgba(110, 85, 223, 1)" },
         },
       }}
       classNames={{
         footer: "oui-justify-center",
         content:
-          "oui-bg-base-8 oui-w-[300px] lg:oui-w-[360px] oui-font-semibold",
+          "oui-bg-base-10 oui-w-[300px] lg:oui-w-[360px] oui-font-semibold oui-px-5 oui-pt-5 oui-pb-2",
       }}
     >
       <Flex direction={"column"} gap={6}>
@@ -74,8 +75,8 @@ export const CreateAPIKeyDialog: FC<ApiManagerScriptReturns> = (props) => {
             data-testid="oui-testid-apiKey-createApiKey-dialog-textarea"
             placeholder={t("portfolio.apiKey.create.ipRestriction.placeholder")}
             className={cn(
-              "oui-h-[100px] oui-w-full oui-rounded-xl oui-bg-base-6 oui-p-3 oui-text-sm oui-text-base-contrast-80",
-              "oui-border-0 oui-outline-none focus:oui-border-2 focus:oui-border-primary-darken",
+              "oui-h-[100px] oui-w-full oui-rounded-sm oui-p-4 oui-text-sm oui-text-base-contrast-80",
+              "oui-border-0 oui-outline-none",
               "oui-placeholder-base-contrast-20",
               hint.length > 0 &&
                 "oui-outline-1 oui-outline-danger focus:oui-outline-none",
@@ -86,6 +87,7 @@ export const CreateAPIKeyDialog: FC<ApiManagerScriptReturns> = (props) => {
             }}
             style={{
               resize: "none",
+              backgroundColor: "rgba(255, 255, 255, 0.05)",
             }}
           />
           {hint.length > 0 && (
@@ -114,7 +116,7 @@ export const CreateAPIKeyDialog: FC<ApiManagerScriptReturns> = (props) => {
             direction={"row"}
             gap={6}
             itemAlign={"start"}
-            className="oui-mt-2"
+            className="oui-mt-2 oui-pb-4"
           >
             <Checkbox
               size={18}

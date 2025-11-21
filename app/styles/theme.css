@@ -41,7 +41,7 @@
   --oui-color-base-7: 36 32 47;
   --oui-color-base-8: 29 26 38;
   --oui-color-base-9: 19 21 25;
-  --oui-color-base-10: 14 13 18;
+  --oui-color-base-10: 12 13 16;
 
   --oui-color-base-100: 201 189 255;
   --oui-color-base-200: 81 72 107;
@@ -106,17 +106,20 @@
   .search-input {
     background-color: rgba(255, 255, 255, 0.05);
   }
+
   .add-icon {
     background-color: rgba(130, 110, 221, 0.3)
   }
+
   .text-80 {
     color: rgba(255, 255, 255, 0.04);
   }
-  .market-select [data-state="active"] {  
-    color: rgb(var(--oui-color-primary)) !important;  
-  }  
-  
-  .market-select [data-state="active"]::after {  
-    background-color: rgb(var(--oui-color-primary)) !important;  
+
+  .market-select [data-state="active"] {
+    color: rgb(var(--oui-color-primary)) !important;
   }
-} 
+
+  .market-select [data-state="active"]::after {
+    background-color: rgb(var(--oui-color-primary)) !important;
+  }
+}

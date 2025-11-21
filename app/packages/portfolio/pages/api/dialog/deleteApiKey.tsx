@@ -22,17 +22,20 @@ export const DeleteAPIKeyDialog: FC<{
         primary: {
           label: t("common.confirm"),
           "data-testid": "oui-testid-apiKey-deleteApiKey-dialog-confirm-btn",
-          className: "oui-w-[120px] lg:oui-w-[154px]",
-          size: "md",
+          className:
+            "oui-w-[120px] lg:oui-w-[154px] oui-rounded-full oui-text-xs",
+          size: "lg",
           onClick: async () => {
             await props.onDelete?.(item);
             setOpen(false);
           },
+          style: { backgroundColor: "rgba(110, 85, 223, 1)" },
         },
         secondary: {
           label: t("common.cancel"),
-          className: "oui-w-[120px] lg:oui-w-[154px]",
-          size: "md",
+          className:
+            "oui-w-[120px] lg:oui-w-[154px] oui-rounded-full oui-text-xs",
+          size: "lg",
           onClick: async () => {
             setOpen(false);
           },
@@ -41,15 +44,23 @@ export const DeleteAPIKeyDialog: FC<{
       classNames={{
         footer: "oui-justify-center",
         content:
-          "oui-bg-base-8 oui-w-[300px] lg:oui-w-[360px] oui-font-semibold",
+          "oui-bg-base-10 oui-w-[300px] lg:oui-w-[360px] oui-font-semibold oui-px-5 oui-pt-5 oui-pb-2",
       }}
     >
-      <Flex className="oui-text-xs">
+      <Flex
+        className="oui-text-xs"
+        style={{ paddingBottom: "16px", marginTop: "-4px" }}
+      >
         {/* @ts-ignore */}
         <Trans
           i18nKey="portfolio.apiKey.delete.dialog.description"
           values={{ apiKey: formatKey(item?.orderly_key) }}
-          components={[<Text color="primary" className="oui-px-1" />]}
+          components={[
+            <Text
+              style={{ color: "rgba(186, 179, 216, 1)" }}
+              className="oui-px-1"
+            />,
+          ]}
         />
       </Flex>
     </SimpleDialog>
