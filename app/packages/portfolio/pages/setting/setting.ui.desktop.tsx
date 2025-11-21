@@ -8,16 +8,54 @@ export const SettingDesktop: FC<SettingScriptReturns> = (props) => {
   const { t } = useTranslation();
 
   return (
-    <>
+    <Flex
+      direction={"column"}
+      itemAlign={"start"}
+      className="oui-bg-base-9"
+      p={5}
+    >
       <Card
-        title={t("portfolio.setting.systemUpgrade")}
+        title={"Settings"}
         id="portfolio-apikey-manager"
-        className="oui-bg-base-9 oui-font-semibold"
+        className="oui-font-semibold oui-bg-base-9"
+        style={{
+          paddingBottom: "16px",
+          paddingLeft: "0",
+          paddingRight: "0",
+          width: "100%",
+        }}
+      >
+        <Flex
+          direction={"row"}
+          itemAlign={"start"}
+          className="oui-border-t-2 oui-border-line-6 oui-font-semibold oui-flex-1"
+        ></Flex>
+      </Card>
+
+      <Card
+        title={
+          <Flex justify="between" itemAlign="center" width="100%">
+            <Text>{t("portfolio.setting.systemUpgrade")}</Text>
+            <AuthGuardTooltip align="end">
+              <Switch
+                checked={props.maintenance_cancel_orders}
+                onCheckedChange={(e) => props.setMaintainConfig(e)}
+                disabled={props.isSetting || !props.canTouch}
+              />
+            </AuthGuardTooltip>
+          </Flex>
+        }
+        id="portfolio-apikey-manager"
+        className="oui-font-semibold"
+        style={{
+          backgroundColor: "rgba(255, 255, 255, 0.05)",
+          height: "184px",
+        }}
       >
         <Flex
           direction={"row"}
           gap={4}
-          width={"100%"}
+          width={422}
           itemAlign={"center"}
           pt={4}
           className="oui-border-t-2 oui-border-line-6 oui-font-semibold"
@@ -30,30 +68,35 @@ export const SettingDesktop: FC<SettingScriptReturns> = (props) => {
               {t("portfolio.setting.cancelOpenOrders.description")}
             </Text>
           </Flex>
-
-          <AuthGuardTooltip align="end">
-            <Switch
-              checked={props.maintenance_cancel_orders}
-              onCheckedChange={(e) => {
-                props.setMaintainConfig(e);
-              }}
-              disabled={props.isSetting || !props.canTouch}
-              data-testid="oui-testid-setting-switch-btn"
-            />
-          </AuthGuardTooltip>
         </Flex>
       </Card>
 
-      {props.hasOrderFilledMedia && (
+      {
         <Card
-          title={t("portfolio.setting.soundAlerts")}
+          title={
+            <Flex justify="between" itemAlign="center" width="100%">
+              <Text>{t("portfolio.setting.soundAlerts")}</Text>
+              <AuthGuardTooltip align="end">
+                <Switch
+                  checked={props.soundAlert}
+                  onCheckedChange={(checked) => props.setSoundAlert(checked)}
+                  disabled={!props.canTouch}
+                  data-testid="oui-testid-setting-sound-switch-btn"
+                />
+              </AuthGuardTooltip>
+            </Flex>
+          }
           id="portfolio-sound-alert-setting"
-          className="oui-bg-base-9 oui-font-semibold oui-mt-3"
+          className="oui-font-semibold oui-mt-3"
+          style={{
+            backgroundColor: "rgba(255, 255, 255, 0.05)",
+            height: "184px",
+          }}
         >
           <Flex
             direction={"row"}
             gap={4}
-            width={"100%"}
+            width={422}
             itemAlign={"center"}
             pt={4}
             className="oui-border-t-2 oui-border-line-6 oui-font-semibold"
@@ -67,18 +110,9 @@ export const SettingDesktop: FC<SettingScriptReturns> = (props) => {
                 {t("portfolio.setting.soundAlerts.description")}
               </Text>
             </Flex>
-
-            <AuthGuardTooltip align="end">
-              <Switch
-                checked={props.soundAlert}
-                onCheckedChange={(checked) => props.setSoundAlert(checked)}
-                disabled={!props.canTouch}
-                data-testid="oui-testid-setting-sound-switch-btn"
-              />
-            </AuthGuardTooltip>
           </Flex>
         </Card>
-      )}
-    </>
+      }
+    </Flex>
   );
 };
