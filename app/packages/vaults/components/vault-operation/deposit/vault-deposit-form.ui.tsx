@@ -5,7 +5,7 @@ import {
   BrokerWallet,
   QuantityInput,
   AvailableQuantity,
-} from "@orderly.network/ui-transfer";
+} from "@/packages/ui-transfer";
 import { LatestDepositWidget } from "../latest-deposit/latest-deposit.widget";
 import { VaultDepositFormScript } from "./vault-deposit-form.script";
 

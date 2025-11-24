@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import { PnlAreaChart, PnLBarChart } from "@orderly.network/chart";
 import { useTranslation } from "@orderly.network/i18n";
 import { EMPTY_LIST } from "@orderly.network/types";
 import {
@@ -12,7 +11,9 @@ import {
   Flex,
   Tooltip,
   cn,
+  Divider,
 } from "@orderly.network/ui";
+import { PnlAreaChart, PnLBarChart } from "@/packages/chart";
 import type { UsePerformanceScriptReturn } from "./performance.script";
 
 const LazyPeriodTitle = React.lazy(() =>
@@ -42,107 +43,154 @@ export const PerformanceUI: React.FC<PerformanceUIProps> = (props) => {
 
   return (
     <Card
-      title={
-        <React.Suspense fallback={null}>
-          <LazyPeriodTitle
-            onPeriodChange={onPeriodChange}
-            periodTypes={periodTypes}
-            period={period}
-            title={t("portfolio.overview.performance")}
-          />
-        </React.Suspense>
-      }
+      // title={
+      //   <React.Suspense fallback={null}>
+      //     <LazyPeriodTitle
+      //       onPeriodChange={onPeriodChange}
+      //       periodTypes={periodTypes}
+      //       period={period}
+      //       title={t("portfolio.overview.performance")}
+      //     />
+      //   </React.Suspense>
+      // }
       id="portfolio-overview-performance"
     >
-      <Grid cols={3} gap={4}>
-        <Box
-          gradient="neutral"
-          r="md"
-          px={4}
-          py={2}
-          angle={184}
-          border
-          borderColor={6}
-        >
-          <Statistic
-            label={
-              <LabelWithHint
-                label={t("portfolio.overview.performance.roi", {
-                  period: curPeriod,
-                })}
-                hint={t("portfolio.overview.performance.roi.tooltip")}
+      <Grid
+        cols={2}
+        gap={3}
+        style={{
+          gridTemplateColumns: "300px 1fr", // 左側固定 300px,右側自動填充
+        }}
+      >
+        {/* 左側:三個統計 Box 垂直排列 */}
+        <Grid cols={1} gap={2}>
+          {/* title 作為第一個*/}
+          <Box mb={3}>
+            <React.Suspense fallback={null}>
+              <LazyPeriodTitle
+                onPeriodChange={onPeriodChange}
+                periodTypes={periodTypes}
+                period={period}
+                title={t("portfolio.overview.performance")}
               />
-            }
-            valueProps={{ rule: "percentages", coloring: true, visible }}
+            </React.Suspense>
+          </Box>
+          <Box
+            // gradient="neutral"
+            r="md"
+            px={4}
+            py={2}
+            // angle={184}
+            border
+            borderColor={6}
           >
-            {invisible ? "--" : aggregateValue.roi}
-          </Statistic>
-        </Box>
-        <Box
-          gradient="neutral"
-          r="md"
-          px={4}
-          py={2}
-          angle={184}
-          border
-          borderColor={6}
-        >
-          <Statistic
-            label={
-              <LabelWithHint
-                label={t("portfolio.overview.performance.pnl", {
-                  period: curPeriod,
-                })}
-                hint={t("portfolio.overview.performance.pnl.tooltip")}
-              />
-            }
-            valueProps={{ coloring: true, showIdentifier: true, visible }}
+            <Statistic
+              label={
+                <LabelWithHint
+                  label={t("portfolio.overview.performance.roi", {
+                    period: curPeriod,
+                  })}
+                  hint={t("portfolio.overview.performance.roi.tooltip")}
+                />
+              }
+              valueProps={{ rule: "percentages", coloring: true, visible }}
+            >
+              {invisible ? "--" : aggregateValue.roi}
+            </Statistic>
+            <Divider className="oui-my-4" intensity={8} />
+            <Statistic
+              label={
+                <LabelWithHint
+                  label={t("portfolio.overview.performance.pnl", {
+                    period: curPeriod,
+                  })}
+                  hint={t("portfolio.overview.performance.pnl.tooltip")}
+                />
+              }
+              valueProps={{ coloring: true, showIdentifier: true, visible }}
+            >
+              {invisible ? "--" : aggregateValue.pnl}
+            </Statistic>
+          </Box>
+          {/* <Box
+            gradient="neutral"
+            r="md"
+            px={4}
+            py={2}
+            angle={184}
+            border
+            borderColor={6}
           >
-            {invisible ? "--" : aggregateValue.pnl}
-          </Statistic>
-        </Box>
-        <Box
-          gradient="neutral"
-          r="md"
-          px={4}
-          py={2}
-          angle={184}
-          border
-          borderColor={6}
-        >
-          <Statistic
-            classNames={{
-              label: "oui-w-full",
-            }}
-            label={
-              <Flex justify={"between"}>
-                <span>
-                  <LabelWithHint
-                    label={t("portfolio.overview.performance.volume", {
-                      period: curPeriod,
-                    })}
-                    hint={t("portfolio.overview.performance.volume.tooltip")}
-                  />
-                </span>
-                <span>{volumeUpdateDate}</span>
-              </Flex>
-            }
-            valueProps={{ visible }}
+            <Statistic
+              label={
+                <LabelWithHint
+                  label={t("portfolio.overview.performance.pnl", {
+                    period: curPeriod,
+                  })}
+                  hint={t("portfolio.overview.performance.pnl.tooltip")}
+                />
+              }
+              valueProps={{ coloring: true, showIdentifier: true, visible }}
+            >
+              {invisible ? "--" : aggregateValue.pnl}
+            </Statistic>
+          </Box> */}
+          <Box
+            // gradient="neutral"
+            r="md"
+            px={4}
+            py={2}
+            // angle={184}
+            border
+            borderColor={6}
           >
-            {invisible ? "--" : aggregateValue.vol}
-          </Statistic>
-        </Box>
+            <Statistic
+              classNames={{
+                label: "oui-w-full",
+              }}
+              label={
+                <Flex justify={"between"}>
+                  <span>
+                    <LabelWithHint
+                      label={t("portfolio.overview.performance.volume", {
+                        period: curPeriod,
+                      })}
+                      hint={t("portfolio.overview.performance.volume.tooltip")}
+                    />
+                  </span>
+                  <span>{volumeUpdateDate}</span>
+                </Flex>
+              }
+              valueProps={{ visible }}
+            >
+              {invisible ? "--" : aggregateValue.vol}
+            </Statistic>
+          </Box>
+        </Grid>
+        {/* 中間:PerformancePnL */}
+        <Grid cols={2}>
+          <PerformancePnL
+            data={props.data ?? EMPTY_LIST}
+            invisible={props.invisible}
+          />
+
+          {/* 右側:CumulativePnlChart */}
+          <CumulativePnlChart
+            data={props.data ?? EMPTY_LIST}
+            invisible={props.invisible || (props.data?.length ?? 0) <= 2}
+          />
+        </Grid>
       </Grid>
-      <Grid cols={2} gap={4}>
-        <PerformancePnL
-          data={props.data ?? EMPTY_LIST}
-          invisible={props.invisible}
-        />
-        <CumulativePnlChart
-          data={props.data ?? EMPTY_LIST}
-          invisible={props.invisible || (props.data?.length ?? 0) <= 2}
-        />
-      </Grid>
+      {/* <Grid cols={2} gap={4}>
+          <PerformancePnL
+            data={props.data ?? EMPTY_LIST}
+            invisible={props.invisible}
+          />
+          <CumulativePnlChart
+            data={props.data ?? EMPTY_LIST}
+            invisible={props.invisible || (props.data?.length ?? 0) <= 2}
+          />
+        </Grid> */}
     </Card>
   );
 };
@@ -182,11 +230,11 @@ export const PerformancePnL: React.FC<{
 }> = (props) => {
   const { t } = useTranslation();
   return (
-    <Box mt={4} height={"188px"}>
-      <Text as="div" size="sm" className="oui-mb-3">
+    <Box mb={2} height={"220px"}>
+      <Text as="div" size="sm" className="oui-mb-3 oui-text-base-contrast-36">
         {t("portfolio.overview.performance.dailyPnl")}
       </Text>
-      <Box r="md" className="oui-h-[188px] oui-border oui-border-line-4">
+      <Box r="md" className="oui-h-[220px]">
         <PnLBarChart
           data={props.data}
           invisible={props.invisible || (props.data?.length ?? 0) <= 2}
@@ -202,11 +250,11 @@ export const CumulativePnlChart: React.FC<{
 }> = (props) => {
   const { t } = useTranslation();
   return (
-    <Box mt={4}>
-      <Text as="div" size="sm" className="oui-mb-3">
+    <Box mb={2} height={"220px"}>
+      <Text as="div" size="sm" className="oui-mb-3 oui-text-base-contrast-36">
         {t("portfolio.overview.performance.cumulativePnl")}
       </Text>
-      <Box r="md" className="oui-h-[188px] oui-border oui-border-line-4">
+      <Box r="md" className="oui-h-[220px]">
         <PnlAreaChart
           data={props.data}
           invisible={props.invisible || (props.data?.length ?? 0) <= 2}

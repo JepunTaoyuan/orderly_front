@@ -39,7 +39,9 @@ export const AssetsUI: React.FC<
         <Statistic
           label={
             <Flex gap={1}>
-              <Text intensity={54}>{t("common.totalValue")}</Text>
+              <Text intensity={54} className="oui-font-normal">
+                {t("common.totalValue")}
+              </Text>
               <button
                 onClick={() => {
                   props.toggleVisible();
@@ -60,11 +62,10 @@ export const AssetsUI: React.FC<
               visible={props.visible}
               unit="USDC"
               // @ts-ignore
-              style={{ "--oui-gradient-angle": "45deg" }}
-              unitClassName="oui-text-base oui-text-base-contrast-80 oui-h-9 oui-ml-1"
+              unitClassName="oui-text-base oui-text-base-contrast-36 oui-h-9 oui-ml-1 oui-font-medium"
               className={gradientTextVariants({
-                className: "oui-font-bold oui-text-3xl",
-                color: "brand",
+                className:
+                  "oui-font-bold oui-text-3xl oui-text-base-contrast-100",
               })}
             >
               {props.portfolioValue ?? "--"}
@@ -113,15 +114,21 @@ export const AssetStatistic = (props: AssetStatisticProps) => {
 
   return (
     <Grid cols={2} className="oui-h-12">
-      <Statistic label={t("common.unrealizedPnl")}>
+      <Statistic className="oui-font-normal" label={t("common.unrealizedPnl")}>
         <Flex>
           <Text.pnl
             coloring
             size="lg"
             weight="semibold"
             visible={props.visible}
+            style={{
+              letterSpacing: "0.01em",
+              fontFamily: "Manrope",
+              color: "#ff41a3",
+            }}
           >
-            {props.unrealPnL}
+            123456789
+            {/* {props.unrealPnL} */}
           </Text.pnl>
           <Text.roi
             coloring
@@ -131,19 +138,30 @@ export const AssetStatistic = (props: AssetStatisticProps) => {
             prefix={"("}
             suffix={")"}
             visible={props.visible}
+            style={{ color: "#9C2D6A" }}
           >
-            {props.unrealROI}
+            -0.156
+            {/* {props.unrealROI} */}
           </Text.roi>
+          <Text className="oui-text-base oui-text-base-contrast-36 oui-ml-1 oui-font-medium">
+            USDC
+          </Text>
         </Flex>
       </Statistic>
       <Statistic
+        className="oui-font-normal"
         label={t("portfolio.overview.availableWithdraw")}
         // @ts-ignore
         align="right"
         // @ts-ignore
-        valueProps={{ size: "lg", visible: props.visible }}
+        valueProps={{
+          size: "lg",
+          visible: props.visible,
+          style: { letterSpacing: "-0.03em" },
+        }}
       >
-        {props.freeCollateral}
+        2004.52
+        {/* {props.freeCollateral} */}
       </Statistic>
     </Grid>
   );

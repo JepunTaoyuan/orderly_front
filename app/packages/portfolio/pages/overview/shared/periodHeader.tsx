@@ -20,8 +20,8 @@ export const PeriodTitle: React.FC<{
   }, [t]);
 
   return (
-    <Flex itemAlign={"center"} justify={"between"}>
-      <CardTitle>{props.title}</CardTitle>
+    <Flex itemAlign={"center"}>
+      <CardTitle className="oui-pr-3">{props.title}</CardTitle>
       <div className={"oui-min-w-14"}>
         <Select.options
           size={"xs"}

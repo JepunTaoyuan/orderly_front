@@ -13,7 +13,7 @@ import { modal, SliderMarks, toast } from "@orderly.network/ui";
 import {
   DepositAndWithdrawWithSheetId,
   TransferSheetId,
-} from "@orderly.network/ui-transfer";
+} from "@/packages/ui-transfer";
 import { useTradingLocalStorage } from "../../../hooks";
 
 export const usePortfolioSheetScript = () => {

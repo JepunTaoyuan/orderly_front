@@ -12,6 +12,7 @@ import {
   TabPanel,
   Tabs,
   VaultsIcon,
+  cn,
 } from "@orderly.network/ui";
 import type { TabName } from "./historyDataGroup.script";
 
@@ -59,12 +60,7 @@ export const HistoryDataGroupDesktop: React.FC<{
   }, [active, isMainAccount]);
   return (
     <Card>
-      <Tabs
-        value={active}
-        onValueChange={onTabChange}
-        variant="contained"
-        size="xl"
-      >
+      <Tabs value={active} onValueChange={onTabChange} variant="text" size="sm">
         <TabPanel
           title={t("common.deposits")}
           icon={<ArrowDownSquareFillIcon />}

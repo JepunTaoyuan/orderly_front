@@ -16,7 +16,7 @@ import {
   DepositAndWithdrawWithSheetId,
   TransferDialogId,
   TransferSheetId,
-} from "@orderly.network/ui-transfer";
+} from "@/packages/ui-transfer";
 
 export const useAssetScript = () => {
   const { connect, namespace } = useWalletConnector();
