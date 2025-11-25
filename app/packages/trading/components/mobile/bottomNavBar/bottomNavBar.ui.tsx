@@ -2,7 +2,7 @@ import { FC, SVGProps, useState } from "react";
 import { useTranslation } from "@orderly.network/i18n";
 import { AccountStatusEnum } from "@orderly.network/types";
 import { Flex, SimpleDialog, Text } from "@orderly.network/ui";
-import { ScanQRCodeWidget } from "@orderly.network/ui-scaffold";
+import { ScanQRCodeWidget } from "@/packages/ui-scaffold";
 import { MobileAccountMenuExtension } from "./account/account.widget";
 import { BalanceWidget } from "./balance";
 import { BottomNavBarState } from "./bottomNavBar.script";

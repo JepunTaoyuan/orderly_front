@@ -3,8 +3,8 @@ import { type RestrictedInfoOptions } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import { AppLogos } from "@orderly.network/react-app";
 import { TradingPageProps } from "@orderly.network/trading";
-import { FooterProps, MainNavWidgetProps } from "@orderly.network/ui-scaffold";
 import { PathEnum } from "@/constant";
+import { FooterProps, MainNavWidgetProps } from "@/packages/ui-scaffold";
 import { OrderlyActiveIcon, OrderlyIcon } from "../components/icons/orderly";
 
 export type OrderlyConfig = {

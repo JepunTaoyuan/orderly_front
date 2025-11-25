@@ -6,8 +6,8 @@ import {
   LeaderboardWidget,
 } from "@orderly.network/trading-leaderboard";
 import { Box, useScreen } from "@orderly.network/ui";
-import { useScaffoldContext } from "@orderly.network/ui-scaffold";
 import { PageTitleMap, PathEnum } from "@/constant";
+import { useScaffoldContext } from "@/packages/ui-scaffold";
 import { getSymbol } from "@/storage";
 import { generatePageTitle } from "@/utils";
 

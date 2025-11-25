@@ -8,8 +8,8 @@ import {
   ChevronRightIcon,
   cn,
 } from "@orderly.network/ui";
-import { RouterAdapter } from "@orderly.network/ui-scaffold";
 import { commifyOptional } from "@orderly.network/utils";
+import { RouterAdapter } from "@/packages/ui-scaffold";
 
 const isNumber = (val: unknown): val is number => {
   return typeof val === "number" && !Number.isNaN(val);

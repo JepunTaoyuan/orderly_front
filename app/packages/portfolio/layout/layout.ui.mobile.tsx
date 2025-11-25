@@ -4,7 +4,7 @@ import {
   MainNavMobile,
   BottomNav,
   type ScaffoldProps,
-} from "@orderly.network/ui-scaffold";
+} from "@/packages/ui-scaffold";
 import { LayoutProvider } from "./context";
 import { usePortfolioLayoutScriptType } from "./layout.script";
 

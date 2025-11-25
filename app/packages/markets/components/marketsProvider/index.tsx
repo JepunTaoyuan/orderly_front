@@ -8,7 +8,7 @@ import {
   useMemo,
 } from "react";
 import { API } from "@orderly.network/types";
-import { LeftNavProps, RouterAdapter } from "@orderly.network/ui-scaffold";
+import { LeftNavProps, RouterAdapter } from "@/packages/ui-scaffold";
 
 type MarketsContextState = {
   symbol?: string;

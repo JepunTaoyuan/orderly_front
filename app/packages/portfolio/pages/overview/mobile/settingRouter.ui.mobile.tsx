@@ -6,7 +6,7 @@ import {
   SettingFillIcon,
   ChevronRightIcon,
 } from "@orderly.network/ui";
-import { RouterAdapter } from "@orderly.network/ui-scaffold";
+import { RouterAdapter } from "@/packages/ui-scaffold";
 import { PortfolioLeftSidebarPath } from "../../../layout";
 
 type Props = {

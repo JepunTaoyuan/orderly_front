@@ -8,7 +8,7 @@ import {
   ChevronRightIcon,
 } from "@orderly.network/ui";
 import { AuthGuardTooltip } from "@orderly.network/ui-connector";
-import { LanguageSwitcherWidget } from "@orderly.network/ui-scaffold";
+import { LanguageSwitcherWidget } from "@/packages/ui-scaffold";
 import type { SettingScriptReturns } from "./setting.script";
 
 export const SettingMobile: FC<SettingScriptReturns> = (props) => {

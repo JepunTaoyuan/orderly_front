@@ -12,11 +12,8 @@ import {
   useScreen,
   Divider,
 } from "@orderly.network/ui";
-import {
-  RouterAdapter,
-  useScaffoldContext,
-} from "@orderly.network/ui-scaffold";
 import { Decimal } from "@orderly.network/utils";
+import { RouterAdapter, useScaffoldContext } from "@/packages/ui-scaffold";
 import { useLayoutContext } from "../../layout/context";
 import { EffectiveFee } from "./icons";
 

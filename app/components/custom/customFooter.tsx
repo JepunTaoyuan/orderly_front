@@ -2,7 +2,7 @@ import { FC, useMemo } from "react";
 import { WsNetworkStatus, useWsStatus } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import { Divider, Flex, Text } from "@orderly.network/ui";
-import { FooterProps } from "@orderly.network/ui-scaffold";
+import { FooterProps } from "@/packages/ui-scaffold";
 import {
   CommuntiyDiscordIcon,
   CommuntiyTelegramIcon,

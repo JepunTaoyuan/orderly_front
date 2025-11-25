@@ -10,11 +10,7 @@ import {
   useScreen,
   Flex,
 } from "@orderly.network/ui";
-import {
-  LeftNavProps,
-  RouterAdapter,
-  LeftNavUI,
-} from "@orderly.network/ui-scaffold";
+import { LeftNavProps, RouterAdapter, LeftNavUI } from "@/packages/ui-scaffold";
 import {
   MarketsProvider,
   type MarketsProviderProps,
