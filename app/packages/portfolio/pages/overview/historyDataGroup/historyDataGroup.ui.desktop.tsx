@@ -59,15 +59,10 @@ export const HistoryDataGroupDesktop: React.FC<{
   }, [active, isMainAccount]);
   return (
     <Card>
-      <Tabs
-        value={active}
-        onValueChange={onTabChange}
-        variant="contained"
-        size="xl"
-      >
+      <Tabs value={active} onValueChange={onTabChange} variant="text" size="md">
         <TabPanel
           title={t("common.deposits")}
-          icon={<ArrowDownSquareFillIcon />}
+          // icon={<ArrowDownSquareFillIcon />}
           value={"deposit"}
         >
           <React.Suspense fallback={null}>
@@ -76,7 +71,7 @@ export const HistoryDataGroupDesktop: React.FC<{
         </TabPanel>
         <TabPanel
           title={t("common.withdrawals")}
-          icon={<ArrowUpSquareFillIcon />}
+          // icon={<ArrowUpSquareFillIcon />}
           value={"withdraw"}
         >
           <React.Suspense fallback={null}>
@@ -85,7 +80,7 @@ export const HistoryDataGroupDesktop: React.FC<{
         </TabPanel>
         <TabPanel
           title={t("common.funding")}
-          icon={<FeeTierIcon />}
+          // icon={<FeeTierIcon />}
           value={"funding"}
         >
           <React.Suspense fallback={null}>
@@ -94,7 +89,7 @@ export const HistoryDataGroupDesktop: React.FC<{
         </TabPanel>
         <TabPanel
           title={t("portfolio.overview.distribution")}
-          icon={<ServerFillIcon />}
+          // icon={<ServerFillIcon />}
           value={"distribution"}
         >
           <React.Suspense fallback={null}>
@@ -103,7 +98,7 @@ export const HistoryDataGroupDesktop: React.FC<{
         </TabPanel>
         <TabPanel
           title={t("portfolio.overview.transferHistory")}
-          icon={<ArrowLeftRightSquareFill />}
+          // icon={<ArrowLeftRightSquareFill />}
           value={"transfer"}
         >
           <React.Suspense fallback={null}>
@@ -113,7 +108,7 @@ export const HistoryDataGroupDesktop: React.FC<{
         {isMainAccount && (
           <TabPanel
             value={"vaults"}
-            icon={<VaultsIcon />}
+            // icon={<VaultsIcon />}
             title={t("portfolio.overview.vaults")}
           >
             <React.Suspense fallback={null}>

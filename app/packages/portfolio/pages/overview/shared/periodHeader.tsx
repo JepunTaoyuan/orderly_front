@@ -20,7 +20,7 @@ export const PeriodTitle: React.FC<{
   }, [t]);
 
   return (
-    <Flex itemAlign={"center"} justify={"between"}>
+    <Flex itemAlign={"center"} gap={3}>
       <CardTitle>{props.title}</CardTitle>
       <div className={"oui-min-w-14"}>
         <Select.options

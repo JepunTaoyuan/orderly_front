@@ -61,10 +61,9 @@ export const AssetsUI: React.FC<
               unit="USDC"
               // @ts-ignore
               style={{ "--oui-gradient-angle": "45deg" }}
-              unitClassName="oui-text-base oui-text-base-contrast-80 oui-h-9 oui-ml-1"
+              unitClassName="oui-text-base oui-text-base-contrast-36  oui-h-9 oui-ml-1"
               className={gradientTextVariants({
-                className: "oui-font-bold oui-text-3xl",
-                color: "brand",
+                className: "oui-font-bold oui-text-3xl oui-text-white",
               })}
             >
               {props.portfolioValue ?? "--"}
@@ -112,7 +111,7 @@ export const AssetStatistic = (props: AssetStatisticProps) => {
   const { t } = useTranslation();
 
   return (
-    <Grid cols={2} className="oui-h-12">
+    <Grid cols={3} className="oui-h-12">
       <Statistic label={t("common.unrealizedPnl")}>
         <Flex>
           <Text.pnl
@@ -123,6 +122,7 @@ export const AssetStatistic = (props: AssetStatisticProps) => {
           >
             {props.unrealPnL}
           </Text.pnl>
+          <Divider className="oui-my-4" intensity={8} />
           <Text.roi
             coloring
             rule="percentages"
@@ -136,6 +136,9 @@ export const AssetStatistic = (props: AssetStatisticProps) => {
           </Text.roi>
         </Flex>
       </Statistic>
+      <Flex justify="around" itemAlign="center">
+        <Divider direction="vertical" className="oui-h-12" intensity={12} />
+      </Flex>
       <Statistic
         label={t("portfolio.overview.availableWithdraw")}
         // @ts-ignore
