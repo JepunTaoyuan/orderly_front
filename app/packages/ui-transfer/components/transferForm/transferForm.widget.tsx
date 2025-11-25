@@ -33,9 +33,9 @@ export const TransferWidget: FC<TransferFormWidgetProps> = (props) => {
 };
 
 registerSimpleDialog(TransferDialogId, TransferWidget, {
-  size: "md",
+  size: "lg",
   classNames: {
-    content: "oui-border oui-border-line-6",
+    content: "oui-border oui-border-line-6 oui-bg-base-10",
   },
   title: () => i18n.t("common.transfer"),
 });
