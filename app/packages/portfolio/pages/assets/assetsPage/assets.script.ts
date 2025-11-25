@@ -10,11 +10,11 @@ import { account } from "@orderly.network/perp";
 import { useCanTrade, useDataTap } from "@orderly.network/react-app";
 import { AccountStatusEnum, EMPTY_LIST } from "@orderly.network/types";
 import { modal } from "@orderly.network/ui";
+import { Decimal, zero } from "@orderly.network/utils";
 import {
   DepositAndWithdrawWithDialogId,
   TransferDialogId,
-} from "@orderly.network/ui-transfer";
-import { Decimal, zero } from "@orderly.network/utils";
+} from "@/packages/ui-transfer";
 import { useAccountsData, useAssetsMultiFilter } from "../../../hooks";
 import { useAssetTotalValue } from "../../../hooks/useAssetTotalValue";
 import { ORDERLY_ASSETS_VISIBLE_KEY } from "../type";

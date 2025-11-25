@@ -15,7 +15,7 @@ import {
   BrokerWallet,
   QuantityInput,
   AvailableQuantity,
-} from "@orderly.network/ui-transfer";
+} from "@/packages/ui-transfer";
 import { LatestWithdrawWidget } from "../latest-withdraw";
 import { VaultWithdrawFormScript } from "./vault-withdraw-form.script";
 import { WithdrawProcessWidget } from "./withdraw-process.ui";

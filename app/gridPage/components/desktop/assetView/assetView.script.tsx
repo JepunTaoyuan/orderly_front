@@ -17,7 +17,7 @@ import { modal, toast } from "@orderly.network/ui";
 import {
   DepositAndWithdrawWithDialogId,
   TransferDialogId,
-} from "@orderly.network/ui-transfer";
+} from "@/packages/ui-transfer";
 
 export const useAssetViewScript = () => {
   const { t } = useTranslation();
