@@ -57,7 +57,7 @@ export const DepositAndWithdraw: FC<DepositAndWithdrawProps> = (props) => {
 };
 
 registerSimpleDialog(DepositAndWithdrawWithDialogId, DepositAndWithdraw, {
-  size: "md",
+  size: "lg",
   classNames: {
     content: "oui-border oui-border-line-6 oui-bg-base-10",
   },

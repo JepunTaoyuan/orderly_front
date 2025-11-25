@@ -50,7 +50,7 @@ export const TransferForm: FC<TransferFormProps> = (props) => {
         <Text size="sm" intensity={98}>
           {t("transfer.internalTransfer.from")}
         </Text>
-        <Box mt={1} mb={1}>
+        <Box mt={3} mb={1}>
           <AccountSelect
             subAccounts={fromAccounts}
             value={fromAccount}
@@ -58,7 +58,7 @@ export const TransferForm: FC<TransferFormProps> = (props) => {
           />
           <QuantityInput
             classNames={{
-              root: "oui-mt-[2px] oui-rounded-t-sm oui-rounded-b-xl",
+              root: "oui-mt-[2px] oui-rounded-md",
             }}
             value={quantity}
             onValueChange={onQuantityChange}
@@ -118,7 +118,7 @@ export const TransferForm: FC<TransferFormProps> = (props) => {
           <Flex
             className={cn(
               "oui-mt-[2px] oui-h-[31px] oui-text-base-contrast-54",
-              "oui-rounded-b-xl oui-rounded-t-sm",
+              "oui-rounded-md oui-bg-base-10 oui-mt-2 oui-border oui-border-line",
             )}
             justify="between"
             itemAlign="center"
@@ -142,7 +142,7 @@ export const TransferForm: FC<TransferFormProps> = (props) => {
       </Box>
 
       <Flex justify="center">
-        <Box className="oui-w-full lg:oui-w-auto lg:oui-min-w-[184px]">
+        <Box className="oui-w-full">
           <AuthGuard
             networkId={networkId}
             buttonProps={{
@@ -154,8 +154,8 @@ export const TransferForm: FC<TransferFormProps> = (props) => {
               fullWidth
               disabled={disabled}
               loading={submitting}
-              size={buttonSize}
               onClick={onTransfer}
+              className="oui-rounded-full oui-text-xs"
             >
               {t("common.transfer")}
             </Button>
