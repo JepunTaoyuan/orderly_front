@@ -14,6 +14,7 @@ import {
   Tooltip,
   InfoCircleIcon,
 } from "@orderly.network/ui";
+import type { SelectOption } from "@orderly.network/ui";
 import {
   LiquidationWidget,
   PositionHistoryWidget,
@@ -21,7 +22,6 @@ import {
   CombinePositionsWidget,
   PositionsWidget,
 } from "@orderly.network/ui-positions";
-import type { SelectOption } from "@orderly.network/ui/src/select/withOptions";
 import { AccountType } from "../assets/assetsPage/assets.ui.desktop";
 
 enum TabsType {

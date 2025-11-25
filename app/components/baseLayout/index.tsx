@@ -31,28 +31,9 @@ export const BaseLayout: FC<BaseLayoutProps> = (props) => {
           src: "/images/dexless/dexless_logo.svg",
           alt: "Dexless",
         },
-        mainMenus: [
-          {
-            name: t("common.markets"),
-            href: "/markets",
-            isHomePageInMobile: true, // 關鍵屬性
-          },
-          {
-            name: t("common.trading"),
-            href: "/",
-            isHomePageInMobile: true, // 關鍵屬性
-          },
-          {
-            name: t("common.portfolio"),
-            href: "/portfolio",
-            isHomePageInMobile: true, // 關鍵屬性
-          },
-          {
-            name: t("tradingLeaderboard.leaderboard"),
-            href: "/leaderboard",
-            isHomePageInMobile: true, // 關鍵屬性
-          },
-        ],
+        mainMenus: config.scaffold.mainNavProps?.mainMenus?.map((menu) => {
+          return { ...menu, isHomePageInMobile: true };
+        }),
         leftNav: {
           menus: [
             {

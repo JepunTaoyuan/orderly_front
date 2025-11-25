@@ -1,11 +1,7 @@
 import { FC, PropsWithChildren } from "react";
 import { useTranslation } from "@orderly.network/i18n";
 import { cn, Box, Flex, Divider } from "@orderly.network/ui";
-import {
-  ScaffoldProps,
-  Scaffold,
-  SideBarProps,
-} from "@orderly.network/ui-scaffold";
+import { ScaffoldProps, Scaffold, SideBarProps } from "@/packages/ui-scaffold";
 
 export type PortfolioLayoutProps = ScaffoldProps & {
   hideSideBar?: boolean;
