@@ -41,7 +41,7 @@ export const MobileMarketsDataList: React.FC<MobileMarketsDataListProps> = (
         <SearchInput
           classNames={{
             root: cn(
-              "oui-mx-3 oui-mb-4 oui-mt-5",
+              "oui-mx-3 oui-mb-4 oui-mt-5 oui-bg-line-4",
               activeTab !== MarketsTabName.Favorites && "oui-mb-2",
             ),
           }}
@@ -59,10 +59,10 @@ export const MobileMarketsDataList: React.FC<MobileMarketsDataListProps> = (
   };
 
   return (
-    <Box id="oui-markets-list" intensity={900} py={3} mt={2} r="2xl">
+    <Box id="oui-markets-list" intensity={900} py={3} mt={1} r="2xl">
       <Tabs
-        variant="contained"
-        size="lg"
+        variant="text"
+        size="sm"
         value={activeTab}
         onValueChange={onTabChange}
         classNames={{
@@ -73,21 +73,13 @@ export const MobileMarketsDataList: React.FC<MobileMarketsDataListProps> = (
         <TabPanel title={<FavoritesIcon />} value="favorites">
           {renderTab(MarketsTabName.Favorites)}
         </TabPanel>
-        <TabPanel
-          title={t("markets.allMarkets")}
-          icon={<AllMarketsIcon />}
-          value="all"
-        >
+        <TabPanel title={t("markets.allMarkets")} value="all">
           {renderTab(MarketsTabName.All)}
         </TabPanel>
         <TabPanel title={<RwaTab />} value="rwa">
           {renderTab(MarketsTabName.Rwa)}
         </TabPanel>
-        <TabPanel
-          title={t("markets.newListings")}
-          icon={<NewListingsIcon />}
-          value="new"
-        >
+        <TabPanel title={t("markets.newListings")} value="new">
           {renderTab(MarketsTabName.NewListing)}
         </TabPanel>
       </Tabs>
