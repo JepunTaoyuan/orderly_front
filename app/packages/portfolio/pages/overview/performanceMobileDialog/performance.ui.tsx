@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
+import { useTranslation } from "@orderly.network/i18n";
+import { Tabs, TabPanel, Flex, Text } from "@orderly.network/ui";
 import {
   AssetLineChart,
   PnlAreaChart,
   PnLBarChart,
   PnlLineChartProps,
-} from "@orderly.network/chart";
-import { useTranslation } from "@orderly.network/i18n";
-import { Tabs, TabPanel, Flex, Text } from "@orderly.network/ui";
+} from "@/packages/chart";
 import type { UsePerformanceScriptReturn } from "../performance/performance.script";
 import {
   PeriodType,

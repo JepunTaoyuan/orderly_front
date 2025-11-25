@@ -8,8 +8,8 @@ import {
 } from "@orderly.network/hooks";
 import { AssetHistorySideEnum } from "@orderly.network/types";
 import { modal, usePagination } from "@orderly.network/ui";
-import { DepositAndWithdrawWithSheetId } from "@orderly.network/ui-transfer";
 import { subtractDaysFromCurrentDate } from "@orderly.network/utils";
+import { DepositAndWithdrawWithSheetId } from "@/packages/ui-transfer";
 import { parseDateRangeForFilter } from "../helper/date";
 
 export enum AssetTarget {

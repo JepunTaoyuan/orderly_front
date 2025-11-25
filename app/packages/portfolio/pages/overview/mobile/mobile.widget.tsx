@@ -3,7 +3,7 @@ import { ENVType, useGetEnv } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import { useAppContext } from "@orderly.network/react-app";
 import { Flex } from "@orderly.network/ui";
-import { DepositStatusWidget } from "@orderly.network/ui-transfer";
+import { DepositStatusWidget } from "@/packages/ui-transfer";
 import { useLayoutContext } from "../../../layout/context";
 import { useAssetScript } from "../assets";
 import { PortfolioChartsMobileWidget } from "../portfolioChartsMobile";
