@@ -1,0 +1,14 @@
+import { FC } from "react";
+import { useScreen } from "@orderly.network/ui";
+import type { TradingState } from "./trading.script";
+import { DesktopLayout } from "./trading.ui.desktop";
+import { MobileLayout } from "./trading.ui.mobile";
+
+export const Trading: FC<TradingState> = (props) => {
+  return (
+    <DesktopLayout
+      className="oui-h-[calc(100vh_-_48px_-_29px)] oui-bg-base-10"
+      {...props}
+    />
+  );
+};
