@@ -41,7 +41,12 @@ export const MobileMarketsHeader: FC<MobileMarketsHeaderProps> = (props) => {
       />
 
       <Box intensity={900} r="xl" p={3} mt={3}>
-        <Tabs size="md" value={activeTab} onValueChange={setActiveTab}>
+        <Tabs
+          size="sm"
+          variant="text"
+          value={activeTab}
+          onValueChange={setActiveTab}
+        >
           <TabPanel
             title={t("markets.newListings")}
             value="newListings"
@@ -83,27 +88,15 @@ const BlockList: React.FC<BlockListProps> = (props) => {
   const list = useMemo(() => {
     return [
       {
-        label: (
-          <Flex gapX={1}>
-            <OrderlyIcon /> {t("markets.column.24hVolume")}
-          </Flex>
-        ),
+        label: <Flex gapX={1}>{t("markets.column.24hVolume")}</Flex>,
         value: total24Amount,
       },
       {
-        label: (
-          <Flex gapX={1}>
-            <OrderlyIcon /> {t("markets.openInterest")}
-          </Flex>
-        ),
+        label: <Flex gapX={1}>{t("markets.openInterest")}</Flex>,
         value: totalOpenInterest,
       },
       {
-        label: (
-          <Flex gapX={1}>
-            <OrderlyIcon /> {`${t("common.assets")} (TVL)`}
-          </Flex>
-        ),
+        label: <Flex gapX={1}>{`${t("common.assets")} (TVL)`}</Flex>,
         value: tvl,
       },
     ];

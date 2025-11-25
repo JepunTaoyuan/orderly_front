@@ -16,13 +16,11 @@ export const useFeeTierColumns = () => {
         title: t("portfolio.feeTier.column.tier"),
         dataIndex: "tier",
         align: "left",
-        width: 100,
       },
       {
         title: `${t("portfolio.feeTier.column.30dVolume")} (USDC)`,
         dataIndex: "volume",
-        align: "center",
-        width: 180,
+        align: "left",
         render: (val, record) => {
           const { volume_min, volume_max, volume_node } = record;
           if (volume_node) {
@@ -53,14 +51,13 @@ export const useFeeTierColumns = () => {
       {
         title: t("portfolio.feeTier.column.maker"),
         dataIndex: "maker_fee",
-        align: "right",
-        width: 100,
+        align: "left",
       },
       {
         title: t("portfolio.feeTier.column.taker"),
         dataIndex: "taker_fee",
-        align: "right",
-        width: 100,
+        width: 35,
+        align: "left",
       },
     ];
   }, [t]);

@@ -33,8 +33,8 @@ export const Funding: React.FC<FundingScriptReturn> = (props) => {
       className="oui-markets-funding-list"
     >
       <Tabs
-        variant="contained"
-        size="lg"
+        variant="text"
+        size="sm"
         value={props.activeTab}
         onValueChange={props.onTabChange as (value: string) => void}
         trailing={

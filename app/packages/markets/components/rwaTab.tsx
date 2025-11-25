@@ -1,5 +1,5 @@
 import { useTranslation } from "@orderly.network/i18n";
-import { Box, Flex, GradientText, Text } from "@orderly.network/ui";
+import { Box, Flex, Text } from "@orderly.network/ui";
 
 export const RwaTab = () => {
   const { t } = useTranslation();
@@ -7,11 +7,24 @@ export const RwaTab = () => {
     <Flex gap={1}>
       <Text>{t("common.rwa")}</Text>
       <Box
-        r="base"
-        px={2}
-        className="oui-bg-gradient-to-r oui-from-[rgb(var(--oui-gradient-brand-start)_/_0.12)] oui-to-[rgb(var(--oui-gradient-brand-end)_/_0.12)]"
+        px={1}
+        style={{
+          background:
+            "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
+          borderRadius: "10000px",
+        }}
       >
-        <GradientText color="brand">{t("common.new")}</GradientText>
+        <Text
+          size="3xs"
+          style={{
+            color: "rgba(12, 13, 16, 1)",
+            textAlign: "center",
+            justifyContent: "center",
+            display: "flex",
+          }}
+        >
+          {t("common.new")}
+        </Text>
       </Box>
     </Flex>
   );

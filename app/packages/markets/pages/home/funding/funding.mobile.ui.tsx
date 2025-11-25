@@ -12,7 +12,7 @@ export const MobileFunding: FC<FundingScriptReturn> = (props) => {
   const search = (
     <SearchInput
       classNames={{
-        root: cn("oui-mb-2 oui-mt-5"),
+        root: cn("oui-mb-2 oui-mt-5 oui-bg-line-4"),
       }}
     />
   );
@@ -28,8 +28,8 @@ export const MobileFunding: FC<FundingScriptReturn> = (props) => {
       className="oui-markets-funding-list"
     >
       <Tabs
-        variant="contained"
-        size="lg"
+        variant="text"
+        size="sm"
         value={props.activeTab}
         onValueChange={props.onTabChange as (value: string) => void}
       >

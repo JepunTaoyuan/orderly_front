@@ -1,4 +1,5 @@
 import React, { FC, useState } from "react";
+import { useMediaQuery } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import {
   Divider,
@@ -93,12 +94,13 @@ type MarketsContentProps = {
 
 const MarketsDesktopContent: React.FC<MarketsContentProps> = (props) => {
   const { t } = useTranslation();
+  const is5XL = useMediaQuery("(min-width: 1920px)");
 
   return (
     <Box
       style={{
-        paddingLeft: "240px",
-        paddingRight: "240px",
+        paddingLeft: is5XL ? "240px" : "0px",
+        paddingRight: is5XL ? "240px" : "0px",
         paddingTop: "11px",
       }}
     >
@@ -149,14 +151,14 @@ const MarketsMobileContent: React.FC<MarketsContentProps> = (props) => {
   return (
     <Tabs
       variant="text"
-      size="xl"
+      size="sm"
       value={props.activeTab}
       onValueChange={props.onTabChange as (value: string) => void}
       classNames={{
         tabsListContainer: "oui-border-0",
-        tabsList: "oui-mx-6 oui-my-2",
+        tabsList: "oui-mx-6 oui-mt-2",
         trigger: cn(
-          "oui-text-2xl oui-font-bold",
+          "oui-text-md oui-font-bold",
           "data-[state=active]:after:oui-bg-transparent!",
         ),
         tabsContent: "oui-px-3",

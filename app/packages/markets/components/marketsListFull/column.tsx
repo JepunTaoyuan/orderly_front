@@ -20,11 +20,11 @@ export const useMarketsListFullColumns = (
   const columns = useMemo(() => {
     return [
       {
-        className: "!oui-pl-0",
-        title: <UnFavoritesIcon className="oui-mt-1 !oui-pl-0" />,
+        className: "!oui-pl-0 !oui-pr-0",
+        title: <UnFavoritesIcon className="oui-mt-1 !oui-pl-0 !oui-pr-0" />,
         dataIndex: "isFavorite",
         align: "left",
-        width: 30,
+        width: 10,
         render: (value, record) => {
           const onDelSymbol: MouseEventHandler = (e) => {
             favorite.updateSymbolFavoriteState(
