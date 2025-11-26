@@ -111,8 +111,11 @@ export const AssetStatistic = (props: AssetStatisticProps) => {
   const { t } = useTranslation();
 
   return (
-    <Grid cols={3} className="oui-h-12">
-      <Statistic label={t("common.unrealizedPnl")}>
+    <Grid cols={5} className="oui-h-12">
+      <Statistic
+        className="oui-py-2 oui-col-span-2"
+        label={t("common.unrealizedPnl")}
+      >
         <Flex>
           <Text.pnl
             coloring
@@ -122,7 +125,6 @@ export const AssetStatistic = (props: AssetStatisticProps) => {
           >
             {props.unrealPnL}
           </Text.pnl>
-          <Divider className="oui-my-4" intensity={8} />
           <Text.roi
             coloring
             rule="percentages"
@@ -131,15 +133,21 @@ export const AssetStatistic = (props: AssetStatisticProps) => {
             prefix={"("}
             suffix={")"}
             visible={props.visible}
+            style={{
+              color: "#992762",
+            }}
           >
             {props.unrealROI}
           </Text.roi>
         </Flex>
       </Statistic>
-      <Flex justify="around" itemAlign="center">
-        <Divider direction="vertical" className="oui-h-12" intensity={12} />
-      </Flex>
+      <Divider
+        direction="vertical"
+        className="oui-h-16 oui-col-span-1 oui-ml-10"
+        intensity={12}
+      />
       <Statistic
+        className="oui-col-span-2 oui-py-2"
         label={t("portfolio.overview.availableWithdraw")}
         // @ts-ignore
         align="right"

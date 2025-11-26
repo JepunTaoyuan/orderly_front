@@ -127,7 +127,7 @@ export const PnLBarChart: React.FC<PnLChartProps> = (props) => {
     >
       <BarChart
         data={data as any[]}
-        margin={{ left: -20, top: 10, right: 10, bottom: 20 }}
+        margin={{ left: -20, top: 20, right: 10, bottom: 20 }}
       >
         {!invisible && (
           <Tooltip

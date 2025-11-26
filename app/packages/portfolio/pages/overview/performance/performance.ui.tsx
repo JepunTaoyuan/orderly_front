@@ -42,9 +42,9 @@ export const PerformanceUI: React.FC<PerformanceUIProps> = (props) => {
   const { t } = useTranslation();
 
   return (
-    <Card id="portfolio-overview-performance">
+    <Card id="portfolio-overview-performance" className="oui-py-2">
       <Flex>
-        <Grid cols={1} gap={4} className="oui-w-[300px]">
+        <Grid cols={1} gap={4} className="oui-w-[300px] oui-mr-3">
           <React.Suspense fallback={null}>
             <LazyPeriodTitle
               onPeriodChange={onPeriodChange}
@@ -53,14 +53,14 @@ export const PerformanceUI: React.FC<PerformanceUIProps> = (props) => {
               title={t("portfolio.overview.performance")}
             />
           </React.Suspense>
-          <Box r="md" px={5} py={3} border borderColor={6}>
+          <Box r="md" px={3} py={3} border borderColor={6}>
             <Statistic
               label={
                 <LabelWithHint
                   label={t("portfolio.overview.performance.roi", {
                     period: curPeriod,
                   })}
-                  hint={t("portfolio.overview.performance.roi.tooltip")}
+                  // hint={t("portfolio.overview.performance.roi.tooltip")}
                 />
               }
               valueProps={{ rule: "percentages", coloring: true, visible }}
@@ -74,7 +74,7 @@ export const PerformanceUI: React.FC<PerformanceUIProps> = (props) => {
                   label={t("portfolio.overview.performance.pnl", {
                     period: curPeriod,
                   })}
-                  hint={t("portfolio.overview.performance.pnl.tooltip")}
+                  // hint={t("portfolio.overview.performance.pnl.tooltip")}
                 />
               }
               valueProps={{ coloring: true, showIdentifier: true, visible }}
@@ -82,7 +82,7 @@ export const PerformanceUI: React.FC<PerformanceUIProps> = (props) => {
               {invisible ? "--" : aggregateValue.pnl}
             </Statistic>
           </Box>
-          <Box r="md" px={4} py={2} angle={184} border borderColor={6}>
+          <Box r="md" px={3} py={2} angle={184} border borderColor={6}>
             <Statistic
               classNames={{
                 label: "oui-w-full",
@@ -94,7 +94,7 @@ export const PerformanceUI: React.FC<PerformanceUIProps> = (props) => {
                       label={t("portfolio.overview.performance.volume", {
                         period: curPeriod,
                       })}
-                      hint={t("portfolio.overview.performance.volume.tooltip")}
+                      // hint={t("portfolio.overview.performance.volume.tooltip")}
                     />
                   </span>
                   <span>{volumeUpdateDate}</span>

@@ -74,7 +74,7 @@ export const PnlAreaChart: React.FC<PnlAreaChartProps> = (props) => {
   const chartComponent = (
     <AreaChart
       data={data}
-      margin={{ top: 10, right: 10, left: -10, bottom: -10 }}
+      margin={{ top: 20, right: 10, left: -10, bottom: -5 }}
     >
       <CartesianGrid vertical={false} stroke="#FFFFFF" strokeOpacity={0.04} />
       <XAxis
