@@ -165,7 +165,7 @@ export const DepositForm: FC<DepositFormScriptReturn> = (props) => {
           value={targetQuantity}
           loading={targetQuantityLoading}
           classNames={{
-            root: "oui-mt-3 oui-border-transparent focus-within:oui-outline-transparent oui-bg-base-9",
+            root: "oui-mt-3 oui-border-transparent focus-within:oui-outline-transparent",
           }}
         />
         {renderContent()}

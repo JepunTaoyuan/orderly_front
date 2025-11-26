@@ -216,7 +216,7 @@ export const QuantityInput: FC<QuantityInputProps> = (props) => {
             status === "warning" &&
               "oui-outline-warning-light focus-within:oui-outline-warning-light",
             props.readOnly
-              ? "oui-border-none oui-bg-base-9 focus-within:oui-outline-0"
+              ? "oui-border-none focus-within:oui-outline-0 oui-bg-base-9"
               : "oui-bg-base-9",
             classNames?.root,
           ),
