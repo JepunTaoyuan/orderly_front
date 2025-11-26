@@ -47,7 +47,7 @@ export const AssetsHeader: FC<Props> = (props) => {
           <Button
             disabled={props.disabled}
             size="md"
-            color="secondary"
+            // color="secondary"
             variant="outlined"
             onClick={() => props.onTransfer?.()}
             icon={<ArrowLeftRightIcon className="oui-text-base-contrast" />}
@@ -60,7 +60,7 @@ export const AssetsHeader: FC<Props> = (props) => {
           <Button
             disabled={props.disabled}
             size="md"
-            color="secondary"
+            // color="secondary"
             variant="outlined"
             onClick={() => props.onWithdraw?.()}
             icon={<ArrowUpSquareFillIcon className="oui-text-base-contrast" />}

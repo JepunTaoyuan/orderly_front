@@ -30,7 +30,7 @@ export const AccountSelect: React.FC<AccountSelectProps> = (props) => {
       intensity={500}
       className={cn(
         "oui-rounded-md oui-border oui-border-line oui-bg-base-9 oui-mb-2",
-        selectable ? "oui-cursor-pointer" : "oui-cursor-auto oui-bg-base-10",
+        selectable ? "oui-cursor-pointer" : "oui-cursor-auto oui-bg-base-9",
       )}
       height={54}
       px={3}

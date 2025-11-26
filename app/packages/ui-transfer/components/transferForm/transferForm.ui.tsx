@@ -118,7 +118,7 @@ export const TransferForm: FC<TransferFormProps> = (props) => {
           <Flex
             className={cn(
               "oui-mt-[2px] oui-h-[31px] oui-text-base-contrast-54",
-              "oui-rounded-md oui-bg-base-10 oui-mt-2 oui-border oui-border-line",
+              "oui-rounded-md oui-bg-base-9 oui-mt-2 oui-border oui-border-line",
             )}
             justify="between"
             itemAlign="center"

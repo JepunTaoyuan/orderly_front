@@ -59,7 +59,7 @@ export const HistoryDataGroupDesktop: React.FC<{
   }, [active, isMainAccount]);
   return (
     <Card>
-      <Tabs value={active} onValueChange={onTabChange} variant="text" size="md">
+      <Tabs value={active} onValueChange={onTabChange} variant="text" size="sm">
         <TabPanel
           title={t("common.deposits")}
           // icon={<ArrowDownSquareFillIcon />}
