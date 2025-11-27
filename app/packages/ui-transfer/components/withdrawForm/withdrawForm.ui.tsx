@@ -72,7 +72,8 @@ export const WithdrawForm: React.FC<WithdrawFormProps> = (props) => {
       </Box>
     </TabPanel>
   );
-
+  // console.log("WithdrawTo.Wallet:", WithdrawTo.Wallet);
+  // console.log("WithdrawTo.Account:", WithdrawTo.Account);
   return (
     <Box
       id="oui-withdraw-form"
@@ -121,12 +122,12 @@ export const WithdrawForm: React.FC<WithdrawFormProps> = (props) => {
           value={withdrawTo}
           onValueChange={props.setWithdrawTo as (tab: string) => void}
           variant="contained"
-          size="md"
+          size="sm"
           classNames={{
             tabsList: "oui-px-0",
             tabsContent: "oui-pt-3",
             trigger:
-              "oui-rounded-full oui-rounded-full oui-px-4 oui-font-semibold oui-border oui-bg-transparent data-[state=active]:bg-[#31275f]",
+              "oui-rounded-full oui-px-5 oui-py-1 oui-font-semibold oui-bg-base-9 oui-border oui-border-line-12",
           }}
         >
           <TabPanel

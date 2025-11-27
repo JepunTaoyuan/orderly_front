@@ -128,13 +128,15 @@ export const AssetStatistic = (props: AssetStatisticProps) => {
           <Text.roi
             coloring
             rule="percentages"
-            size="sm"
+            size=""
             weight="semibold"
             prefix={"("}
             suffix={")"}
             visible={props.visible}
             style={{
-              color: "#992762",
+              // color: "#992762",
+              paddingLeft: "5px",
+              paddingTop: "5px",
             }}
           >
             {props.unrealROI}
