@@ -44,7 +44,7 @@ export const PerformanceUI: React.FC<PerformanceUIProps> = (props) => {
   return (
     <Card id="portfolio-overview-performance" className="oui-py-2">
       <Flex>
-        <Grid cols={1} gap={4} className="oui-w-[300px] oui-mr-3">
+        <Grid cols={1} gap={4} className="oui-w-[275px] oui-mr-3">
           <React.Suspense fallback={null}>
             <LazyPeriodTitle
               onPeriodChange={onPeriodChange}

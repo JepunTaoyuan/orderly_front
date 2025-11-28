@@ -152,7 +152,7 @@ export const QuantityInput: FC<QuantityInputProps> = (props) => {
           style: { width },
           align: "end",
           sideOffset: 5,
-          className: "oui-border oui-border-line-6",
+          className: "oui-border oui-border-line-6 oui-bg-base-10",
         }}
       />
     </div>
