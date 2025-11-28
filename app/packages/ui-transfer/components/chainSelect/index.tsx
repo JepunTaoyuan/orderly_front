@@ -101,8 +101,8 @@ export const ChainSelect: React.FC<ChainSelectProps> = (props) => {
         justify="between"
         className={cn(
           "oui-deposit-network-select-item",
-          "hover:oui-bg-base-5 oui-h-[30px] oui-cursor-pointer",
-          isActive && "oui-bg-base-5",
+          "hover:oui-bg-base-8 oui-h-[30px] oui-cursor-pointer",
+          isActive && "oui-bg-base-9",
           index !== 0 && "oui-mt-[2px]",
         )}
         onClick={async () => {
@@ -138,7 +138,7 @@ export const ChainSelect: React.FC<ChainSelectProps> = (props) => {
           sideOffset={2}
           className={cn(
             "oui-deposit-token-select-dropdown-menu-content",
-            "oui-bg-base-8 oui-p-1",
+            "oui-bg-base-10 oui-p-1",
             "oui-w-[var(--radix-dropdown-menu-trigger-width)]",
             "oui-rounded-md oui-select-none",
           )}

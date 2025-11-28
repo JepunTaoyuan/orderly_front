@@ -92,7 +92,7 @@ export const TokenOption: React.FC<TokenOptionProps> = (props) => {
         "oui-h-[30px] hover:oui-bg-base-5",
         "oui-text-2xs oui-font-semibold",
         "oui-cursor-pointer",
-        isActive && "oui-bg-base-5",
+        isActive && "oui-bg-base-9",
         props.index !== 0 && "oui-mt-[2px]",
       )}
       onClick={() => {
