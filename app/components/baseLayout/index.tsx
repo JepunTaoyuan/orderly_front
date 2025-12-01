@@ -28,7 +28,7 @@ export const BaseLayout: FC<BaseLayoutProps> = (props) => {
         ...config.scaffold.mainNavProps,
         initialMenu: props.initialMenu || PathEnum.Root,
         logo: {
-          src: "/images/dexless/dexless_logo.svg",
+          src: "../../public/images/dexless/dexless_logo.svg",
           alt: "Dexless",
         },
         mainMenus: config.scaffold.mainNavProps?.mainMenus?.map((menu) => {

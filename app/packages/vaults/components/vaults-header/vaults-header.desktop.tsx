@@ -39,19 +39,23 @@ export const VaultsHeaderDesktop: FC<VaultsHeaderScript> = (props) => {
   }, [headerImage]);
 
   return (
-    <div className="oui-flex oui-items-center oui-justify-between">
+    <div className="oui-flex oui-items-center">
       <div className="oui-flex oui-max-w-[726px] oui-flex-col">
         <div className="oui-flex oui-items-center oui-gap-1 oui-text-[18px] oui-font-normal oui-text-base-contrast-54">
           {t("vaults.availableOn")} {supportVaultsList}
         </div>
-        <div className="oui-mb-6 oui-mt-8 oui-text-5xl oui-font-bold oui-leading-[44px] oui-text-base-contrast">
+        <div className="oui-text-5xl oui-font-bold oui-leading-[44px] oui-text-base-contrast oui-py-3">
           {t("vaults.header.title")}
         </div>
-        <div className="oui-text-xl oui-font-normal oui-text-base-contrast-54">
+        <div
+          className="oui-font-normal oui-text-base-contrast-54"
+          style={{
+            fontSize: 14,
+          }}
+        >
           {t("vaults.header.description", { brokerName })}
         </div>
       </div>
-      <div className="oui-h-[238px] oui-w-[360px]">{headerImageElement}</div>
     </div>
   );
 };

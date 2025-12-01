@@ -27,30 +27,12 @@ export const VaultCard: FC<VaultCardScript> = (props) => {
   const { isMobile } = useScreen();
 
   const supportVaultsList = useMemo(() => {
-    return (
-      <div className="oui-flex oui-items-center">
-        {vaultInfo.supported_chains.map((chain, index) => (
-          <img
-            key={chain.chain_id}
-            src={`https://oss.orderly.network/static/network_logo/${chain.chain_id}.png`}
-            alt={chain.chain_id}
-            className={cn(
-              "oui-relative",
-              isMobile ? "oui-size-[18px]" : "oui-size-5",
-            )}
-            style={{
-              marginLeft: index > 0 ? "-4px" : "0",
-              zIndex: vaultInfo.supported_chains.length - index,
-            }}
-          />
-        ))}
-      </div>
-    );
+    return <div className="oui-flex oui-items-center"></div>;
   }, [vaultInfo.supported_chains]);
   console.log("supportVaultsList", supportVaultsList);
 
   return (
-    <div className="oui-relative oui-h-[388px] oui-overflow-hidden oui-rounded-2xl oui-border oui-border-solid oui-border-white/[0.12] oui-bg-base-9">
+    <div className="oui-relative oui-h-full oui-overflow-hidden oui-rounded-md oui-bg-base-9">
       <div
         style={{
           position: "absolute",
@@ -60,30 +42,12 @@ export const VaultCard: FC<VaultCardScript> = (props) => {
           height: "180px",
           backdropFilter: "blur(2px)",
           zIndex: 1,
-          background:
-            "linear-gradient(180deg, rgba(44, 5, 69, 0.80) 0%, rgba(19, 21, 25, 0.80) 63.46%, #131519 100%)",
+          background: "rgba(19, 21, 25, 1)",
         }}
       ></div>
-      <img
-        src="/vaults/orderly_vault_card_bg.png"
-        alt=""
-        style={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-          width: "100%",
-          height: "180px",
-          zIndex: 0,
-        }}
-      />
 
-      <div className="oui-absolute oui-left-0 oui-top-0 oui-z-20 oui-flex oui-flex-col oui-gap-3  oui-p-6">
+      <div className="oui-relative oui-z-20 oui-flex oui-flex-col oui-gap-4 oui-p-6">
         <div className="oui-flex oui-items-center oui-gap-2">
-          <img
-            src="https://oss.orderly.network/static/symbol_logo/ORDER.png"
-            alt=""
-            className="oui-size-8"
-          />
           <div className="oui-text-[18px] oui-font-semibold oui-text-white">
             {title}
           </div>
@@ -101,7 +65,15 @@ export const VaultCard: FC<VaultCardScript> = (props) => {
           </div>
         </div>
 
-        <div className="oui-text-2xs oui-font-normal oui-leading-[18px] oui-text-base-contrast-54">
+        <div
+          style={{
+            color: "rgba(255, 255, 255, 0.4)",
+            fontSize: 12,
+            fontFamily: "Manrope",
+            fontWeight: "500",
+            wordWrap: "break-word",
+          }}
+        >
           {description}
         </div>
 
@@ -162,19 +134,27 @@ const VaultInfoItem: FC<{
     <div
       className={cn(
         "oui-flex oui-flex-1 oui-flex-col oui-items-center oui-justify-center oui-px-3 oui-py-2",
-        "oui-rounded-lg oui-border oui-border-solid oui-border-white/[0.12]",
+        "oui-rounded-sm",
       )}
+      style={{
+        borderRadius: 4,
+        outline: "1px rgba(255, 255, 255, 0.05) solid",
+        outlineOffset: "-1px",
+        flexDirection: "column",
+      }}
     >
       <div className="oui-text-2xs oui-font-normal oui-leading-[18px] oui-text-base-contrast-54">
         {label}
       </div>
       {textProps.type === "gradient" ? (
-        <Text.gradient
+        <Text
           className="oui-text-base oui-font-semibold"
-          {...textProps}
+          style={{
+            color: "rgba(201, 189, 255, 1)",
+          }}
         >
           {value}
-        </Text.gradient>
+        </Text>
       ) : (
         <Text.numeral
           className="oui-text-base oui-font-semibold"
@@ -226,17 +206,28 @@ const VaultCardOperation: FC<VaultCardOperationProps> = (props) => {
       {isEVMConnected || isSOLConnected ? (
         <div className="oui-flex oui-items-center oui-gap-2">
           <Button
-            className="oui-flex-1"
-            size="md"
+            className="oui-flex-1 oui-rounded-full oui-text-xs oui-px-4 oui-font-semibold oui-leading-5"
+            size="xs"
             onClick={() => openDepositAndWithdraw("deposit")}
+            style={{
+              fontSize: 11,
+              background:
+                "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
+              color: "rgba(255, 255, 255, 0.9)",
+            }}
           >
             {t("common.deposit")}
           </Button>
           <Button
-            className="oui-flex-1"
-            size="md"
-            color="secondary"
+            className="oui-flex-1 oui-rounded-full oui-border-white/[0.36] oui-text-xs oui-px-4 oui-font-semibold oui-leading-5"
+            variant="outlined"
+            size="xs"
             onClick={() => openDepositAndWithdraw("withdraw")}
+            style={{
+              border: "1px solid rgba(255, 255, 255, 0.12)",
+              fontSize: 11,
+              color: "rgba(255, 255, 255, 0.6)",
+            }}
           >
             {t("common.withdraw")}
           </Button>
