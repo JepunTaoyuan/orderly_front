@@ -62,7 +62,6 @@ export const ChainSelect: React.FC<ChainSelectProps> = (props) => {
 
   const trigger = (
     <div className="oui-mb-3">
-      {/* 标签移到最上方 */}
       <Text size="2xs" intensity={54} className="oui-mb-2">
         {t("transfer.network")}
       </Text>
@@ -101,7 +100,8 @@ export const ChainSelect: React.FC<ChainSelectProps> = (props) => {
         justify="between"
         className={cn(
           "oui-deposit-network-select-item",
-          "hover:oui-bg-base-8 oui-h-[30px] oui-cursor-pointer",
+          "oui-h-[30px] oui-cursor-pointer",
+          "hover:oui-bg-base-8",
           isActive && "oui-bg-base-9",
           index !== 0 && "oui-mt-[2px]",
         )}
