@@ -75,7 +75,6 @@ export const PositionsPage: React.FC<PositionsProps> = (props) => {
 
   return (
     <Flex
-      // p={6}
       direction={"column"}
       itemAlign={"start"}
       gap={4}
@@ -83,7 +82,7 @@ export const PositionsPage: React.FC<PositionsProps> = (props) => {
       height="100%"
     >
       <Flex>
-        <Text size="lg">{t("common.positions")}</Text>
+        <Text size="sm">{t("common.positions")}</Text>
       </Flex>
       <Divider className="oui-w-full" />
       {/* 26(title height) + 1(divider) + 32 (padding) */}

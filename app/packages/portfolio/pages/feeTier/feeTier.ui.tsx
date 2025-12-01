@@ -152,7 +152,7 @@ const CardTitle: React.FC = () => {
   }
   return (
     <Flex itemAlign={"center"} justify={"between"}>
-      <Text size={"lg"}>{t("portfolio.feeTier")}</Text>
+      <Text size={"sm"}>{t("portfolio.feeTier")}</Text>
       <Flex itemAlign={"center"} justify={"center"} gap={1}>
         <Text size="xs" intensity={54}>
           {t("portfolio.feeTier.updatedDailyBy")}
@@ -173,7 +173,7 @@ export const FeeTier: React.FC<FeeTierProps> = (props) => {
     <Card
       title={<CardTitle />}
       id="oui-portfolio-fee-tier"
-      className="w-full"
+      className="oui-p-5 w-full"
       classNames={{
         root: isMobile ? "oui-bg-transparent oui-p-2" : "oui-bg-base-9",
       }}

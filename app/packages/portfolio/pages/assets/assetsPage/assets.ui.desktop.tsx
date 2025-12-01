@@ -315,8 +315,8 @@ export const AssetsTable: React.FC<AssetsWidgetProps> = (props) => {
       <Tabs
         defaultValue="assets"
         variant="text"
-        classNames={{ tabsList: "oui-pt-3 oui-px-5" }}
-        size="xs"
+        classNames={{ tabsList: "oui-pt-5 oui-px-5" }}
+        size="sm"
       >
         <TabPanel value="assets" className="" title={t("common.assets")}>
           <Flex
