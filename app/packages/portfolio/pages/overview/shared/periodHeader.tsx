@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "@orderly.network/i18n";
-import { CardTitle, Flex, Select } from "@orderly.network/ui";
+import { CardTitle, cn, Flex, Select, SelectItem } from "@orderly.network/ui";
 import { PeriodType } from "./useAssetHistory";
 
 export const PeriodTitle: React.FC<{
@@ -19,8 +19,20 @@ export const PeriodTitle: React.FC<{
     };
   }, [t]);
 
+  const optionRenderer = (option: any) => {
+    const isActive = option.value === props.period;
+    return (
+      <SelectItem
+        key={option.value}
+        value={option.value}
+        className={cn(`oui-cursor-pointer ${isActive && "oui-bg-base-10"}`)}
+      >
+        {option.label}
+      </SelectItem>
+    );
+  };
   return (
-    <Flex itemAlign={"center"} gap={3}>
+    <Flex itemAlign={"center"} gap={5}>
       <CardTitle>{props.title}</CardTitle>
       <div className={"oui-min-w-14"}>
         <Select.options
@@ -31,6 +43,11 @@ export const PeriodTitle: React.FC<{
             value: item,
             label: periodLabel[item as PeriodType],
           }))}
+          optionRenderer={optionRenderer}
+          contentProps={{
+            align: "end",
+            className: `oui-bg-base-10`,
+          }}
         />
       </div>
     </Flex>

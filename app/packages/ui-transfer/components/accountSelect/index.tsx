@@ -69,8 +69,8 @@ export const AccountSelect: React.FC<AccountSelectProps> = (props) => {
         justify="between"
         className={cn(
           "oui-transfer-form-account-select-item",
-          "oui-cursor-pointer oui-py-[6px] hover:oui-bg-base-5",
-          isActive && "oui-bg-base-5",
+          "oui-cursor-pointer oui-py-[6px] hover:oui-bg-base-8",
+          isActive && "oui-bg-base-9",
           index !== 0 && "oui-mt-[2px]",
         )}
         onClick={async () => {
@@ -120,7 +120,7 @@ export const AccountSelect: React.FC<AccountSelectProps> = (props) => {
           className={cn(
             "oui-transfer-form-account-select-dropdown-menu-content",
             "oui-font-semibold",
-            "oui-bg-base-8 oui-p-1",
+            "oui-bg-base-10 oui-p-1",
             "oui-w-[var(--radix-dropdown-menu-trigger-width)]",
             "oui-select-none oui-rounded-md",
           )}
