@@ -22,7 +22,7 @@ export const MobileCampaigns: FC<CampaignsProps> = (props) => {
       intensity={900}
       p={3}
       className={cn(
-        "oui-mobile-trading-leaderboard-campaigns oui-rounded-[20px]",
+        "oui-mobile-trading-leaderboard-campaigns oui-rounded-[4px]",
         props.className,
       )}
       style={props.style}
@@ -85,7 +85,7 @@ const CampaignItem: FC<{ campaign: CurrentCampaigns }> = ({ campaign }) => {
   const { t } = useTranslation();
 
   return (
-    <Box intensity={800} r="xl" className="oui-flex-[0_0_100%]">
+    <Box intensity={800} r="xs" className="oui-flex-[0_0_100%]">
       <img
         className="oui-w-full oui-h-[calc((100vw-48px)/2)] oui-rounded-t-xl oui-object-fill"
         src={image}
@@ -119,6 +119,10 @@ const CampaignItem: FC<{ campaign: CurrentCampaigns }> = ({ campaign }) => {
             onClick={() => {
               window.open(learnMoreUrl, "_blank");
             }}
+            className="oui-rounded-full oui-border-white/[0.36] oui-text-xs oui-px-4 oui-font-semibold oui-leading-5"
+            style={{
+              color: "rgba(255, 255, 255, 0.5)",
+            }}
           >
             {t("tradingLeaderboard.learnMore")}
           </Button>
@@ -127,6 +131,12 @@ const CampaignItem: FC<{ campaign: CurrentCampaigns }> = ({ campaign }) => {
             fullWidth
             onClick={() => {
               window.open(tradingUrl, "_self");
+            }}
+            className="oui-rounded-full oui-text-white oui-text-xs oui-px-4 oui-font-semibold oui-leading-5"
+            style={{
+              background:
+                "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
+              color: "rgba(255, 255, 255, 0.9)",
             }}
           >
             {t("tradingLeaderboard.tradeNow")}
@@ -150,7 +160,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = (props) => {
   return (
     <Flex
       mt={3}
-      r="full"
+      r="md"
       height={scrollIndicatorHeight}
       className={cn("oui-bg-line oui-mx-auto oui-relative")}
       style={props.style}
@@ -164,7 +174,7 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = (props) => {
             onClick={() => {
               props.scrollTo?.(index);
             }}
-            r="full"
+            r="md"
             className="oui-cursor-pointer"
           />
         );

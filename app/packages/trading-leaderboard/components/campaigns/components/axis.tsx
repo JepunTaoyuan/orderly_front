@@ -45,7 +45,7 @@ export const CampaignsAxis: FC<CampaignsAxisProps> = ({ points }) => {
       return "oui-bg-base-3";
     }
     // Otherwise use regular color
-    return "oui-bg-base-8";
+    return "oui-bg-base-9";
   };
 
   const widthPercentage = points?.length > 3 ? "110%" : "120%";
@@ -116,7 +116,7 @@ export const CampaignsAxisMobile: FC<CampaignsAxisProps> = ({ points }) => {
       return "oui-bg-base-3";
     }
     // Otherwise use regular color
-    return "oui-bg-base-8";
+    return "oui-bg-base-9";
   };
 
   return (

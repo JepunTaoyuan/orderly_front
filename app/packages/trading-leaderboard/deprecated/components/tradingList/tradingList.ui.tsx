@@ -33,7 +33,7 @@ export const TradingList: FC<TradingListProps> = (props) => {
       width="100%"
       itemAlign="start"
       intensity={900}
-      r="2xl"
+      r="md"
       px={4}
       style={props.style}
       className={cn("oui-trading-leaderboard-trading-list", props.className)}
@@ -92,7 +92,7 @@ export const TradingList: FC<TradingListProps> = (props) => {
           placeholder={t("common.address.search.placeholder")}
           className={cn(
             "oui-trading-leaderboard-trading-search-input",
-            "oui-w-[240px]",
+            "oui-w-[240px] search-input",
           )}
           size="sm"
           prefix={

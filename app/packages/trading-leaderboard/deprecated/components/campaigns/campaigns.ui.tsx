@@ -17,11 +17,9 @@ export const Campaigns: FC<CampaignsProps> = (props) => {
     <Box
       width="100%"
       intensity={900}
-      p={5}
-      pr={2}
-      height={288}
+      p={6}
       className={cn(
-        "oui-trading-leaderboard-campaigns oui-rounded-[20px]",
+        "oui-trading-leaderboard-campaigns oui-rounded-[4px]",
         props.className,
       )}
       style={props.style}
@@ -89,9 +87,14 @@ const CampaignItem: FC<CampaignItemProps> = ({
   const { t } = useTranslation();
 
   return (
-    <Flex intensity={800} r="xl" width="100%">
+    <Flex
+      width="100%"
+      style={{
+        backgroundColor: "rgba(255, 255, 255, 0.05)",
+      }}
+    >
       <img
-        className="oui-h-[200px] oui-w-[400px] oui-rounded-l-xl oui-object-fill"
+        className="oui-h-[200px] oui-w-[400px] oui-object-fill"
         src={image}
         alt={title}
       />
@@ -101,7 +104,7 @@ const CampaignItem: FC<CampaignItemProps> = ({
         justify="between"
         direction="column"
         height="100%"
-        p={5}
+        p={6}
         className="oui-flex-1 oui-font-semibold"
       >
         <Flex gap={1} direction="column" itemAlign="start">
@@ -122,6 +125,10 @@ const CampaignItem: FC<CampaignItemProps> = ({
               onClick={() => {
                 onLearnMore(campaign);
               }}
+              className="oui-rounded-full oui-border-white/[0.36] oui-text-xs oui-px-4 oui-font-semibold oui-leading-5"
+              style={{
+                color: "rgba(255, 255, 255, 0.5)",
+              }}
             >
               {t("tradingLeaderboard.learnMore")}
             </Button>
@@ -129,6 +136,12 @@ const CampaignItem: FC<CampaignItemProps> = ({
               size="md"
               onClick={() => {
                 onTradeNow(campaign);
+              }}
+              className="oui-rounded-full oui-text-white oui-text-xs oui-px-4 oui-font-semibold oui-leading-5"
+              style={{
+                background:
+                  "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
+                color: "rgba(255, 255, 255, 0.9)",
               }}
             >
               {t("tradingLeaderboard.tradeNow")}

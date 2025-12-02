@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { cn, Flex } from "@orderly.network/ui";
+import { useScreenSize } from "@/hooks/custom/useScreenSize";
 import { CampaignsWidget } from "../../components/campaigns";
 import { TradingListWidget } from "../../components/tradingList";
 import { LeaderboardScriptReturn } from "./leaderboard.script";
@@ -10,6 +11,7 @@ export type LeaderboardProps = {
 } & LeaderboardScriptReturn;
 
 export const Leaderboard: FC<LeaderboardProps> = (props) => {
+  const { size } = useScreenSize();
   const renderBackground = () => {
     const linearGradient =
       "linear-gradient(180deg, rgba(var(--oui-color-base-10) / 0.3) 0%, rgba(var(--oui-color-base-10) / 0) 70%, rgba(var(--oui-color-base-10) / 1) 100%)";
@@ -82,12 +84,12 @@ export const Leaderboard: FC<LeaderboardProps> = (props) => {
       {renderBackground()}
       <Flex
         direction="column"
-        gapY={5}
         height="100%"
-        className={cn(
-          "oui-trading-leaderboard oui-relative",
-          "oui-max-w-[1040px] oui-px-3 oui-mx-auto ",
-        )}
+        className={cn("oui-trading-leaderboard oui-relative", "oui-mx-auto ")}
+        style={{
+          paddingLeft: size === "1920+" ? "240px" : "12px",
+          paddingRight: size === "1920+" ? "240px" : "12px",
+        }}
       >
         {props.showCampaigns && <CampaignsWidget />}
         <TradingListWidget
@@ -96,6 +98,9 @@ export const Leaderboard: FC<LeaderboardProps> = (props) => {
               ? "oui-h-[calc(100%_-_288px_-_20px)]"
               : "oui-h-full",
           )}
+          style={{
+            marginTop: "3px",
+          }}
         />
       </Flex>
     </div>

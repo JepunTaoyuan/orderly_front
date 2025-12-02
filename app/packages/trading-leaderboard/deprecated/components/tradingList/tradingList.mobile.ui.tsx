@@ -21,7 +21,7 @@ export const MobileTradingList: FC<TradingListProps> = (props) => {
       width="100%"
       itemAlign="start"
       intensity={900}
-      r="2xl"
+      r="sm"
       px={4}
       style={props.style}
       className={cn(
