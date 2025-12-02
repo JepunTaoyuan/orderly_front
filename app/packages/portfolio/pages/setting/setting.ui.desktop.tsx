@@ -8,20 +8,16 @@ export const SettingDesktop: FC<SettingScriptReturns> = (props) => {
   const { t } = useTranslation();
 
   return (
-    <Flex
-      direction={"column"}
-      itemAlign={"start"}
-      className="oui-bg-base-9"
-      p={5}
-    >
+    <Flex direction={"column"} itemAlign={"start"} className="oui-bg-base-9">
       <Card
-        title={"Settings"}
+        title={
+          <Text size="xs" className="oui-font-semibold">
+            Settings
+          </Text>
+        }
         id="portfolio-apikey-manager"
-        className="oui-font-semibold oui-bg-base-9"
+        className="oui-bg-base-9 oui-p-5"
         style={{
-          paddingBottom: "16px",
-          paddingLeft: "0",
-          paddingRight: "0",
           width: "100%",
         }}
       >
@@ -87,10 +83,11 @@ export const SettingDesktop: FC<SettingScriptReturns> = (props) => {
             </Flex>
           }
           id="portfolio-sound-alert-setting"
-          className="oui-font-semibold oui-mt-3"
+          className="oui-font-semibold"
           style={{
             backgroundColor: "rgba(255, 255, 255, 0.05)",
             height: "184px",
+            marginTop: "3px",
           }}
         >
           <Flex

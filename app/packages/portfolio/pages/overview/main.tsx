@@ -34,7 +34,7 @@ export const OverviewPage: React.FC = () => {
       {isMobile ? (
         <MobileOverview />
       ) : (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={1}>
           <React.Suspense fallback={null}>
             <LazyAssetWidget />
           </React.Suspense>

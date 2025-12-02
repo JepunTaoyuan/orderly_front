@@ -2,8 +2,8 @@ import { FC, SVGProps, useRef } from "react";
 import React from "react";
 import { useTranslation } from "@orderly.network/i18n";
 import { Box, Button, Divider, Flex, Text, Tooltip } from "@orderly.network/ui";
-import { OrderListInstance, OrdersWidget } from "@orderly.network/ui-orders";
 import { SharePnLConfig } from "@orderly.network/ui-share";
+import { OrderListInstance, OrdersWidget } from "@/packages/ui-orders";
 
 export const OrdersPage: React.FC<{ sharePnLConfig?: SharePnLConfig }> = (
   props,
@@ -27,7 +27,7 @@ export const OrdersPage: React.FC<{ sharePnLConfig?: SharePnLConfig }> = (
       height="100%"
     >
       <Flex width="100%" justify="between">
-        <Text size="lg">{t("common.orders")}</Text>
+        <Text size="sm">{t("common.orders")}</Text>
         <Tooltip content={t("orders.download.tooltip")}>
           <Button
             color="gray"

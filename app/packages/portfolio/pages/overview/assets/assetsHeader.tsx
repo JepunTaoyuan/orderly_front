@@ -23,7 +23,7 @@ export const AssetsHeader: FC<Props> = (props) => {
 
   return (
     <Flex justify={"between"}>
-      <CardTitle>{t("common.overview")}</CardTitle>
+      <CardTitle className="oui-text-sm">{t("common.overview")}</CardTitle>
       <Flex gap={3}>
         {props.isMainAccount && (
           <Button

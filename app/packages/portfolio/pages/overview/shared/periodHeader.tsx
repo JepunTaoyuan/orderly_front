@@ -21,11 +21,15 @@ export const PeriodTitle: React.FC<{
 
   const optionRenderer = (option: any) => {
     const isActive = option.value === props.period;
+
     return (
       <SelectItem
         key={option.value}
         value={option.value}
-        className={cn(`oui-cursor-pointer ${isActive && "oui-bg-base-10"}`)}
+        className={cn(
+          "oui-cursor-pointer hover:oui-bg-base-8",
+          isActive && "oui-bg-base-10",
+        )}
       >
         {option.label}
       </SelectItem>

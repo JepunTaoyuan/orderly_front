@@ -75,7 +75,6 @@ export const PositionsPage: React.FC<PositionsProps> = (props) => {
 
   return (
     <Flex
-      // p={6}
       direction={"column"}
       itemAlign={"start"}
       gap={4}
@@ -83,7 +82,7 @@ export const PositionsPage: React.FC<PositionsProps> = (props) => {
       height="100%"
     >
       <Flex>
-        <Text size="lg">{t("common.positions")}</Text>
+        <Text size="sm">{t("common.positions")}</Text>
       </Flex>
       <Divider className="oui-w-full" />
       {/* 26(title height) + 1(divider) + 32 (padding) */}
@@ -91,6 +90,8 @@ export const PositionsPage: React.FC<PositionsProps> = (props) => {
         <Tabs
           value={tab}
           onValueChange={(e) => setTab(e as any)}
+          variant="text"
+          size="sm"
           classNames={{
             tabsList: "!oui-border-none oui-pb-1",
             tabsContent: "oui-h-[calc(100%_-_28px)]",

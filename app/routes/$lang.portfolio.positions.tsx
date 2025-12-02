@@ -31,7 +31,7 @@ export default function PositionsPage() {
 
   return (
     <Box
-      p={6}
+      p={5}
       pb={0}
       intensity={900}
       r="xl"

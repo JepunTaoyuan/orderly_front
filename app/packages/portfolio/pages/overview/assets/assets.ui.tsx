@@ -23,6 +23,7 @@ export const AssetsUI: React.FC<
   const { t } = useTranslation();
   return (
     <Card
+      className="oui-p-5"
       classNames={{ footer: "oui-h-[48px]", root: "oui-h-[240px]" }}
       title={
         <AssetsHeader
