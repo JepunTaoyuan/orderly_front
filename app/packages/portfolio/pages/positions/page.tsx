@@ -90,6 +90,8 @@ export const PositionsPage: React.FC<PositionsProps> = (props) => {
         <Tabs
           value={tab}
           onValueChange={(e) => setTab(e as any)}
+          variant="text"
+          size="sm"
           classNames={{
             tabsList: "!oui-border-none oui-pb-1",
             tabsContent: "oui-h-[calc(100%_-_28px)]",
