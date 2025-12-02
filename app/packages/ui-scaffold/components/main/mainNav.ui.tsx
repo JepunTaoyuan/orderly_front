@@ -129,7 +129,7 @@ export const MainNav: FC<PropsWithChildren<MainNavScriptReturn>> = (props) => {
       )}
       style={{
         background:
-          "linear-gradient(90deg, #3b3d48 1.44%, #121419 2.89%, #121419 88.94%, #52419e 92%, rgba(127, 251, 255, 0.9) 100%)",
+          "linear-gradient(90deg, #3b3d48 1.44%, #121419 2.89%, #121419 88.94%)",
       }}
     >
       {renderContent()}
