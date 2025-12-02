@@ -21,7 +21,7 @@ import {
   PositionsProps,
   CombinePositionsWidget,
   PositionsWidget,
-} from "@orderly.network/ui-positions";
+} from "@/packages/ui-positions";
 import { AccountType } from "../assets/assetsPage/assets.ui.desktop";
 
 enum TabsType {

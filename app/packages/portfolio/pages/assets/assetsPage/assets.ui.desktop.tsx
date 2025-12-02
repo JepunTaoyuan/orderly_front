@@ -96,8 +96,6 @@ const DepositAndWithdrawButton: React.FC<
     >
       <Button
         disabled={mergedDisabled}
-        variant="gradient"
-        angle={90}
         data-testid="oui-testid-assetView-deposit-button"
         fullWidth
         size="md"
