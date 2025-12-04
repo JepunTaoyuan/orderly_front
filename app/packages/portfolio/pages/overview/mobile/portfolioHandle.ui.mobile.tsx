@@ -46,7 +46,7 @@ export const PortfolioHandleMobile: FC<Props> = (props) => {
           className="oui-flex-1 oui-cursor-pointer"
           onClick={props?.onDeposit}
         >
-          <div className="oui-flex oui-size-[48px] oui-items-center oui-justify-center oui-rounded-xl oui-bg-base-9">
+          <div className="oui-flex oui-size-[48px] oui-items-center oui-justify-center oui-rounded-xl">
             <ArrowDownSquareFillIcon size={28} color="white" opacity={1} />
           </div>
           <Text className="oui-text-base-80 oui-text-2xs">
@@ -62,7 +62,7 @@ export const PortfolioHandleMobile: FC<Props> = (props) => {
           className="oui-flex-1 oui-cursor-pointer"
           onClick={props?.onTransfer}
         >
-          <div className="oui-flex oui-size-[48px] oui-items-center oui-justify-center oui-rounded-xl oui-bg-base-9">
+          <div className="oui-flex oui-size-[48px] oui-items-center oui-justify-center oui-rounded-xl">
             <ArrowLeftRightIcon size={28} color="white" opacity={1} />
           </div>
           <Text className="oui-text-base-80 oui-text-2xs">
@@ -78,7 +78,7 @@ export const PortfolioHandleMobile: FC<Props> = (props) => {
           className="oui-flex-1 oui-cursor-pointer"
           onClick={props?.onWithdraw}
         >
-          <div className="oui-flex oui-size-[48px] oui-items-center oui-justify-center oui-rounded-xl oui-bg-base-9">
+          <div className="oui-flex oui-size-[48px] oui-items-center oui-justify-center oui-rounded-xl">
             <ArrowUpSquareFillIcon size={28} color="white" opacity={1} />
           </div>
           <Text className="oui-text-base-80 oui-text-2xs">
@@ -93,7 +93,7 @@ export const PortfolioHandleMobile: FC<Props> = (props) => {
         className="oui-flex-1 oui-cursor-pointer"
       >
         <div
-          className="oui-flex oui-size-[48px] oui-items-center oui-justify-center oui-rounded-xl oui-bg-base-9"
+          className="oui-flex oui-size-[48px] oui-items-center oui-justify-center oui-rounded-xl"
           onClick={onGotoHistory}
         >
           <CalendarMinusIcon

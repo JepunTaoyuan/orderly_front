@@ -2,9 +2,10 @@ import React from "react";
 import { ENVType, useGetEnv } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import { useAppContext } from "@orderly.network/react-app";
-import { Flex } from "@orderly.network/ui";
+import { Divider, Flex } from "@orderly.network/ui";
 import { DepositStatusWidget } from "@/packages/ui-transfer";
 import { useLayoutContext } from "../../../layout/context";
+import { AssetsChartMobile, useAssetsChartScript } from "../assetChart";
 import { useAssetScript } from "../assets";
 import { PortfolioChartsMobileWidget } from "../portfolioChartsMobile";
 import { AccountStatusMobile } from "./accountStatus.ui.mobile";
@@ -31,6 +32,9 @@ export const MobileOverview: React.FC = () => {
     isMainAccount,
     hasSubAccount,
   } = useAssetScript();
+  // 使用 AssetsChart 的 hook
+  const assetsChartProps = useAssetsChartScript();
+
   const { t } = useTranslation();
   const rewardsData = useRewardsDataScript();
   const layoutContext = useLayoutContext();
@@ -54,18 +58,18 @@ export const MobileOverview: React.FC = () => {
         }
       : undefined;
 
-  // console.log('rewards data', rewardsData, layoutContext, props);
+  // console.log('oui-bg-[#282e3a] rewards data', rewardsData, layoutContext, props);
 
   return (
     <>
-      <div className="oui-my-1 oui-px-3">
+      <div className="oui-my-1 oui-px-4">
         <AccountStatusMobile />
       </div>
       <Flex
         direction={"column"}
         width={"100%"}
         height={"100%"}
-        className="oui-gap-5 oui-px-3"
+        className="oui-gap-5 oui-px-4"
       >
         <Flex direction="column" width="100%" gapY={2}>
           <PortfolioValueMobile
@@ -79,7 +83,9 @@ export const MobileOverview: React.FC = () => {
             routerAdapter={layoutContext?.routerAdapter}
           />
           <DepositStatusWidget onClick={navigateToPortfolioHistory} />
-          <PortfolioChartsMobileWidget />
+          {/* 替換為桌面版本的 AssetsChart */}
+          <AssetsChartMobile {...assetsChartProps} />
+          {/* <PortfolioChartsMobileWidget /> */}
         </Flex>
         <PortfolioHandleMobile
           disabled={!canTrade}
