@@ -56,7 +56,7 @@ export const AssetsChartMobile: React.FC<AssetsLineChartProps> = (props) => {
         </React.Suspense>
       }
       id="portfolio-overview-assets-chart-mobile"
-      className="oui-w-full"
+      className="oui-w-full oui-rounded-xs oui-px-4 oui-pt-5 oui-pb-0"
     >
       <React.Suspense fallback={null}>
         <AssetAreaChart
@@ -70,7 +70,6 @@ export const AssetsChartMobile: React.FC<AssetsLineChartProps> = (props) => {
         />
       </React.Suspense>
       <Divider intensity={16} className="oui-mt-4" />
-      {/* 我現在要在這邊顯示像desktop一樣的 Unrealized Pnl Available to withdraw 跟數據 要怎麼去實現?? */}
     </Card>
   );
 };

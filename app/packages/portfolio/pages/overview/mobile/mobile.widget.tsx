@@ -7,6 +7,8 @@ import { DepositStatusWidget } from "@/packages/ui-transfer";
 import { useLayoutContext } from "../../../layout/context";
 import { AssetsChartMobile, useAssetsChartScript } from "../assetChart";
 import { useAssetScript } from "../assets";
+import { AssetStatisticMobile } from "../assets/assets.ui";
+import { PerformanceUIMobile } from "../performance/performance.ui";
 import { PortfolioChartsMobileWidget } from "../portfolioChartsMobile";
 import { AccountStatusMobile } from "./accountStatus.ui.mobile";
 import { AffiliateCardMobile } from "./affiliateCard.ui.mobile";
@@ -27,10 +29,13 @@ export const MobileOverview: React.FC = () => {
     unrealROI,
     visible,
     namespace,
+    freeCollateral,
     toggleVisible,
     onTransfer,
     isMainAccount,
     hasSubAccount,
+    currentLeverage,
+    onLeverageEdit,
   } = useAssetScript();
   // 使用 AssetsChart 的 hook
   const assetsChartProps = useAssetsChartScript();
@@ -62,16 +67,16 @@ export const MobileOverview: React.FC = () => {
 
   return (
     <>
-      <div className="oui-my-1 oui-px-4">
-        <AccountStatusMobile />
-      </div>
       <Flex
         direction={"column"}
         width={"100%"}
         height={"100%"}
-        className="oui-gap-5 oui-px-4"
+        className="oui-gap-5 oui-px-4 oui-py-3"
       >
-        <Flex direction="column" width="100%" gapY={2}>
+        <Flex direction="column" width="100%">
+          <div className="oui-px-4 oui-bg-base-9 oui-w-full">
+            <AccountStatusMobile />
+          </div>
           <PortfolioValueMobile
             toggleVisible={toggleVisible}
             portfolioValue={portfolioValue}
@@ -85,6 +90,14 @@ export const MobileOverview: React.FC = () => {
           <DepositStatusWidget onClick={navigateToPortfolioHistory} />
           {/* 替換為桌面版本的 AssetsChart */}
           <AssetsChartMobile {...assetsChartProps} />
+          <AssetStatisticMobile
+            unrealROI={unrealROI}
+            unrealPnL={unrealPnL}
+            freeCollateral={freeCollateral}
+            currentLeverage={currentLeverage}
+            onLeverageEdit={onLeverageEdit}
+            visible={visible}
+          />
           {/* <PortfolioChartsMobileWidget /> */}
         </Flex>
         <PortfolioHandleMobile
@@ -104,20 +117,22 @@ export const MobileOverview: React.FC = () => {
         >
           {/* Disable trading rewards card for now. Set to row */}
           <Flex direction="row" className="oui-flex-1 oui-gap-3">
-            <AffiliateCardMobile
+            {/* <PerformanceUIMobile/> */}
+
+            {/* <AffiliateCardMobile
               referralInfo={rewardsData.referralInfo}
               routerAdapter={layoutContext?.routerAdapter}
             />
             <TraderCardMobile
               referralInfo={rewardsData.referralInfo}
               routerAdapter={layoutContext?.routerAdapter}
-            />
+            /> */}
           </Flex>
           {/* <Flex direction="column" className="oui-flex-1">
             <TradingRewardsCardMobile {...rewardsData} goToClaim={goToClaim} />
           </Flex> */}
         </Flex>
-        <SettingRouterMobile routerAdapter={layoutContext?.routerAdapter} />
+        {/* <SettingRouterMobile routerAdapter={layoutContext?.routerAdapter} /> */}
       </Flex>
     </>
   );

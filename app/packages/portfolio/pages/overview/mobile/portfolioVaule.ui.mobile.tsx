@@ -42,11 +42,11 @@ export const PortfolioValueMobile: FC<Props> = (props) => {
       width={"100%"}
       height={"100%"}
       className={cn([
-        "oui-relative oui-items-start oui-overflow-hidden oui-rounded-2xl oui-bg-base-9",
+        "oui-relative oui-items-start oui-overflow-hidden oui-bg-base-9",
+        "oui-px-4 oui-pt-3",
         // currentNamespace === ChainNamespace.evm && "oui-bg-[#283BEE]",
         // currentNamespace === ChainNamespace.solana && "oui-bg-[#630EAD]",
       ])}
-      p={4}
     >
       <Flex direction="row" gapX={1} itemAlign={"center"}>
         <Text className="oui-text-sm oui-text-base-contrast-54">

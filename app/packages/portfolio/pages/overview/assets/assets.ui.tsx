@@ -166,7 +166,10 @@ export const AssetStatisticMobile = (props: AssetStatisticProps) => {
   const { t } = useTranslation();
 
   return (
-    <Grid cols={5} className="oui-h-12">
+    <Grid
+      cols={1}
+      className="oui-h-auto oui-w-full oui-px-4 oui-pb-2 oui-bg-base-9"
+    >
       <Statistic
         className="oui-py-2 oui-col-span-2"
         label={t("common.unrealizedPnl")}

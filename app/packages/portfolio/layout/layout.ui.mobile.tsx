@@ -41,62 +41,14 @@ export const PortfolioLayoutMobile: FC<
           />
         </header>
 
-        {/* <Box className="oui-scaffold-container oui-w-full">
-          <Box
-            className="oui-inline-flex oui-py-3 oui-overflow-x-auto"
-          >
-            {leftNavItems.map((item, index) => {
-              const isActive = props.current === item.href;
-              const isLast = index === leftNavItems.length - 1;
-
-              return (
-                <div
-                  key={item.href}
-                  className="oui-inline-flex oui-items-center oui-gap-2"
-                >
-                  <div
-                    className={cn(
-                      "oui-w-24 oui-inline-flex oui-flex-col oui-items-center oui-cursor-pointer",
-                      "oui-select-none"
-                    )}
-                    onClick={() => {
-                      props.routerAdapter?.onRouteChange?.({
-                        href: item.href,
-                        name: item.name,
-                      });
-                    }}
-                  >
-                    <div
-                      className={cn(
-                        "oui-my-2 oui-leading-6 font-['Manrope']",
-                        isActive
-                          ? "oui-text-base-contrast-40"
-                          : "oui-text-base-contrast-36"
-                      )}
-                    >
-                      {item.name}
-                    </div>
-                  </div>
-
-                  {!isLast && (
-                    <div className="oui-flex oui-items-center">
-                      <div className="oui-w-px oui-h-4 oui-bg-base-contrast-20"></div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </Box>
-
-          <Box className="oui-flex-1">{props.children}</Box>
-        </Box> */}
         <nav
           className="
             oui-w-full
             oui-bg-base-10
-            oui-overflow-x-auto
             oui-sticky oui-top-[44px]
             oui-z-10
+            oui-overflow-x-auto
+            oui-hide-scrollbar
           "
         >
           <Flex className="oui-px-1 oui-gap-4 oui-py-3" direction="row">
@@ -105,7 +57,7 @@ export const PortfolioLayoutMobile: FC<
               const isLast = index === leftNavItems.length - 1;
 
               return (
-                <Flex key={item.href} direction="row" className="oui-gap-6">
+                <Flex key={item.href} direction="row" gapX={3}>
                   {/* --- Nav Button --- */}
                   <button
                     onClick={() => {

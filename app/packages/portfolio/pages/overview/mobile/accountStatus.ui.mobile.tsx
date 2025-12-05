@@ -260,7 +260,7 @@ export const AccountStatusMobile: FC = () => {
   return (
     <div
       className={cn([
-        "oui-flex oui-h-[44px] oui-w-full oui-items-center oui-justify-center oui-rounded-[10px] oui-px-3 oui-py-[10px]",
+        "oui-flex oui-h-[44px] oui-w-full oui-items-center oui-justify-center oui-rounded-[10px] oui-px-3 oui-pt-2",
         rootClass,
         // "oui-bg-linear-65",
         // "oui-from-[-20%]",
