@@ -2,9 +2,9 @@
 // export { Line } from "./line/line";
 // export { Bar } from "./bar/bar";
 // export { Axis } from "./common/axis";
-export { PnLBarChart } from "./orderly/pnlBar";
+export { PnLBarChart, PnLBarChartMobile } from "./orderly/pnlBar";
 export { PnlLineChart } from "./orderly/pnlLine";
-export { PnlAreaChart } from "./orderly/pnlArea";
+export { PnlAreaChart, PnlAreaChartMobile } from "./orderly/pnlArea";
 export {
   AssetLineChart,
   type PnlLineChartProps,

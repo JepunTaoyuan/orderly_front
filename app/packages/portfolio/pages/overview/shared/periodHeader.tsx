@@ -1,6 +1,13 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "@orderly.network/i18n";
-import { CardTitle, cn, Flex, Select, SelectItem } from "@orderly.network/ui";
+import {
+  CardTitle,
+  cn,
+  Flex,
+  Select,
+  SelectItem,
+  useScreen,
+} from "@orderly.network/ui";
 import { PeriodType } from "./useAssetHistory";
 
 export const PeriodTitle: React.FC<{
@@ -10,7 +17,7 @@ export const PeriodTitle: React.FC<{
   title: string;
 }> = (props) => {
   const { t } = useTranslation();
-
+  const { isMobile } = useScreen();
   const periodLabel = useMemo(() => {
     return {
       [PeriodType.WEEK]: t("common.select.7d"),
@@ -36,7 +43,11 @@ export const PeriodTitle: React.FC<{
     );
   };
   return (
-    <Flex itemAlign={"center"} gap={5}>
+    <Flex
+      itemAlign={"center"}
+      gap={5}
+      className={isMobile ? "oui-justify-between" : "oui-justify-start"}
+    >
       <CardTitle>{props.title}</CardTitle>
       <div className={"oui-min-w-14"}>
         <Select.options

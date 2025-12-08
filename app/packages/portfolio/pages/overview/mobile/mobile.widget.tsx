@@ -8,7 +8,10 @@ import { useLayoutContext } from "../../../layout/context";
 import { AssetsChartMobile, useAssetsChartScript } from "../assetChart";
 import { useAssetScript } from "../assets";
 import { AssetStatisticMobile } from "../assets/assets.ui";
-import { PerformanceUIMobile } from "../performance/performance.ui";
+import {
+  PerformanceMobileUI,
+  PerformanceMobileWidget,
+} from "../performanceMobileDialog";
 import { PortfolioChartsMobileWidget } from "../portfolioChartsMobile";
 import { AccountStatusMobile } from "./accountStatus.ui.mobile";
 import { AffiliateCardMobile } from "./affiliateCard.ui.mobile";
@@ -70,7 +73,6 @@ export const MobileOverview: React.FC = () => {
       <Flex
         direction={"column"}
         width={"100%"}
-        height={"100%"}
         className="oui-gap-5 oui-px-4 oui-py-3"
       >
         <Flex direction="column" width="100%">
@@ -109,25 +111,20 @@ export const MobileOverview: React.FC = () => {
           routerAdapter={layoutContext?.routerAdapter}
           hasSubAccount={hasSubAccount}
         />
-        <Flex
-          direction={"row"}
-          width={"100%"}
-          height={"100%"}
-          className="oui-gap-3"
-        >
+        <Flex direction={"row"} width={"100%"} height={"100%"} className="">
+          <PerformanceMobileWidget />
           {/* Disable trading rewards card for now. Set to row */}
-          <Flex direction="row" className="oui-flex-1 oui-gap-3">
-            {/* <PerformanceUIMobile/> */}
-
-            {/* <AffiliateCardMobile
+          {/* <Flex direction="row" className="oui-flex-1 oui-gap-3">
+            <PerformanceUIMobile/>
+            <AffiliateCardMobile
               referralInfo={rewardsData.referralInfo}
               routerAdapter={layoutContext?.routerAdapter}
             />
             <TraderCardMobile
               referralInfo={rewardsData.referralInfo}
               routerAdapter={layoutContext?.routerAdapter}
-            /> */}
-          </Flex>
+            />
+          </Flex> */}
           {/* <Flex direction="column" className="oui-flex-1">
             <TradingRewardsCardMobile {...rewardsData} goToClaim={goToClaim} />
           </Flex> */}
