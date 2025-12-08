@@ -19,8 +19,8 @@ export const PortfolioLayoutMobile: FC<
     { name: "Positions", href: "/portfolio/positions" },
     { name: "Orders", href: "/portfolio/orders" },
     { name: "Assets", href: "/portfolio/assets" },
-    { name: "Fee Tier", href: "/portfolio/fee" },
-    { name: "API Keys", href: "/portfolio/api-key" },
+    { name: "Fee Tier", href: "/portfolio/feeTier" },
+    { name: "API Keys", href: "/portfolio/apiKey" },
     { name: "Settings", href: "/portfolio/setting" },
   ];
 
