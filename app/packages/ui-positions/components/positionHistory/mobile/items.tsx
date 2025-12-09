@@ -209,12 +209,7 @@ export const AvgOpen: FC<PositionHistoryCellState> = (props) => {
   const { t } = useTranslation();
   return (
     <Statistic
-      label={
-        <Flex gap={1}>
-          {t("common.avgOpen")}
-          <Text intensity={20}>(USDC)</Text>
-        </Flex>
-      }
+      label={<Flex gap={1}>{t("common.avgOpen")}</Flex>}
       classNames={{
         root: "oui-text-xs",
         label: "oui-text-2xs",
@@ -234,12 +229,7 @@ export const AvgClosed: FC<PositionHistoryCellState> = (props) => {
   const { t } = useTranslation();
   return (
     <Statistic
-      label={
-        <Flex gap={1}>
-          {t("common.avgClose")}
-          <Text intensity={20}>(USDC)</Text>
-        </Flex>
-      }
+      label={<Flex gap={1}>{t("common.avgClose")}</Flex>}
       classNames={{
         root: "oui-text-xs",
         label: "oui-text-2xs",

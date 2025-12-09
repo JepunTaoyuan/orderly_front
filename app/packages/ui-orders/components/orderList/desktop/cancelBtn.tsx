@@ -18,6 +18,7 @@ export const CancelButton: FC<{
       size="sm"
       variant={"outlined"}
       color={"secondary"}
+      style={{ borderRadius: "40px" }}
       onClick={(event) => {
         if (!onCancelOrder) return;
         event.preventDefault();

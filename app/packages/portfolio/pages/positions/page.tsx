@@ -135,7 +135,7 @@ export const PositionsPage: React.FC<PositionsProps> = (props) => {
               <MobilePositionHistoryWidget
                 {...props}
                 classNames={{
-                  cell: "oui-p-2 custom-apply-to-everything oui-rounded-xl",
+                  cell: "oui-p-4 custom-apply-to-everything oui-rounded-sm ",
                 }}
               />
             ) : (

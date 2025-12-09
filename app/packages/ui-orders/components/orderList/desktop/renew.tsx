@@ -53,6 +53,7 @@ export const Renew: FC<{ record: any }> = (props) => {
       color={"secondary"}
       loading={isMutating}
       disabled={isMutating}
+      style={{ borderRadius: "40px" }}
       onClick={(event) => {
         if (isMutating) return;
         event.preventDefault();

@@ -216,7 +216,7 @@ const CancelAll: FC<OrdersBuilderState> = (props) => {
       color="secondary"
       size="xs"
       disabled={(props.dataSource?.length ?? 0) == 0}
-      className="disabled:oui-bg-transport"
+      className="disabled:oui-bg-transport oui-rounded-full"
       onClick={(e) => props.onCancelAll()}
       data-testid={`oui-testid-dataList-${props.type.toLowerCase()}-cancelAll-button`}
     >
