@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, useMemo } from "react";
 import { Flex, Box, cn } from "@orderly.network/ui";
 import {
   MainNavMobile,
@@ -23,6 +23,18 @@ export const PortfolioLayoutMobile: FC<
     { name: "API Keys", href: "/portfolio/apiKey" },
     { name: "Settings", href: "/portfolio/setting" },
   ];
+
+  const bottomNavCurrent = useMemo(() => {
+    const c = props.current ?? "/";
+    const menus = props.bottomNavProps?.mainMenus;
+
+    if (!menus) return c;
+
+    // 找到第一個符合前綴的主 menu
+    const match = menus.find((m) => c.startsWith(m.href));
+
+    return match?.href ?? c;
+  }, [props.current, props.bottomNavProps?.mainMenus]);
 
   return (
     <LayoutProvider {...props}>
@@ -94,7 +106,7 @@ export const PortfolioLayoutMobile: FC<
         <footer className="oui-scaffold-bottomNav oui-fixed oui-bottom-0 oui-z-10 oui-w-full oui-bg-base-9 oui-pb-[calc(env(safe-area-inset-bottom))]">
           <BottomNav
             mainMenus={props.bottomNavProps?.mainMenus}
-            current={props?.current}
+            current={bottomNavCurrent}
             onRouteChange={props.routerAdapter?.onRouteChange}
           />
         </footer>
