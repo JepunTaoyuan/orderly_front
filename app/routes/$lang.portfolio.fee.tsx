@@ -8,5 +8,15 @@ export const meta: MetaFunction = () => {
 };
 
 export default function FeeTierPage() {
-  return <FeeTierModule.FeeTierPage />;
+  return (
+    <FeeTierModule.FeeTierPage
+      onRow={(record, index) => {
+        return {
+          active: {
+            className: "custom-fee-tier-bg",
+          },
+        };
+      }}
+    />
+  );
 }

@@ -11,12 +11,15 @@ import {
   Column,
   Text,
   Tooltip,
+  useScreen,
+  ListView,
 } from "@orderly.network/ui";
 import {
   AuthGuardEmpty,
   AuthGuardDataTable,
   AuthGuardTooltip,
 } from "@orderly.network/ui-connector";
+import { OrderCellWidget } from "@/packages/ui-orders/components/orderList/mobile";
 import {
   type ApiManagerScriptReturns,
   capitalizeFirstChar,
@@ -191,6 +194,7 @@ const Subtitle: React.FC<ApiManagerScriptReturns> = (props) => {
 
 const KeyList: React.FC<ApiManagerScriptReturns> = (props) => {
   const { t } = useTranslation();
+  const { isMobile } = useScreen();
   const columns: Column<APIKeyItem>[] = [
     {
       title: t("portfolio.apiKey.column.apiKey"),
@@ -265,7 +269,7 @@ const KeyList: React.FC<ApiManagerScriptReturns> = (props) => {
       type: "action",
       dataIndex: "action",
       align: "right",
-      width: 1,
+      width: 50,
       render: (_, item) => {
         return (
           <Flex direction={"row"} gap={2} justify="end">
@@ -290,6 +294,9 @@ const KeyList: React.FC<ApiManagerScriptReturns> = (props) => {
       emptyView={<AuthGuardEmpty />}
       pagination={props.pagination}
       manualPagination={false}
+      classNames={{
+        root: "api-key-table",
+      }}
       onRow={(record, index) => {
         return {
           className: "oui-h-[40px] oui-py-1",

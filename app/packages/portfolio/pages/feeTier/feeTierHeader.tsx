@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMemo } from "react";
-import { useFeeState } from "@orderly.network/hooks";
+import { useFeeState, useMediaQuery } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import {
   Box,
   Flex,
+  Grid,
   modal,
   Text,
   Tooltip,
@@ -189,6 +190,7 @@ export const FeeTierHeader: React.FC<FeeTierHeaderProps> = (props) => {
   const { isMobile } = useScreen();
   const { refereeRebate, ...others } = useFeeState();
   const isEffectiveFee = isEffective(refereeRebate);
+  const isSmallScreen = useMediaQuery("(max-width: 615px)");
   const items: FeeTierHeaderItemProps[] = [
     {
       label: t("portfolio.feeTier.header.yourTier"),
@@ -284,16 +286,15 @@ export const FeeTierHeader: React.FC<FeeTierHeaderProps> = (props) => {
 
   if (isMobile) {
     return (
-      <Flex
-        className="oui-rounded-xl oui-bg-base-9 oui-p-3"
-        direction="column"
-        gap={2}
-        itemAlign={"stretch"}
+      <Grid
+        className="oui-auto-rows-fr oui-rounded-sm oui-border oui-border-base-6"
+        style={{ padding: "10px" }}
+        width={"100%"}
       >
         {mergedData.map((item, index) => (
           <MobileHeaderItem {...item} key={`mobile-item-${index}`} />
         ))}
-      </Flex>
+      </Grid>
     );
   }
 

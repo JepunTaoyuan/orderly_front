@@ -27,8 +27,7 @@ export const PeriodTitle: React.FC<{
         key={option.value}
         value={option.value}
         className={cn(
-          "oui-cursor-pointer hover:oui-bg-base-8",
-          isActive && "oui-bg-base-10",
+          "oui-cursor-pointer dropdown-item data-[state=checked]:oui-bg-blue-500",
         )}
       >
         {option.label}
@@ -50,7 +49,7 @@ export const PeriodTitle: React.FC<{
           optionRenderer={optionRenderer}
           contentProps={{
             align: "end",
-            className: `oui-bg-base-10`,
+            className: `oui-bg-base-9`,
           }}
         />
       </div>
