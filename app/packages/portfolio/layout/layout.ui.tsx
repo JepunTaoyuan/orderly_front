@@ -1,6 +1,7 @@
 import { FC, PropsWithChildren } from "react";
 import { useTranslation } from "@orderly.network/i18n";
 import { cn, Box, Flex, Divider } from "@orderly.network/ui";
+import { useScreenSize } from "@/hooks/custom/useScreenSize";
 import { ScaffoldProps, Scaffold, SideBarProps } from "@/packages/ui-scaffold";
 
 export type PortfolioLayoutProps = ScaffoldProps & {
@@ -15,6 +16,7 @@ export const PortfolioLayout: FC<PropsWithChildren<PortfolioLayoutProps>> = (
   const { children, leftSideProps, classNames, items, current, ...rest } =
     props;
   const { t } = useTranslation();
+  const { is5XL } = useScreenSize();
 
   return (
     <Scaffold
@@ -28,8 +30,8 @@ export const PortfolioLayout: FC<PropsWithChildren<PortfolioLayoutProps>> = (
     >
       <Box
         style={{
-          paddingLeft: "240px",
-          paddingRight: "240px",
+          paddingLeft: is5XL ? "240px" : "0px",
+          paddingRight: is5XL ? "240px" : "0px",
         }}
       >
         {!props.hideSideBar && (

@@ -165,7 +165,7 @@ const CardItem: React.FC<CardItemProps> = (props) => {
           key={item.symbol}
           item={item}
           onSymbol={props.onSymbol}
-          className="oui-px-0"
+          className="oui-px-0 market-header-list-item"
         />
       ))}
     </Flex>

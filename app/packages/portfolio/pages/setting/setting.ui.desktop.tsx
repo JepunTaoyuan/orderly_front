@@ -42,7 +42,7 @@ export const SettingDesktop: FC<SettingScriptReturns> = (props) => {
           </Flex>
         }
         id="portfolio-apikey-manager"
-        className="oui-font-semibold"
+        className="oui-font-semibold oui-p-4 oui-ml-3"
         style={{
           backgroundColor: "rgba(255, 255, 255, 0.05)",
           height: "184px",

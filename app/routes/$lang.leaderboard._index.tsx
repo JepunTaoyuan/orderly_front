@@ -1,12 +1,9 @@
 import { useMemo } from "react";
 import { MetaFunction } from "@remix-run/node";
 import { i18n, parseI18nLang } from "@orderly.network/i18n";
-import {
-  Campaign,
-  LeaderboardWidget,
-} from "@orderly.network/trading-leaderboard";
 import { Box, useScreen } from "@orderly.network/ui";
 import { PageTitleMap, PathEnum } from "@/constant";
+import { Campaign, LeaderboardWidget } from "@/packages/trading-leaderboard";
 import { useScaffoldContext } from "@/packages/ui-scaffold";
 import { getSymbol } from "@/storage";
 import { generatePageTitle } from "@/utils";

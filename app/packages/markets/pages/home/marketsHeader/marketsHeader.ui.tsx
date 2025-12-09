@@ -228,7 +228,10 @@ const ListItem: React.FC<ListItemProps> = (props) => {
       gapX={3}
       py={2}
       px={4}
-      className={cn("oui-cursor-pointer hover:oui-bg-base-8", props.className)}
+      className={cn(
+        "oui-cursor-pointer market-header-list-item",
+        props.className,
+      )}
       onClick={() => {
         props.onSymbol(item);
       }}

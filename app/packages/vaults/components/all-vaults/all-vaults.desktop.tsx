@@ -8,11 +8,14 @@ export const AllVaultsDesktop: FC<{ vaults: VaultInfo[] }> = (props) => {
   const { t } = useTranslation();
 
   return (
-    <div className="oui-flex oui-flex-col oui-gap-6">
+    <div className="oui-flex oui-flex-col oui-gap-3">
       <div className="oui-text-xl oui-font-normal oui-text-base-contrast">
         {t("vaults.allVaults")}
       </div>
-      <div className="oui-grid oui-grid-cols-3 oui-gap-4 min-[1024px]:oui-grid-cols-3">
+      <div
+        className="oui-grid oui-grid-cols-3 min-[1024px]:oui-grid-cols-3"
+        style={{ gap: "3px" }}
+      >
         {vaults.map((vault) => (
           <VaultCardWidget key={vault.vault_id} vault={vault} />
         ))}

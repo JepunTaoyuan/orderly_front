@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback } from "react";
+import { useMediaQuery } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import {
   Box,
@@ -13,7 +14,9 @@ import {
   cn,
   TanstackColumn,
 } from "@orderly.network/ui";
+import { numberToHumanStyle } from "@orderly.network/utils";
 import type { FeeDataType, useFeeTierScriptReturn } from "./feeTier.script";
+import { MobileHeaderItem } from "./feeTierHeader";
 
 const LazyFeeTierHeader = React.lazy(() =>
   import("./feeTierHeader").then((mod) => {
@@ -116,12 +119,7 @@ export const FeeTierTable: React.FC<FeeTierTableProps> = (props) => {
   );
 
   return (
-    <Box
-      className={cn(
-        "oui-relative oui-border-b oui-border-line-4",
-        isMobile ? "oui-mt-2 oui-rounded-xl oui-bg-base-9" : undefined,
-      )}
-    >
+    <Box className={cn("oui-relative oui-border-b oui-border-line-4")}>
       <DataTable
         bordered
         className="oui-font-semibold"
@@ -165,10 +163,107 @@ const CardTitle: React.FC = () => {
   );
 };
 
+const FeeTierCard: React.FC<{ data: FeeDataType; isActive?: boolean }> = ({
+  data,
+  isActive,
+}) => {
+  const { t } = useTranslation();
+
+  const items = [
+    {
+      label: t("portfolio.feeTier.column.tier"),
+      value: data.tier,
+      interactive: false,
+    },
+    {
+      label: t("portfolio.feeTier.column.30dVolume"),
+      value:
+        data.volume_min && data.volume_max
+          ? `${numberToHumanStyle(data.volume_min)} - ${numberToHumanStyle(data.volume_max)}`
+          : data.volume_min
+            ? t("portfolio.feeTier.column.30dVolume.above", {
+                volume: numberToHumanStyle(data.volume_min),
+              })
+            : "--",
+      interactive: false,
+    },
+    {
+      label: t("portfolio.feeTier.column.maker"),
+      value: data.maker_fee,
+      interactive: false,
+    },
+    {
+      label: t("portfolio.feeTier.column.taker"),
+      value: data.taker_fee,
+      interactive: false,
+    },
+  ];
+
+  return (
+    <Box
+      width="100%"
+      r="lg"
+      className={cn("oui-bg-base-9", isActive && "custom-fee-tier-bg")}
+      style={{ padding: "10px" }}
+    >
+      <Flex direction="column">
+        {items.map((item, index) => (
+          <MobileHeaderItem key={index} {...item} />
+        ))}
+      </Flex>
+    </Box>
+  );
+};
+
 export const FeeTier: React.FC<FeeTierProps> = (props) => {
   const { columns, dataSource, tier, vol, headerDataAdapter, onRow, onCell } =
     props;
   const { isMobile } = useScreen();
+  const isSmallScreen = useMediaQuery("(max-width: 390px)");
+  if (isMobile) {
+    return (
+      <Card
+        title={<CardTitle />}
+        id="oui-portfolio-fee-tier"
+        className="oui-p-5 w-full"
+        classNames={{
+          root: isMobile ? "oui-bg-transparent oui-p-2" : "oui-bg-base-9",
+        }}
+      >
+        {!isMobile && <Divider />}
+        <Flex direction="column" gap={2}>
+          <React.Suspense fallback={null}>
+            <LazyFeeTierHeader
+              vol={vol}
+              tier={tier}
+              headerDataAdapter={headerDataAdapter}
+            />
+          </React.Suspense>
+          {/* 根據寬度條件渲染不同樣式 */}
+          {isSmallScreen ? (
+            <Flex direction="column" gap={2} width="100%">
+              {dataSource?.map((item, index) => (
+                <FeeTierCard
+                  key={item.tier || index}
+                  data={item}
+                  isActive={tier === index + 1}
+                />
+              ))}
+            </Flex>
+          ) : (
+            <FeeTierTable
+              dataSource={dataSource}
+              columns={columns}
+              vol={vol}
+              tier={tier}
+              onRow={onRow}
+              onCell={onCell}
+            />
+          )}
+        </Flex>
+      </Card>
+    );
+  }
   return (
     <Card
       title={<CardTitle />}

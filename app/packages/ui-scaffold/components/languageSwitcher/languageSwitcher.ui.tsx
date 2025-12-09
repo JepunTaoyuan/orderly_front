@@ -95,7 +95,7 @@ export const LanguageSwitcher: FC<LanguageSwitcherProps> = (props) => {
             body: "oui-pb-[env(safe-area-inset-bottom)]",
           }}
           contentProps={{
-            style: popup?.style,
+            style: { backgroundColor: "rgba(12, 13, 16, 1)" },
           }}
           title={header}
         >
@@ -158,7 +158,7 @@ export const LanguageSwitcher: FC<LanguageSwitcherProps> = (props) => {
           content: popup?.className,
         }}
         contentProps={{
-          style: popup?.style,
+          style: { backgroundColor: "rgba(12, 13, 16, 1)" },
         }}
       >
         {context}
@@ -193,7 +193,7 @@ const LanguageItem: FC<LanguageItemProps> = (props) => {
     <button
       className={cn(
         "oui-group oui-rounded-md hover:oui-bg-base-5",
-        props.selected && "oui-bg-base-5",
+        props.selected && "search-input",
         props.className,
       )}
       onClick={props.onClick}
@@ -210,7 +210,6 @@ const LanguageItem: FC<LanguageItemProps> = (props) => {
             {item.displayName}
           </Text>
         </Flex>
-        {renderTrailing()}
       </Flex>
     </button>
   );
