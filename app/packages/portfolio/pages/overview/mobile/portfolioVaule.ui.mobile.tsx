@@ -42,15 +42,16 @@ export const PortfolioValueMobile: FC<Props> = (props) => {
       width={"100%"}
       height={"100%"}
       className={cn([
-        "oui-relative oui-items-start oui-overflow-hidden oui-rounded-2xl oui-bg-base-9",
-        currentNamespace === ChainNamespace.evm && "oui-bg-[#283BEE]",
-        currentNamespace === ChainNamespace.solana && "oui-bg-[#630EAD]",
+        "oui-relative oui-items-start oui-overflow-hidden oui-bg-base-9",
+        "oui-px-4 oui-pt-3",
+        // currentNamespace === ChainNamespace.evm && "oui-bg-[#283BEE]",
+        // currentNamespace === ChainNamespace.solana && "oui-bg-[#630EAD]",
       ])}
-      p={4}
     >
       <Flex direction="row" gapX={1} itemAlign={"center"}>
         <Text className="oui-text-sm oui-text-base-contrast-54">
-          {t("portfolio.overview.handle.title")}
+          {/* {t("portfolio.overview.handle.title")} */}
+          {t("common.totalValue")}
         </Text>
         <EyeIcon
           size={16}
@@ -72,11 +73,9 @@ export const PortfolioValueMobile: FC<Props> = (props) => {
         >
           {props.portfolioValue ?? "--"}
         </Text.numeral>
-        <Text className="oui-text-base oui-font-bold oui-text-base-contrast-80">
-          USDC
-        </Text>
+        <Text className="oui-text-base oui-text-base-contrast-36">USDC</Text>
       </Flex>
-      <Flex
+      {/* <Flex
         direction="row"
         gapX={1}
         itemAlign={"center"}
@@ -91,8 +90,8 @@ export const PortfolioValueMobile: FC<Props> = (props) => {
         >
           {props.unrealROI ?? "--"}
         </Text.roi>
-      </Flex>
-      <div
+      </Flex> */}
+      {/* <div
         className="oui-absolute oui-right-0 oui-top-0 oui-flex oui-h-full oui-items-center oui-justify-center oui-px-4"
         onClick={() =>
           props.routerAdapter?.onRouteChange({
@@ -102,7 +101,7 @@ export const PortfolioValueMobile: FC<Props> = (props) => {
         }
       >
         <ArrowRightShortIcon size={18} color="white" opacity={0.54} />
-      </div>
+      </div> */}
     </Flex>
   );
 };

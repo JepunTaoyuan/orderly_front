@@ -106,6 +106,7 @@ export const PerformanceUI: React.FC<PerformanceUIProps> = (props) => {
             </Statistic>
           </Box>
         </Grid>
+        {/* -------------------------------------------------------- */}
         <Grid cols={2} gap={4} className="oui-flex-1 ">
           <PerformancePnL
             data={props.data ?? EMPTY_LIST}

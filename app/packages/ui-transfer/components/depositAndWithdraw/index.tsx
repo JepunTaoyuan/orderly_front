@@ -62,5 +62,10 @@ registerSimpleDialog(DepositAndWithdrawWithDialogId, DepositAndWithdraw, {
     content: "oui-border oui-border-line-6 oui-bg-base-10",
   },
 });
-
-registerSimpleSheet(DepositAndWithdrawWithSheetId, DepositAndWithdraw);
+// 正式環境測試無法改 overlay bgColor
+registerSimpleSheet(DepositAndWithdrawWithSheetId, DepositAndWithdraw, {
+  classNames: {
+    content: "oui-rounded-none oui-bg-base-10",
+    overlay: "oui-bg-base-10",
+  },
+});

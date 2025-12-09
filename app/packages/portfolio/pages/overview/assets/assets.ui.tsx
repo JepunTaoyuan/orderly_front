@@ -86,7 +86,6 @@ export const AssetsUI: React.FC<
     </Card>
   );
 };
-
 const NoValue: FC = () => {
   return (
     <Flex gap={1} className={"oui-h-9"}>
@@ -149,6 +148,59 @@ export const AssetStatistic = (props: AssetStatisticProps) => {
         className="oui-h-16 oui-col-span-1 oui-ml-10"
         intensity={12}
       />
+      <Statistic
+        className="oui-col-span-2 oui-py-2"
+        label={t("portfolio.overview.availableWithdraw")}
+        // @ts-ignore
+        align="right"
+        // @ts-ignore
+        valueProps={{ size: "lg", visible: props.visible }}
+      >
+        {props.freeCollateral}
+      </Statistic>
+    </Grid>
+  );
+};
+
+export const AssetStatisticMobile = (props: AssetStatisticProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <Grid
+      cols={1}
+      className="oui-h-auto oui-w-full oui-px-4 oui-pb-2 oui-bg-base-9"
+    >
+      <Statistic
+        className="oui-py-2 oui-col-span-2"
+        label={t("common.unrealizedPnl")}
+      >
+        <Flex>
+          <Text.pnl
+            coloring
+            size="lg"
+            weight="semibold"
+            visible={props.visible}
+          >
+            {props.unrealPnL}
+          </Text.pnl>
+          <Text.roi
+            coloring
+            rule="percentages"
+            size=""
+            weight="semibold"
+            prefix={"("}
+            suffix={")"}
+            visible={props.visible}
+            style={{
+              // color: "#992762",
+              paddingLeft: "5px",
+              paddingTop: "5px",
+            }}
+          >
+            {props.unrealROI}
+          </Text.roi>
+        </Flex>
+      </Statistic>
       <Statistic
         className="oui-col-span-2 oui-py-2"
         label={t("portfolio.overview.availableWithdraw")}

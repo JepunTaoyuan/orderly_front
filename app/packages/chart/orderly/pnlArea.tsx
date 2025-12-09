@@ -129,3 +129,77 @@ export const PnlAreaChart: React.FC<PnlAreaChartProps> = (props) => {
     </ResponsiveContainer>
   );
 };
+
+export const PnlAreaChartMobile: React.FC<PnlAreaChartProps> = (props) => {
+  const { responsiveContainerProps } = props;
+  const colors = useColors(props.colors);
+
+  const { isMobile } = useScreen();
+
+  const colorId = useId();
+
+  const data = useMemo(() => dataTransfer(props.data), [props.data]);
+
+  const baseValue = useMemo(
+    () => data.map((item) => item.pnl).sort((a, b) => a - b)[0] || 0,
+    [data],
+  );
+
+  const chartComponent = (
+    <AreaChart
+      data={data}
+      margin={{ top: 20, right: 10, left: -35, bottom: -10 }}
+    >
+      <CartesianGrid vertical={false} stroke="#FFFFFF" strokeOpacity={0.04} />
+      <XAxis
+        dataKey="date"
+        interval={props.data.length - 2}
+        tick={<XAxisLabel />}
+        stroke="#FFFFFF"
+        strokeOpacity={0.04}
+      />
+      <YAxis
+        dataKey="pnl"
+        tick={{ fontSize: 10, fill: "rgba(255,255,255,0.54)" }}
+        tickLine={false}
+        axisLine={false}
+        tickFormatter={tickFormatter}
+      />
+      {!props.invisible && (
+        <Tooltip
+          cursor={{ strokeDasharray: "3 2", strokeOpacity: 0.16 }}
+          content={<CustomTooltip />}
+        />
+      )}
+      {!props.invisible && (
+        <>
+          <defs>
+            <linearGradient id={colorId} x1="0" y1="0" x2="0" y2="1">
+              <stop stopColor={colors.primary} offset="0%" stopOpacity={0.5} />
+              <stop stopColor={colors.primary} offset="100%" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+          <Area
+            type="natural"
+            dataKey="pnl"
+            stroke={colors.primary}
+            strokeWidth={isMobile ? 1.5 : 2}
+            dot={false}
+            isAnimationActive={false}
+            fill={`url(#${colorId})`}
+            baseValue={baseValue || 0}
+          />
+        </>
+      )}
+    </AreaChart>
+  );
+
+  return (
+    <ResponsiveContainer
+      className={props.invisible ? "chart-invisible" : undefined}
+      {...responsiveContainerProps}
+    >
+      {chartComponent}
+    </ResponsiveContainer>
+  );
+};

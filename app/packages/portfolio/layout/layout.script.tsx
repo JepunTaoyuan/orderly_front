@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useMediaQuery } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
+import { useBottomNav } from "@/hooks/custom/useBottomNav";
 import { SideMenuItem, useScaffoldContext } from "@/packages/ui-scaffold";
 
 export enum PortfolioLeftSidebarPath {
@@ -18,6 +19,8 @@ export type UseLayoutBuilderOptions = {
 };
 
 export const usePortfolioLayoutScript = (props: UseLayoutBuilderOptions) => {
+  const bottomNavProps = useBottomNav();
+
   const { routerAdapter } = useScaffoldContext();
   const [current, setCurrent] = useState(
     props.current ?? routerAdapter?.currentPath ?? "/portfolio",
@@ -167,6 +170,7 @@ export const usePortfolioLayoutScript = (props: UseLayoutBuilderOptions) => {
     items,
     current,
     hideSideBar,
+    bottomNavProps,
     onItemSelect: (item: SideMenuItem) => {
       if (typeof item.href === "undefined") {
         console.warn("Item href is not defined");

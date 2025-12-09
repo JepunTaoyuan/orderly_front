@@ -128,24 +128,25 @@ export const MoreIcon: FC<SVGProps<SVGSVGElement>> = (props) => (
 const EVMChains = () => {
   return (
     <div className="oui-relative oui-flex oui-items-center oui-justify-center">
-      <div className="oui-flex oui-h-[18px] oui-items-center oui-justify-center ">
+      {/* <div className="oui-flex oui-h-[18px] oui-items-center oui-justify-center ">
         <img
           src="https://oss.orderly.network/static/sdk/portfolio/chains.png"
           className="oui-relative oui-z-0 oui-h-[18px] oui-w-[49px]"
         />
-      </div>
+      </div> */}
       <div className="oui-relative oui-left-[-9px] oui-flex oui-items-center oui-justify-center oui-gap-1">
-        <div className="oui-flex oui-size-[18px] oui-items-center oui-justify-center oui-rounded-full oui-bg-[#282e3a]">
+        <div className="oui-border oui-border-line-16 oui-rounded-2xl oui-px-3">
           <EVMChainPopover>
-            <MoreIcon
+            {/* <MoreIcon
               className="oui-relative oui-z-10 oui-size-3 oui-text-base-contrast-54 hover:oui-text-base-contrast"
               style={{ zIndex: 1 }}
-            />
+            /> */}
+            <div className="oui-text-2xs oui-text-base-contrast-36">Evm</div>
           </EVMChainPopover>
         </div>
-        <div className="oui-text-2xs oui-font-semibold oui-text-base-contrast">
+        {/* <div className="oui-text-2xs oui-font-semibold oui-text-base-contrast">
           Evm
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -175,8 +176,11 @@ const ShowAccount: FC = () => {
       return;
     }
     return (
-      <Flex className="oui-text-base oui-text-base-contrast" gapX={2}>
-        {formatAddress(state.address ?? "")}
+      <Flex
+        className="oui-text-xs oui-text-base-contrast-36 oui-bg-base-9 oui-rounded-full oui-px-3 oui-py-1"
+        gapX={2}
+      >
+        <div>{formatAddress(state.address ?? "")}</div>
         <button
           className="oui-cursor-pointer"
           onClick={() => {
@@ -185,7 +189,7 @@ const ShowAccount: FC = () => {
         >
           <CopyIcon
             size={18}
-            className="oui-text-base-contrast-80"
+            className="oui-text-base-contrast-36"
             opacity={1}
           />
         </button>
@@ -208,26 +212,28 @@ const ShowAccount: FC = () => {
     );
   }, [currentNamespace]);
 
-  const bgClass = useMemo(() => {
-    let bg = "";
-    if (currentNamespace == ChainNamespace.evm) {
-      bg =
-        "oui-bg-[linear-gradient(15deg,#283BEE_-11%,transparent_30%,transparent_77%,#A53411_100%)]";
-    } else if (currentNamespace == ChainNamespace.solana) {
-      bg =
-        "oui-bg-[linear-gradient(15deg,#7400D0_-11%,transparent_30%,transparent_77%,#009A7E_100%)]";
-    }
-    return bg;
-  }, [currentNamespace]);
+  // const bgClass = useMemo(() => {
+  //   let bg = "";
+  //   if (currentNamespace == ChainNamespace.evm) {
+  //     bg =
+  //       "oui-bg-[linear-gradient(15deg,#283BEE_-11%,transparent_30%,transparent_77%,#A53411_100%)]";
+  //   } else if (currentNamespace == ChainNamespace.solana) {
+  //     bg =
+  //       "oui-bg-[linear-gradient(15deg,#7400D0_-11%,transparent_30%,transparent_77%,#009A7E_100%)]";
+  //   }
+  //   return bg;
+  // }, [currentNamespace]);
   return (
     <div
       className={cn([
-        "oui-flex oui-h-[44px] oui-w-full oui-items-center oui-justify-between oui-rounded-[10px] oui-px-3 oui-py-[10px]",
-        bgClass,
+        "oui-flex oui-h-[44px] oui-w-full oui-items-center oui-justify-between oui-rounded-[10px] oui-py-[10px]",
       ])}
     >
-      {leftNode}
-      {rightNode}
+      <div className="oui-text-xs oui-text-base-contrast-60">Overview</div>
+      <Flex gapX={4} itemAlign="center">
+        {leftNode}
+        {rightNode}
+      </Flex>
     </div>
   );
 };
@@ -254,7 +260,7 @@ export const AccountStatusMobile: FC = () => {
   return (
     <div
       className={cn([
-        "oui-flex oui-h-[44px] oui-w-full oui-items-center oui-justify-center oui-rounded-[10px] oui-px-3 oui-py-[10px]",
+        "oui-flex oui-h-[44px] oui-w-full oui-items-center oui-justify-center oui-rounded-[10px] oui-px-3 oui-pt-2",
         rootClass,
         // "oui-bg-linear-65",
         // "oui-from-[-20%]",

@@ -72,9 +72,13 @@ export const AccountMenu = (props: AccountMenuProps) => {
       <Button
         data-testid="oui-testid-nav-bar-connectWallet-btn"
         size="md"
-        variant={disabled ? undefined : "gradient"}
-        angle={45}
-        className="wallet-connect-button"
+        // variant={disabled ? undefined : "gradient"}
+        // angle={45}
+        style={{
+          background:
+            "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
+        }}
+        className="wallet-connect-button oui-rounded-full oui-text-xs"
         loading={state.validating}
         disabled={disabled}
         onClick={() => {

@@ -178,3 +178,69 @@ export const PnLBarChart: React.FC<PnLChartProps> = (props) => {
     </ResponsiveContainer>
   );
 };
+
+export const PnLBarChartMobile: React.FC<PnLChartProps> = (props) => {
+  const { invisible, data, responsiveContainerProps } = props;
+  const colors = useColors(props.colors);
+  const widthRef = useRef<number>(0);
+  return (
+    <ResponsiveContainer
+      className={cn(invisible && "chart-invisible")}
+      onResize={(width) => {
+        widthRef.current = width;
+      }}
+      {...responsiveContainerProps}
+    >
+      <BarChart
+        data={data as any[]}
+        margin={{ left: -35, top: 20, right: 10, bottom: 20 }}
+      >
+        {!invisible && (
+          <Tooltip
+            // cursor={{ fillOpacity: 0.1 }}
+            cursor={<CustomizedCross />}
+            content={<CustomTooltip />}
+          />
+        )}
+
+        <CartesianGrid vertical={false} stroke="#FFFFFF" strokeOpacity={0.04} />
+
+        <ReferenceLine y={0} stroke="rgba(0,0,0,0.04)" />
+
+        {!invisible && (
+          <Bar dataKey="pnl" shape={<RoundedRectangle />}>
+            {data.map((entry, index) => {
+              return (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={entry.pnl > 0 ? colors.profit : colors.loss}
+                />
+              );
+            })}
+          </Bar>
+        )}
+
+        <YAxis
+          tick={{ fontSize: 10, fill: "rgba(255,255,255,0.54)" }}
+          tickFormatter={(value) => tickFormatter(value)}
+          tickLine={false}
+          axisLine={false}
+          dataKey={"pnl"}
+        />
+        <XAxis
+          dataKey="date"
+          // axisLine={false}
+          tickLine={false}
+          interval={data.length - 2}
+          // tick={renderQuarterTick}
+          height={1}
+          // scale="time"
+          // tick={{ fontSize: 10, fill: "rgba(255,255,255,0.54)" }}
+          tick={<XAxisLabel containerWidth={widthRef.current} />}
+          stroke="#FFFFFF"
+          strokeOpacity={0.04}
+        />
+      </BarChart>
+    </ResponsiveContainer>
+  );
+};

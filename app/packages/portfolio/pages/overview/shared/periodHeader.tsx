@@ -1,6 +1,13 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "@orderly.network/i18n";
-import { CardTitle, cn, Flex, Select, SelectItem } from "@orderly.network/ui";
+import {
+  CardTitle,
+  cn,
+  Flex,
+  Select,
+  SelectItem,
+  useScreen,
+} from "@orderly.network/ui";
 import { PeriodType } from "./useAssetHistory";
 
 export const PeriodTitle: React.FC<{
@@ -10,7 +17,7 @@ export const PeriodTitle: React.FC<{
   title: string;
 }> = (props) => {
   const { t } = useTranslation();
-
+  const { isMobile } = useScreen();
   const periodLabel = useMemo(() => {
     return {
       [PeriodType.WEEK]: t("common.select.7d"),
@@ -27,7 +34,8 @@ export const PeriodTitle: React.FC<{
         key={option.value}
         value={option.value}
         className={cn(
-          "oui-cursor-pointer dropdown-item data-[state=checked]:oui-bg-blue-500",
+          "oui-cursor-pointer hover:oui-bg-base-8",
+          isActive && "oui-bg-base-10",
         )}
       >
         {option.label}
@@ -35,7 +43,11 @@ export const PeriodTitle: React.FC<{
     );
   };
   return (
-    <Flex itemAlign={"center"} gap={5}>
+    <Flex
+      itemAlign={"center"}
+      gap={5}
+      className={isMobile ? "oui-justify-between" : "oui-justify-start"}
+    >
       <CardTitle>{props.title}</CardTitle>
       <div className={"oui-min-w-14"}>
         <Select.options
@@ -49,7 +61,7 @@ export const PeriodTitle: React.FC<{
           optionRenderer={optionRenderer}
           contentProps={{
             align: "end",
-            className: `oui-bg-base-9`,
+            className: `oui-bg-base-10`,
           }}
         />
       </div>
