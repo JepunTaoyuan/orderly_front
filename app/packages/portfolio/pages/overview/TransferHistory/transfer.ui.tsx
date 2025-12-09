@@ -4,8 +4,8 @@ import { useAccount } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import type { API } from "@orderly.network/types";
 import { DataFilter, formatAddress } from "@orderly.network/ui";
+import type { SelectOption } from "@orderly.network/ui";
 import { AuthGuardDataTable } from "@orderly.network/ui-connector";
-import type { SelectOption } from "@orderly.network/ui/src/select/withOptions";
 import { useColumns } from "./column";
 import type { useTransferHistoryHookReturn } from "./useDataSource.script";
 

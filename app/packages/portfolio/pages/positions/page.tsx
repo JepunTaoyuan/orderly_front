@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import React from "react";
-import { useAccount } from "@orderly.network/hooks";
+import { useAccount, useMediaQuery } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import {
   Flex,
@@ -21,6 +21,7 @@ import {
   PositionsProps,
   CombinePositionsWidget,
   PositionsWidget,
+  MobilePositionHistoryWidget,
 } from "@/packages/ui-positions";
 import { AccountType } from "../assets/assetsPage/assets.ui.desktop";
 
@@ -34,6 +35,7 @@ export const PositionsPage: React.FC<PositionsProps> = (props) => {
   const [tab, setTab] = useState(TabsType.positions);
   const { t } = useTranslation();
   const { state, isMainAccount } = useAccount();
+  const isSmallScreen = useMediaQuery("(max-width: 390px)");
 
   const subAccounts = state.subAccounts ?? [];
 
@@ -86,7 +88,10 @@ export const PositionsPage: React.FC<PositionsProps> = (props) => {
       </Flex>
       <Divider className="oui-w-full" />
       {/* 26(title height) + 1(divider) + 32 (padding) */}
-      <Box width="100%" className="oui-h-[calc(100%_-_59px)]">
+      <Box
+        width="100%"
+        className="oui-h-[calc(100%_-_59px)] oui-overflow-y-auto oui-hide-scrollbar"
+      >
         <Tabs
           value={tab}
           onValueChange={(e) => setTab(e as any)}
@@ -126,7 +131,16 @@ export const PositionsPage: React.FC<PositionsProps> = (props) => {
             value={TabsType.positionHistory}
             title={t("positions.positionHistory")}
           >
-            <PositionHistoryWidget {...props} enableSortingStorage={false} />
+            {isSmallScreen ? (
+              <MobilePositionHistoryWidget
+                {...props}
+                classNames={{
+                  cell: "oui-p-2 custom-apply-to-everything oui-rounded-xl",
+                }}
+              />
+            ) : (
+              <PositionHistoryWidget {...props} />
+            )}
           </TabPanel>
           <TabPanel value={TabsType.liquidation} title={<LiquidationTab />}>
             <LiquidationWidget />

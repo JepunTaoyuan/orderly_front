@@ -122,4 +122,32 @@
   .market-select [data-state="active"]::after {
     background-color: rgb(var(--oui-color-primary)) !important;
   }
+
+  .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .dropdown-item:checked {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .market-header-list-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .custom-apply-to-everything {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .api-key-table table {
+    min-width: 700px;
+  }
+
+  .fee-tier-table table {
+    min-width: 600px;
+  }
+
+  .custom-fee-tier-bg {
+    background-color: rgba(49, 39, 95, 1);
+  }
 }
