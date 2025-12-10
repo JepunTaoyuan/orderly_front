@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useMemo } from "react";
-import { useWalletConnector } from "@orderly.network/hooks";
+import pick from "ramda/es/pick";
 import { useTranslation } from "@orderly.network/i18n";
-import { ChainNamespace } from "@orderly.network/types";
 import {
   Button,
   cn,
@@ -13,206 +12,252 @@ import {
   modal,
   Flex,
   EmptyDataState,
+  Card,
+  Tabs,
+  TabPanel,
+  Divider,
+  Grid,
 } from "@orderly.network/ui";
 import { SelectOption } from "@orderly.network/ui";
 import type { useAssetsScriptReturn } from "./assets.script";
-import { AccountType } from "./assets.ui.desktop";
+import {
+  AccountType,
+  TotalValueInfo,
+  DepositAndWithdrawButton,
+} from "./assets.ui.desktop";
 
-const AccountTag: React.FC<{ name: string }> = ({ name }) => {
-  return (
-    <div className="oui-mt-2 oui-flex oui-h-[18px] oui-w-fit oui-items-center oui-rounded oui-bg-white/[0.06] oui-px-2 oui-text-2xs oui-font-semibold oui-text-base-contrast-36">
-      {name}
-    </div>
-  );
+const LazyConvertHistoryWidget = React.lazy(() =>
+  import("../convertPage/convert.widget").then((mod) => {
+    return { default: mod.ConvertHistoryWidget };
+  }),
+);
+
+// Asset Row Component - 3-column layout for each asset
+type AssetRowProps = {
+  asset: any;
 };
 
-type AssetMobileItemProps = {
-  item: any;
-};
-
-const AssetMobileItem: React.FC<AssetMobileItemProps> = (props) => {
-  const { item } = props;
+const AssetRow: React.FC<AssetRowProps> = ({ asset }) => {
   const { t } = useTranslation();
-  const { namespace } = useWalletConnector();
+
   return (
-    <div className="oui-flex oui-flex-col oui-gap-2 oui-rounded-xl oui-bg-base-9 oui-p-2">
-      <Flex
-        width={"100%"}
-        justify={"between"}
-        itemAlign={"center"}
-        className="oui-gap-x-0.5"
-      >
-        <Flex
-          className="oui-w-1/3 oui-truncate"
-          itemAlign={"start"}
-          direction={"column"}
-        >
-          <div className="oui-text-2xs oui-font-semibold oui-text-base-contrast-36">
+    <Grid
+      cols={3}
+      width={"100%"}
+      gap={1}
+      style={{
+        gridTemplateColumns: "3fr 3fr 4fr",
+      }}
+    >
+      {/* Column 1: Token + Qty */}
+      <div className="oui-w-20 oui-h-20 oui-inline-flex oui-flex-col oui-justify-between oui-items-start">
+        <div className="oui-flex oui-flex-col oui-justify-start oui-items-start">
+          <div
+            className="oui-text-base-contrast-50 oui-text-xs oui-font-medium oui-leading-4"
+            style={{ color: "rgba(255, 255, 255, 0.5)" }}
+          >
             {t("common.token")}
           </div>
-          <Flex
-            gap={1}
-            justify={"start"}
-            itemAlign={"center"}
-            className="oui-text-xs oui-font-semibold oui-text-base-contrast-80"
+          <div
+            className="oui-inline-flex oui-justify-start oui-items-center"
+            style={{ gap: "2px" }}
           >
-            <TokenIcon name={item.token} size="2xs" />
-            {item.token}
-          </Flex>
-        </Flex>
-        <Flex
-          className="oui-w-1/3 oui-truncate"
-          itemAlign={"start"}
-          direction={"column"}
-        >
-          <div className="oui-text-2xs oui-font-semibold oui-text-base-contrast-36">
+            <TokenIcon name={asset.token} size="2xs" />
+            <div className="oui-text-base-contrast-90 oui-text-xs oui-font-bold oui-leading-4">
+              {asset.token}
+            </div>
+          </div>
+        </div>
+        <div className="oui-flex oui-flex-col oui-justify-start oui-items-start">
+          <div
+            className="oui-text-base-contrast-50 oui-text-xs oui-font-medium oui-leading-4"
+            style={{ color: "rgba(255, 255, 255, 0.5)" }}
+          >
             {t("common.qty")}
           </div>
-          <Text.numeral
-            className="oui-truncate"
-            size="xs"
-            dp={6}
-            padding={false}
+          <div className="oui-h-4 oui-inline-flex oui-justify-start oui-items-center">
+            <Text.numeral
+              size="xs"
+              weight="bold"
+              dp={6}
+              padding={false}
+              className="oui-text-base-contrast-90 oui-leading-3"
+            >
+              {asset.holding}
+            </Text.numeral>
+          </div>
+        </div>
+      </div>
+
+      {/* Column 2: Asset value + Index price */}
+      <div className="oui-w-24 oui-h-20 oui-inline-flex oui-flex-col oui-justify-between oui-items-start">
+        <div className="oui-flex oui-flex-col oui-justify-start oui-items-start">
+          <div
+            className="oui-text-base-contrast-50 oui-text-xs oui-font-medium oui-leading-4"
+            style={{ color: "rgba(255, 255, 255, 0.3)" }}
           >
-            {item.holding}
-          </Text.numeral>
-        </Flex>
-        <Flex
-          className="oui-w-1/3 oui-truncate"
-          itemAlign={"start"}
-          direction={"column"}
-        >
-          <div className="oui-w-full oui-text-end oui-text-2xs oui-font-semibold oui-text-base-contrast-36">
+            {t("portfolio.overview.column.assetValue")}
+          </div>
+          <div className="oui-h-4 oui-flex oui-flex-col oui-justify-center oui-items-start">
+            <Text.assetValue
+              size="xs"
+              weight="bold"
+              dp={6}
+              currency="$"
+              padding={false}
+              className="oui-text-base-contrast-90 oui-leading-3"
+            >
+              {asset.assetValue}
+            </Text.assetValue>
+          </div>
+        </div>
+        <div className="oui-flex oui-flex-col oui-justify-start oui-items-start">
+          <div
+            className="oui-text-base-contrast-50 oui-text-xs oui-font-medium oui-leading-4"
+            style={{ color: "rgba(255, 255, 255, 0.5)" }}
+          >
             {t("common.indexPrice")}
           </div>
-          <Flex
-            gap={1}
-            width={"100%"}
-            justify={"end"}
-            itemAlign={"center"}
-            className="oui-text-end oui-font-semibold oui-text-base-contrast-80"
+          <div
+            className="oui-inline-flex oui-justify-start oui-items-center"
+            style={{ gap: "2px" }}
           >
             <Text.numeral
               size="xs"
-              rule="price"
+              weight="bold"
               dp={6}
               currency="$"
               padding={false}
+              className="oui-text-base-contrast-90 oui-leading-3"
             >
-              {item.indexPrice}
+              {asset.indexPrice}
             </Text.numeral>
-            <div className="oui-text-end oui-text-2xs oui-text-base-contrast-36">
+            <div
+              className="oui-w-8 oui-text-end oui-text-base-contrast-30 oui-text-xs oui-font-medium oui-leading-4"
+              style={{ color: "rgba(255, 255, 255, 0.3)" }}
+            >
               USDC
             </div>
-          </Flex>
-        </Flex>
-      </Flex>
-      <Flex
-        width={"100%"}
-        justify={"between"}
-        itemAlign={"center"}
-        className="oui-gap-x-0.5"
-      >
-        <Flex
-          className="oui-w-1/3 oui-truncate"
-          itemAlign={"start"}
-          direction={"column"}
-        >
-          <div className="oui-text-2xs oui-font-semibold oui-text-base-contrast-36">
-            {t("portfolio.overview.column.assetValue")}
           </div>
-          <Text.assetValue
-            size="xs"
-            intensity={80}
-            className="oui-truncate oui-font-semibold"
-            rule="price"
-            dp={6}
-            currency="$"
-            padding={false}
+        </div>
+      </div>
+
+      {/* Column 3: Collateral ratio + contribution */}
+      <div className="oui-w-32 oui-self-stretch oui-inline-flex oui-flex-col oui-justify-between oui-items-start oui-gap-3">
+        <div className="oui-flex oui-flex-col oui-justify-start oui-items-start">
+          <div
+            className="oui-text-base-contrast-50 oui-text-xs oui-font-medium oui-leading-4"
+            style={{ color: "rgba(255, 255, 255, 0.5)" }}
           >
-            {item.assetValue}
-          </Text.assetValue>
-        </Flex>
-        <Flex
-          className="oui-w-1/3 oui-truncate"
-          itemAlign={"start"}
-          direction={"column"}
-        >
-          <div className="oui-text-2xs oui-font-semibold oui-text-base-contrast-36">
             {t("portfolio.overview.column.collateralRatio")}
           </div>
-          <Text.numeral size="xs" dp={2} suffix="%">
-            {item.collateralRatio * 100}
-          </Text.numeral>
-        </Flex>
-        <Flex
-          className="oui-w-1/3 oui-truncate"
-          itemAlign={"start"}
-          direction={"column"}
-        >
-          <div className="oui-w-full oui-text-end oui-text-2xs oui-font-semibold oui-text-base-contrast-36">
+          <div className="oui-h-4 oui-flex oui-flex-col oui-justify-center oui-items-start">
+            <Text.numeral
+              size="xs"
+              weight="bold"
+              dp={2}
+              suffix="%"
+              className="oui-text-base-contrast-90 oui-leading-3"
+            >
+              {asset.collateralRatio * 100}
+            </Text.numeral>
+          </div>
+        </div>
+        <div className="oui-flex oui-flex-col oui-justify-start oui-items-start">
+          <div
+            className="oui-text-base-contrast-50 oui-text-xs oui-font-medium oui-leading-4"
+            style={{ color: "rgba(255, 255, 255, 0.5)" }}
+          >
             {t("transfer.deposit.collateralContribution")}
           </div>
-          <Flex
-            gap={1}
-            width={"100%"}
-            justify={"end"}
-            itemAlign={"center"}
-            className="oui-text-end oui-font-semibold oui-text-base-contrast-80"
+          <div
+            className="oui-inline-flex oui-justify-start oui-items-center"
+            style={{ gap: "2px" }}
           >
             <Text.collateral
               size="xs"
-              rule="price"
+              weight="bold"
               dp={6}
               currency="$"
               padding={false}
+              className="oui-text-base-contrast-90 oui-leading-3"
             >
-              {item.collateralContribution}
+              {asset.collateralContribution}
             </Text.collateral>
-            <div className="oui-text-end oui-text-2xs oui-text-base-contrast-36">
+            <div
+              className="oui-w-8 oui-text-end oui-text-base-contrast-30 oui-text-xs oui-font-medium oui-leading-4"
+              style={{ color: "rgba(255, 255, 255, 0.3)" }}
+            >
               USDC
             </div>
-          </Flex>
-        </Flex>
-      </Flex>
-      <Flex justify={"between"} itemAlign={"center"} gap={2}>
-        {item.token !== "USDC" && namespace !== ChainNamespace.solana && (
-          <Button
-            fullWidth
-            variant="outlined"
-            size="sm"
-            color="gray"
-            onClick={() => {
-              modal.show("ConvertSheetId", {
-                accountId: item.account_id,
-                token: item.token,
-              });
-            }}
-            className={cn(
-              "oui-flex-1 oui-border-white/[0.36] oui-text-base-contrast-54",
-            )}
-          >
-            {t("transfer.convert")}
-          </Button>
-        )}
+          </div>
+        </div>
+      </div>
+    </Grid>
+  );
+};
+
+// Account Card Component - contains account header + all assets
+type AccountCardProps = {
+  account: any;
+  onTransfer: (accountId: string) => void;
+  isLast?: boolean;
+};
+
+const AccountCard: React.FC<AccountCardProps> = ({
+  account,
+  onTransfer,
+  isLast,
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <div
+      className="oui-rounded oui-inline-flex oui-flex-col oui-justify-start oui-items-start oui-gap-2 oui-p-4 oui-bg-base-9"
+      style={{ marginBottom: isLast ? 0 : "8px" }}
+    >
+      {/* Header: Account name + Transfer button */}
+      <div className="oui-self-stretch oui-flex oui-justify-between oui-items-center oui-w-full">
+        <div className="oui-text-base-contrast-90 oui-text-xs oui-font-bold oui-leading-5">
+          {account.description || formatAddress(account.id ?? "")}
+        </div>
         <Button
-          fullWidth
           variant="outlined"
           size="sm"
-          color="gray"
-          onClick={() => {
-            modal.show("TransferSheetId", {
-              accountId: item.account_id,
-              token: item.token,
-            });
+          className="oui-h-7 oui-min-h-7 oui-rounded-full"
+          style={{
+            color: "rgba(255, 255, 255, 0.6)",
+            borderColor: "rgba(255, 255, 255, 0.3)",
           }}
-          className={cn(
-            "oui-flex-1 oui-border-white/[0.36] oui-text-base-contrast-54",
-          )}
+          onClick={() => onTransfer(account.id)}
         >
-          {t("common.transfer")}
+          <span className="oui-text-base-contrast-60 oui-text-xs oui-font-semibold">
+            {t("common.transfer")}
+          </span>
         </Button>
-      </Flex>
+      </div>
+
+      <Divider
+        className="oui-w-full "
+        style={{ borderColor: "rgba(255, 255, 255, 0.1)" }}
+      />
+
+      {/* Asset rows - multiple assets displayed in rows */}
+      {account.children?.map((asset: any, index: number) => (
+        <React.Fragment key={asset.token}>
+          <AssetRow asset={asset} />
+          {/* Dashed divider between assets (not after the last one) */}
+          {index < (account.children?.length ?? 0) - 1 && (
+            <div
+              className="oui-self-stretch oui-h-0"
+              style={{
+                outline: "1px dashed rgba(255, 255, 255, 0.1)",
+                outlineOffset: "-0.5px",
+              }}
+            />
+          )}
+        </React.Fragment>
+      ))}
     </div>
   );
 };
@@ -268,58 +313,116 @@ export const AssetsTableMobile: React.FC<useAssetsScriptReturn> = (props) => {
 
   if (!props.canTrade) {
     return (
-      <Flex
-        direction={"column"}
-        height={"100%"}
-        itemAlign={"center"}
-        justify={"center"}
-        mt={10}
-      >
-        <EmptyDataState />
-      </Flex>
+      <Card className="oui-p-0 " classNames={{ content: "!oui-pt-0" }}>
+        <Tabs
+          defaultValue="assets"
+          variant="text"
+          classNames={{ tabsList: "oui-pt-4 oui-px-3" }}
+          size="sm"
+        >
+          <TabPanel value="assets" title={t("common.assets")}>
+            <Flex
+              direction={"column"}
+              height={"100%"}
+              itemAlign={"center"}
+              justify={"center"}
+              mt={10}
+            >
+              <EmptyDataState />
+            </Flex>
+          </TabPanel>
+          <TabPanel
+            value="convertHistory"
+            title={t("portfolio.overview.tab.convert.history")}
+          >
+            <React.Suspense fallback={null}>
+              <LazyConvertHistoryWidget />
+            </React.Suspense>
+          </TabPanel>
+        </Tabs>
+      </Card>
     );
   }
 
   return (
-    <div className={cn("oui-flex oui-flex-col oui-gap-1 oui-px-1 oui-pb-4")}>
-      {isMainAccount && (
-        <DataFilter
-          onFilter={onFilter}
-          className="oui-border-none oui-py-2"
-          items={[
-            {
-              size: "sm",
-              type: "picker",
-              name: "account",
-              value: selectedAccount,
-              options: memoizedOptions,
-            },
-            {
-              size: "sm",
-              type: "picker",
-              name: "asset",
-              value: selectedAsset,
-              options: memoizedAssets,
-            },
-          ]}
-        />
-      )}
-      <div className="oui-flex oui-flex-col oui-gap-1">
-        {dataSource?.map((assets, index) => {
-          return (
-            <React.Fragment key={`item-${index}`}>
-              <AccountTag name={assets.description ?? "sub account"} />
-              {Array.isArray(assets.children) &&
-                assets.children.map((child) => (
-                  <AssetMobileItem
-                    item={child}
-                    key={`${child.token}-${child.account_id}`}
+    <div style={{ padding: "8px 10px 8px 10px" }}>
+      <Card
+        className="oui-p-0 oui-bg-base-10"
+        classNames={{ content: "!oui-pt-0" }}
+      >
+        <Tabs
+          defaultValue="assets"
+          variant="text"
+          classNames={{ tabsList: "oui-pt-4 oui-px-4 oui-bg-base-9" }}
+          size="sm"
+        >
+          <TabPanel value="assets" title={t("common.assets")}>
+            <div className={cn("oui-flex oui-flex-col oui-gap-1 oui-pb-4")}>
+              {/* Total Value and Deposit/Withdraw Section */}
+              <Flex
+                direction="column"
+                gap={2}
+                className="oui-pb-4 oui-pt-2 oui-px-4 oui-bg-base-9"
+                itemAlign="start"
+              >
+                <TotalValueInfo
+                  {...pick(
+                    ["totalValue", "visible", "onToggleVisibility"],
+                    props,
+                  )}
+                />
+                <DepositAndWithdrawButton
+                  {...pick(["isMainAccount", "onDeposit", "onWithdraw"], props)}
+                />
+              </Flex>
+              {isMainAccount && (
+                <DataFilter
+                  onFilter={onFilter}
+                  className="oui-border-none oui-py-2"
+                  items={[
+                    {
+                      size: "sm",
+                      type: "picker",
+                      name: "account",
+                      value: selectedAccount,
+                      options: memoizedOptions,
+                    },
+                    {
+                      size: "sm",
+                      type: "picker",
+                      name: "asset",
+                      value: selectedAsset,
+                      options: memoizedAssets,
+                    },
+                  ]}
+                />
+              )}
+              {/* Account cards container */}
+              <div className="oui-flex oui-flex-col">
+                {dataSource?.map((account, index) => (
+                  <AccountCard
+                    key={account.id || index}
+                    account={account}
+                    onTransfer={(accountId) => {
+                      modal.show("TransferSheetId", { accountId });
+                    }}
+                    isLast={index === (dataSource?.length ?? 0) - 1}
                   />
                 ))}
-            </React.Fragment>
-          );
-        })}
-      </div>
+              </div>
+            </div>
+          </TabPanel>
+          <TabPanel
+            value="convertHistory"
+            className="oui-px-3"
+            title={t("portfolio.overview.tab.convert.history")}
+          >
+            <React.Suspense fallback={null}>
+              <LazyConvertHistoryWidget />
+            </React.Suspense>
+          </TabPanel>
+        </Tabs>
+      </Card>
     </div>
   );
 };
