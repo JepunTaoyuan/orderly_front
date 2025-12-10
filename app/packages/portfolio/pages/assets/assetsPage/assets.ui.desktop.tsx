@@ -39,7 +39,7 @@ export enum AccountType {
   MAIN = "Main accounts",
 }
 
-const TotalValueInfo: React.FC<
+export const TotalValueInfo: React.FC<
   Readonly<
     Pick<AssetsWidgetProps, "totalValue" | "visible" | "onToggleVisibility">
   >
@@ -76,7 +76,7 @@ const TotalValueInfo: React.FC<
   );
 };
 
-const DepositAndWithdrawButton: React.FC<
+export const DepositAndWithdrawButton: React.FC<
   Readonly<
     Pick<AssetsWidgetProps, "isMainAccount" | "onWithdraw" | "onDeposit">
   >
