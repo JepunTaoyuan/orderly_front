@@ -45,7 +45,7 @@ export const MobileScaffold: React.FC<
         paddingBottom: `calc(${bottomNavHeight}px + 12px + env(safe-area-inset-bottom))`,
       }}
       className={cn(
-        "oui-scaffold-root oui-w-full oui-bg-base-10 oui-pt-2",
+        "oui-scaffold-root oui-w-full oui-bg-base-10",
         classNames?.root,
       )}
     >

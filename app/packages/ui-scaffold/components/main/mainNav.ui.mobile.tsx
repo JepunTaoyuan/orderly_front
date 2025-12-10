@@ -2,8 +2,15 @@ import { FC, useMemo } from "react";
 import { useAccount } from "@orderly.network/hooks";
 import { useAppContext } from "@orderly.network/react-app";
 import { AccountStatusEnum } from "@orderly.network/types";
-import { Flex, Text, ChevronLeftIcon, cn } from "@orderly.network/ui";
+import {
+  Flex,
+  Text,
+  ChevronLeftIcon,
+  cn,
+  useMediaQuery,
+} from "@orderly.network/ui";
 import { WalletConnectButtonExtension } from "../accountMenu/menu.widget";
+import { AccountSummaryWidget } from "../accountSummary";
 import { ChainMenuWidget } from "../chainMenu";
 import { LanguageSwitcherWidget } from "../languageSwitcher";
 import { LeftNavUI } from "../leftNav/leftNav.ui";
@@ -74,9 +81,10 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
     }
     props?.routerAdapter?.onRouteChange(target as any);
   };
-
+  const isSmallScreen = useMediaQuery("(max-width: 389px)");
   const showLinkDevice =
     state.status === AccountStatusEnum.EnableTradingWithoutConnected;
+  const shouldShowLinkDevice = showLinkDevice || isSmallScreen;
 
   const showChainMenu = !showLinkDevice && !wrongNetwork;
 
@@ -110,13 +118,13 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
   }
 
   const renderContent = () => {
+    const accountSummary = <AccountSummaryWidget />;
     const languageSwitcher = <LanguageSwitcherWidget />;
     const scanQRCode = showQrcode && <ScanQRCodeWidget />;
     const subAccount = showSubAccount && <SubAccountWidget />;
-    const linkDevice = showLinkDevice && <LinkDeviceWidget />;
+    const linkDevice = shouldShowLinkDevice && <LinkDeviceWidget />;
     const chainMenu = showChainMenu && <ChainMenuWidget />;
     const walletConnect = <WalletConnectButtonExtension />;
-
     const leftNav = props.leftNav && (
       <LeftNavUI
         {...props.leftNav}
@@ -140,19 +148,19 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
 
     return (
       <Flex width="100%" justify="between">
-        <Flex gapX={2}>
-          {props?.customLeftNav || leftNav}
-          {title}
-        </Flex>
+        <Flex gapX={2}>{title}</Flex>
 
         <Flex gapX={2}>
           {props.leading}
+          {accountSummary}
+          {linkDevice}
           {languageSwitcher}
-          {scanQRCode}
+          {/* {scanQRCode} */}
           {/* {subAccount} */}
-          {/* {linkDevice} */}
           {chainMenu}
           {walletConnect}
+
+          {props?.customLeftNav || leftNav}
           {props.trailing}
         </Flex>
       </Flex>
@@ -166,6 +174,12 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
       px={3}
       itemAlign={"center"}
       className={cn(props.className, props.classNames?.root)}
+      style={{
+        background:
+          state.status! >= AccountStatusEnum.SignedIn
+            ? "linear-gradient(90deg, #3b3d48 1.44%, #121419 4.59%, #121419 84.64%, #52419e 92%, rgba(127, 251, 255, 0.9))"
+            : "linear-gradient(90deg, #3b3d48 1.44%, #121419 2.89%, #121419 88.94%)",
+      }}
     >
       {renderContent()}
     </Flex>

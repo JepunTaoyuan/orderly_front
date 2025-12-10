@@ -11,7 +11,9 @@ import {
   SwapHorizIcon,
   PeopleIcon,
   Text,
+  Divider,
 } from "@orderly.network/ui";
+import { LanguageSwitcherWidget } from "../languageSwitcher";
 import { MainLogo } from "../main/mainLogo";
 import { RouterAdapter, RouteOption } from "../scaffold";
 import { SubAccountWidget } from "../subAccount";
@@ -71,7 +73,10 @@ const LeftNavSheet = modal.create<LeftNavUIProps>((props) => {
         : state.subAccounts?.find((item) => item.id === state.accountId)
             ?.description || "";
     return (
-      <div className="oui-flex oui-w-full oui-cursor-pointer oui-items-center oui-gap-2 oui-rounded-xl oui-bg-base-5 oui-p-3">
+      <div
+        className="oui-flex oui-w-full oui-cursor-pointer oui-items-center oui-gap-2 oui-rounded-xl oui-p-3"
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+      >
         <div>
           <PeopleIcon />
         </div>
@@ -102,7 +107,8 @@ const LeftNavSheet = modal.create<LeftNavUIProps>((props) => {
     <Sheet open={visible} onOpenChange={onOpenChange}>
       <SheetContent
         side="left"
-        className="oui-w-[276px] oui-bg-base-8"
+        className="oui-w-[276px]"
+        style={{ backgroundColor: "#07080a" }}
         closeable
         closeableSize={24}
         closeOpacity={0.54}
@@ -115,8 +121,10 @@ const LeftNavSheet = modal.create<LeftNavUIProps>((props) => {
           {showSubAccount && (
             <SubAccountWidget customTrigger={subAccountTrigger} />
           )}
+          {/* 中間渲染navitem language、currency */}
           {Array.isArray(props?.menus) && props.menus.length > 0 && (
-            <div className="oui-flex oui-h-[calc(100vh-260px)] oui-flex-col oui-items-start oui-overflow-y-auto">
+            // oui-h-[calc(100vh-260px)]
+            <div className="oui-flex oui-h-[calc(100vh-270px)] oui-flex-col oui-items-start oui-overflow-y-auto">
               {props.menus?.map((item) => (
                 <NavItem
                   item={item}
@@ -124,10 +132,23 @@ const LeftNavSheet = modal.create<LeftNavUIProps>((props) => {
                   onClick={onRouteChange}
                 />
               ))}
+              <Divider className="oui-w-full" intensity={8} />
             </div>
           )}
-          <div className="oui-absolute oui-bottom-6 oui-flex oui-w-full oui-flex-col oui-gap-4 oui-bg-base-8 oui-z-60">
-            <div className="oui-flex oui-items-center oui-justify-around">
+          {/* 如何在這邊加上 切換language以及切換currency? */}
+          {/* 添加語言切換器 */}
+          <div className="oui-flex oui-items-center oui-justify-between oui-px-3 oui-py-2">
+            <Text className="oui-text-sm oui-font-semibold oui-text-base-contrast-60">
+              {t("languageSwitcher.language")}
+            </Text>
+            <LanguageSwitcherWidget />
+          </div>
+          {/* Footer 底部icon 連接 */}
+          <div
+            className="oui-absolute oui-bottom-6 oui-flex oui-w-full oui-flex-col oui-z-60"
+            style={{ backgroundColor: "#07080a" }}
+          >
+            <div className="oui-flex oui-items-center oui-justify-center">
               {props.telegramUrl && (
                 <div
                   onClick={() => openExternalLink(props.telegramUrl as string)}
@@ -160,10 +181,10 @@ const LeftNavSheet = modal.create<LeftNavUIProps>((props) => {
             </div>
             {props.feedbackUrl && (
               <div
-                className="oui-text-center oui-text-2xs oui-font-semibold oui-text-primary oui-underline"
+                className="oui-text-center oui-text-xs oui-font-semibold oui-text-base-contrast-54"
                 onClick={() => openExternalLink(props.feedbackUrl as string)}
               >
-                {t("leftNav.feedback")}
+                How to trade on Dexless?
               </div>
             )}
           </div>

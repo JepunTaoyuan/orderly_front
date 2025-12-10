@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Outlet } from "@remix-run/react";
+import { BaseLayout } from "@/components/baseLayout";
 import { CustomFooter } from "@/components/custom/customFooter";
 import { PathEnum } from "@/constant";
 import { useNav } from "@/hooks/useNav";
@@ -26,20 +27,23 @@ export default function PortfolioLayout() {
   }, [path]);
 
   return (
-    <PortfolioLayoutWidget
-      footer={<CustomFooter {...config.scaffold.footerProps} />}
-      mainNavProps={{
-        ...config.scaffold.mainNavProps,
-        initialMenu: PathEnum.Portfolio,
-      }}
-      routerAdapter={{
-        onRouteChange,
-      }}
-      leftSideProps={{
-        current: currentPath,
-      }}
-    >
+    <BaseLayout initialMenu={PathEnum.Strategy}>
       <Outlet />
-    </PortfolioLayoutWidget>
+    </BaseLayout>
+    // <PortfolioLayoutWidget
+    //   footer={<CustomFooter {...config.scaffold.footerProps} />}
+    //   mainNavProps={{
+    //     ...config.scaffold.mainNavProps,
+    //     initialMenu: PathEnum.Portfolio,
+    //   }}
+    //   routerAdapter={{
+    //     onRouteChange,
+    //   }}
+    //   leftSideProps={{
+    //     current: currentPath,
+    //   }}
+    // >
+    //   <Outlet />
+    // </PortfolioLayoutWidget>
   );
 }

@@ -53,6 +53,10 @@ export const BaseLayout: FC<BaseLayoutProps> = (props) => {
               href: "/leaderboard",
             },
           ],
+          telegramUrl: "https://t.me/orderlynetwork",
+          twitterUrl: "https://twitter.com/OrderlyNetwork",
+          discordUrl: "https://discord.com/invite/orderlynetwork",
+          feedbackUrl: "https://orderly.network/feedback",
         },
       }}
       footer={<CustomFooter {...config.scaffold.footerProps} />}

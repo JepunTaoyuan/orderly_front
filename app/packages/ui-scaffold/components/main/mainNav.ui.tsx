@@ -127,9 +127,15 @@ export const MainNav: FC<PropsWithChildren<MainNavScriptReturn>> = (props) => {
         className,
         classNames?.root,
       )}
+      // style={{
+      //   background:
+      //     "linear-gradient(90deg, #3b3d48 1.44%, #121419 2.89%, #121419 88.94%)",
+      // }}
       style={{
         background:
-          "linear-gradient(90deg, #3b3d48 1.44%, #121419 2.89%, #121419 88.94%)",
+          props.status! >= AccountStatusEnum.SignedIn
+            ? "linear-gradient(90deg, #3b3d48 1.44%, #121419 4.59%, #121419 84.64%, #52419e 92%, rgba(127, 251, 255, 0.9))"
+            : "linear-gradient(90deg, #3b3d48 1.44%, #121419 2.89%, #121419 88.94%)",
       }}
     >
       {renderContent()}

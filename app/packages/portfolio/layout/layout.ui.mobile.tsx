@@ -1,4 +1,5 @@
 import { FC, PropsWithChildren, useMemo } from "react";
+import { useTranslation } from "@orderly.network/i18n";
 import { Flex, Box, cn } from "@orderly.network/ui";
 import {
   MainNavMobile,
@@ -23,7 +24,7 @@ export const PortfolioLayoutMobile: FC<
     { name: "API Keys", href: "/portfolio/apiKey" },
     { name: "Settings", href: "/portfolio/setting" },
   ];
-
+  const { t } = useTranslation();
   const bottomNavCurrent = useMemo(() => {
     const c = props.current ?? "/";
     const menus = props.bottomNavProps?.mainMenus;
@@ -50,6 +51,26 @@ export const PortfolioLayoutMobile: FC<
             current={props?.current}
             subItems={props?.items}
             routerAdapter={props.routerAdapter}
+            leftNav={{
+              menus: [
+                {
+                  name: t("common.markets"),
+                  href: "/markets",
+                },
+                {
+                  name: t("common.trading"),
+                  href: "/",
+                },
+                {
+                  name: t("common.portfolio"),
+                  href: "/portfolio",
+                },
+                {
+                  name: t("tradingLeaderboard.leaderboard"),
+                  href: "/leaderboard",
+                },
+              ],
+            }}
           />
         </header>
 
