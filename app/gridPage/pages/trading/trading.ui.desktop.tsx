@@ -26,7 +26,6 @@ import {
   TradingviewFullscreenKey,
 } from "@orderly.network/types";
 import { Box, cn, Flex } from "@orderly.network/ui";
-import { OrderEntryWidget } from "@orderly.network/ui-order-entry";
 import { TradingviewWidget } from "@orderly.network/ui-tradingview";
 import { CustomOrderEntryWrapper } from "@/components/custom/CustomOrderEntryWrapper";
 import {
@@ -34,6 +33,7 @@ import {
   SymbolInfoBarFullWidget,
   HorizontalMarketsWidget,
 } from "@/packages/markets";
+import { OrderEntryWidget } from "@/packages/ui-order-entry";
 import { DepositStatusWidget } from "@/packages/ui-transfer";
 import { DataListTabType } from "../../components/desktop/dataList/dataList.script";
 import { SortablePanel } from "../../components/desktop/layout/sortablePanel";

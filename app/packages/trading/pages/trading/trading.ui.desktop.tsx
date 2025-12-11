@@ -29,13 +29,13 @@ import {
   TradingviewFullscreenKey,
 } from "@orderly.network/types";
 import { Box, cn, Flex } from "@orderly.network/ui";
-import { OrderEntryWidget } from "@orderly.network/ui-order-entry";
 import { TradingviewWidget } from "@orderly.network/ui-tradingview";
 import {
   SideMarketsWidget,
   SymbolInfoBarFullWidget,
   HorizontalMarketsWidget,
 } from "@/packages/markets";
+import { OrderEntryWidget } from "@/packages/ui-order-entry";
 import { DepositStatusWidget } from "@/packages/ui-transfer";
 import { SortablePanel } from "../../components/desktop/layout/sortablePanel";
 import { SplitLayout } from "../../components/desktop/layout/splitLayout";
@@ -206,7 +206,13 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = (props) => {
           },
         ];
       },
-      sideEffects: ({ active, dragOverlay }) => {
+      sideEffects: ({
+        active,
+        dragOverlay,
+      }: {
+        active: { id: string | number; node: HTMLElement };
+        dragOverlay: { node: HTMLElement };
+      }) => {
         // console.log(active.node);
         active.node.style.opacity = "0";
         const innerElement = dragOverlay.node.querySelector(".inner-content");

@@ -18,7 +18,7 @@ import {
   cn,
 } from "@orderly.network/ui";
 import { AuthGuard } from "@orderly.network/ui-connector";
-import { LTVRiskTooltipWidget } from "@orderly.network/ui-order-entry";
+import { LTVRiskTooltipWidget } from "@/packages/ui-order-entry";
 import { AssetViewState } from "./assetView.script";
 import { FaucetWidget } from "./faucet/faucet.widget";
 

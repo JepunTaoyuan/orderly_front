@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { cn } from "@orderly.network/ui";
-import { OrderEntryWidget } from "@orderly.network/ui-order-entry";
+import { OrderEntryWidget } from "@/packages/ui-order-entry";
 import type { OrderBookAndEntryState } from "./orderBookAndEntry.script";
 
 const LazyOrderBookWidget = React.lazy(() =>
