@@ -1,7 +1,7 @@
 import { PriceMode } from "@orderly.network/hooks";
 import { API } from "@orderly.network/types";
 import { SortOrder } from "@orderly.network/ui";
-import { SharePnLConfig } from "@orderly.network/ui-share";
+import { SharePnLConfig } from "@/packages/ui-share";
 
 export type SortType = {
   sortKey: string;

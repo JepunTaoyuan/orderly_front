@@ -13,8 +13,8 @@ import {
   Text,
   Tooltip,
 } from "@orderly.network/ui";
-import { SharePnLConfig, SharePnLDialogId } from "@orderly.network/ui-share";
 import { commifyOptional, formatNum } from "@orderly.network/utils";
+import { SharePnLConfig, SharePnLDialogId } from "@/packages/ui-share";
 import { useSymbolContext } from "../../../provider/symbolContext";
 import { FundingFeeButton } from "../../fundingFeeHistory/fundingFeeButton";
 import { ShareButtonWidget } from "../../positions/desktop/shareButton";

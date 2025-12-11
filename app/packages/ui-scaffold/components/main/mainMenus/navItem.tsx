@@ -180,7 +180,7 @@ export const NavItem: FC<
       >
         <span className={"oui-flex oui-items-center"}>
           <ItemIcon isActive={isActive} item={item} />
-          <Text.gradient
+          <Text
             // 原本的
             // color={isActive ? "brand" : "inherit"}
             // angle={45}
@@ -191,7 +191,7 @@ export const NavItem: FC<
             )}
           >
             {item.name}
-          </Text.gradient>
+          </Text>
           {Array.isArray(item.children) && (
             <span className={"oui-ml-1 group-data-[open=true]:oui-rotate-180"}>
               {isActive ? (

@@ -103,6 +103,7 @@
     "userApiKeyPairCheckFailed": "Failed to check user API key"
   },
   "customs": {
-    "howtotrade": "How to trade on Dexless?"
+    "howtotrade": "How to trade on Dexless?",
+    "pnlTitle": "Share PnL"
   }
 }

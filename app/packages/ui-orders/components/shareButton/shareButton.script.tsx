@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useReferralInfo, useLeverageBySymbol } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import { modal } from "@orderly.network/ui";
-import { SharePnLConfig } from "@orderly.network/ui-share";
+import { SharePnLConfig } from "@/packages/ui-share";
 
 export type ShareButtonScriptReturn = ReturnType<typeof useShareButtonScript>;
 

@@ -12,13 +12,13 @@ import {
 } from "@orderly.network/types";
 import { cn, Column, Flex, Text } from "@orderly.network/ui";
 import { Badge } from "@orderly.network/ui";
-import { SharePnLConfig, SharePnLDialogId } from "@orderly.network/ui-share";
 import {
   commifyOptional,
   Decimal,
   formatNum,
   getTrailingStopPrice,
 } from "@orderly.network/utils";
+import { SharePnLConfig, SharePnLDialogId } from "@/packages/ui-share";
 import {
   grayCell,
   parseBadgesFor,

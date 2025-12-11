@@ -1,5 +1,5 @@
 import { ForwardedRef, useImperativeHandle, useRef } from "react";
-import { SharePnLConfig } from "@orderly.network/ui-share";
+import { SharePnLConfig } from "@/packages/ui-share";
 import { OrderListInstance } from "./orderList/orderList.script";
 import { TabType } from "./orders.widget";
 

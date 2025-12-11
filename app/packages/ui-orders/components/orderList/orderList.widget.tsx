@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import { OrderSide, OrderStatus, API } from "@orderly.network/types";
-import { SharePnLConfig } from "@orderly.network/ui-share";
+import { SharePnLConfig } from "@/packages/ui-share";
 import { TabType } from "../orders.widget";
 import { OrderListInstance, useOrderListScript } from "./orderList.script";
 import { DesktopOrderList, MobileOrderList } from "./orderList.ui";
