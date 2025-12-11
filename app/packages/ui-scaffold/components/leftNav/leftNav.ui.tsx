@@ -117,6 +117,7 @@ const LeftNavSheet = modal.create<LeftNavUIProps>((props) => {
           <div className="oui-mt-[6px] oui-flex oui-h-[44px] oui-items-center [&_img]:!oui-h-[18px]">
             <MainLogo {...props?.logo} />
           </div>
+          <Divider className="oui-w-full" intensity={8} />
           {props?.leading}
           {showSubAccount && (
             <SubAccountWidget customTrigger={subAccountTrigger} />
@@ -137,7 +138,7 @@ const LeftNavSheet = modal.create<LeftNavUIProps>((props) => {
           )}
           {/* 如何在這邊加上 切換language以及切換currency? */}
           {/* 添加語言切換器 */}
-          <div className="oui-flex oui-items-center oui-justify-between oui-px-3 oui-py-2">
+          <div className="oui-flex oui-items-center oui-justify-between oui-py-2">
             <Text className="oui-text-sm oui-font-semibold oui-text-base-contrast-60">
               {t("languageSwitcher.language")}
             </Text>
@@ -232,7 +233,7 @@ const NavItem: FC<NavItemProps> = ({ item, onClick }) => {
   }
   return (
     <div
-      className="oui-flex oui-w-full oui-items-center oui-gap-2 oui-px-3 oui-py-4"
+      className="oui-flex oui-w-full oui-items-center oui-gap-2 oui-py-4"
       onClick={onItemClick}
     >
       <div>{icon}</div>

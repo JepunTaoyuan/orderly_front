@@ -27,7 +27,7 @@ export default function PortfolioLayout() {
   }, [path]);
 
   return (
-    <BaseLayout initialMenu={PathEnum.Strategy}>
+    <BaseLayout initialMenu={PathEnum.Portfolio}>
       <Outlet />
     </BaseLayout>
     // <PortfolioLayoutWidget
