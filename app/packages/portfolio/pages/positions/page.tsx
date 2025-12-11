@@ -35,7 +35,7 @@ export const PositionsPage: React.FC<PositionsProps> = (props) => {
   const [tab, setTab] = useState(TabsType.positions);
   const { t } = useTranslation();
   const { state, isMainAccount } = useAccount();
-  const isSmallScreen = useMediaQuery("(max-width: 390px)");
+  const isSmallScreen = useMediaQuery("(max-width: 769px)");
 
   const subAccounts = state.subAccounts ?? [];
 

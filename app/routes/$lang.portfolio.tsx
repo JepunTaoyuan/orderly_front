@@ -43,58 +43,7 @@ export default function PortfolioLayout() {
       mainNavProps={{
         ...config.scaffold.mainNavProps,
         initialMenu: PathEnum.Portfolio,
-        logo: {
-          src: "../../public/images/dexless/dexless_logo.svg",
-          alt: "Dexless",
-        },
-        mainMenus: config.scaffold.mainNavProps?.mainMenus?.map((menu) => {
-          return { ...menu, isHomePageInMobile: true };
-        }),
-        leftNav: {
-          menus: [
-            {
-              name: t("common.trading"),
-              href: "/",
-              icon: <TradingIcon />,
-            },
-            {
-              name: t("common.markets"),
-              href: "/markets",
-              icon: <MarketsIcon />,
-            },
-            {
-              name: t("common.affiliate"),
-              href: "/rewards/affiliate",
-              icon: <RewardsIcon />,
-            },
-            {
-              name: t("common.portfolio"),
-              href: "/portfolio",
-              icon: <PortfolioIcon />,
-            },
-            {
-              name: t("tradingLeaderboard.leaderboard"),
-              href: "/leaderboard",
-              icon: <LeaderboardIcon />,
-            },
-            {
-              name: t("common.strategy"),
-              href: "/strategy",
-              icon: <StrategyIcon />,
-            },
-            {
-              name: t("common.vaults"),
-              href: "/vaults",
-              icon: <VaultsIcon />,
-            },
-          ],
-          telegramUrl: "https://t.me/orderlynetwork",
-          twitterUrl: "https://twitter.com/OrderlyNetwork",
-          discordUrl: "https://discord.com/invite/orderlynetwork",
-          feedbackUrl: "https://orderly.network/feedback",
-        },
       }}
-      bottomNavProps={bottomNavProps}
       routerAdapter={{
         onRouteChange,
       }}
@@ -104,21 +53,5 @@ export default function PortfolioLayout() {
     >
       <Outlet />
     </PortfolioLayoutWidget>
-    // 原本版本
-    // <PortfolioLayoutWidget
-    //   footer={<CustomFooter {...config.scaffold.footerProps} />}
-    //   mainNavProps={{
-    //     ...config.scaffold.mainNavProps,
-    //     initialMenu: PathEnum.Portfolio,
-    //   }}
-    //   routerAdapter={{
-    //     onRouteChange,
-    //   }}
-    //   leftSideProps={{
-    //     current: currentPath,
-    //   }}
-    // >
-    //   <Outlet />
-    // </PortfolioLayoutWidget>
   );
 }
