@@ -272,7 +272,6 @@ function instrument(option?: {
   return {
     title: i18n.t("common.symbol"),
     dataIndex: "symbol",
-    fixed: "left",
     // className: "oui-h-[48px]",
     width: option?.width,
     onSort: option?.enableSort
@@ -1098,7 +1097,6 @@ function cancelBtn(option?: {
     width: option?.width,
     className: option?.className,
     align: "right",
-    fixed: "right",
     render: (_: string, record: any) => {
       if (record.status === OrderStatus.CANCELLED) {
         return <Renew record={record} />;
@@ -1127,7 +1125,6 @@ function pendingTabCancelBtn(option?: {
     width: option?.width,
     className: option?.className,
     align: "right",
-    fixed: "right",
     render: (_: string, record: any) => {
       return <CancelButton order={record} />;
     },
@@ -1145,7 +1142,6 @@ function tpslAction(option?: {
     width: option?.width,
     className: option?.className,
     align: "right",
-    fixed: "right",
     render: (_: string, record: any) => {
       return (
         <Flex gap={3}>

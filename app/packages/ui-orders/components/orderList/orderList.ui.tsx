@@ -64,7 +64,7 @@ export const DesktopOrderList: FC<
             body: props.testIds?.tableBody,
           }}
           classNames={{
-            header: "oui-h-[38px]",
+            header: "oui-h-[38px] !oui-static",
             root: "oui-items-start !oui-h-[calc(100%_-_49px)]",
           }}
           onRow={(record, index) => {
@@ -78,9 +78,7 @@ export const DesktopOrderList: FC<
             };
           }}
           generatedRowKey={(record, index) =>
-            `${props.type}${index}${
-              record.order_id || record.algo_order_id
-            }_index${index}`
+            `${props.type}${index}${record.order_id || record.algo_order_id}_index${index}`
           }
           renderRowContainer={(record: any, index, children) => {
             if (

@@ -30,13 +30,14 @@ export const OrdersPage: React.FC<{ sharePnLConfig?: SharePnLConfig }> = (
         <Text size="sm">{t("common.orders")}</Text>
         <Tooltip content={t("orders.download.tooltip")}>
           <Button
-            color="gray"
             size="sm"
-            className="oui-bg-base-4"
             onClick={onDownload}
+            className="oui-rounded-full oui-px-4"
+            style={{
+              backgroundColor: "rgba(110, 85, 223, 1)",
+            }}
           >
             {t("common.download")}
-            <TooltipIcon className="oui-text-base-contrast-36 oui-ml-[5px]" />
           </Button>
         </Tooltip>
       </Flex>
