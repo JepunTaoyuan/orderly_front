@@ -23,7 +23,7 @@ export const useScaffoldScript = (options: ScaffoldScriptOptions) => {
     true,
   );
 
-  const { isMobile } = useScreen();
+  const { isMobile, isDesktop } = useScreen();
 
   const sideBarExpandWidth = options.leftSideProps?.maxWidth || 185;
   const sideBarCollaspedWidth = options.leftSideProps?.minWidth || 98;
@@ -40,6 +40,7 @@ export const useScaffoldScript = (options: ScaffoldScriptOptions) => {
     expand,
     setExpand,
     isMobile,
+    isDesktop,
     sideBarExpandWidth,
     sideBarCollaspedWidth,
     hasLeftSidebar,

@@ -1,4 +1,5 @@
 import React, { PropsWithChildren, ReactNode } from "react";
+import { useMediaQuery } from "@orderly.network/ui";
 import { BottomNavProps } from "../bottomNav/bottomNav.widget";
 import { FooterProps } from "../footer";
 import { LeftNavProps } from "../leftNav";
@@ -62,12 +63,17 @@ export type ScaffoldProps = {
     bottomNav?: string;
   };
 };
-
+// 自定義 1024px 斷點的 hook
+const useCustom = () => {
+  return useMediaQuery("(max-width: 1023px)");
+};
 export const Scaffold: React.FC<PropsWithChildren<ScaffoldProps>> = (props) => {
   const state = useScaffoldScript(props);
+  const isBelow = useCustom();
 
   const renderContent = () => {
-    if (state.isMobile) {
+    // 修改判斷邏輯，讓小於 1024px 就使用 MobileScaffold
+    if (isBelow) {
       return (
         <MobileScaffold {...props} {...state}>
           {props.children}

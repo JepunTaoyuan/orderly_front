@@ -29,6 +29,9 @@ export const LinkDevice: FC<LinkDeviceProps> = (props) => {
       </Tooltip>
 
       <SimpleDialog
+        classNames={{
+          content: "oui-bg-base-10",
+        }}
         title={<Text weight="semibold">{t("common.confirm")}</Text>}
         open={props.open}
         onOpenChange={props.onOpenChange}
@@ -281,8 +284,10 @@ const Spinner = () => {
           y2="40"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="rgb(var(--oui-gradient-brand-end))" />
-          <stop offset="1" stopColor="rgb(var(--oui-gradient-brand-start))" />
+          <stop stopColor="rgb(91 33 182)" />
+          <stop offset="1" stopColor="rgb(91 33 182)" />
+          {/* <stop stopColor="rgb(var(--oui-gradient-brand-end))" />
+          <stop offset="1" stopColor="rgb(var(--oui-gradient-brand-start))" /> */}
         </linearGradient>
       </defs>
     </svg>

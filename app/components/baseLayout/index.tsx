@@ -1,11 +1,18 @@
 import { FC } from "react";
 import { useTranslation } from "@orderly.network/i18n";
+import { VaultsIcon } from "@orderly.network/ui";
 import { CustomFooter } from "@/components/custom/customFooter";
 import { PathEnum } from "@/constant";
 import { useBottomNav } from "@/hooks/custom/useBottomNav";
 import { useNav } from "@/hooks/useNav";
 import { useOrderlyConfig } from "@/hooks/useOrderlyConfig";
 import { Scaffold, ScaffoldProps } from "@/packages/ui-scaffold";
+import { LeaderboardIcon } from "../icons/leaderboardIcon";
+import { MarketsIcon } from "../icons/marketsIcon";
+import { PortfolioIcon } from "../icons/portfolioIcon";
+import { RewardsIcon } from "../icons/rewardsIcon";
+import { StrategyIcon } from "../icons/strategyIcon";
+import { TradingIcon } from "../icons/tradingIcon";
 
 export type BaseLayoutProps = {
   children: React.ReactNode;
@@ -37,22 +44,45 @@ export const BaseLayout: FC<BaseLayoutProps> = (props) => {
         leftNav: {
           menus: [
             {
-              name: t("common.markets"),
-              href: "/markets",
-            },
-            {
               name: t("common.trading"),
               href: "/",
+              icon: <TradingIcon />,
+            },
+            {
+              name: t("common.markets"),
+              href: "/markets",
+              icon: <MarketsIcon />,
+            },
+            {
+              name: t("common.affiliate"),
+              href: "/rewards/affiliate",
+              icon: <RewardsIcon />,
             },
             {
               name: t("common.portfolio"),
               href: "/portfolio",
+              icon: <PortfolioIcon />,
             },
             {
               name: t("tradingLeaderboard.leaderboard"),
               href: "/leaderboard",
+              icon: <LeaderboardIcon />,
+            },
+            {
+              name: t("common.strategy"),
+              href: "/strategy",
+              icon: <StrategyIcon />,
+            },
+            {
+              name: t("common.vaults"),
+              href: "/vaults",
+              icon: <VaultsIcon />,
             },
           ],
+          telegramUrl: "https://t.me/orderlynetwork",
+          twitterUrl: "https://twitter.com/OrderlyNetwork",
+          discordUrl: "https://discord.com/invite/orderlynetwork",
+          feedbackUrl: "https://orderly.network/feedback",
         },
       }}
       footer={<CustomFooter {...config.scaffold.footerProps} />}

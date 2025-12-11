@@ -7,6 +7,7 @@ import {
   Flex,
   Popover,
   Text,
+  useMediaQuery,
 } from "@orderly.network/ui";
 
 type AccountSummaryUi = {
@@ -509,7 +510,9 @@ export const AccountSummary: React.FC<AccountSummaryUi> = (props) => {
           sizeRef.current = 3;
         } else if (width > 1280) {
           sizeRef.current = 2;
-        } else if (width > 1180) {
+          // } else if (width > 1180) {
+          //   sizeRef.current = 1;
+        } else if (width > 1024) {
           sizeRef.current = 1;
         } else {
           sizeRef.current = 0;
@@ -567,9 +570,12 @@ export const AccountSummary: React.FC<AccountSummaryUi> = (props) => {
         );
     }
   });
+  const isSmallScreen = useMediaQuery("(max-width: 389px)");
 
   return (
-    <div className="oui-flex oui-items-center oui-gap-6">
+    <div
+      className={`oui-flex oui-items-center oui-gap-6 ${isSmallScreen ? "oui-hidden" : ""}`}
+    >
       <Items elements={elements} />
       <Popover
         content={
