@@ -39,8 +39,13 @@ export const Liquidation: FC<LiquidationState> = (props) => {
               className="oui-relative oui-px-2 oui-py-[2px] oui-text-sm"
             >
               <div className="oui-z-10">
-                <Text.gradient
-                  color={props.filterDays === value ? "brand" : undefined}
+                <Text
+                  style={{
+                    color:
+                      props.filterDays === value
+                        ? "rgba(255, 255, 255, 0.8)"
+                        : "",
+                  }}
                   className={
                     props.filterDays !== value
                       ? "oui-text-base-contrast-54"
@@ -48,10 +53,16 @@ export const Liquidation: FC<LiquidationState> = (props) => {
                   }
                 >
                   {`${value}D`}
-                </Text.gradient>
+                </Text>
               </div>
               <div
-                className="oui-absolute oui-inset-0 oui-rounded oui-opacity-[.12] oui-gradient-primary"
+                className="oui-absolute oui-inset-0 oui-rounded"
+                style={{
+                  background:
+                    props.filterDays === value
+                      ? "rgba(130, 110, 221, 0.3)"
+                      : "rgba(255, 255, 255, 0.1)",
+                }}
                 onClick={() => {
                   props.updateFilterDays(value as any);
                 }}
