@@ -11,6 +11,8 @@ import {
   Box,
   Divider,
   cn,
+  useMediaQuery,
+  Grid,
 } from "@orderly.network/ui";
 import {
   AssetLineChart,
@@ -79,9 +81,105 @@ export const PerformanceMobileUI: React.FC<
       </SelectItem>
     );
   };
+  const isSmallScreen = useMediaQuery("(max-width: 389px)");
   return (
     <div className="oui-w-full oui-h-screen">
       {/* 新增：下拉選單 */}
+      <Box className="oui-bg-base-9 oui-p-4">
+        {/* Header */}
+        <Flex className="oui-w-full" gap={4} justify={"between"}>
+          <Text size="md" className="oui-mr-2">
+            {t("portfolio.overview.performance")}
+          </Text>
+          <div className="oui-min-w-14">
+            <Select.options
+              size={"xs"}
+              value={period}
+              onValueChange={onPeriodChange}
+              classNames={{ trigger: "oui-px-2" }}
+              contentProps={{
+                align: "end",
+                className: `oui-bg-base-10`,
+              }}
+              options={[
+                { value: PeriodType.WEEK, label: t("common.select.7d") },
+                { value: PeriodType.MONTH, label: t("common.select.30d") },
+                { value: PeriodType.QUARTER, label: t("common.select.90d") },
+              ]}
+              optionRenderer={optionRenderer}
+            />
+          </div>
+        </Flex>
+
+        <Grid
+          cols={isSmallScreen ? 2 : 3}
+          gap={3}
+          my={2}
+          className="oui-items-start oui-w-full"
+        >
+          <div>
+            <Flex
+              gap={1}
+              direction="column"
+              itemAlign="start"
+              className="oui-rounded-lg oui-py-1.5"
+            >
+              <Text className="oui-truncate" intensity={36} size="2xs">
+                {t("portfolio.overview.performance.roi", { period: curPeriod })}
+              </Text>
+              <Text.numeral
+                size="md"
+                visible={visible}
+                rule="percentages"
+                coloring
+              >
+                {invisible ? "--" : aggregateValue.roi}
+              </Text.numeral>
+            </Flex>
+          </div>
+
+          <div>
+            <Flex
+              gap={1}
+              direction="column"
+              itemAlign="start"
+              className="oui-rounded-lg oui-py-1.5"
+            >
+              <Text className="oui-truncate" intensity={36} size="2xs">
+                {t("portfolio.overview.performance.pnl", { period: curPeriod })}
+              </Text>
+              <Text.numeral size="md" visible={visible} coloring showIdentifier>
+                {invisible ? "--" : aggregateValue.pnl}
+              </Text.numeral>
+            </Flex>
+          </div>
+          {/* Divider for small screen only */}
+          {isSmallScreen && (
+            <div className="oui-col-span-2">
+              <Divider intensity={16} />
+            </div>
+          )}
+          <div className={isSmallScreen ? "oui-col-span-2" : ""}>
+            <Flex
+              gap={1}
+              direction="column"
+              itemAlign="start"
+              className="oui-rounded-lg oui-py-1.5"
+            >
+              <Text className="oui-truncate" intensity={36} size="2xs">
+                {t("portfolio.overview.performance.volume", {
+                  period: curPeriod,
+                })}
+              </Text>
+              <Text.numeral size="md" visible={visible} coloring={false}>
+                {invisible ? "--" : aggregateValue.vol}
+              </Text.numeral>
+            </Flex>
+          </div>
+        </Grid>
+      </Box>
+      {/* layout 重構前版本 */}
+      {/* 
       <Box className="oui-bg-base-9 oui-p-4">
         <Flex className="oui-w-full" gap={4} justify={"between"}>
           <Text size="md" className="oui-mr-2">
@@ -138,22 +236,52 @@ export const PerformanceMobileUI: React.FC<
               {invisible ? "--" : aggregateValue.pnl}
             </Text.numeral>
           </Flex>
+          { isSmallScreen ? 
+            (
+            <></>
+            ) :
+            (
+              <Flex
+                gap={1}
+                direction="column"
+                itemAlign="start"
+                className="oui-w-1/3 oui-rounded-lg oui-py-1.5"
+              >
+                <Text className="oui-truncate" intensity={36} size="2xs">
+                  {t("portfolio.overview.performance.volume", { period: curPeriod })}
+                </Text>
+                <Text.numeral size="sm" visible={visible} coloring={false}>
+                  {invisible ? "--" : aggregateValue.vol}
+                </Text.numeral>
+              </Flex>
+            ) 
+          }
         </Flex>
-        <Divider intensity={16} className="oui-mt-1 oui-mb-1" />
-        <Flex
-          gap={1}
-          direction="column"
-          itemAlign="start"
-          className="oui-w-1/3 oui-rounded-lg oui-py-1.5"
-        >
-          <Text className="oui-truncate" intensity={36} size="2xs">
-            {t("portfolio.overview.performance.volume", { period: curPeriod })}
-          </Text>
-          <Text.numeral size="sm" visible={visible} coloring={false}>
-            {invisible ? "--" : aggregateValue.vol}
-          </Text.numeral>
-        </Flex>
-      </Box>
+        { isSmallScreen ?
+          (
+            <>
+              <Divider intensity={16} className="oui-mt-1 oui-mb-1" />
+              <Flex
+                gap={1}
+                direction="column"
+                itemAlign="start"
+                className="oui-w-1/3 oui-rounded-lg oui-py-1.5"
+              >
+                <Text className="oui-truncate" intensity={36} size="2xs">
+                  {t("portfolio.overview.performance.volume", { period: curPeriod })}
+                </Text>
+                <Text.numeral size="sm" visible={visible} coloring={false}>
+                  {invisible ? "--" : aggregateValue.vol}
+                </Text.numeral>
+              </Flex>
+            </>
+          ):
+          (
+            <></>
+          )
+        }
+      </Box> 
+      */}
       <Box className="oui-bg-base-9 oui-p-4 oui-mb-2 oui-mt-2">
         <Text as="div" size="sm" className="oui-text-base-contrast-54 ">
           {t("portfolio.overview.performance.dailyPnl")}

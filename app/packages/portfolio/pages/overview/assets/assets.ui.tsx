@@ -12,6 +12,7 @@ import {
   gradientTextVariants,
   EditIcon,
   EyeCloseIcon,
+  useMediaQuery,
 } from "@orderly.network/ui";
 import { AuthGuard } from "@orderly.network/ui-connector";
 import { AssetScriptReturn } from "./assets.script";
@@ -164,10 +165,12 @@ export const AssetStatistic = (props: AssetStatisticProps) => {
 
 export const AssetStatisticMobile = (props: AssetStatisticProps) => {
   const { t } = useTranslation();
-
+  const isSmallScreen = useMediaQuery("(max-width: 389px)");
+  const cols = isSmallScreen ? 1 : 4;
   return (
     <Grid
-      cols={1}
+      // 這邊想要加入寬度的 hook 當在390-768的時候cols={4} 當小於390的時候cols={1}
+      cols={cols}
       className="oui-h-auto oui-w-full oui-px-4 oui-pb-2 oui-bg-base-9"
     >
       <Statistic
@@ -177,7 +180,7 @@ export const AssetStatisticMobile = (props: AssetStatisticProps) => {
         <Flex>
           <Text.pnl
             coloring
-            size="lg"
+            size="md"
             weight="semibold"
             visible={props.visible}
           >
@@ -186,7 +189,7 @@ export const AssetStatisticMobile = (props: AssetStatisticProps) => {
           <Text.roi
             coloring
             rule="percentages"
-            size=""
+            size="md"
             weight="semibold"
             prefix={"("}
             suffix={")"}
@@ -194,7 +197,6 @@ export const AssetStatisticMobile = (props: AssetStatisticProps) => {
             style={{
               // color: "#992762",
               paddingLeft: "5px",
-              paddingTop: "5px",
             }}
           >
             {props.unrealROI}
@@ -207,7 +209,7 @@ export const AssetStatisticMobile = (props: AssetStatisticProps) => {
         // @ts-ignore
         align="right"
         // @ts-ignore
-        valueProps={{ size: "lg", visible: props.visible }}
+        valueProps={{ size: "md", visible: props.visible }}
       >
         {props.freeCollateral}
       </Statistic>
