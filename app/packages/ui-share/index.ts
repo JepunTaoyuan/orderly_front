@@ -19,7 +19,8 @@ registerSimpleDialog(SharePnLDialogId, SharePnLDialogWidget, {
 registerSimpleSheet(SharePnLBottomSheetId, SharePnLBottomSheetWidget, {
   title: i18n.t("share.pnl.sharePnl"),
   classNames: {
-    body: "oui-pb-4 oui-pt-0",
+    body: "oui-pb-4 oui-pt-0 oui-bg-base-9",
+    content: "mad",
   },
 });
 

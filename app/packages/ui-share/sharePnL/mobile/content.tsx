@@ -143,7 +143,7 @@ export const MobileSharePnLContent: FC<{
   savePnlInfo(pnlFormat, shareOption, selectIndex, message);
 
   return (
-    <div className="oui-w-full">
+    <div className="oui-w-full oui-bg-base-10">
       <div
         ref={carouselRef}
         className="oui-mt-4 oui-w-full oui-overflow-hidden"
@@ -205,7 +205,7 @@ export const MobileSharePnLContent: FC<{
           <div className="oui-h-[18px] oui-text-3xs oui-text-base-contrast-54">
             {t("share.pnl.optionalInfo")}
           </div>
-          <div className="oui-mt-3 oui-flex oui-flex-wrap oui-gap-3">
+          <div className="oui-mt-3 oui-grid oui-grid-cols-2 oui-gap-3">
             {options.map((item, index) => (
               <ShareOption
                 key={index}
@@ -221,12 +221,13 @@ export const MobileSharePnLContent: FC<{
           <div className="oui-h-[18px] oui-text-3xs oui-text-base-contrast-54">
             {t("share.pnl.optionalInfo.message")}
           </div>
-          <div className="oui-bg-base-600 oui-mx-1 oui-mt-3 oui-h-[48px]">
+          <div className="oui-mx-1 oui-mt-3 oui-h-[48px]">
             <Input
               placeholder={t("share.pnl.optionalInfo.message.placeholder")}
               containerClassName="oui-bg-transparent oui-h-[48px]"
               value={message}
               autoFocus={false}
+              className="custom-apply-to-everything"
               onChange={(e) => {
                 if (e.target.value.length > 25) {
                   toast.error(t("share.pnl.optionalInfo.message.maxLength"));
@@ -263,7 +264,10 @@ export const MobileSharePnLContent: FC<{
       <div className="oui-pt-2">
         <Button
           fullWidth
-          className="oui-h-[40px] oui-text-[16px]"
+          className="oui-h-[40px] oui-text-[16px] oui-rounded-full"
+          style={{
+            backgroundColor: "rgba(110, 85, 223, 1)",
+          }}
           onClick={() => {
             const ref = posterRefs?.[selectIndex];
             if (ref) {
@@ -302,15 +306,20 @@ const PnlFormatView: FC<{
   return (
     <div
       className={cn(
-        "oui-referral-shadow oui-flex oui-h-[46px] oui-flex-1 oui-items-center oui-rounded-lg oui-bg-base-4 oui-px-3 oui-shadow-lg hover:oui-cursor-pointer",
-        isSelected && "oui-dot-sel oui-bg-primary-darken",
+        "oui-flex oui-h-8 oui-min-h-8 oui-flex-1 oui-items-center oui-justify-center oui-rounded-full oui-px-4 hover:oui-cursor-pointer",
       )}
+      style={{
+        backgroundColor: isSelected
+          ? "rgba(110, 85, 223, 1)"
+          : "rgba(255, 255, 255, 0.1)",
+      }}
       onClick={() => {
         setPnlFormat(type);
       }}
     >
-      <div className="oui-text-sm oui-text-base-contrast">{text}</div>
-      {/* {isSelected && <RadioIcon size={20} />} */}
+      <div className="oui-text-xs oui-font-semibold oui-text-base-contrast">
+        {text}
+      </div>
     </div>
   );
 };
@@ -347,10 +356,12 @@ const ShareOption: FC<{
   return (
     <div
       className={cn(
-        "oui-referral-shadow oui-mt-0 oui-flex oui-h-[46px] oui-w-[calc(50%-6px)] oui-items-center oui-rounded-lg oui-bg-base-4 oui-p-3 oui-shadow-lg hover:oui-cursor-pointer",
+        "oui-flex oui-h-8 oui-min-h-8 oui-w-full oui-items-center oui-justify-between oui-rounded-full oui-px-4 hover:oui-cursor-pointer",
       )}
+      style={{
+        backgroundColor: "rgba(255, 255, 255, 0.1)",
+      }}
       onClick={() => {
-        // setPnlFormat(type);
         setShareOption((value: Set<ShareOptions>) => {
           const updateSet = new Set(value);
           if (isSelected) {
@@ -362,10 +373,10 @@ const ShareOption: FC<{
         });
       }}
     >
-      <div className="oui-flex-1 oui-text-sm oui-text-base-contrast">
+      <div className="oui-text-xs oui-font-semibold oui-text-base-contrast">
         {text}
       </div>
-      {isSelected && <ChoicesFillIcon />}
+      {isSelected && <ChoicesFillIcon size={16} />}
     </div>
   );
 };
@@ -410,11 +421,11 @@ const MyIdentifier: FC<{
   );
 };
 
-const ChoicesFillIcon = () => {
+const ChoicesFillIcon: FC<{ size?: number }> = ({ size = 24 }) => {
   return (
     <svg
-      width="24"
-      height="24"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
