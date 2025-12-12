@@ -150,4 +150,8 @@
   .custom-fee-tier-bg {
     background-color: rgba(49, 39, 95, 1);
   }
+
+  .mad {
+    background-color: rgba(12, 13, 16, 1)
+  }
 }

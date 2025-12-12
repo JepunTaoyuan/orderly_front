@@ -3,8 +3,8 @@ import { useOrderStream } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import { modal, Text, toast } from "@orderly.network/ui";
 import { TabType } from "@orderly.network/ui-orders";
-import { SharePnLConfig } from "@orderly.network/ui-share";
 import { useGridStrategies } from "@/hooks/custom/useGridStrategies";
+import { SharePnLConfig } from "@/packages/ui-share";
 import {
   usePendingOrderCount,
   usePositionsCount,

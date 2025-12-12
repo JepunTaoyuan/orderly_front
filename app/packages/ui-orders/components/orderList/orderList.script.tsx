@@ -22,7 +22,7 @@ import {
   API,
 } from "@orderly.network/types";
 import { modal, usePagination, Text, Table } from "@orderly.network/ui";
-import { SharePnLConfig } from "@orderly.network/ui-share";
+import { SharePnLConfig } from "@/packages/ui-share";
 import { areDatesEqual } from "../../utils/util";
 import { TabType } from "../orders.widget";
 import { useFormatOrderHistory } from "./useFormatOrderHistory";

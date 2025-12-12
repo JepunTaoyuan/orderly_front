@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { useTranslation } from "@orderly.network/i18n";
 import { Divider, Flex, Grid, modal, Text } from "@orderly.network/ui";
-import { SharePnLBottomSheetId } from "@orderly.network/ui-share";
 import { commifyOptional } from "@orderly.network/utils";
+import { SharePnLBottomSheetId } from "@/packages/ui-share";
 import { ShareButtonWidget } from "../../positions/desktop/shareButton";
 import {
   PositionHistoryType,

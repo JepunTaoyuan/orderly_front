@@ -1,5 +1,5 @@
 import { API } from "@orderly.network/types";
-import { SharePnLConfig } from "@orderly.network/ui-share";
+import { SharePnLConfig } from "@/packages/ui-share";
 import { TabType } from "../../orders.widget";
 import { useOrderCellScript } from "./orderCell.script";
 import { OrderCell } from "./orderCell.ui";

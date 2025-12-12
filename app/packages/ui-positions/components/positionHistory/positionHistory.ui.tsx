@@ -9,7 +9,7 @@ import {
   Text,
 } from "@orderly.network/ui";
 import { AuthGuardDataTable } from "@orderly.network/ui-connector";
-import { SharePnLConfig } from "@orderly.network/ui-share";
+import { SharePnLConfig } from "@/packages/ui-share";
 import { SymbolProvider } from "../../provider/symbolProvider";
 import { usePositionHistoryColumn } from "./desktop/usePositionHistoryColumn";
 import { PositionHistoryCellWidget } from "./mobile";

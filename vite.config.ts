@@ -1,8 +1,9 @@
 import { vitePlugin as remix } from "@remix-run/dev";
+import path from "path";
 import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
 import { cjsInterop } from "vite-plugin-cjs-interop";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 declare module "@remix-run/node" {
   interface Future {
@@ -18,6 +19,14 @@ export default defineConfig(() => {
   }
 
   return {
+    resolve: {
+      alias: {
+        "@orderly.network/ui-scaffold": path.resolve(
+          __dirname,
+          "app/packages/ui-scaffold",
+        ),
+      },
+    },
     ssr: {
       noExternal,
       // noExternal: [/^@orderly.*$/, "ethers"],

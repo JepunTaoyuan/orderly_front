@@ -7,8 +7,8 @@ import {
 } from "@orderly.network/hooks";
 import { account, positions } from "@orderly.network/perp";
 import { modal } from "@orderly.network/ui";
-import { SharePnLConfig } from "@orderly.network/ui-share";
 import { formatNum } from "@orderly.network/utils";
+import { SharePnLConfig } from "@/packages/ui-share";
 
 export type ShareButtonScriptOptions = {
   position: any;

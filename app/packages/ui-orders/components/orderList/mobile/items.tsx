@@ -15,8 +15,8 @@ import {
 } from "@orderly.network/types";
 import { OrderSide } from "@orderly.network/types";
 import { Badge, Flex, Statistic, Text, Tooltip } from "@orderly.network/ui";
-import { SharePnLBottomSheetId } from "@orderly.network/ui-share";
 import { Decimal, getTrailingStopPrice } from "@orderly.network/utils";
+import { SharePnLBottomSheetId } from "@/packages/ui-share";
 import {
   getNotional,
   parseBadgesFor,

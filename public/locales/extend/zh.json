@@ -103,6 +103,7 @@
     "userApiKeyPairCheckFailed": "檢查用戶API密鑰失敗"
   },
   "customs": {
-    "howtotrade": "如何在Dexless上交易？"
+    "howtotrade": "如何在Dexless上交易？",
+    "pnlTitle": "分享收益圖"
   }
 }
