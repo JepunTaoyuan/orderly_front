@@ -83,7 +83,8 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
   };
   const isSmallScreen = useMediaQuery("(max-width: 389px)");
   const showLinkDevice =
-    state.status === AccountStatusEnum.EnableTradingWithoutConnected;
+    state.status == AccountStatusEnum.EnableTradingWithoutConnected;
+
   const shouldShowLinkDevice = showLinkDevice || isSmallScreen;
 
   const showChainMenu = !showLinkDevice && !wrongNetwork;
@@ -150,7 +151,7 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
       <Flex width="100%" justify="between">
         <Flex gapX={2}>{title}</Flex>
 
-        <Flex gapX={2}>
+        <Flex gapX={1}>
           {props.leading}
           {accountSummary}
           {linkDevice}

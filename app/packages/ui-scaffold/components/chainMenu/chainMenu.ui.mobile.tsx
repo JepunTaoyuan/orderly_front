@@ -29,7 +29,7 @@ export const ChainMenuUiMobile = (props: UseChainMenuScriptReturn) => {
           );
       }}
     >
-      <Box className="oui-relative oui-rounded-t-[6px] oui-rounded-bl-[6px] oui-rounded-br-[3px] oui-px-2 oui-h-8 oui-w-8 oui-flex oui-items-center oui-justify-center">
+      <Box className="oui-relative oui-h-4 oui-w-5 oui-flex oui-items-center oui-justify-center">
         <ChainIcon
           chainId={props.currentChainId!}
           size="xs"
