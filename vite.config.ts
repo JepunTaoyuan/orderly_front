@@ -25,6 +25,10 @@ export default defineConfig(() => {
           __dirname,
           "app/packages/ui-scaffold",
         ),
+        "@orderly.network/ui-share": path.resolve(
+          __dirname,
+          "app/packages/ui-share",
+        ),
       },
     },
     ssr: {
