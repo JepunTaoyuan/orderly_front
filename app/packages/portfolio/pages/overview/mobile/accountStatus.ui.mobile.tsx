@@ -91,11 +91,11 @@ export function EVMChainPopover({ children }: { children: React.ReactNode }) {
       size: "xs",
       content: (
         <div>
-          <div className="oui-p-1 oui-grid oui-grid-cols-2 oui-gap-x-2 oui-gap-y-3 oui-text-2xs oui-text-base-contrast-54">
+          <div className="oui-p-2 oui-grid oui-grid-cols-2 oui-gap-x-2 oui-gap-y-3 oui-text-2xs oui-cursor-pointer oui-text-base-contrast-54">
             {chains.map((item, key) => (
               <div
                 key={key}
-                className="oui-flex oui-items-center oui-justify-start oui-gap-1"
+                className="oui-flex oui-items-center oui-justify-start oui-gap-1 hover:oui-bg-base-5"
               >
                 <ChainIcon chainId={item.chain_id} size="2xs" />
                 <div>{item.name}</div>
@@ -212,17 +212,17 @@ const ShowAccount: FC = () => {
     );
   }, [currentNamespace]);
 
-  // const bgClass = useMemo(() => {
-  //   let bg = "";
-  //   if (currentNamespace == ChainNamespace.evm) {
-  //     bg =
-  //       "oui-bg-[linear-gradient(15deg,#283BEE_-11%,transparent_30%,transparent_77%,#A53411_100%)]";
-  //   } else if (currentNamespace == ChainNamespace.solana) {
-  //     bg =
-  //       "oui-bg-[linear-gradient(15deg,#7400D0_-11%,transparent_30%,transparent_77%,#009A7E_100%)]";
-  //   }
-  //   return bg;
-  // }, [currentNamespace]);
+  const bgClass = useMemo(() => {
+    let bg = "";
+    if (currentNamespace == ChainNamespace.evm) {
+      bg =
+        "oui-bg-[linear-gradient(15deg,#283BEE_-11%,transparent_30%,transparent_77%,#A53411_100%)]";
+    } else if (currentNamespace == ChainNamespace.solana) {
+      bg =
+        "oui-bg-[linear-gradient(15deg,#7400D0_-11%,transparent_30%,transparent_77%,#009A7E_100%)]";
+    }
+    return bg;
+  }, [currentNamespace]);
   return (
     <div
       className={cn([

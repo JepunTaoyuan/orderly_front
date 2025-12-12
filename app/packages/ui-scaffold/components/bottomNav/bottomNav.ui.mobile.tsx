@@ -30,8 +30,15 @@ export const BottomNav: React.FC<BottomNavProps> = (props) => {
             onRouteChange?.({ href: menu.href, name: menu.name });
           }}
         >
-          <Text>{isActive ? menu.activeIcon : menu.inactiveIcon}</Text>
-          <Text>{menu.name}</Text>
+          <Text style={isActive ? { color: " #c9bdff" } : { color: "#858585" }}>
+            {isActive ? menu.activeIcon : menu.inactiveIcon}
+          </Text>
+          <Text
+            size="xs"
+            style={isActive ? { color: " #c9bdff" } : { color: "#858585" }}
+          >
+            {menu.name}
+          </Text>
         </Flex>
       );
     });

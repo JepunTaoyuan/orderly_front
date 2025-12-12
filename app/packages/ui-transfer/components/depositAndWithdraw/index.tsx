@@ -57,15 +57,17 @@ export const DepositAndWithdraw: FC<DepositAndWithdrawProps> = (props) => {
 };
 
 registerSimpleDialog(DepositAndWithdrawWithDialogId, DepositAndWithdraw, {
-  size: "md",
+  size: "lg",
   classNames: {
     content: "oui-border oui-border-line-6 oui-bg-base-10",
   },
 });
-// 正式環境測試無法改 overlay bgColor
+
 registerSimpleSheet(DepositAndWithdrawWithSheetId, DepositAndWithdraw, {
-  classNames: {
-    content: "oui-rounded-none oui-bg-base-10",
-    overlay: "oui-bg-base-10",
+  contentProps: {
+    style: {
+      borderRadius: "0",
+      backgroundColor: "#0c0d10",
+    },
   },
 });

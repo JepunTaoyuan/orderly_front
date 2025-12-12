@@ -51,26 +51,6 @@ export const PortfolioLayoutMobile: FC<
             current={props?.current}
             subItems={props?.items}
             routerAdapter={props.routerAdapter}
-            leftNav={{
-              menus: [
-                {
-                  name: t("common.markets"),
-                  href: "/markets",
-                },
-                {
-                  name: t("common.trading"),
-                  href: "/",
-                },
-                {
-                  name: t("common.portfolio"),
-                  href: "/portfolio",
-                },
-                {
-                  name: t("tradingLeaderboard.leaderboard"),
-                  href: "/leaderboard",
-                },
-              ],
-            }}
           />
         </header>
 

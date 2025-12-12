@@ -1,7 +1,10 @@
 import { FC } from "react";
 import { i18n } from "@orderly.network/i18n";
-import { registerSimpleDialog } from "@orderly.network/ui";
-import { registerSimpleSheet } from "@orderly.network/ui";
+import {
+  registerSimpleDialog,
+  useScreen,
+  registerSimpleSheet,
+} from "@orderly.network/ui";
 import {
   TransferFormScriptOptions,
   useTransferFormScript,
@@ -33,7 +36,7 @@ export const TransferWidget: FC<TransferFormWidgetProps> = (props) => {
 };
 
 registerSimpleDialog(TransferDialogId, TransferWidget, {
-  size: "md",
+  size: "lg",
   classNames: {
     content: "oui-border oui-border-line-6 oui-bg-base-10",
   },
@@ -42,4 +45,11 @@ registerSimpleDialog(TransferDialogId, TransferWidget, {
 
 registerSimpleSheet(TransferSheetId, TransferWidget, {
   title: () => i18n.t("common.transfer"),
+  contentProps: {
+    style: {
+      borderRadius: "0",
+      backgroundColor: "#0c0d10",
+      // backgroundColor:"var (--oui-color-base-10)"
+    },
+  },
 });
