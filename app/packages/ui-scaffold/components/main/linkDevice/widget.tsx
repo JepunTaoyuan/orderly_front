@@ -8,7 +8,8 @@ export const LinkDeviceWidget: React.FC = () => {
   const { isMobile } = useScreen();
   const state = useLinkDeviceScript();
   if (isMobile) {
-    return <LinkDeviceMobile {...state} />;
+    // return <LinkDeviceMobile {...state} />;
+    return <LinkDevice {...state} />;
   }
   return <LinkDevice {...state} />;
 };

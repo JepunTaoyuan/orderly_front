@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useMediaQuery } from "@orderly.network/hooks";
 import { useAppConfig } from "@orderly.network/react-app";
 import { Logo } from "@orderly.network/ui";
 import { OrderlyLogo } from "../icons";
@@ -7,8 +8,8 @@ type MainLogoProps = {
   src?: string;
   alt?: string;
 };
-
 export const MainLogo: FC<MainLogoProps> = (props) => {
+  const isSmall = useMediaQuery("(max-width: 389px)");
   return (
     // logo 標題
     // <div
@@ -21,7 +22,7 @@ export const MainLogo: FC<MainLogoProps> = (props) => {
     //   DEXLESS
     // </div>
     <svg
-      width="114"
+      width={isSmall ? "80" : "114"}
       height="16"
       viewBox="0 0 114 16"
       fill="none"

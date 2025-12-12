@@ -1,3 +1,4 @@
+import { useMediaQuery } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import { AccountStatusEnum } from "@orderly.network/types";
 import {
@@ -173,7 +174,6 @@ export type AccountState = {
     chainId: number;
   };
 };
-
 const WalletMenu = (props: {
   address: string;
   onDisconnect: () => void;
@@ -181,17 +181,17 @@ const WalletMenu = (props: {
 }) => {
   const { address, onDisconnect } = props;
   const { t } = useTranslation();
-
+  const isSmallScreen = useMediaQuery("(max-width: 389px)");
   return (
     <DropdownMenuRoot>
       <DropdownMenuTrigger asChild>
         <Button
-          size={"md"}
+          size={isSmallScreen ? "xs" : "md"}
           variant="text"
           data-testid="oui-testid-nav-bar-address-btn"
           className="hover:oui-bg-base-0"
         >
-          <Text.formatted rule="address" className="oui-text-white oui-mx-2">
+          <Text.formatted rule="address" className="oui-text-white oui-px-1">
             {address}
           </Text.formatted>
           <svg
