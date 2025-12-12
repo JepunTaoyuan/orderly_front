@@ -17,6 +17,8 @@ import {
   TabPanel,
   ArrowDownShortIcon,
   Button,
+  Divider,
+  Grid,
 } from "@orderly.network/ui";
 import type { SelectOption } from "@orderly.network/ui";
 import { AuthGuard, AuthGuardDataTable } from "@orderly.network/ui-connector";
@@ -330,6 +332,68 @@ export const AssetsTable: React.FC<AssetsWidgetProps> = (props) => {
               {...pick(["isMainAccount", "onDeposit", "onWithdraw"], props)}
             />
           </Flex>
+          <AssetsDataTable
+            {...pick(
+              [
+                "columns",
+                "dataSource",
+                "isMainAccount",
+                "onFilter",
+                "selectedAccount",
+                "selectedAsset",
+                "assetsOptions",
+                "state",
+                "canTrade",
+              ],
+              props,
+            )}
+            classNames={{
+              scrollRoot:
+                "oui-max-h-[700px] oui-overflow-y-auto oui-custom-scrollbar oui-w-full",
+            }}
+            dataTableClassNames={{
+              header: "oui-mr-[-1px]",
+            }}
+          />
+        </TabPanel>
+        <TabPanel
+          value="convertHistory"
+          className="oui-rounded-xl oui-bg-base-9 oui-px-6"
+          title={t("portfolio.overview.tab.convert.history")}
+        >
+          <React.Suspense fallback={null}>
+            <LazyConvertHistoryWidget />
+          </React.Suspense>
+        </TabPanel>
+      </Tabs>
+    </Card>
+  );
+};
+
+export const AssetsTableMobile: React.FC<AssetsWidgetProps> = (props) => {
+  const { t } = useTranslation();
+  return (
+    <Card
+      className={"oui-bg-base-9 oui-p-0"}
+      classNames={{ content: "!oui-pt-0" }}
+    >
+      <div className="oui-pt-5 oui-px-5">Assets</div>
+      <Divider intensity={8} className="oui-pt-2" />
+      <Tabs
+        defaultValue="assets"
+        variant="text"
+        classNames={{ tabsList: "oui-pt-5 oui-px-5" }}
+        size="sm"
+      >
+        <TabPanel value="assets" className="" title={t("common.assets")}>
+          <Grid className="oui-rounded-xl oui-bg-base-9 oui-p-5">
+            <TotalValueInfo
+              {...pick(["totalValue", "visible", "onToggleVisibility"], props)}
+            />
+            <DepositAndWithdrawButton
+              {...pick(["isMainAccount", "onDeposit", "onWithdraw"], props)}
+            />
+          </Grid>
           <AssetsDataTable
             {...pick(
               [
