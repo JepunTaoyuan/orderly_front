@@ -345,7 +345,7 @@ export const AssetsTableMobile: React.FC<useAssetsScriptReturn> = (props) => {
   }
 
   return (
-    <div style={{ padding: "8px 10px 8px 10px" }}>
+    <div>
       <Card
         className="oui-p-0 oui-bg-base-10"
         classNames={{ content: "!oui-pt-0" }}
