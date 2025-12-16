@@ -124,7 +124,7 @@ export const useTradingScript = () => {
       case "middle":
         return 70;
       case "large":
-        return 280;
+        return 350;
       default:
         return 0;
     }

@@ -86,14 +86,6 @@ const LazyDataListWidget = React.lazy(() =>
   }),
 );
 
-const LazySwitchLayout = React.lazy(() =>
-  import("../../components/desktop/layout/switchLayout").then((mod) => {
-    return {
-      default: mod.SwitchLayout,
-    };
-  }),
-);
-
 const LazyOrderBookAndTradesWidget = React.lazy(() =>
   import("../../components/desktop/orderBookAndTrades").then((mod) => {
     return {
@@ -303,8 +295,6 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = (props) => {
     <HorizontalMarketsWidget
       symbol={props.symbol}
       onSymbolChange={props.onSymbolChange}
-      maxItems={-1} // show all markets
-      dropdownPos={marketLayout === "bottom" ? "top" : "bottom"}
     />
   );
 
@@ -370,16 +360,6 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = (props) => {
         onSymbolChange={props.onSymbolChange}
         closeCountdown={closeCountdown}
         showCountdown={showCountdown}
-        trailing={
-          <React.Suspense fallback={null}>
-            <LazySwitchLayout
-              layout={layout}
-              onLayout={onLayout}
-              marketLayout={marketLayout}
-              onMarketLayout={onMarketLayout}
-            />
-          </React.Suspense>
-        }
       />
     </Box>
   );

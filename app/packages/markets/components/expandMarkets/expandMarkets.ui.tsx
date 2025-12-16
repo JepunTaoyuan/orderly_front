@@ -65,8 +65,8 @@ export const ExpandMarkets: React.FC<ExpandMarketsProps> = (props) => {
         </React.Suspense>
       </Box>
       <Tabs
-        variant="contained"
-        size="md"
+        variant="text"
+        size="sm"
         value={activeTab}
         onValueChange={onTabChange}
         classNames={{

@@ -1,99 +1,112 @@
-import React from "react";
-import { Box, cn, Flex, Marquee } from "@orderly.network/ui";
+import React, { useState } from "react";
+import { useTranslation } from "@orderly.network/i18n";
+import { Box, cn, TabPanel, Tabs } from "@orderly.network/ui";
+import { FavoritesIcon } from "../../icons";
+import { MarketsTabName } from "../../type";
+import { ExpandMarketsWidget } from "../expandMarkets";
+import { RwaTab } from "../rwaTab";
+import { useFavoritesProps } from "../shared/hooks/useFavoritesExtraProps";
 import type { HorizontalMarketsScriptReturn } from "./horizontalMarkets.script";
-import { MarketItem } from "./marketItem.ui";
-import { MarketTypeFilter } from "./marketTypeFilter.ui";
-import type { DropdownPos } from "./marketTypeFilter.ui";
+
+const LazySearchInput = React.lazy(() =>
+  import("../searchInput").then((mod) => {
+    return { default: mod.SearchInput };
+  }),
+);
+
+const LazyMarketsListWidget = React.lazy(() =>
+  import("../marketsList").then((mod) => {
+    return { default: mod.MarketsListWidget };
+  }),
+);
 
 export type HorizontalMarketsProps = HorizontalMarketsScriptReturn & {
   className?: string;
-  dropdownPos?: DropdownPos;
 };
 
+const cls = "oui-h-[calc(100%_-_36px)]";
+
 export const HorizontalMarkets = React.memo<HorizontalMarketsProps>((props) => {
-  const {
-    symbols,
-    tickerData,
-    currentSymbol,
-    onSymbolClick,
-    selectedMarketType,
-    onMarketTypeChange,
-    className,
-    dropdownPos,
-  } = props;
+  const { activeTab, onTabChange, tabSort, onTabSort, className } = props;
 
-  // Memoize the render function to prevent unnecessary re-renders
-  const renderMarketItem = React.useCallback(
-    (symbol: string, index: number) => {
-      const data = tickerData[symbol];
-      const isActive = currentSymbol === symbol;
+  const { t } = useTranslation();
 
-      if (!data) {
-        return null;
-      }
+  const { getFavoritesProps, renderEmptyView } = useFavoritesProps();
 
-      return (
-        <MarketItem
-          key={symbol}
-          symbol={symbol}
-          tickerData={data}
-          isActive={isActive}
-          onSymbolClick={onSymbolClick}
-        />
-      );
-    },
-    [tickerData, currentSymbol, onSymbolClick],
-  );
-
-  const carouselOptions = React.useMemo(
-    () => ({
-      loop: true,
-      align: "start" as const,
-      axis: "x" as const,
-    }),
-    [],
-  );
-
-  const autoScrollOptions = React.useMemo(
-    () => ({
-      speed: 1,
-      direction: "forward" as const,
-      stopOnMouseEnter: true,
-    }),
-    [],
-  );
+  const renderTab = (type: MarketsTabName) => {
+    return (
+      <div className={cls}>
+        <React.Suspense fallback={null}>
+          <LazyMarketsListWidget
+            type={type}
+            initialSort={tabSort[type]}
+            onSort={onTabSort(type)}
+            tableClassNames={{
+              scroll: cn(
+                "oui-px-1",
+                type === MarketsTabName.Favorites ? "oui-pb-9" : "oui-pb-2",
+              ),
+            }}
+            {...getFavoritesProps(type)}
+            emptyView={renderEmptyView({
+              type,
+              onClick: () => {
+                onTabChange(MarketsTabName.All);
+              },
+            })}
+          />
+        </React.Suspense>
+      </div>
+    );
+  };
 
   return (
     <Box
       className={cn(
         "oui-horizontal-markets",
+        "oui-overflow-hidden oui-font-semibold",
         "oui-bg-base-9 oui-rounded-[12px]",
-        "oui-w-full oui-px-3 oui-py-2",
         className,
       )}
+      height="100%"
     >
-      <Flex
-        direction="row"
-        gapX={3}
-        itemAlign="center"
-        className="oui-size-full"
+      <Box px={3} pb={2}>
+        <React.Suspense fallback={null}>
+          <LazySearchInput />
+        </React.Suspense>
+      </Box>
+      <Tabs
+        variant="text"
+        size="sm"
+        value={activeTab}
+        onValueChange={onTabChange}
+        classNames={{
+          tabsList: cn("oui-my-[6px]"),
+          tabsContent: "oui-h-full",
+          scrollIndicator: "oui-mx-3",
+        }}
+        className={cls}
+        showScrollIndicator
       >
-        {/* Filter Button */}
-        <MarketTypeFilter
-          selectedMarketType={selectedMarketType}
-          onMarketTypeChange={onMarketTypeChange}
-          position={dropdownPos}
-        />
-
-        {/* Markets List */}
-        <Marquee
-          data={symbols}
-          renderItem={renderMarketItem}
-          carouselOptions={carouselOptions}
-          autoScrollOptions={autoScrollOptions}
-          className="oui-h-full"
-        />
-      </Flex>
+        <TabPanel title={<FavoritesIcon />} value={MarketsTabName.Favorites}>
+          {renderTab(MarketsTabName.Favorites)}
+        </TabPanel>
+        <TabPanel title={t("common.all")} value={MarketsTabName.All}>
+          {renderTab(MarketsTabName.All)}
+        </TabPanel>
+        <TabPanel title={<RwaTab />} value={MarketsTabName.Rwa}>
+          {renderTab(MarketsTabName.Rwa)}
+        </TabPanel>
+        <TabPanel
+          title={t("markets.newListings")}
+          value={MarketsTabName.NewListing}
+        >
+          {renderTab(MarketsTabName.NewListing)}
+        </TabPanel>
+        <TabPanel title={t("markets.recent")} value={MarketsTabName.Recent}>
+          {renderTab(MarketsTabName.Recent)}
+        </TabPanel>
+      </Tabs>
     </Box>
   );
 });
