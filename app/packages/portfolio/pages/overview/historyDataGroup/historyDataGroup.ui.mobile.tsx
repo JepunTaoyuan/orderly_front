@@ -20,8 +20,8 @@ export const HistoryDataGroupMobile: React.FC<{
     <Tabs
       value={active}
       onValueChange={onTabChange}
-      variant="contained"
-      size="lg"
+      variant="text"
+      size="sm"
       classNames={{
         tabsList: "oui-px-3 oui-py-2",
         scrollIndicator: "oui-pr-3",

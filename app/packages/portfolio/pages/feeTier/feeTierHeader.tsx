@@ -288,7 +288,10 @@ export const FeeTierHeader: React.FC<FeeTierHeaderProps> = (props) => {
     return (
       <Grid
         className="oui-auto-rows-fr oui-rounded-sm oui-border oui-border-base-6"
-        style={{ padding: "10px" }}
+        style={{
+          padding: "10px",
+          backgroundColor: "rgba(255, 255, 255, 0.05)",
+        }}
         width={"100%"}
       >
         {mergedData.map((item, index) => (

@@ -7,11 +7,7 @@ import { SettingMobile } from "./setting.ui.mobile";
 export const Setting: FC<SettingScriptReturns> = (props) => {
   const { isMobile } = useScreen();
   if (isMobile) {
-    return (
-      <div className="oui-px-3">
-        <SettingMobile {...props} />
-      </div>
-    );
+    return <SettingMobile {...props} />;
   }
   return <SettingDesktop {...props} />;
 };

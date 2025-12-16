@@ -27,7 +27,8 @@ export const usePortfolioLayoutScript = (props: UseLayoutBuilderOptions) => {
     props.current ?? routerAdapter?.currentPath ?? "/portfolio",
   );
   const { t } = useTranslation();
-
+  // 新增：檢測是否為桌面版（超過 768px）
+  const isDesktop = useMediaQuery("(min-width: 769px)");
   useEffect(() => {
     if (props.current || routerAdapter?.currentPath) {
       setCurrent(props.current || routerAdapter?.currentPath || "/portfolio");
@@ -161,11 +162,6 @@ export const usePortfolioLayoutScript = (props: UseLayoutBuilderOptions) => {
             />
           </svg>
         ),
-      },
-      {
-        name: t("trading.history"),
-        href: PortfolioLeftSidebarPath.History,
-        hide: true,
       },
     ];
   }, [t]);

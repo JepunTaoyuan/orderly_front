@@ -350,6 +350,10 @@ export const AssetsTableMobile: React.FC<useAssetsScriptReturn> = (props) => {
         className="oui-p-0 oui-bg-base-10"
         classNames={{ content: "!oui-pt-0" }}
       >
+        <div className="oui-w-full oui-bg-base-9 oui-pt-4 oui-px-4">
+          <Text className="oui-text-sm">{t("common.assets")}</Text>
+          <Divider intensity={4} className="oui-pt-2" />
+        </div>
         <Tabs
           defaultValue="assets"
           variant="text"

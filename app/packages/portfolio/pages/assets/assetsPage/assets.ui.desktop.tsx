@@ -90,17 +90,16 @@ export const DepositAndWithdrawButton: React.FC<
   const mergedDisabled = wrongNetwork || disabledConnect;
   return (
     <Flex
-      className="oui-text-xs oui-text-base-contrast-54"
+      className="oui-text-xs oui-text-base-contrast-54 oui-w-full"
       itemAlign="center"
       gap={3}
     >
       <Button
         disabled={mergedDisabled}
         data-testid="oui-testid-assetView-deposit-button"
-        fullWidth
         size="md"
         onClick={onDeposit}
-        className="oui-rounded-full oui-text-white oui-text-xs oui-px-4 oui-font-semibold oui-leading-5"
+        className="oui-rounded-full oui-text-white oui-text-xs oui-px-4 oui-font-semibold oui-leading-5  oui-flex-1"
         style={{
           background:
             "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
@@ -109,13 +108,12 @@ export const DepositAndWithdrawButton: React.FC<
         <Text>{t("common.deposit")}</Text>
       </Button>
       <Button
-        fullWidth
         disabled={mergedDisabled}
         variant="outlined"
         size="md"
         onClick={onWithdraw}
         data-testid="oui-testid-assetView-withdraw-button"
-        className="oui-rounded-full oui-border-white/[0.36] oui-text-white/[0.5] oui-text-xs oui-px-4 oui-font-semibold oui-leading-5"
+        className="oui-rounded-full oui-border-white/[0.36] oui-text-white/[0.5] oui-text-xs oui-px-4 oui-font-semibold oui-leading-5 oui-flex-1"
       >
         <Text>{t("common.withdraw")}</Text>
       </Button>
