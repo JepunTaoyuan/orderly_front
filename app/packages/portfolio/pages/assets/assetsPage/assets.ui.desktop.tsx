@@ -17,6 +17,7 @@ import {
   TabPanel,
   ArrowDownShortIcon,
   Button,
+  useMediaQuery,
 } from "@orderly.network/ui";
 import type { SelectOption } from "@orderly.network/ui";
 import { AuthGuard, AuthGuardDataTable } from "@orderly.network/ui-connector";
@@ -84,6 +85,8 @@ export const DepositAndWithdrawButton: React.FC<
   const { t } = useTranslation();
   const { isMainAccount, onWithdraw, onDeposit } = props;
   const { wrongNetwork, disabledConnect } = useAppContext();
+  const isSmallScreen = useMediaQuery("(max-width: 768px)");
+
   if (!isMainAccount) {
     return null;
   }
@@ -92,6 +95,7 @@ export const DepositAndWithdrawButton: React.FC<
     <Flex
       className="oui-text-xs oui-text-base-contrast-54 oui-w-full"
       itemAlign="center"
+      justify={"end"}
       gap={3}
     >
       <Button
@@ -99,7 +103,9 @@ export const DepositAndWithdrawButton: React.FC<
         data-testid="oui-testid-assetView-deposit-button"
         size="md"
         onClick={onDeposit}
-        className="oui-rounded-full oui-text-white oui-text-xs oui-px-4 oui-font-semibold oui-leading-5  oui-flex-1"
+        className={`oui-rounded-full oui-text-white oui-text-xs oui-px-4 oui-font-semibold oui-leading-5  ${
+          isSmallScreen ? "oui-flex-1" : ""
+        }`}
         style={{
           background:
             "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
@@ -113,7 +119,7 @@ export const DepositAndWithdrawButton: React.FC<
         size="md"
         onClick={onWithdraw}
         data-testid="oui-testid-assetView-withdraw-button"
-        className="oui-rounded-full oui-border-white/[0.36] oui-text-white/[0.5] oui-text-xs oui-px-4 oui-font-semibold oui-leading-5 oui-flex-1"
+        className={`oui-rounded-full oui-border-white/[0.36] oui-text-white/[0.5] oui-text-xs oui-px-4        oui-font-semibold oui-leading-5 ${isSmallScreen ? "oui-flex-1" : ""}`}
       >
         <Text>{t("common.withdraw")}</Text>
       </Button>
