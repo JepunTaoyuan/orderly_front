@@ -1,6 +1,6 @@
 import { FC, ReactNode, useMemo } from "react";
 import { useTranslation } from "@orderly.network/i18n";
-import { Flex, Text, cn } from "@orderly.network/ui";
+import { Flex, Text, cn, useMediaQuery } from "@orderly.network/ui";
 import { commify } from "@orderly.network/utils";
 import { useReferralContext } from "../../../provider";
 import { BecomeAffiliateReturns } from "./becomeAffiliate.script";
@@ -8,6 +8,7 @@ import { BecomeAffiliateReturns } from "./becomeAffiliate.script";
 export const BecomeAffiliate: FC<BecomeAffiliateReturns> = (props) => {
   const { t } = useTranslation();
   const { generateCode } = useReferralContext();
+  const isXL = useMediaQuery("(max-width: 1023px)");
 
   const applyText = useMemo(() => {
     if (!generateCode) {
@@ -56,7 +57,9 @@ export const BecomeAffiliate: FC<BecomeAffiliateReturns> = (props) => {
           title={applyText.title}
           content={applyText.desc}
         />
-        <div className="oui-shrink xl:oui-flex xl:-oui-rotate-90 xl:oui-flex-row xl:oui-items-center xl:oui-justify-center">
+        <div
+          className={`${isXL ? "" : "-oui-rotate-90"} oui-shrink xl:oui-flex xl:oui-flex-row xl:oui-items-center xl:oui-justify-center`}
+        >
           <ArrowDownIcon />
         </div>
         <Item
@@ -64,7 +67,9 @@ export const BecomeAffiliate: FC<BecomeAffiliateReturns> = (props) => {
           title={t("affiliate.process.step2.title")}
           content={t("affiliate.process.step2.description")}
         />
-        <div className="oui-shrink xl:oui-flex xl:-oui-rotate-90 xl:oui-flex-row xl:oui-items-center xl:oui-justify-center">
+        <div
+          className={`${isXL ? "" : "-oui-rotate-90"} oui-shrink xl:oui-flex xl:oui-flex-row xl:oui-items-center xl:oui-justify-center`}
+        >
           <ArrowDownIcon />
         </div>
         <Item
