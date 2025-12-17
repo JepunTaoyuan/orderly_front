@@ -93,7 +93,7 @@ export const useSideMarketsColumns = (
     },
     {
       title: t("customs.price"),
-      dataIndex: "change",
+      dataIndex: "24h_close",
       align: "right",
       onSort: true,
       className: "oui-h-[36px]",

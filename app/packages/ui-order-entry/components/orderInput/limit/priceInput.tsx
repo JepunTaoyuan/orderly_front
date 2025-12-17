@@ -40,60 +40,51 @@ export const PriceInput: FC<PriceInputProps> = (props) => {
   const readOnly = bbo.bboStatus === BBOStatus.ON;
   const isLimitOrder = props.order_type === OrderType.LIMIT;
 
+  // Suffix 包含 quote 貨幣（上方靠右）和 BBO/Mid 按鈕（下方靠右）
+  const suffixElement = (
+    <div className="oui-flex oui-flex-col oui-items-end oui-gap-1">
+      <span className="oui-text-2xs oui-text-base-contrast-36">{quote}</span>
+      {isLimitOrder && (
+        <PriceLabelButtons bbo={bbo} fillMiddleValue={props.fillMiddleValue} />
+      )}
+    </div>
+  );
+
   return (
     <div ref={priceInputContainerRef} className="oui-group oui-w-full">
-      {/* 標籤在上方 */}
-      <label
-        htmlFor="order_price_input"
-        className="oui-block oui-mb-1 oui-text-2xs oui-text-base-contrast-36"
-      >
-        {t("common.price")}
-      </label>
-
-      {/* Input Box 和 BBO/Mid 按鈕同一行 */}
-      <div className="oui-flex oui-items-center oui-gap-2">
-        {/* Input Box */}
-        <div className="oui-relative oui-flex-1">
-          <CustomInput
-            id="order_price_input"
-            name="order_price_input"
-            label=""
-            externalLabel={false}
-            suffix={quote}
-            value={props.order_price}
-            onChange={(e) => {
-              setOrderValue("order_price", e);
-            }}
-            error={getErrorMsg("order_price")}
-            formatters={[inputFormatter.dpFormatter(quote_dp)]}
-            onFocus={onFocus(InputType.PRICE)}
-            onBlur={onBlur(InputType.PRICE)}
-            readonly={readOnly}
-            ref={priceInputRef}
-            classNames={{
-              root: cn(readOnly && "focus-within:oui-outline-transparent"),
-              input: cn(readOnly && "oui-cursor-auto"),
-            }}
-          />
-          {bbo.bboStatus === BBOStatus.ON && (
-            <div className="oui-absolute oui-bottom-1 oui-left-0">
-              <BBOOrderTypeSelect
-                value={bbo.bboType}
-                onChange={bbo.onBBOChange}
-                contentStyle={{
-                  width: props.priceInputContainerWidth,
-                }}
-              />
-            </div>
-          )}
-        </div>
-
-        {/* BBO | Mid 按鈕在 Input 右邊 */}
-        {isLimitOrder && (
-          <PriceLabelButtons
-            bbo={bbo}
-            fillMiddleValue={props.fillMiddleValue}
-          />
+      <div className="oui-relative">
+        <CustomInput
+          id="order_price_input"
+          name="order_price_input"
+          label={t("common.price")}
+          externalLabel={false}
+          compact={false}
+          suffix={suffixElement}
+          value={props.order_price}
+          onChange={(e) => {
+            setOrderValue("order_price", e);
+          }}
+          error={getErrorMsg("order_price")}
+          formatters={[inputFormatter.dpFormatter(quote_dp)]}
+          onFocus={onFocus(InputType.PRICE)}
+          onBlur={onBlur(InputType.PRICE)}
+          readonly={readOnly}
+          ref={priceInputRef}
+          classNames={{
+            root: cn(readOnly && "focus-within:oui-outline-transparent"),
+            input: cn(readOnly && "oui-cursor-auto"),
+          }}
+        />
+        {bbo.bboStatus === BBOStatus.ON && (
+          <div className="oui-absolute oui-bottom-1 oui-left-0">
+            <BBOOrderTypeSelect
+              value={bbo.bboType}
+              onChange={bbo.onBBOChange}
+              contentStyle={{
+                width: props.priceInputContainerWidth,
+              }}
+            />
+          </div>
         )}
       </div>
     </div>

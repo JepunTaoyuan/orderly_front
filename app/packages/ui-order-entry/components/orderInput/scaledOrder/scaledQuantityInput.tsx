@@ -45,7 +45,7 @@ export const ScaledQuantityInput = memo((props: ScaledQuantityInputProps) => {
         suffix={suffix}
         id="order_quantity_input"
         name="order_quantity_input"
-        className="!oui-rounded-r"
+        className="oui-rounded-md"
         value={props.order_quantity}
         error={getErrorMsg(
           "order_quantity",
@@ -57,6 +57,8 @@ export const ScaledQuantityInput = memo((props: ScaledQuantityInputProps) => {
         formatters={[inputFormatter.dpFormatter(base_dp)]}
         onFocus={onFocus(InputType.QUANTITY)}
         onBlur={onBlur(InputType.QUANTITY)}
+        externalLabel={false}
+        compact={false}
       />
     );
   }
@@ -67,7 +69,7 @@ export const ScaledQuantityInput = memo((props: ScaledQuantityInputProps) => {
       suffix={suffix}
       id="order_total_input"
       name="order_total_input"
-      className="!oui-rounded-r"
+      className="oui-rounded-md"
       value={props.total}
       error={getErrorMsg("order_quantity", `${errors?.total?.value} ${quote}`)}
       onChange={(val) => {
@@ -76,6 +78,8 @@ export const ScaledQuantityInput = memo((props: ScaledQuantityInputProps) => {
       formatters={[inputFormatter.dpFormatter(quote_dp)]}
       onFocus={onFocus(InputType.TOTAL)}
       onBlur={onBlur(InputType.TOTAL)}
+      externalLabel={false}
+      compact={false}
     />
   );
 });

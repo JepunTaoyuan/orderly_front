@@ -30,8 +30,10 @@ export const SkewInput = memo((props: SkewInputProps) => {
         inputFormatter.rangeFormatter({ min: 0, max: 100, dp: 2 }),
         inputFormatter.dpFormatter(2),
       ]}
+      externalLabel={false}
+      compact={false}
       classNames={{
-        root: "oui-rounded-b-xl",
+        root: "oui-rounded-md",
       }}
     />
   );

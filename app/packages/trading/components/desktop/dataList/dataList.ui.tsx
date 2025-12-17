@@ -220,7 +220,7 @@ export const DataList: React.FC<DataListState> = (props) => {
   return (
     <Tabs
       defaultValue={current || DataListTabType.positions}
-      variant="contained"
+      variant="text"
       trailing={
         <React.Suspense fallback={null}>
           <LazySettingWidget
@@ -233,7 +233,7 @@ export const DataList: React.FC<DataListState> = (props) => {
           />
         </React.Suspense>
       }
-      size="lg"
+      size="sm"
       className="oui-h-full"
       classNames={{
         trigger: "oui-group",

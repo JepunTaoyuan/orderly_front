@@ -96,7 +96,7 @@ const TabLayout: React.FC<OrderBookAndTradesState> = (props) => {
     >
       <Tabs
         value={props.tab}
-        variant="contained"
+        variant="text"
         onValueChange={(tab) => {
           props.setTab(tab as any);
         }}
@@ -104,7 +104,7 @@ const TabLayout: React.FC<OrderBookAndTradesState> = (props) => {
           tabsList: "oui-pl-3",
           // tabsContent: props.tab === "lastTrades" ? 'oui-pl-3' : ''
         }}
-        size="lg"
+        size="sm"
       >
         <TabPanel value="orderBook" title={t("trading.orderBook")}>
           <React.Suspense fallback={null}>

@@ -2,7 +2,7 @@ import { useSymbolsInfo } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import { API } from "@orderly.network/types";
 import { modal } from "@orderly.network/ui";
-import { PositionTPSLSheet } from "@orderly.network/ui-tpsl";
+import { PositionTPSLSheet } from "@/packages/ui-tpsl";
 import { usePositionsRowContext } from "../../positionsRowContext";
 import { PositionCellState } from "../positionCell/positionCell.script";
 

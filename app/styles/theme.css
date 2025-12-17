@@ -139,6 +139,10 @@
     background-color: rgba(255, 255, 255, 0.05);
   }
 
+  .custom-apply-to-some {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
   .api-key-table table {
     min-width: 700px;
   }
@@ -157,5 +161,17 @@
 
   .mad2 {
     background-color: rgba(31, 33, 37, 1)
+  }
+
+  .mad3 {
+    background-color: rgba(24, 25, 28, 1)
+  }
+
+  .oui-dialog-content.oui-bg-base-8 {
+    background-color: rgba(12, 13, 16, 1) !important;
+  }
+
+  .oui-fixed.oui-bg-base-8[data-state="open"] {
+    background-color: rgba(12, 13, 16, 1) !important;
   }
 }

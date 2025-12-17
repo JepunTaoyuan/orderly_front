@@ -57,61 +57,57 @@ export const TotalInput: FC<TotalInputProps> = memo((props) => {
     setMargin(val);
   };
 
-  // 標籤顯示為 TotalTypeSelect 下拉選單
+  // 標籤顯示為 TotalTypeSelect 下拉選單 (內部位置)
   const labelElement = (
-    <TotalTypeSelect value={totalType} onChange={setTotalType} />
+    <TotalTypeSelect value={totalType} onChange={setTotalType} internal />
   );
 
   if (totalType === OrderTotalType.InitialMargin) {
     return (
-      <div className="oui-flex oui-flex-col">
-        {labelElement}
-        <CustomInput
-          id="order_margin_input"
-          name="order_margin_input"
-          label=""
-          externalLabel={false}
-          suffix={quote}
-          error={getErrorMsg("total") ? "initial margin error" : ""}
-          value={margin}
-          onChange={onMarginChange}
-          // national precision is 2
-          formatters={[inputFormatter.dpFormatter(2)]}
-          onFocus={onFocus(InputType.MARGIN)}
-          onBlur={onBlur(InputType.MARGIN)}
-          className="!oui-rounded-l"
-          classNames={{
-            suffix: "oui-justify-end",
-          }}
-        />
-      </div>
+      <CustomInput
+        id="order_margin_input"
+        name="order_margin_input"
+        label=""
+        externalLabel={false}
+        compact={false}
+        prefix={labelElement}
+        suffix={quote}
+        error={getErrorMsg("total") ? "initial margin error" : ""}
+        value={margin}
+        onChange={onMarginChange}
+        // national precision is 2
+        formatters={[inputFormatter.dpFormatter(2)]}
+        onFocus={onFocus(InputType.MARGIN)}
+        onBlur={onBlur(InputType.MARGIN)}
+        classNames={{
+          suffix: "oui-justify-end",
+        }}
+      />
     );
   }
 
   return (
-    <div className="oui-flex oui-flex-col">
-      {labelElement}
-      <CustomInput
-        id="order_total_input"
-        name="order_total_input"
-        label=""
-        externalLabel={false}
-        suffix={quote}
-        error={getErrorMsg("total")}
-        value={props.total}
-        onChange={(val) => {
-          setOrderValue("total", val);
-        }}
-        className="!oui-rounded-l"
-        classNames={{
-          suffix: "oui-justify-end",
-        }}
-        // national precision is 2
-        formatters={[inputFormatter.dpFormatter(2)]}
-        onFocus={onFocus(InputType.TOTAL)}
-        onBlur={onBlur(InputType.TOTAL)}
-      />
-    </div>
+    <CustomInput
+      id="order_total_input"
+      name="order_total_input"
+      label=""
+      externalLabel={false}
+      compact={false}
+      prefix={labelElement}
+      suffix={quote}
+      error={getErrorMsg("total")}
+      value={props.total}
+      onChange={(val) => {
+        setOrderValue("total", val);
+      }}
+      classNames={{
+        suffix: "oui-justify-end",
+      }}
+      // national precision is 2
+      formatters={[inputFormatter.dpFormatter(2)]}
+      onFocus={onFocus(InputType.TOTAL)}
+      onBlur={onBlur(InputType.TOTAL)}
+    />
   );
 });
 
