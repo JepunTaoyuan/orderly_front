@@ -1,6 +1,6 @@
 import { MetaFunction } from "@remix-run/node";
-import { Dashboard, ReferralProvider } from "@orderly.network/affiliate";
 import { PageTitleMap, PathEnum } from "@/constant";
+import { Dashboard, ReferralProvider } from "@/packages/affiliate";
 import { generatePageTitle } from "@/utils";
 
 export const meta: MetaFunction = () => {
@@ -23,7 +23,7 @@ export default function AffiliatePage() {
       <Dashboard.DashboardPage
         classNames={{
           root: "oui-flex oui-justify-center",
-          home: "oui-py-6 oui-px-4 lg:oui-px-6 lg:oui-py-12 xl:oui-pl-4 xl:oui-pr-6 oui-w-full",
+          home: "oui-w-full lg:oui-px-6 lg:oui-py-12 xl:oui-pl-4 xl:oui-pr-6",
           dashboard: "oui-py-6 oui-px-4 lg:oui-px-6 xl:oui-pl-3 xl:oui-pr-6",
         }}
       />
