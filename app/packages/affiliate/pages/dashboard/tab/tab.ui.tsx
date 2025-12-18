@@ -102,7 +102,7 @@ export const Tab: FC<
       }}
       className={cn("oui-w-full", props.classNames?.dashboard)}
     >
-      <TabsList
+      {/* <TabsList
         className={cn(
           "oui-px-6 oui-flex oui-flex-row oui-justify-start oui-h-[44px] oui-relative oui-items-end",
           "oui-text-base md:oui-text-lg",
@@ -150,14 +150,14 @@ export const Tab: FC<
           </TabsTrigger>
         )}
         {extendNode()}
-      </TabsList>
+      </TabsList> */}
       {props.isAffiliate && (
-        <TabsContent value={TabTypes.affiliate} className="oui-mt-4">
+        <TabsContent value={TabTypes.affiliate} className="oui-mt-1 oui-mb-1">
           <AffiliatePage />
         </TabsContent>
       )}
       {props.isTrader && (
-        <TabsContent value={TabTypes.trader} className="oui-mt-4">
+        <TabsContent value={TabTypes.trader} className="oui-mt-1 oui-mb-1">
           <TraderPage />
         </TabsContent>
       )}

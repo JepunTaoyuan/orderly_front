@@ -24,17 +24,23 @@ export const CommissionAndReferees: FC<CommissionAndRefereesReturns> = (
 ) => {
   const { t } = useTranslation();
 
+  const is5XL = useMediaQuery("(min-width:1920px)");
   return (
     <Flex
       id="oui-affiliate-affiliate-commissionAndReferees"
-      r={"2xl"}
-      p={6}
+      r={"md"}
+      p={is5XL ? 6 : 3}
       width={"100%"}
       gap={4}
       direction={"column"}
       className="oui-bg-base-9 oui-tabular-nums"
     >
-      <Tabs defaultValue="account" className="oui-w-full" variant="contained">
+      <Tabs
+        defaultValue="account"
+        className="oui-w-full"
+        variant="text"
+        size="sm"
+      >
         <TabPanel value="account" title={t("affiliate.commission")}>
           <CommissionList {...props} />
         </TabPanel>

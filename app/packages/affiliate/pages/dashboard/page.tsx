@@ -18,8 +18,8 @@ export const DashboardPage = (props: {
       id="oui-affiliate-dashboard-page"
       className={cn("oui-w-full oui-tracking-tight", root)}
       style={{
-        paddingLeft: is5XL ? "240px" : "12px",
-        paddingRight: is5XL ? "240px" : "12px",
+        paddingLeft: is5XL ? "240px" : "4px",
+        paddingRight: is5XL ? "240px" : "4px",
       }}
     >
       <TabWidget classNames={rest} />

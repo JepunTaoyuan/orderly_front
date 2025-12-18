@@ -17,7 +17,7 @@ export const AffiliatePage = () => {
         "oui-font-semibold",
       )}
       direction={"column"}
-      gap={4}
+      gap={1}
     >
       <Layout />
       <CommissionAndRefereesWidget />
@@ -38,7 +38,7 @@ const Layout = () => {
 const Layout1024 = () => {
   return (
     <>
-      <div className="oui-flex oui-flex-col xl:oui-flex-row oui-gap-4 oui-w-full">
+      <div className="oui-flex oui-flex-col xl:oui-flex-row oui-gap-1 oui-w-full">
         <SummaryWidget />
         <ReferralLinkWidget />
       </div>
@@ -50,14 +50,14 @@ const Layout1024 = () => {
 
 const Layout1280 = () => {
   return (
-    <Flex direction={"row"} itemAlign={"stretch"} gap={4}>
-      <Flex direction={"column"} gap={4} className="oui-flex-1 oui-w-1/2">
+    <Flex direction={"row"} itemAlign={"stretch"} gap={1}>
+      <Flex direction={"column"} gap={1} className="oui-flex-1 oui-w-1/2">
         <div className="oui-flex-1 oui-h-full oui-w-full">
           <SummaryWidget />
         </div>
         <TitleStatisticWidget />
       </Flex>
-      <Flex direction={"column"} gap={4} className="oui-w-1/2">
+      <Flex direction={"column"} gap={1} className="oui-w-1/2">
         <ReferralLinkWidget />
         {/* <div className="oui-h-[360px]"> */}
         <div className="oui-flex-1">

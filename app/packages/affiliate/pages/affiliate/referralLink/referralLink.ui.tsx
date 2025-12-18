@@ -17,7 +17,7 @@ export const ReferralLink: FC<ReferralLinkReturns> = (props) => {
   return (
     <Flex
       id="oui-affiliate-affiliate-referralLink"
-      r={"2xl"}
+      r={"md"}
       p={6}
       width={"100%"}
       gap={4}
@@ -36,7 +36,7 @@ export const ReferralLink: FC<ReferralLinkReturns> = (props) => {
         <Flex
           direction={"column"}
           width={"100%"}
-          className="3xl:oui-w-2/3 3xl:oui-gap-2"
+          className="3xl:oui-w-2/3 oui-gap-2"
         >
           <Input
             title={t("affiliate.referralCode")}
@@ -143,12 +143,12 @@ const Input: FC<
   const { title, value = "-" } = props;
   return (
     <Flex
-      r="xl"
+      r="md"
       p={3}
       gap={4}
       direction={"row"}
       width={"100%"}
-      className="oui-bg-base-8"
+      style={{ backgroundColor: "rgba(255, 255, 255, 0.05)" }}
     >
       <Text className="oui-text-base-contrast-54 oui-flex-shrink oui-text-2xs md:oui-text-xs xl:oui-text-sm">
         {title}
