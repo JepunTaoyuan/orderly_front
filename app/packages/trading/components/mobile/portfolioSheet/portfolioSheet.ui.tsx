@@ -22,7 +22,7 @@ import {
   Statistic,
   Text,
 } from "@orderly.network/ui";
-import { LeverageProps, LeverageSlider } from "@orderly.network/ui-leverage";
+import { LeverageProps, LeverageSlider } from "@/packages/ui-leverage";
 import { USDCIcon } from "../accountSheet/icons";
 import {
   getMarginRatioColor,
@@ -346,7 +346,7 @@ export const LeverageSelector: React.FC<PortfolioSheetState> = (props) => {
           itemAlign="center"
           justify="center"
           className={cn(
-            `oui-transition-all oui-cursor-pointer oui-box-border oui-bg-clip-padding oui-px-3 oui-py-2.5 oui-rounded-md oui-border oui-border-solid`,
+            `oui-transition-all oui-cursor-pointer oui-box-border oui-bg-clip-padding oui-px-3 oui-py-2.5 oui-rounded-md oui-border oui-border-solid oui-bg-base-10`,
             value === option
               ? "oui-border-primary oui-bg-base-6"
               : "oui-border-line-12",

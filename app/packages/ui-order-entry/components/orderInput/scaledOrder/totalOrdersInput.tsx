@@ -19,7 +19,7 @@ export const TotalOrdersInput = memo((props: TotalOrdersInputProps) => {
       label={t("orderEntry.totalOrders")}
       placeholder="2-20"
       id="order_total_orders_input"
-      className={"!oui-rounded-l"}
+      className={"oui-rounded-md"}
       value={props.total_orders}
       error={getErrorMsg("total_orders")}
       onChange={(val) => {
@@ -32,6 +32,8 @@ export const TotalOrdersInput = memo((props: TotalOrdersInputProps) => {
       ]}
       onFocus={onFocus(InputType.TOTAL_ORDERS)}
       onBlur={onBlur(InputType.TOTAL_ORDERS)}
+      externalLabel={false}
+      compact={false}
     />
   );
 });

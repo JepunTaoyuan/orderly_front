@@ -39,7 +39,7 @@ export const DropDownMarkets: React.FC<
           alignOffset={-32}
           sideOffset={20}
           className={cn(
-            "oui-markets-dropdown-menu-content oui-bg-base-8 oui-p-0",
+            "oui-markets-dropdown-menu-content oui-p-0 oui-bg-base-9",
             props.contentClassName,
           )}
         >
@@ -88,10 +88,10 @@ export const DropDownMarketsConetnt: React.FC<DropDownMarketsProps> = (
           onSort={onTabSort(type)}
           getColumns={getColumns}
           tableClassNames={{
-            root: "!oui-bg-base-8",
+            root: "",
             scroll: "oui-pb-5 oui-px-1",
           }}
-          rowClassName="!oui-h-[34px]"
+          rowClassName="oui-h-[34px]"
           {...getFavoritesProps(type)}
           emptyView={renderEmptyView({
             type,
@@ -106,15 +106,15 @@ export const DropDownMarketsConetnt: React.FC<DropDownMarketsProps> = (
 
   return (
     <Box
-      className={cn("oui-overflow-hidden oui-font-semibold")}
+      className={cn("oui-overflow-hidden oui-font-semibold oui-bg-base-9")}
       height="100%"
       intensity={800}
     >
       {search}
 
       <Tabs
-        variant="contained"
-        size="md"
+        variant="text"
+        size="sm"
         value={activeTab}
         onValueChange={onTabChange}
         classNames={{

@@ -1,11 +1,11 @@
 import { useSymbolLeverage } from "@orderly.network/hooks";
 import { OrderSide } from "@orderly.network/types";
 import { cn, Flex, modal, Text, useScreen } from "@orderly.network/ui";
+import { Decimal } from "@orderly.network/utils";
 import {
   SymbolLeverageDialogId,
   SymbolLeverageSheetId,
-} from "@orderly.network/ui-leverage";
-import { Decimal } from "@orderly.network/utils";
+} from "@/packages/ui-leverage";
 
 type LeverageBadgeProps = {
   symbol: string;

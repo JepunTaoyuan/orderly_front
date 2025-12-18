@@ -40,6 +40,7 @@ export const SearchInput: React.FC<SearchInputProps> = (props) => {
       onCompositionStart={handleCompositionStart}
       onCompositionEnd={handleCompositionEnd}
       placeholder={t("markets.search.placeholder")}
+      className="custom-apply-to-everything"
       classNames={{
         ...classNames,
         // use mt-px to fix the top border issue

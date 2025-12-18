@@ -1,5 +1,5 @@
 import { DistributionType, OrderlyOrder } from "@orderly.network/types";
-import { cn, Grid } from "@orderly.network/ui";
+import { Grid } from "@orderly.network/ui";
 import { QuantityDistributionInput } from "./quantityDistributionInput";
 import { ScaledPriceInput } from "./scaledPriceInput";
 import { ScaledQuantityInput } from "./scaledQuantityInput";
@@ -30,10 +30,7 @@ export const ScaledOrderInput = (props: ScaledOrderInputProps) => {
         <TotalOrdersInput total_orders={values.total_orders} />
       </Grid>
 
-      <QuantityDistributionInput
-        distribution_type={values.distribution_type}
-        className={cn(!showSkewInput && "oui-rounded-b-xl")}
-      />
+      <QuantityDistributionInput distribution_type={values.distribution_type} />
 
       {showSkewInput && <SkewInput skew={values.skew} />}
     </div>

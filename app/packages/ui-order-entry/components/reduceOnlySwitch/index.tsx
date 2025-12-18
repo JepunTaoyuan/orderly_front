@@ -24,6 +24,11 @@ export const ReduceOnlySwitch: React.FC<ReduceOnlySwitchProps> = ({
         className="oui-h-[14px]"
         id={"reduceOnly"}
         checked={checked}
+        style={{
+          backgroundColor: checked
+            ? "rgba(110, 85, 223, 1)"
+            : "rgba(83, 94, 123, 1)",
+        }}
         onCheckedChange={onCheckedChange}
       />
       <label htmlFor={"reduceOnly"} className={"oui-text-xs"}>

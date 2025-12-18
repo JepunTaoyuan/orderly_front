@@ -24,7 +24,7 @@ import {
 } from "@orderly.network/ui";
 import { Grid } from "@orderly.network/ui";
 import { ExclamationFillIcon } from "@orderly.network/ui";
-import { TPSLPositionTypeWidget } from "@orderly.network/ui-tpsl";
+import { TPSLPositionTypeWidget } from "@/packages/ui-tpsl";
 import { OrderEntryContext, useOrderEntryContext } from "./orderEntryContext";
 import { PnlInputWidget } from "./pnlInput/pnlInput.widget";
 import { usePnlInputContext } from "./pnlInput/pnlInputContext";
@@ -92,6 +92,11 @@ export const OrderTPSL = (props: {
             id={"order_entry_tpsl"}
             className="oui-h-[14px]"
             checked={props.switchState}
+            style={{
+              backgroundColor: props.switchState
+                ? "rgba(110, 85, 223, 1)"
+                : "rgba(83, 94, 123, 1)",
+            }}
             disabled={
               (props.orderType !== OrderType.LIMIT &&
                 props.orderType !== OrderType.MARKET) ||
@@ -366,7 +371,7 @@ const TPSLTriggerPriceInput = (props: {
       value={innerValue}
       classNames={{
         additional: "oui-text-base-contrast-54",
-        root: "oui-pr-2 md:oui-pr-3",
+        root: "oui-pr-2 md:oui-pr-3 custom-apply-to-everything",
         prefix: "oui-pr-1 md:oui-pr-2",
       }}
       // onChange={props.onChange}

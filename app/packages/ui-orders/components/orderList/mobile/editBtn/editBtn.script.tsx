@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useSymbolsInfo } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import { modal } from "@orderly.network/ui";
-import { PositionTPSLSheet } from "@orderly.network/ui-tpsl";
+import { PositionTPSLSheet } from "@/packages/ui-tpsl";
 import { TabType } from "../../../orders.widget";
 import { useOrderListContext } from "../../orderListContext";
 import { useTPSLOrderRowContext } from "../../tpslOrderRowContext";

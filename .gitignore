@@ -5,3 +5,4 @@ node_modules
 .env
 .npmrc
 .claude/
+for_ai

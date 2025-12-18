@@ -109,7 +109,7 @@ export const SymbolInfoBarFull: React.FC<SymbolInfoBarFullProps> = (props) => {
         className="oui-gap-y-[2px] oui-shrink-0"
       >
         <LazyDropDownMarketsWidget
-          contentClassName="oui-w-[429px] oui-h-[496px]"
+          contentClassName="oui-w-[429px] oui-h-[496px] "
           symbol={props.symbol}
           onSymbolChange={props.onSymbolChange}
         >
@@ -119,7 +119,7 @@ export const SymbolInfoBarFull: React.FC<SymbolInfoBarFullProps> = (props) => {
               className="oui-whitespace-nowrap oui-break-normal"
               rule="symbol"
               formatString="base-type"
-              size="xs"
+              size="md"
               weight="semibold"
               intensity={98}
             >
@@ -340,7 +340,7 @@ const FundingRate: React.FC<{ symbol: string }> = ({ symbol }) => {
 
   return (
     <div>
-      <Text.numeral unit="%" dp={4} className="oui-text-warning-darken">
+      <Text.numeral unit="%" dp={4} style={{ color: "#FFCF1C" }}>
         {data.est_funding_rate!}
       </Text.numeral>
       <Text intensity={36} className="oui-tabular-nums">

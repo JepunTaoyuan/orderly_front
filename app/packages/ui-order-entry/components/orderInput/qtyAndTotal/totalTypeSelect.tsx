@@ -10,6 +10,8 @@ export enum OrderTotalType {
 type TotalTypeSelectProps = {
   value: OrderTotalType;
   onChange: (value: OrderTotalType) => void;
+  /** 是否在 input 內部顯示 */
+  internal?: boolean;
 };
 
 export const TotalTypeSelect: FC<TotalTypeSelectProps> = memo((props) => {
@@ -38,8 +40,9 @@ export const TotalTypeSelect: FC<TotalTypeSelectProps> = memo((props) => {
       }}
       classNames={{
         trigger: cn(
-          "oui-w-auto oui-border-none oui-bg-transparent oui-p-0 oui-mb-1",
+          "oui-w-auto oui-border-none oui-bg-transparent oui-p-0",
           "oui-text-2xs oui-text-base-contrast-36",
+          props.internal && "oui-absolute oui-left-2 oui-top-[5px]",
         ),
       }}
       onValueChange={props.onChange}

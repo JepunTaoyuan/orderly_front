@@ -1,9 +1,8 @@
 import React from "react";
+import { MarketsTabName } from "../../type";
 import { MarketsProvider, MarketsProviderProps } from "../marketsProvider";
 import { useHorizontalMarketsScript } from "./horizontalMarkets.script";
-import type { MarketType } from "./horizontalMarkets.script";
 import type { HorizontalMarketsProps } from "./horizontalMarkets.ui";
-import type { DropdownPos } from "./marketTypeFilter.ui";
 
 const LazyHorizontalMarkets = React.lazy(() =>
   import("./horizontalMarkets.ui").then((mod) => {
@@ -12,32 +11,22 @@ const LazyHorizontalMarkets = React.lazy(() =>
 );
 
 export type HorizontalMarketsWidgetProps = MarketsProviderProps &
-  Partial<Pick<HorizontalMarketsProps, "symbols" | "className">> & {
-    maxItems?: number;
-    defaultMarketType?: MarketType;
-    dropdownPos?: DropdownPos;
+  Partial<Pick<HorizontalMarketsProps, "className">> & {
+    activeTab?: MarketsTabName;
+    onTabChange?: (tab: MarketsTabName) => void;
   };
 
 const HorizontalMarketsInner: React.FC<
-  Pick<
-    HorizontalMarketsWidgetProps,
-    "symbols" | "maxItems" | "defaultMarketType" | "className" | "dropdownPos"
-  >
+  Pick<HorizontalMarketsWidgetProps, "activeTab" | "onTabChange" | "className">
 > = (props) => {
-  const { symbols, maxItems, className, defaultMarketType, dropdownPos } =
-    props;
+  const { activeTab, onTabChange, className } = props;
   const state = useHorizontalMarketsScript({
-    symbols,
-    maxItems,
-    defaultMarketType,
+    activeTab,
+    onTabChange,
   });
   return (
     <React.Suspense fallback={null}>
-      <LazyHorizontalMarkets
-        {...state}
-        className={className}
-        dropdownPos={dropdownPos}
-      />
+      <LazyHorizontalMarkets {...state} className={className} />
     </React.Suspense>
   );
 };
@@ -45,23 +34,14 @@ const HorizontalMarketsInner: React.FC<
 export const HorizontalMarketsWidget: React.FC<HorizontalMarketsWidgetProps> = (
   props,
 ) => {
-  const {
-    symbols,
-    maxItems,
-    className,
-    defaultMarketType,
-    dropdownPos,
-    ...providerProps
-  } = props;
+  const { activeTab, onTabChange, className, ...providerProps } = props;
 
   return (
     <MarketsProvider {...providerProps}>
       <HorizontalMarketsInner
-        symbols={symbols}
-        maxItems={maxItems}
+        activeTab={activeTab}
+        onTabChange={onTabChange}
         className={className}
-        defaultMarketType={defaultMarketType}
-        dropdownPos={dropdownPos}
       />
     </MarketsProvider>
   );

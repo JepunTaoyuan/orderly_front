@@ -20,7 +20,7 @@ export const useSideMarketsColumns = (
 
   return [
     {
-      title: `${t("markets.column.market")} / ${t("common.volume")}`,
+      title: `${t("markets.column.market")} | ${t("common.volume")}`,
       dataIndex: "24h_amount",
       multiSort: {
         fields: [
@@ -92,8 +92,8 @@ export const useSideMarketsColumns = (
       },
     },
     {
-      title: t("markets.column.price&Change"),
-      dataIndex: "change",
+      title: t("customs.price"),
+      dataIndex: "24h_close",
       align: "right",
       onSort: true,
       className: "oui-h-[36px]",
@@ -154,6 +154,71 @@ export const useSideMarketsColumns = (
               <Text.numeral dp={record.quote_dp || 2} size="2xs">
                 {record["24h_close"]}
               </Text.numeral>
+            </Flex>
+          </div>
+        );
+      },
+    },
+    {
+      title: t("customs.change"),
+      dataIndex: "change",
+      align: "right",
+      onSort: true,
+      className: "oui-h-[36px]",
+      render: (value, record) => {
+        const onDelSymbol: MouseEventHandler = (e) => {
+          favorite.updateSymbolFavoriteState(
+            record,
+            favorite.selectedFavoriteTab,
+            true,
+          );
+          e.stopPropagation();
+        };
+
+        const iconCls =
+          "oui-w-4 oui-h-4 oui-text-base-contrast-54 hover:oui-text-base-contrast";
+
+        const actions = (
+          <div
+            className={cn(
+              "oui-absolute oui-right-0 oui-top-[6.5px]",
+              "oui-hidden group-hover:oui-block",
+            )}
+          >
+            <Flex
+              className={cn(
+                "oui-inline-flex",
+                "oui-bg-primary-darken oui-py-[6px]",
+              )}
+              r="base"
+              width={52}
+              justify="center"
+              itemAlign="end"
+              gapX={2}
+            >
+              <TopIcon
+                className={iconCls}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  favorite.pinToTop(record);
+                }}
+              />
+              <DeleteIcon className={iconCls} onClick={onDelSymbol} />
+            </Flex>
+          </div>
+        );
+
+        return (
+          <div className="oui-relative">
+            {isFavoriteList && actions}
+
+            <Flex
+              direction="column"
+              justify="end"
+              itemAlign="end"
+              gapY={1}
+              className={cn(isFavoriteList && "group-hover:oui-invisible")}
+            >
               <Text.numeral
                 rule="percentages"
                 coloring

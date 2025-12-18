@@ -33,6 +33,14 @@ export default defineConfig(() => {
           __dirname,
           "app/packages/ui-transfer",
         ),
+        "@orderly.network/ui-tpsl": path.resolve(
+          __dirname,
+          "app/packages/ui-tpsl",
+        ),
+        "@orderly.network/ui-leverage": path.resolve(
+          __dirname,
+          "app/packages/ui-leverage",
+        ),
       },
     },
     ssr: {

@@ -11,7 +11,7 @@ import {
   cn,
   EditIcon,
 } from "@orderly.network/ui";
-import { LeverageWidgetWithDialogId } from "@orderly.network/ui-leverage";
+import { LeverageWidgetWithDialogId } from "@/packages/ui-leverage";
 import { TooltipContent } from "../assetView/assetView.ui";
 import { RiskRateState } from "./riskRate.script";
 
