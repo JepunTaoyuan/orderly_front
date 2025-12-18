@@ -140,7 +140,10 @@ const useCurrentStatusText = (): StatusInfo => {
 export const TooltipContent: FC<TooltipContentProps> = (props) => {
   const { description, formula } = props;
   return (
-    <div className="oui-min-w-[204px] oui-max-w-[240px] oui-text-2xs oui-leading-normal oui-text-base-contrast-80">
+    <div
+      className="oui-min-w-[204px] oui-max-w-[240px] oui-text-2xs oui-leading-normal oui-text-base-contrast-80"
+      style={{ backgroundColor: "#1f2125" }}
+    >
       {typeof description !== "undefined" && description !== null && (
         <span>{description}</span>
       )}
@@ -157,25 +160,16 @@ const TotalValue: FC<TotalValueProps> = (props) => {
   const { totalValue, visible = true, onToggleVisibility } = props;
   return (
     <Flex
-      direction="column"
+      direction="row"
       gap={1}
       className="oui-text-2xs"
-      itemAlign="center"
+      style={{
+        justifyContent: "space-between",
+      }}
     >
-      <Text.numeral
-        visible={visible}
-        weight="bold"
-        size="2xl"
-        className={gradientTextVariants({ color: "brand" })}
-        as="div"
-        padding={false}
-        dp={2}
-      >
-        {totalValue ?? "--"}
-      </Text.numeral>
       <Flex gap={1} itemAlign="center">
         <Text size="2xs" color="neutral" weight="semibold">
-          {`${t("trading.asset.myAssets")} (USDC)`}
+          {`${t("trading.asset.myAssets")}`}
         </Text>
         <button onClick={onToggleVisibility}>
           {visible ? (
@@ -184,6 +178,27 @@ const TotalValue: FC<TotalValueProps> = (props) => {
             <EyeCloseIcon size={18} className="oui-text-base-contrast-54" />
           )}
         </button>
+      </Flex>
+      <Flex direction="row">
+        <Text.numeral
+          visible={visible}
+          weight="bold"
+          size="2xs"
+          style={{
+            color: "rgba(255, 255, 255, 0.9)",
+          }}
+          as="div"
+          padding={false}
+          dp={2}
+        >
+          {totalValue ?? "--"}
+        </Text.numeral>
+        <Text
+          size="2xs"
+          style={{ color: "rgba(255, 255, 255, 0.5) ", paddingLeft: "3px" }}
+        >
+          USDC
+        </Text>
       </Flex>
     </Flex>
   );
@@ -400,7 +415,9 @@ export const AssetView: FC<
     <Button
       data-testid="oui-testid-assetView-deposit-button"
       fullWidth
+      variant="outlined"
       size="md"
+      className="dewi-button"
       onClick={onDeposit}
     >
       {!hasSubAccount && (
@@ -413,8 +430,9 @@ export const AssetView: FC<
   const withdrawButton = isMainAccount && (
     <Button
       fullWidth
-      color="secondary"
+      variant="outlined"
       size="md"
+      className="dewi-button"
       onClick={onWithdraw}
       data-testid="oui-testid-assetView-withdraw-button"
     >
@@ -453,7 +471,12 @@ export const AssetView: FC<
       )}
       <AuthGuard
         networkId={networkId}
-        buttonProps={{ size: "md", fullWidth: true }}
+        buttonProps={{
+          size: "md",
+          variant: "outlined",
+          fullWidth: true,
+          className: "mad-button",
+        }}
       >
         {isFirstTimeDeposit && isMainAccount ? (
           <>
@@ -506,14 +529,12 @@ export const AssetView: FC<
               {isMainAccount ? (
                 <>
                   {depositButton}
-                  {transferButton}
                   {withdrawButton}
                 </>
               ) : (
                 transferButton
               )}
             </Flex>
-            {isMainAccount && <FaucetWidget />}
           </Box>
         )}
       </AuthGuard>

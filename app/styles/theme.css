@@ -174,4 +174,32 @@
   .oui-fixed.oui-bg-base-8[data-state="open"] {
     background-color: rgba(12, 13, 16, 1) !important;
   }
+
+  .mad-button {
+    border-radius: 50px;
+    background: linear-gradient(90deg, #52419e, #7ffbff);
+    color: rgba(255, 255, 255, 1);
+    font-size: 11px;
+    border: none;
+  }
+
+  .oui-button.oui-gradient-brand {
+    border-radius: 999px;
+    background: #6e55df !important;
+    color: rgba(255, 255, 255, 1);
+    font-size: 11px;
+    padding: 0px 16px;
+    border: none;
+  }
+
+  .oui-text-lg.oui-font-bold.oui-text-transparent.oui-bg-clip-text.oui-gradient-brand {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+  }
+
+  .dewi-button {
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.6);
+  }
 }
