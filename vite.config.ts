@@ -29,6 +29,10 @@ export default defineConfig(() => {
           __dirname,
           "app/packages/ui-share",
         ),
+        "@orderly.network/ui-transfer": path.resolve(
+          __dirname,
+          "app/packages/ui-transfer",
+        ),
       },
     },
     ssr: {
