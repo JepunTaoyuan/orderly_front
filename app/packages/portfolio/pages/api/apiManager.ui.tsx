@@ -53,9 +53,9 @@ export const APIManager: React.FC<ApiManagerScriptReturns> = (props) => {
   const { t } = useTranslation();
   return (
     <Card
-      title={<div className="oui-text-xs">{t("portfolio.apiKeys")}</div>}
+      title={<div className="oui-text-sm">{t("portfolio.apiKeys")}</div>}
       id="portfolio-apikey-manager"
-      className="oui-bg-base-9 oui-font-semibold oui-p-5"
+      className="oui-bg-base-9 oui-font-semibold oui-p-4"
     >
       <Flex
         direction={"column"}
@@ -145,7 +145,12 @@ const Subtitle: React.FC<ApiManagerScriptReturns> = (props) => {
       className="oui-text-sm oui-border-b-2 oui-border-line-6 oui-pb-4"
     >
       <Flex direction={"column"} itemAlign={"start"} width={"100%"} gap={1}>
-        <Text intensity={54}>{t("portfolio.apiKey.description")}</Text>
+        <Text
+          className="oui-text-2xs md:oui-text-xs xl:oui-text-sm"
+          intensity={54}
+        >
+          {t("portfolio.apiKey.description")}
+        </Text>
         <Flex
           itemAlign={"center"}
           className="oui-text-primary-light oui-fill-primary-light hover:oui-text-primary-darken oui-cursor-pointer oui-text-2xs md:oui-text-xs xl:oui-text-sm"

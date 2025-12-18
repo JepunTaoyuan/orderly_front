@@ -19,7 +19,11 @@ export const SettingMobile: FC<SettingScriptReturns> = (props) => {
   };
 
   return (
-    <Flex direction={"column"} itemAlign={"start"} className="oui-bg-base-9">
+    <Flex
+      direction={"column"}
+      itemAlign={"start"}
+      className="oui-bg-base-9 oui-p-4"
+    >
       <Card
         title={
           <Text className="oui-font-semibold" style={{ fontSize: "14px" }}>
@@ -27,7 +31,7 @@ export const SettingMobile: FC<SettingScriptReturns> = (props) => {
           </Text>
         }
         id="portfolio-apikey-manager"
-        className="oui-bg-base-9 oui-px-0 oui-py-2"
+        className="oui-bg-base-9 oui-p-0"
         style={{
           width: "100%",
         }}

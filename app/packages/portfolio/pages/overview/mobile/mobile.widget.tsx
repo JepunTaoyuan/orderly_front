@@ -70,11 +70,7 @@ export const MobileOverview: React.FC = () => {
 
   return (
     <>
-      <Flex
-        direction={"column"}
-        width={"100%"}
-        className="oui-gap-5 oui-px-4 oui-py-3"
-      >
+      <Flex direction={"column"} width={"100%"} className="oui-gap-5">
         <Flex direction="column" width="100%">
           <div className="oui-px-4 oui-bg-base-9 oui-w-full">
             <AccountStatusMobile />

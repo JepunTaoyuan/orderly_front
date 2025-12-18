@@ -72,7 +72,7 @@ export const FeeTierTable: React.FC<FeeTierTableProps> = (props) => {
         return {
           "data-state": "active",
           className: cn(
-            "oui-pointer-events-none oui-h-[54px] oui-text-[rgba(0,0,0,0.88)] oui-gradient-brand",
+            "oui-pointer-events-none oui-h-[54px] oui-text-[rgba(0,0,0,0.88)] oui-gradient-brand ",
           ),
           ...config.active,
         };
@@ -138,14 +138,32 @@ const CardTitle: React.FC = () => {
   const { isMobile } = useScreen();
   if (isMobile) {
     return (
-      <Flex itemAlign={"center"} justify={"center"} gap={2}>
-        <Text size="xs" intensity={54}>
-          {t("portfolio.feeTier.updatedDailyBy")}
+      <Flex direction="column" itemAlign={"center"} justify={"start"}>
+        <Text className="oui-text-sm oui-w-full">
+          {" "}
+          {t("portfolio.feeTier")}
         </Text>
-        <Text size="xs" intensity={80}>
-          ~2:15 UTC
-        </Text>
+
+        <Divider intensity={4} className="oui-py-1" style={{ width: "100%" }} />
+
+        <Flex direction="row" gapX={2} justify="end" style={{ width: "100%" }}>
+          <Text size="xs" intensity={54}>
+            {t("portfolio.feeTier.updatedDailyBy")}
+          </Text>
+          <Text size="xs" intensity={80}>
+            ~2:15 UTC
+          </Text>
+        </Flex>
       </Flex>
+      // 原本
+      // <Flex itemAlign={"center"} justify={"center"} gap={2}>
+      //   <Text size="xs" intensity={54}>
+      //     {t("portfolio.feeTier.updatedDailyBy")}
+      //   </Text>
+      //   <Text size="xs" intensity={80}>
+      //     ~2:15 UTC
+      //   </Text>
+      // </Flex>
     );
   }
   return (
@@ -203,8 +221,11 @@ const FeeTierCard: React.FC<{ data: FeeDataType; isActive?: boolean }> = ({
     <Box
       width="100%"
       r="lg"
-      className={cn("oui-bg-base-9", isActive && "custom-fee-tier-bg")}
-      style={{ padding: "10px" }}
+      className={cn(
+        "oui-bg-base-9 oui-border oui-border-base-6 oui-rounded-sm",
+        isActive && "oui-bg-[#31275f]",
+      )}
+      style={{ padding: "10px", backgroundColor: isActive ? "#31275f" : "" }}
     >
       <Flex direction="column">
         {items.map((item, index) => (
@@ -225,9 +246,9 @@ export const FeeTier: React.FC<FeeTierProps> = (props) => {
       <Card
         title={<CardTitle />}
         id="oui-portfolio-fee-tier"
-        className="oui-p-5 w-full"
+        className="oui-p-4 w-full"
         classNames={{
-          root: isMobile ? "oui-bg-transparent oui-p-2" : "oui-bg-base-9",
+          root: isMobile ? "oui-bg-transparent oui-bg-base-9" : "oui-bg-base-9",
         }}
       >
         {!isMobile && <Divider />}

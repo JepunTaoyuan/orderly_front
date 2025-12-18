@@ -1,5 +1,6 @@
 import React from "react";
-import { Grid, useScreen } from "@orderly.network/ui";
+import { Grid, useMediaQuery, useScreen } from "@orderly.network/ui";
+import HistoryPage from "@/routes/$lang.portfolio.history";
 import { MobileOverview } from "./mobile";
 import { OverviewProvider } from "./provider/overviewProvider";
 
@@ -29,9 +30,12 @@ const LazyHistoryDataGroupWidget = React.lazy(() =>
 
 export const OverviewPage: React.FC = () => {
   const { isMobile } = useScreen();
+  const isDesktop = useMediaQuery("(min-width: 769px)");
   return (
     <OverviewProvider>
-      {isMobile ? (
+      {isDesktop ? (
+        <HistoryPage />
+      ) : isMobile ? (
         <MobileOverview />
       ) : (
         <Grid cols={2} gap={1}>

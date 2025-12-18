@@ -1,7 +1,7 @@
 import { FC, useMemo } from "react";
 import { useTranslation } from "@orderly.network/i18n";
 import { DataFilter } from "@orderly.network/ui";
-import { AuthGuardDataTable } from "@orderly.network/ui-connector";
+import { AuthGuardDataTable } from "@/packages/ui-connector";
 import {
   AssetTarget,
   type AssetHistoryScriptReturn,

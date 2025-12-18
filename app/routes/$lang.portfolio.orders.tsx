@@ -11,7 +11,7 @@ export const meta: MetaFunction = () => {
 export default function OrdersPage() {
   return (
     <Box
-      p={5}
+      p={4}
       pb={0}
       intensity={900}
       r="xl"
