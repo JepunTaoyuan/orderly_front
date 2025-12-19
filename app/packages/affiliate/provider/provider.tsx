@@ -78,11 +78,11 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
     usePrivateQuery<API.UserVolStats>("/v1/volume/user/stats", {
       revalidateOnFocus: true,
     });
-  const isAffiliate = useMemo(() => {
-    return (data?.referrer_info?.referral_codes?.length || 0) > 0;
-  }, [data?.referrer_info]);
+  // const isAffiliate = useMemo(() => {
+  //   return (data?.referrer_info?.referral_codes?.length || 0) > 0;
+  // }, [data?.referrer_info]);
   // test
-  // const isAffiliate = true;
+  const isAffiliate = true;
   const isTrader = useMemo(() => {
     return (data?.referee_info?.referer_code?.length || 0) > 0;
   }, [data?.referee_info]);
@@ -227,12 +227,42 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
 // const IS_DEV = true; // 開發測試模式
 
 // const DEV_REFERRAL_CODE: API.ReferralCode = {
-//   code: "TEST-AFFILIATE-001",
-//   max_rebate_rate: 0.2,
-//   referee_rebate_rate: 0.1,
-//   referrer_rebate_rate: 0.1,
-//   total_invites: 0,
-//   total_traded: 0,
+//     code: "TEST-AFFILIATE-001",
+//     max_rebate_rate: 0.2,
+//     referee_rebate_rate: 0.1,
+//     referrer_rebate_rate: 0.3,
+//     total_invites: 5,
+//     total_traded: 5,
+// };
+
+// const DEV_REFERRER_INFO: API.Referrer = {
+//   referral_codes: [DEV_REFERRAL_CODE],
+
+//   total_invites: 45,
+//   total_traded: 123456,
+//   total_referee_volume: 987654,
+//   total_referee_fee: 4321,
+//   total_referrer_rebate: 876.54,
+
+//   "1d_invites": 1,
+//   "7d_invites": 5,
+//   "30d_invites": 20,
+
+//   "1d_traded": 1000,
+//   "7d_traded": 7000,
+//   "30d_traded": 30000,
+
+//   "1d_referee_volume": 5000,
+//   "7d_referee_volume": 35000,
+//   "30d_referee_volume": 150000,
+
+//   "1d_referee_fee": 12.3,
+//   "7d_referee_fee": 98.7,
+//   "30d_referee_fee": 345.6,
+
+//   "1d_referrer_rebate": 3.2,
+//   "7d_referrer_rebate": 22.4,
+//   "30d_referrer_rebate": 98.76,
 // };
 
 // export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
@@ -297,18 +327,12 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
 //     });
 
 //   // ✅ DEV 模式下 mock referralInfo
-//   const referralInfo = useMemo(() => {
+//   const referralInfo = useMemo<API.ReferralInfo | undefined>(() => {
 //     if (!IS_DEV || !data) return data;
 
 //     return {
-//       ...data,
-//       referrer_info: {
-//         ...data.referrer_info,
-//         referral_codes:
-//           data.referrer_info?.referral_codes?.length > 0
-//             ? data.referrer_info.referral_codes
-//             : [DEV_REFERRAL_CODE],
-//       },
+//       referrer_info: DEV_REFERRER_INFO,
+//       referee_info: data.referee_info, // 或 DEV mock
 //     };
 //   }, [data]);
 
