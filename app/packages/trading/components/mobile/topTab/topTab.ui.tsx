@@ -30,7 +30,8 @@ export const TopTab: React.FC<TopTabState & { className?: string }> = (
 
   return (
     <Tabs
-      variant="contained"
+      variant="text"
+      size="sm"
       value={props.tab}
       contentVisible={props.visible}
       onValueChange={(e) => {

@@ -64,8 +64,8 @@ export const DesktopOrderList: FC<
             body: props.testIds?.tableBody,
           }}
           classNames={{
-            header: "oui-h-[38px] !oui-static",
-            root: "oui-items-start !oui-h-[calc(100%_-_49px)]",
+            header: "oui-h-[38px] !oui-static oui-bg-base-10",
+            root: "oui-items-start !oui-h-[calc(100%_-_49px)] oui-bg-base-10",
           }}
           onRow={(record, index) => {
             return {

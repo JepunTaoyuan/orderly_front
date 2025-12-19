@@ -12,8 +12,8 @@ import {
   Tooltip,
 } from "@orderly.network/ui";
 import type { TabPanelProps } from "@orderly.network/ui";
-import { DesktopOrderListWidget, TabType } from "@orderly.network/ui-orders";
 import { AssetsModule } from "@/packages/portfolio";
+import { DesktopOrderListWidget, TabType } from "@/packages/ui-orders";
 import {
   LiquidationWidget,
   PositionHistoryWidget,
@@ -44,7 +44,7 @@ const PositionsView: React.FC<DataListState> = (props) => {
         />
       </React.Suspense>
       <Divider className="oui-w-full" />
-      <Box className="oui-h-[calc(100%_-_60px)]" width="100%">
+      <Box className="oui-h-[calc(100%_-_60px)] oui-bg-base-10" width="100%">
         <PositionsWidget
           symbol={!!props.showAllSymbol ? undefined : props.symbol}
           pnlNotionalDecimalPrecision={props.pnlNotionalDecimalPrecision}
@@ -61,7 +61,7 @@ const PositionsView: React.FC<DataListState> = (props) => {
 export const LiquidationTab: React.FC = () => {
   const { t } = useTranslation();
   return (
-    <div className="oui-flex oui-space-x-1">
+    <div className="oui-flex oui-space-x-1 oui-bg-base-10">
       <span>{t("positions.liquidation")}</span>
       <Tooltip
         className="oui-max-w-[275px] oui-bg-base-6"
@@ -126,7 +126,9 @@ export const DataList: React.FC<DataListState> = (props) => {
           ordersStatus={OrderStatus.INCOMPLETE}
           symbol={showAllSymbol ? undefined : symbol}
           onSymbolChange={onSymbolChange}
-          testIds={{ tableBody: "oui-testid-dataList-pending-table-body" }}
+          testIds={{
+            tableBody: "oui-testid-dataList-pending-table-body oui-bg-base-10",
+          }}
         />
       ),
     },
@@ -153,7 +155,9 @@ export const DataList: React.FC<DataListState> = (props) => {
           pnlNotionalDecimalPrecision={pnlNotionalDecimalPrecision}
           ordersStatus={OrderStatus.FILLED}
           onSymbolChange={onSymbolChange}
-          testIds={{ tableBody: "oui-testid-dataList-filled-table-body" }}
+          testIds={{
+            tableBody: "oui-testid-dataList-filled-table-body oui-bg-base-10",
+          }}
           sharePnLConfig={sharePnLConfig}
         />
       ),
@@ -179,7 +183,10 @@ export const DataList: React.FC<DataListState> = (props) => {
           pnlNotionalDecimalPrecision={pnlNotionalDecimalPrecision}
           symbol={showAllSymbol ? undefined : symbol}
           onSymbolChange={onSymbolChange}
-          testIds={{ tableBody: "oui-testid-dataList-orderHistory-table-body" }}
+          testIds={{
+            tableBody:
+              "oui-testid-dataList-orderHistory-table-body oui-bg-base-10",
+          }}
           sharePnLConfig={sharePnLConfig}
         />
       ),
@@ -208,8 +215,8 @@ export const DataList: React.FC<DataListState> = (props) => {
               desc: "oui-ml-1",
             }}
             dataTableClassNames={{
-              header: "oui-bg-base-9",
-              root: "oui-h-[calc(100%_-_28px)]",
+              header: "oui-bg-base-10",
+              root: "oui-h-[calc(100%_-_28px)] oui-bg-base-10",
             }}
           />
         </Flex>
@@ -234,10 +241,11 @@ export const DataList: React.FC<DataListState> = (props) => {
         </React.Suspense>
       }
       size="sm"
-      className="oui-h-full"
+      className="oui-h-full oui-bg-base-10"
       classNames={{
-        trigger: "oui-group",
-        tabsContent: "oui-h-[calc(100%_-_32px)]",
+        trigger: "oui-group oui-bg-base-10",
+        tabsContent: "oui-h-[calc(100%_-_32px)] oui-bg-base-10",
+        tabsList: "oui-bg-base-10",
       }}
     >
       {tabPanelItems.map((item) => {
