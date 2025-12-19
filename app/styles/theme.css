@@ -202,4 +202,16 @@
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: rgba(255, 255, 255, 0.6);
   }
+
+  .mad4 {
+    padding: 0 10px;
+  }
+
+  .oui-box.oui-p-2.oui-flex.oui-flex-row.oui-items-center.oui-justify-start.oui-flex-nowrap.oui-gap-2.oui-rounded-b-xl.oui-bg-base-9 {
+    background: rgba(12, 13, 16, 1);
+  }
+
+  .oui-box.oui-absolute.oui-position.oui-flex.oui-items-center.oui-justify-center {
+    background: rgba(12, 13, 16, 1);
+  }
 }

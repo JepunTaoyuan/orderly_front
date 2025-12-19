@@ -34,7 +34,11 @@ export function AdditionalConfigButton(props: AdditionalInfoProps) {
           </svg>
         </button>
       </PopoverTrigger>
-      <PopoverContent side={"top"} align={"end"} className={"oui-w-[230px]"}>
+      <PopoverContent
+        side={"top"}
+        align={"end"}
+        className={"oui-w-[230px] oui-bg-base-9"}
+      >
         <AdditionalInfo {...props} />
       </PopoverContent>
     </PopoverRoot>

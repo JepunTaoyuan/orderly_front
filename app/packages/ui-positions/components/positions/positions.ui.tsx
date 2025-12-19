@@ -31,6 +31,10 @@ export const Positions: React.FC<Readonly<PositionsState>> = (props) => {
       loading={isLoading}
       id="oui-desktop-positions-content"
       columns={columns}
+      classNames={{
+        header: "oui-bg-base-10", // 修改表格頭背景
+        root: "oui-bg-base-10", // 修改表格容器背景
+      }}
       bordered
       dataSource={dataSource}
       generatedRowKey={(record: any) => record.symbol}
@@ -56,7 +60,7 @@ export const Positions: React.FC<Readonly<PositionsState>> = (props) => {
           : undefined
       }
       testIds={{
-        body: "oui-testid-dataList-position-tab-body",
+        body: "oui-testid-dataList-position-tab-body oui-bg-base-10",
       }}
     />
   );
@@ -73,7 +77,8 @@ export const MobilePositions: React.FC<
   } = props;
   return (
     <ListView
-      className="oui-hide-scrollbar oui-w-full oui-space-y-0 oui-overflow-y-hidden"
+      className="oui-hide-scrollbar oui-w-full oui-space-y-0 oui-overflow-y-hidden oui-rounded-sm oui-bg-base-10"
+      style={{ padding: "0 10px" }}
       contentClassName="!oui-space-y-1"
       dataSource={dataSource}
       renderItem={(item, index) => (
@@ -120,6 +125,7 @@ export const CombinePositions: React.FC<Readonly<CombinePositionsState>> = (
       loading={isLoading}
       id="oui-desktop-positions-content"
       columns={columns}
+      className="oui-bg-base-10"
       dataSource={dataSource}
       expanded
       getSubRows={(row) => row.children}

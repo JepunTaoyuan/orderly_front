@@ -193,7 +193,7 @@ const DataFilterSection: React.FC<
 
   return (
     <DataFilter
-      className="oui-border-none oui-py-5 oui-bg-base-10"
+      className="oui-border-none oui-p-5 oui-bg-base-10"
       onFilter={onFilter}
       items={[
         {
@@ -276,7 +276,7 @@ export const AssetsDataTable: React.FC<
         return (
           <Flex
             key={`item-${index}`}
-            className={cn("oui-rounded-xl oui-bg-base-9 oui-p-5", scrollRoot)}
+            className={cn("oui-rounded-xl oui-bg-base-10 oui-p-5", scrollRoot)}
             direction={"column"}
             itemAlign={"start"}
             justify={"between"}
@@ -297,6 +297,7 @@ export const AssetsDataTable: React.FC<
               classNames={{
                 // root: "oui-bg-transparent",
                 // scroll: "oui-min-h-0",
+                root: "oui-bg-base-10",
                 ...dataTableClassNames,
               }}
               columns={columns}
@@ -313,7 +314,7 @@ export const AssetsTable: React.FC<AssetsWidgetProps> = (props) => {
   const { t } = useTranslation();
   return (
     <Card
-      className={"oui-bg-base-9 oui-p-0"}
+      className={"oui-bg-base-10 oui-p-0"}
       classNames={{ content: "!oui-pt-0" }}
     >
       <Tabs
@@ -324,7 +325,7 @@ export const AssetsTable: React.FC<AssetsWidgetProps> = (props) => {
       >
         <TabPanel value="assets" className="" title={t("common.assets")}>
           <Flex
-            className="oui-rounded-xl oui-bg-base-9 oui-p-5"
+            className="oui-rounded-xl oui-bg-base-10 oui-p-5"
             direction={"row"}
             itemAlign={"center"}
             justify={"between"}
@@ -378,7 +379,7 @@ export const AssetsTableMobile: React.FC<AssetsWidgetProps> = (props) => {
   const { t } = useTranslation();
   return (
     <Card
-      className={"oui-bg-base-9 oui-p-0"}
+      className={"oui-bg-base-10 oui-p-0"}
       classNames={{ content: "!oui-pt-0" }}
     >
       <div className="oui-pt-5 oui-px-5">Assets</div>
@@ -390,7 +391,7 @@ export const AssetsTableMobile: React.FC<AssetsWidgetProps> = (props) => {
         size="sm"
       >
         <TabPanel value="assets" className="" title={t("common.assets")}>
-          <Grid className="oui-rounded-xl oui-bg-base-9 oui-p-5">
+          <Grid className="oui-rounded-xl oui-bg-base-10 oui-p-5">
             <TotalValueInfo
               {...pick(["totalValue", "visible", "onToggleVisibility"], props)}
             />
@@ -424,7 +425,7 @@ export const AssetsTableMobile: React.FC<AssetsWidgetProps> = (props) => {
         </TabPanel>
         <TabPanel
           value="convertHistory"
-          className="oui-rounded-xl oui-bg-base-9 oui-px-6"
+          className="oui-rounded-xl oui-bg-base-10 oui-px-6"
           title={t("portfolio.overview.tab.convert.history")}
         >
           <React.Suspense fallback={null}>

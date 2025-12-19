@@ -93,11 +93,11 @@ export const SortablePanel: FC<PropsWithChildren<SortablePanelProps>> = (
   return (
     <Box
       intensity={900}
-      r="2xl"
+      r="sm"
       p={3}
       width="100%"
       className={cn(
-        "oui-relative",
+        "oui-relative oui-border-none",
         props.className,
         // dragOverlay && "oui-scale-105",
       )}
