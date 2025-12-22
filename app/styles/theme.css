@@ -214,4 +214,17 @@
   .oui-box.oui-absolute.oui-position.oui-flex.oui-items-center.oui-justify-center {
     background: rgba(12, 13, 16, 1);
   }
+
+  .oui-button.oui-inline-flex.oui-items-center.oui-justify-center.oui-whitespace-nowrap.oui-transition-colors.disabled\:oui-cursor-not-allowed.disabled\:oui-bg-base-3.disabled\:oui-text-base-contrast-36.disabled\:hover\:oui-bg-base-3.oui-px-3.oui-rounded-md.hover\:oui-bg-base-2\/80.active\:oui-bg-base-2\/70.oui-bg-base-2.oui-text-base-contrast.oui-text-sm.oui-font-semibold.oui-w-\[100\%\].oui-h-8 {
+    background-color: rgba(12, 13, 16, 1);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .oui-button.oui-inline-flex.oui-items-center.oui-justify-center.oui-whitespace-nowrap.oui-transition-colors.disabled\:oui-cursor-not-allowed.disabled\:oui-bg-base-3.disabled\:oui-text-base-contrast-36.disabled\:hover\:oui-bg-base-3.oui-px-3.oui-rounded-md.hover\:oui-bg-primary-darken\/80.active\:oui-bg-primary-darken\/70.oui-bg-primary-darken.oui-text-primary-contrast.oui-text-sm.oui-font-semibold.oui-w-\[100\%\].oui-h-8 {
+    background-color: rgba(110, 85, 223, 1);
+    border-radius: 50px;
+    border: none;
+  }
 }
