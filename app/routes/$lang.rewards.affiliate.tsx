@@ -24,7 +24,7 @@ export default function AffiliatePage() {
         classNames={{
           root: "oui-flex oui-justify-center",
           home: "oui-w-full lg:oui-px-6 lg:oui-py-12 xl:oui-pl-4 xl:oui-pr-6",
-          dashboard: "oui-py-6 oui-px-4 lg:oui-px-6 xl:oui-pl-3 xl:oui-pr-6",
+          dashboard: "",
         }}
       />
     </ReferralProvider>

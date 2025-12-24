@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { VolBarChart } from "@orderly.network/chart";
+import { useMediaQuery } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import { EMPTY_LIST } from "@orderly.network/types";
 import { Flex, Select, Text } from "@orderly.network/ui";
@@ -7,11 +8,12 @@ import { Decimal } from "@orderly.network/utils";
 import { TitleStatisticReturns } from "./titleStatistic.script";
 
 export const TitleStatistic: FC<TitleStatisticReturns> = (props) => {
+  const is5XL = useMediaQuery("(min-width:1920px)");
   return (
     <Flex
       id="oui-affiliate-affiliate-titleStatistic"
-      r={"2xl"}
-      p={6}
+      r={"md"}
+      p={is5XL ? 6 : 3}
       width={"100%"}
       gap={4}
       direction={"column"}
@@ -37,9 +39,9 @@ const Title: FC<TitleStatisticReturns> = (props) => {
   const { t } = useTranslation();
 
   return (
-    <Flex direction={"row"} justify={"between"} width={"100%"}>
+    <Flex direction={"row"} gapX={3} width={"100%"}>
       <Text className="oui-text-lg">{t("affiliate.statistics")}</Text>
-      <Flex direction={"row"} gap={2} className={"oui-min-w-14"}>
+      <Flex direction={"row"} gap={1} className={"oui-min-w-14"}>
         <Select.options
           size={"xs"}
           value={props.period}

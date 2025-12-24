@@ -23,7 +23,7 @@ export const ReferralCodes: FC<ReferralCodesReturns> = (props) => {
   const isTablet = useMediaQuery("(max-width: 767px)");
   return (
     <Flex
-      r={"2xl"}
+      r={"md"}
       p={6}
       width={"100%"}
       gap={4}
@@ -318,8 +318,9 @@ const DesktopLayout: FC<ReferralCodesReturns> = (props) => {
       render: (value, data) => (
         <Button
           variant="outlined"
+          color="gray"
           size="sm"
-          className="oui-px-5"
+          className="oui-px-5 oui-rounded-full"
           onClick={(e) => {
             props?.copyLink?.(data.code);
           }}
