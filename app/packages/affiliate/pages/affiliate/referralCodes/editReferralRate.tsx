@@ -81,48 +81,69 @@ export const EditReferralRate = modal.create<{
         closable
       >
         <DialogTitle>
-          <div className="oui-my-3">{"Edit a referral code"}</div>
+          <div className="oui-my-3">{t("Edit a referral code")}</div>
           <Divider />
         </DialogTitle>
 
         <div className="oui-mt-3 oui-h-full oui-flex oui-flex-col oui-justify-end">
-          {/* Total */}
+          {/* Total Commission Display */}
           <div className="oui-text-xs oui-text-base-contrast-80 oui-mt-2 oui-flex oui-justify-between">
             {t("Total commission rate")}
-            <div className="oui-text-primary oui-pl-1">{`${new Decimal(
-              code.max_rebate_rate,
-            )
-              .mul(100)
-              .toFixed(0, Decimal.ROUND_DOWN)}%`}</div>
+            <div className="oui-text-primary oui-pl-1">
+              {`${new Decimal(code.max_rebate_rate)
+                .mul(100)
+                .toFixed(0, Decimal.ROUND_DOWN)}%`}
+            </div>
           </div>
-          {/* New rates */}
+
+          {/* Description */}
           <div className="oui-pb-5 oui-text-xs oui-text-base-contrast-54">
             {t(
               "New rates apply to new users only Existing users are unchanged.",
             )}
           </div>
-          {/* Refferral code */}
+
+          {/* Referral Code (Read Only or Label) */}
           <div className="oui-flex oui-flex-col oui-gap-2 oui-pb-5">
             <label className="oui-text-xs oui-text-white/60">
               Referral code
             </label>
             <input
               type="text"
-              placeholder="Referral code"
-              className="oui-bg-base-9 oui-w-full oui-h-10 oui-px-3 oui-bg-white/5 oui-text-white oui-rounded-md "
+              className="oui-bg-base-9 oui-w-full oui-h-10 oui-px-3 oui-text-white oui-rounded-md oui-flex oui-items-center"
+              value={code.code}
             />
           </div>
 
-          {/* Rate inputs */}
+          {/* Rate inputs Row */}
           <div className="oui-flex oui-items-center oui-gap-1 oui-pb-3">
+            {/* For You Input */}
             <div className="oui-flex oui-flex-col oui-flex-1">
               <label className="oui-text-gray-400 oui-text-xs font-semibold mb-1">
-                For you
+                {t("affiliate.referralRate.editRateModal.label.you")}
               </label>
-              <div className="oui-bg-base-9 oui-flex oui-items-center oui-bg-base-8 oui-rounded-md oui-px-3 oui-py-2">
+              <div
+                className={`oui-bg-base-8 oui-flex oui-items-center oui-rounded-md oui-px-3 oui-py-2 ${showError ? "oui-border oui-border-danger" : ""}`}
+              >
                 <input
                   type="text"
-                  className="oui-bg-base-9 oui-text-white oui-text-lg oui-font-bold oui-w-full oui-outline-none"
+                  inputMode="decimal"
+                  className="oui-bg-base-9 oui-text-white oui-text-md oui-font-bold oui-w-full oui-outline-none"
+                  value={referrerRebateRate}
+                  onChange={(e) => {
+                    const text = cleanStringStyle(e.target.value);
+                    const rate = Number.parseFloat(text);
+                    setReferrerRebateRate(text);
+                    if (!Number.isNaN(rate)) {
+                      setRefereeRebateRate(
+                        `${maxDecimal(new Decimal(0), maxRate.sub(rate))}`,
+                      );
+                      setShowError(maxRate.sub(rate) < new Decimal(0));
+                    } else {
+                      setRefereeRebateRate("");
+                      setReferrerRebateRate("");
+                    }
+                  }}
                 />
                 <span className="oui-text-gray-400 oui-font-medium">%</span>
               </div>
@@ -132,14 +153,33 @@ export const EditReferralRate = modal.create<{
               +
             </div>
 
+            {/* For Referee Input */}
             <div className="oui-flex oui-flex-col oui-flex-1">
               <label className="oui-text-gray-400 oui-text-xs font-semibold mb-1">
-                For referee
+                {t("affiliate.referralRate.editRateModal.label.referee")}
               </label>
-              <div className="oui-border oui-border-line-12 oui-bg-base-9 oui-flex oui-items-center oui-bg-base-8 oui-rounded-md oui-px-3 oui-py-2">
+              <div
+                className={`oui-bg-base-8 oui-flex oui-items-center oui-rounded-md oui-px-3 oui-py-2 ${showError ? "oui-border oui-border-danger" : ""}`}
+              >
                 <input
                   type="text"
-                  className="oui-bg-base-9 oui-bg-transparent oui-text-white oui-text-lg oui-font-bold oui-w-full oui-outline-none"
+                  inputMode="decimal"
+                  className="oui-bg-base-9 oui-text-white oui-text-md oui-font-bold oui-w-full oui-outline-none"
+                  value={refereeRebateRate}
+                  onChange={(e) => {
+                    const text = cleanStringStyle(e.target.value);
+                    const rate = Number.parseFloat(text);
+                    setRefereeRebateRate(text);
+                    if (!Number.isNaN(rate)) {
+                      setReferrerRebateRate(
+                        `${maxDecimal(new Decimal(0), maxRate.sub(rate))}`,
+                      );
+                      setShowError(maxRate.sub(rate) < new Decimal(0));
+                    } else {
+                      setRefereeRebateRate("");
+                      setReferrerRebateRate("");
+                    }
+                  }}
                 />
                 <span className="oui-text-gray-400 oui-font-medium">%</span>
               </div>
@@ -150,10 +190,18 @@ export const EditReferralRate = modal.create<{
             </div>
 
             <div className="oui-text-primary oui-font-bold oui-text-md oui-flex oui-items-end oui-h-11">
-              40%
+              {`${maxRate.toString()}%`}
             </div>
           </div>
 
+          {/* Error Message */}
+          {showError && (
+            <div className="oui-text-danger oui-text-xs oui-mt-2 oui-text-center">
+              {t("affiliate.referralRate.editRateModal.helpText.max")}
+            </div>
+          )}
+
+          {/* Action Buttons */}
           <div className="oui-flex oui-gap-2 oui-justify-end oui-w-full oui-py-5">
             <Button
               variant="outlined"
@@ -161,15 +209,28 @@ export const EditReferralRate = modal.create<{
               className="oui-rounded-full oui-text-base-contrast-54 oui-flex-1"
               onClick={hide}
             >
-              cancel
+              {t("common.cancel")}
             </Button>
-            <Button className="oui-flex-1 oui-rounded-full oui-text-white">
-              create
+            <Button
+              loading={isMutating}
+              disabled={
+                refereeRebateRate.length === 0 ||
+                referrerRebateRate.length === 0 ||
+                showError
+              }
+              className="oui-flex-1 oui-rounded-full oui-text-white"
+              onClick={(e) => {
+                e.stopPropagation();
+                onClickConfirm();
+              }}
+            >
+              {t("common.confirm")}
             </Button>
           </div>
         </div>
       </DialogContent>
     </Dialog>
+    // 原本
     // <Dialog open={visible} onOpenChange={onOpenChange}>
     //   <DialogContent
     //     className="oui-px-6 oui-max-w-[320px] oui-bg-base-8 oui-shadow-[0px_12px_20px_0px_rgba(0,0,0,0.25)]"
