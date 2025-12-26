@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from "react";
 import { useAccount } from "@orderly.network/hooks";
 import { AccountStatusEnum } from "@orderly.network/types";
-import { userService } from "@/services/user.client";
+import { userApi } from "@/services/user.client";
 
 interface AccountCreationData {
   user_id: string;
@@ -106,7 +106,7 @@ export const AccountCreationListener: React.FC = () => {
           requestId,
         });
 
-        await userService.createUser(accountData);
+        await userApi.createUser(accountData);
 
         // 標記請求為已處理
         markRequestProcessed(requestId);

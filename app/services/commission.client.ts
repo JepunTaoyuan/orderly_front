@@ -1,25 +1,70 @@
-import { api } from "./api-refer-client";
+// app/services/commission.client.ts
+// Commission-related API endpoints
+import {
+  api,
+  UserCommissionResponse,
+  CalculateCommissionsRequest,
+  CalculateCommissionsResponse,
+  ProcessDailyCommissionsRequest,
+  ProcessDailyCommissionsResponse,
+  SendWeeklyCommissionRequest,
+  SendWeeklyCommissionResponse,
+  WeeklyCommissionSummaryResponse,
+  RetryFailedUserRequest,
+  RetryFailedUsersResponse,
+  MessageResponse,
+} from "./api-refer-client";
 
-// ==================== 型別定義 ====================
+export const commissionApi = {
+  // Get user commission
+  getUserCommission: (userId: string, token?: string) =>
+    api.get<UserCommissionResponse>(`/commissions/${userId}`, token),
 
-/**
- * 用戶返佣回應
- */
-export interface UserCommissionResponse {
-  user_id: string;
-  total_commission_and_discount: number;
-  weekly_commission_and_discount: number;
-}
+  // Calculate commissions for users
+  calculate: (data: CalculateCommissionsRequest, token?: string) =>
+    api.post<CalculateCommissionsResponse>(
+      "/commissions/calculate",
+      data,
+      token,
+    ),
 
-// ==================== Commission Service ====================
+  // Process daily commissions (admin)
+  processDaily: (data: ProcessDailyCommissionsRequest, token?: string) =>
+    api.post<ProcessDailyCommissionsResponse>(
+      "/commissions/process-daily",
+      data,
+      token,
+    ),
 
-export const commissionService = {
-  /**
-   * 獲取用戶返佣信息
-   * GET /commission/{user_id}
-   * 無需認證
-   */
-  async getUserCommission(user_id: string): Promise<UserCommissionResponse> {
-    return api.get<UserCommissionResponse>(`/commission/${user_id}`);
-  },
+  // Send weekly commissions (admin)
+  sendWeekly: (data: SendWeeklyCommissionRequest, token?: string) =>
+    api.post<SendWeeklyCommissionResponse>(
+      "/commissions/send-weekly",
+      data,
+      token,
+    ),
+
+  // Get weekly commission summary (admin)
+  getWeeklySummary: (token?: string) =>
+    api.get<WeeklyCommissionSummaryResponse>(
+      "/commissions/weekly-summary",
+      token,
+    ),
+
+  // Reset weekly commissions (admin)
+  resetWeekly: (token?: string) =>
+    api.post<MessageResponse>("/commissions/reset-weekly", {}, token),
+
+  // Retry failed commission payouts (admin)
+  retryFailed: (data: RetryFailedUserRequest, token?: string) =>
+    api.post<RetryFailedUsersResponse>(
+      "/commissions/retry-failed",
+      data,
+      token,
+    ),
+
+  // Reset all commissions (admin - dangerous)
+  // WARNING: This endpoint is NOT implemented in the backend yet
+  // resetAll: (token?: string) =>
+  //   api.post<MessageResponse>("/commissions/reset-all", {}, token),
 };
