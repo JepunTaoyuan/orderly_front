@@ -123,7 +123,7 @@ export const EditReferralRate = modal.create<{
                 {t("affiliate.referralRate.editRateModal.label.you")}
               </label>
               <div
-                className={`oui-bg-base-8 oui-flex oui-items-center oui-rounded-md oui-px-3 oui-py-2 ${showError ? "oui-border oui-border-danger" : ""}`}
+                className={`oui-bg-base-9 oui-flex oui-items-center oui-rounded-md oui-px-3 oui-py-2 ${showError ? "oui-border oui-border-danger" : ""}`}
               >
                 <input
                   type="text"
@@ -159,7 +159,7 @@ export const EditReferralRate = modal.create<{
                 {t("affiliate.referralRate.editRateModal.label.referee")}
               </label>
               <div
-                className={`oui-bg-base-8 oui-flex oui-items-center oui-rounded-md oui-px-3 oui-py-2 ${showError ? "oui-border oui-border-danger" : ""}`}
+                className={`oui-bg-base-9 oui-flex oui-items-center oui-rounded-md oui-px-3 oui-py-2 ${showError ? "oui-border oui-border-danger" : ""}`}
               >
                 <input
                   type="text"
