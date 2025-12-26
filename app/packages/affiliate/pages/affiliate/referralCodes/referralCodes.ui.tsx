@@ -12,6 +12,11 @@ import {
   cn,
   Column,
   CopyIcon,
+  DialogTitle,
+  DialogContent,
+  Dialog,
+  modal,
+  useModal,
 } from "@orderly.network/ui";
 import { Decimal } from "@orderly.network/utils";
 import { EditCode } from "../../../components/editCodeBtn";
@@ -39,25 +44,171 @@ export const ReferralCodes: FC<ReferralCodesReturns> = (props) => {
     </Flex>
   );
 };
+// 新增邀請碼
+export const CreateReferralCodeModal = modal.create<{
+  mutate: any;
+  createReferralCode: () => Promise<void>;
+}>((props) => {
+  const { mutate, createReferralCode } = props;
+  const { visible, hide, onOpenChange } = useModal();
+
+  const handleSubmit = async () => {
+    try {
+      await createReferralCode();
+      mutate();
+      hide();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <Dialog open={visible} onOpenChange={onOpenChange}>
+      <DialogContent
+        size="md"
+        className="oui-py-2 oui-rounded-sm"
+        style={{ backgroundColor: "#0c0d10" }}
+      >
+        <DialogTitle>Create a referral code</DialogTitle>
+        {/* 表單*/}
+        <div className="oui-flex oui-flex-col oui-gap-6 oui-pt-5">
+          {/* 總佣金 */}
+          <div className="oui-flex oui-flex-col oui-gap-1">
+            <div className="oui-flex oui-justify-between oui-items-center">
+              <span className="oui-text-xs oui-font-semibold oui-text-white/80">
+                Total commission rate
+              </span>
+              <span className="oui-text-xs oui-font-semibold oui-text-primary">
+                40%
+              </span>
+            </div>
+            <span className="oui-text-2xs oui-text-white/50">
+              New rates apply to new users only. Existing users are unchanged.
+            </span>
+          </div>
+
+          {/* Referral code 輸入 */}
+          <div className="oui-flex oui-flex-col oui-gap-1">
+            <label className="oui-text-xs oui-text-white/60">
+              Referral code
+            </label>
+            <input
+              type="text"
+              placeholder="Referral code"
+              className="oui-bg-base-9 oui-w-full oui-h-10 oui-px-3 oui-bg-white/5 oui-text-white oui-rounded-md "
+            />
+            <span className="oui-text-2xs oui-text-white/50">
+              Use 4–10 characters: A–Z or 0–9.
+            </span>
+          </div>
+
+          {/* Rate inputs */}
+          <div className="oui-flex oui-items-center oui-gap-3">
+            <div className="oui-flex oui-flex-col oui-flex-1">
+              <label className="oui-text-gray-400 oui-text-xs font-semibold mb-1">
+                For you
+              </label>
+              <div className="oui-bg-base-9 oui-flex oui-items-center oui-bg-base-8 oui-rounded-md oui-px-3 oui-py-2">
+                <input
+                  type="text"
+                  className="oui-bg-base-9 oui-text-white oui-text-lg oui-font-bold oui-w-full oui-outline-none"
+                />
+                <span className="oui-text-gray-400 oui-font-medium">%</span>
+              </div>
+            </div>
+
+            <div className="oui-font-bold oui-text-xl oui-flex oui-items-end oui-h-11 oui-text-base-contrast-54">
+              +
+            </div>
+
+            <div className="oui-flex oui-flex-col oui-flex-1">
+              <label className="oui-text-gray-400 oui-text-xs font-semibold mb-1">
+                For referee
+              </label>
+              <div className="oui-border oui-border-line-12 oui-bg-base-9 oui-flex oui-items-center oui-bg-base-8 oui-rounded-md oui-px-3 oui-py-2">
+                <input
+                  type="text"
+                  className="oui-bg-base-9 oui-bg-transparent oui-text-white oui-text-lg oui-font-bold oui-w-full oui-outline-none"
+                />
+                <span className="oui-text-gray-400 oui-font-medium">%</span>
+              </div>
+            </div>
+
+            <div className="oui-text-base-contrast-54 oui-font-bold oui-text-xl oui-flex oui-items-end oui-h-11">
+              =
+            </div>
+
+            <div className="oui-text-primary oui-font-bold oui-text-md oui-flex oui-items-end oui-h-11">
+              40%
+            </div>
+          </div>
+        </div>
+        <div className="oui-flex oui-gap-2 oui-justify-end oui-w-full oui-py-5">
+          <Button
+            variant="outlined"
+            color="gray"
+            className="oui-rounded-full oui-text-base-contrast-54 oui-flex-1"
+            onClick={hide}
+          >
+            cancel
+          </Button>
+          <Button
+            className="oui-flex-1 oui-rounded-full oui-text-white"
+            onClick={handleSubmit}
+          >
+            create
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+});
 
 const Title: FC<ReferralCodesReturns> = (props) => {
   const { t } = useTranslation();
-
+  const handleCreate = () => {
+    modal.show(CreateReferralCodeModal, {
+      mutate: props.mutate,
+      createReferralCode: props.createReferralCode,
+    });
+  };
   return (
     <Flex direction={"row"} justify={"between"} width={"100%"}>
       <Text className="oui-text-lg">{t("affiliate.referralCodes")}</Text>
       <div className="oui-text-2xs md:oui-text-xs xl:oui-text-sm">
-        <Text className="oui-text-base-contrast-54">
-          {`${t("affiliate.referralCodes.remaining")}: `}
-        </Text>
-        <Text className="oui-text-primary-light">
-          {props.codes?.length || "--"}
-        </Text>
+        <Button
+          className={`oui-rounded-full oui-text-xs oui-px-5 oui-font-semibold`}
+          style={{
+            background:
+              "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
+          }}
+          size="md"
+          onClick={handleCreate}
+        >
+          Create
+        </Button>
       </div>
     </Flex>
   );
 };
+// 原本
+// const Title: FC<ReferralCodesReturns> = (props) => {
+//   const { t } = useTranslation();
 
+//   return (
+//     <Flex direction={"row"} justify={"between"} width={"100%"}>
+//       <Text className="oui-text-lg">{t("affiliate.referralCodes")}</Text>
+//       <div className="oui-text-2xs md:oui-text-xs xl:oui-text-sm">
+//         <Text className="oui-text-base-contrast-54">
+//           {`${t("affiliate.referralCodes.remaining")}: `}
+//         </Text>
+//         <Text className="oui-text-primary-light">
+//           {props.codes?.length || "--"}
+//         </Text>
+//       </div>
+//     </Flex>
+//   );
+// };
 const MobileLayout: FC<ReferralCodesReturns> = (props) => {
   return (
     <ListView

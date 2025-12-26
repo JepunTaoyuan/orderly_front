@@ -53,7 +53,6 @@ export const EditReferralRate = modal.create<{
     "/v1/referral/edit_split",
     "POST",
   );
-
   const onClickConfirm = async () => {
     try {
       const r1 = Number.parseFloat(refereeRebateRate);
@@ -76,125 +75,222 @@ export const EditReferralRate = modal.create<{
   return (
     <Dialog open={visible} onOpenChange={onOpenChange}>
       <DialogContent
-        className="oui-px-6 oui-max-w-[320px] oui-bg-base-8 oui-shadow-[0px_12px_20px_0px_rgba(0,0,0,0.25)]"
+        size="md"
+        className="oui-px-6 oui-rounded-sm oui-shadow-[0px_12px_20px_0px_rgba(0,0,0,0.25)]"
+        style={{ backgroundColor: "#0c0d10" }}
         closable
       >
         <DialogTitle>
-          <div className="oui-my-3">
-            {t("affiliate.referralRate.editRateModal.title")}
-          </div>
+          <div className="oui-my-3">{"Edit a referral code"}</div>
           <Divider />
         </DialogTitle>
 
         <div className="oui-mt-3 oui-h-full oui-flex oui-flex-col oui-justify-end">
-          <div className="oui-text-xs oui-text-base-contrast-54">
-            {t("affiliate.referralRate.editRateModal.description")}
-          </div>
-          <div className="oui-text-xs oui-text-base-contrast-80 oui-mt-2 oui-flex">
-            {t("affiliate.referralRate.editRateModal.label")}
-            <div className="oui-text-warning-darken oui-pl-1">{`${new Decimal(
+          {/* Total */}
+          <div className="oui-text-xs oui-text-base-contrast-80 oui-mt-2 oui-flex oui-justify-between">
+            {t("Total commission rate")}
+            <div className="oui-text-primary oui-pl-1">{`${new Decimal(
               code.max_rebate_rate,
             )
               .mul(100)
               .toFixed(0, Decimal.ROUND_DOWN)}%`}</div>
           </div>
-
-          <div className="oui-text-2xs oui-mt-6 oui-text-base-contrast-80">
-            {t("affiliate.referralRate.editRateModal.label.you")}
+          {/* New rates */}
+          <div className="oui-pb-5 oui-text-xs oui-text-base-contrast-54">
+            {t(
+              "New rates apply to new users only Existing users are unchanged.",
+            )}
           </div>
-          <Input
-            ref={inputRef}
-            containerClassName="oui-h-[40px] oui-mt-3 oui-bg-base-700 oui-outline oui-outline-1 oui-outline-base-contrast-12 focus-within:oui-outline-primary-darken"
-            placeholder="Enter code"
-            type="text"
-            inputMode="decimal"
-            autoComplete="off"
-            value={referrerRebateRate}
-            onChange={(e) => {
-              const text = cleanStringStyle(e.target.value);
-              const rate = Number.parseFloat(text);
-              setReferrerRebateRate(text);
-              if (!Number.isNaN(rate)) {
-                setRefereeRebateRate(
-                  `${maxDecimal(new Decimal(0), maxRate.sub(rate))}`,
-                );
-                setShowError(maxRate.sub(rate) < new Decimal(0));
-              } else {
-                setRefereeRebateRate("");
-                setReferrerRebateRate("");
-              }
-            }}
-            suffix={
-              <div className="oui-px-3 oui-text-base-contrast-54 oui-text-base">
-                %
-              </div>
-            }
-            color={showError ? "danger" : undefined}
-          />
-
-          <div className="oui-text-2xs oui-mt-6 oui-text-base-contrast-80">
-            {t("affiliate.referralRate.editRateModal.label.referee")}
+          {/* Refferral code */}
+          <div className="oui-flex oui-flex-col oui-gap-2 oui-pb-5">
+            <label className="oui-text-xs oui-text-white/60">
+              Referral code
+            </label>
+            <input
+              type="text"
+              placeholder="Referral code"
+              className="oui-bg-base-9 oui-w-full oui-h-10 oui-px-3 oui-bg-white/5 oui-text-white oui-rounded-md "
+            />
           </div>
-          <Input
-            containerClassName="oui-h-[40px] oui-mt-3 oui-bg-base-700 oui-outline oui-outline-1 oui-outline-base-contrast-12 focus-within:oui-outline-primary-darken"
-            placeholder="Enter code"
-            type="text"
-            inputMode="decimal"
-            autoComplete="off"
-            autoFocus={false}
-            value={refereeRebateRate}
-            onChange={(e) => {
-              const text = cleanStringStyle(e.target.value);
-              const rate = Number.parseFloat(text);
-              setRefereeRebateRate(text);
-              if (!Number.isNaN(rate)) {
-                setReferrerRebateRate(
-                  `${maxDecimal(new Decimal(0), maxRate.sub(rate))}`,
-                );
-                setShowError(maxRate.sub(rate) < new Decimal(0));
-              } else {
-                setRefereeRebateRate("");
-                setReferrerRebateRate("");
-              }
-            }}
-            suffix={
-              <div className="oui-px-3 oui-text-base-contrast-54 oui-text-base">
-                %
-              </div>
-            }
-            color={showError ? "danger" : undefined}
-          />
 
-          {showError && (
-            <div className="oui-text-danger oui-text-xs oui-mt-8 oui-text-center oui-px-4">
-              {t("affiliate.referralRate.editRateModal.helpText.max")}
+          {/* Rate inputs */}
+          <div className="oui-flex oui-items-center oui-gap-1 oui-pb-3">
+            <div className="oui-flex oui-flex-col oui-flex-1">
+              <label className="oui-text-gray-400 oui-text-xs font-semibold mb-1">
+                For you
+              </label>
+              <div className="oui-bg-base-9 oui-flex oui-items-center oui-bg-base-8 oui-rounded-md oui-px-3 oui-py-2">
+                <input
+                  type="text"
+                  className="oui-bg-base-9 oui-text-white oui-text-lg oui-font-bold oui-w-full oui-outline-none"
+                />
+                <span className="oui-text-gray-400 oui-font-medium">%</span>
+              </div>
             </div>
-          )}
 
-          <Flex width={"100%"} justify={"center"}>
+            <div className="oui-font-bold oui-text-xl oui-flex oui-items-end oui-h-11 oui-text-base-contrast-54">
+              +
+            </div>
+
+            <div className="oui-flex oui-flex-col oui-flex-1">
+              <label className="oui-text-gray-400 oui-text-xs font-semibold mb-1">
+                For referee
+              </label>
+              <div className="oui-border oui-border-line-12 oui-bg-base-9 oui-flex oui-items-center oui-bg-base-8 oui-rounded-md oui-px-3 oui-py-2">
+                <input
+                  type="text"
+                  className="oui-bg-base-9 oui-bg-transparent oui-text-white oui-text-lg oui-font-bold oui-w-full oui-outline-none"
+                />
+                <span className="oui-text-gray-400 oui-font-medium">%</span>
+              </div>
+            </div>
+
+            <div className="oui-text-base-contrast-54 oui-font-bold oui-text-xl oui-flex oui-items-end oui-h-11">
+              =
+            </div>
+
+            <div className="oui-text-primary oui-font-bold oui-text-md oui-flex oui-items-end oui-h-11">
+              40%
+            </div>
+          </div>
+
+          <div className="oui-flex oui-gap-2 oui-justify-end oui-w-full oui-py-5">
             <Button
-              id="referral_bind_referral_code_btn"
-              disabled={
-                refereeRebateRate.length === 0 ||
-                referrerRebateRate.length === 0 ||
-                showError
-              }
-              loading={isMutating}
-              className={cn(
-                "oui-mt-8 oui-mb-4 oui-w-[154px]",
-                showError && "oui-mt-3",
-              )}
-              onClick={(e) => {
-                e.stopPropagation();
-                onClickConfirm();
-              }}
+              variant="outlined"
+              color="gray"
+              className="oui-rounded-full oui-text-base-contrast-54 oui-flex-1"
+              onClick={hide}
             >
-              {t("common.confirm")}
+              cancel
             </Button>
-          </Flex>
+            <Button className="oui-flex-1 oui-rounded-full oui-text-white">
+              create
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
+    // <Dialog open={visible} onOpenChange={onOpenChange}>
+    //   <DialogContent
+    //     className="oui-px-6 oui-max-w-[320px] oui-bg-base-8 oui-shadow-[0px_12px_20px_0px_rgba(0,0,0,0.25)]"
+    //     closable
+    //   >
+    //     <DialogTitle>
+    //       <div className="oui-my-3">
+    //         {t("affiliate.referralRate.editRateModal.title")}
+    //       </div>
+    //       <Divider />
+    //     </DialogTitle>
+
+    //     <div className="oui-mt-3 oui-h-full oui-flex oui-flex-col oui-justify-end">
+    //       <div className="oui-text-xs oui-text-base-contrast-54">
+    //         {t("affiliate.referralRate.editRateModal.description")}
+    //       </div>
+    //       <div className="oui-text-xs oui-text-base-contrast-80 oui-mt-2 oui-flex">
+    //         {t("affiliate.referralRate.editRateModal.label")}
+    //         <div className="oui-text-warning-darken oui-pl-1">{`${new Decimal(
+    //           code.max_rebate_rate,
+    //         )
+    //           .mul(100)
+    //           .toFixed(0, Decimal.ROUND_DOWN)}%`}</div>
+    //       </div>
+
+    //       <div className="oui-text-2xs oui-mt-6 oui-text-base-contrast-80">
+    //         {t("affiliate.referralRate.editRateModal.label.you")}
+    //       </div>
+    //       <Input
+    //         ref={inputRef}
+    //         containerClassName="oui-h-[40px] oui-mt-3 oui-bg-base-700 oui-outline oui-outline-1 oui-outline-base-contrast-12 focus-within:oui-outline-primary-darken"
+    //         placeholder="Enter code"
+    //         type="text"
+    //         inputMode="decimal"
+    //         autoComplete="off"
+    //         value={referrerRebateRate}
+    //         onChange={(e) => {
+    //           const text = cleanStringStyle(e.target.value);
+    //           const rate = Number.parseFloat(text);
+    //           setReferrerRebateRate(text);
+    //           if (!Number.isNaN(rate)) {
+    //             setRefereeRebateRate(
+    //               `${maxDecimal(new Decimal(0), maxRate.sub(rate))}`,
+    //             );
+    //             setShowError(maxRate.sub(rate) < new Decimal(0));
+    //           } else {
+    //             setRefereeRebateRate("");
+    //             setReferrerRebateRate("");
+    //           }
+    //         }}
+    //         suffix={
+    //           <div className="oui-px-3 oui-text-base-contrast-54 oui-text-base">
+    //             %
+    //           </div>
+    //         }
+    //         color={showError ? "danger" : undefined}
+    //       />
+
+    //       <div className="oui-text-2xs oui-mt-6 oui-text-base-contrast-80">
+    //         {t("affiliate.referralRate.editRateModal.label.referee")}
+    //       </div>
+    //       <Input
+    //         containerClassName="oui-h-[40px] oui-mt-3 oui-bg-base-700 oui-outline oui-outline-1 oui-outline-base-contrast-12 focus-within:oui-outline-primary-darken"
+    //         placeholder="Enter code"
+    //         type="text"
+    //         inputMode="decimal"
+    //         autoComplete="off"
+    //         autoFocus={false}
+    //         value={refereeRebateRate}
+    //         onChange={(e) => {
+    //           const text = cleanStringStyle(e.target.value);
+    //           const rate = Number.parseFloat(text);
+    //           setRefereeRebateRate(text);
+    //           if (!Number.isNaN(rate)) {
+    //             setReferrerRebateRate(
+    //               `${maxDecimal(new Decimal(0), maxRate.sub(rate))}`,
+    //             );
+    //             setShowError(maxRate.sub(rate) < new Decimal(0));
+    //           } else {
+    //             setRefereeRebateRate("");
+    //             setReferrerRebateRate("");
+    //           }
+    //         }}
+    //         suffix={
+    //           <div className="oui-px-3 oui-text-base-contrast-54 oui-text-base">
+    //             %
+    //           </div>
+    //         }
+    //         color={showError ? "danger" : undefined}
+    //       />
+
+    //       {showError && (
+    //         <div className="oui-text-danger oui-text-xs oui-mt-8 oui-text-center oui-px-4">
+    //           {t("affiliate.referralRate.editRateModal.helpText.max")}
+    //         </div>
+    //       )}
+
+    //       <Flex width={"100%"} justify={"center"}>
+    //         <Button
+    //           id="referral_bind_referral_code_btn"
+    //           disabled={
+    //             refereeRebateRate.length === 0 ||
+    //             referrerRebateRate.length === 0 ||
+    //             showError
+    //           }
+    //           loading={isMutating}
+    //           className={cn(
+    //             "oui-mt-8 oui-mb-4 oui-w-[154px]",
+    //             showError && "oui-mt-3",
+    //           )}
+    //           onClick={(e) => {
+    //             e.stopPropagation();
+    //             onClickConfirm();
+    //           }}
+    //         >
+    //           {t("common.confirm")}
+    //         </Button>
+    //       </Flex>
+    //     </div>
+    //   </DialogContent>
+    // </Dialog>
   );
 });
 
