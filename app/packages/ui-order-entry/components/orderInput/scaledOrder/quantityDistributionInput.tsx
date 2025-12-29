@@ -26,35 +26,28 @@ export const QuantityDistributionInput: FC<QuantityDistributionInputProps> =
     };
 
     return (
-      <Flex
-        direction="column"
-        itemAlign="start"
-        justify="center"
-        p={2}
-        r="base"
-        // gapY={1}
-        width="100%"
-        intensity={600}
+      <div
         className={cn(
-          "oui-t-rounded oui-text-base-contrast-36",
-          "oui-border oui-border-solid oui-border-line",
+          "orderly-order-entry custom-apply-to-everything oui-relative oui-rounded-md oui-px-2",
+          "oui-h-[54px] oui-py-1",
           props.className,
         )}
       >
-        <Text
-          size="2xs"
-          className="oui-cursor-pointer oui-border-b oui-border-dashed oui-border-line-12"
+        <label
+          className="oui-absolute oui-left-2 oui-top-[7px] oui-text-2xs oui-text-base-contrast-36 oui-cursor-pointer oui-border-b oui-border-dashed oui-border-line-12"
           onClick={showHint}
         >
           {t("orderEntry.quantityDistribution")}
-        </Text>
-        <QuantityDistribution
-          value={props.distribution_type}
-          onValueChange={(value) => {
-            setOrderValue("distribution_type", value);
-          }}
-        />
-      </Flex>
+        </label>
+        <div className="oui-mt-5 oui-mb-1">
+          <QuantityDistribution
+            value={props.distribution_type}
+            onValueChange={(value) => {
+              setOrderValue("distribution_type", value);
+            }}
+          />
+        </div>
+      </div>
     );
   });
 
@@ -124,7 +117,7 @@ const QuantityDistributionHint: FC<QuantityDistributionHintProps> = (props) => {
               intensity={type === item.type ? 500 : 600}
               width={78}
               p={2}
-              className="oui-cursor-pointer oui-rounded-l"
+              className="oui-cursor-pointer oui-rounded-md"
               onClick={() => {
                 setType(item.type);
               }}
@@ -140,12 +133,7 @@ const QuantityDistributionHint: FC<QuantityDistributionHintProps> = (props) => {
           p={2}
           intensity={500}
           width="100%"
-          className={cn(
-            "oui-rounded-r",
-            type === DistributionType.FLAT && "oui-rounded-bl",
-            type === DistributionType.ASCENDING && "oui-rounded-l",
-            type === DistributionType.DESCENDING && "oui-rounded-tl",
-          )}
+          className="oui-rounded-md"
         >
           <div>{currentContent?.formula}</div>
           <Text>{currentContent?.description}</Text>

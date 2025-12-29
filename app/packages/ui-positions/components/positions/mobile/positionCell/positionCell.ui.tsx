@@ -54,8 +54,8 @@ export const PositionCell: FC<
       direction={"column"}
       width={"100%"}
       gap={2}
-      p={2}
-      r="xl"
+      p={4}
+      r="sm"
       itemAlign={"start"}
       className={cn(className, "oui-bg-base-9")}
     >

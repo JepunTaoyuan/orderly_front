@@ -78,7 +78,21 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
     usePrivateQuery<API.UserVolStats>("/v1/volume/user/stats", {
       revalidateOnFocus: true,
     });
-  // 依賴後端返回的代理人數據
+
+  // 根據開發環境決定使用 MockData 還是真實 API
+  const data = useMockData ? MockData.referralInfo : apiData;
+  const generateCode = useMockData
+    ? MockData.autoGenerateCode
+    : apiGenerateCode;
+  const finalReferralInfoMutate = useMockData ? () => {} : referralInfoMutate;
+  const finalGenerateCodeMutate = useMockData ? () => {} : generateCodeMutate;
+
+  const [showHome, setShowHome] = useState(isLoading);
+  useEffect(() => {
+    setShowHome(true);
+  }, [isLoading]);
+
+  // 代理人身份判斷
   const isAffiliate = useMemo(() => {
     return (data?.referrer_info?.referral_codes?.length || 0) > 0;
   }, [data?.referrer_info]);

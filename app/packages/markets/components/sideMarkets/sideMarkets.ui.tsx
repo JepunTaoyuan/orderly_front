@@ -2,7 +2,7 @@ import React from "react";
 import { pick } from "ramda";
 import { useTranslation } from "@orderly.network/i18n";
 import { Box, cn, Flex, Text } from "@orderly.network/ui";
-import { CollapseIcon, ExpandIcon } from "../../icons";
+import { CustomCollapseIcon, CustomExpandIcon } from "../../icons";
 import { ExpandMarketsWidget } from "../expandMarkets";
 import { MarketsListWidget } from "../marketsList";
 import { useMarketsContext } from "../marketsProvider";
@@ -46,14 +46,14 @@ export const SideMarketsHeader: React.FC<
         <div
           onClick={resizeable ? () => onPanelSizeChange?.("middle") : undefined}
         >
-          <CollapseIcon className={cls} />
+          <CustomCollapseIcon className={cls} />
         </div>
       )}
       {(panelSize === "middle" || panelSize === "small") && (
         <div
           onClick={resizeable ? () => onPanelSizeChange?.("large") : undefined}
         >
-          <ExpandIcon className={cls} />
+          <CustomExpandIcon className={cls} />
         </div>
       )}
     </Flex>
@@ -94,8 +94,11 @@ export const SideMarkets: React.FC<SideMarketsProps> = (props) => {
     <Flex
       id="oui-side-markets"
       className={cn("oui-relative oui-font-semibold", className)}
+      style={{
+        backgroundColor: "rgba(18, 20, 25, 1)",
+      }}
       direction="column"
-      gapY={5}
+      gapY={1}
       height="100%"
       width="100%"
     >

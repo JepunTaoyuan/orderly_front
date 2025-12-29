@@ -86,14 +86,6 @@ const LazyDataListWidget = React.lazy(() =>
   }),
 );
 
-const LazySwitchLayout = React.lazy(() =>
-  import("../../components/desktop/layout/switchLayout").then((mod) => {
-    return {
-      default: mod.SwitchLayout,
-    };
-  }),
-);
-
 const LazyOrderBookAndTradesWidget = React.lazy(() =>
   import("../../components/desktop/orderBookAndTrades").then((mod) => {
     return {
@@ -303,8 +295,6 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = (props) => {
     <HorizontalMarketsWidget
       symbol={props.symbol}
       onSymbolChange={props.onSymbolChange}
-      maxItems={-1} // show all markets
-      dropdownPos={marketLayout === "bottom" ? "top" : "bottom"}
     />
   );
 
@@ -370,16 +360,6 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = (props) => {
         onSymbolChange={props.onSymbolChange}
         closeCountdown={closeCountdown}
         showCountdown={showCountdown}
-        trailing={
-          <React.Suspense fallback={null}>
-            <LazySwitchLayout
-              layout={layout}
-              onLayout={onLayout}
-              marketLayout={marketLayout}
-              onMarketLayout={onMarketLayout}
-            />
-          </React.Suspense>
-        }
       />
     </Box>
   );
@@ -452,7 +432,6 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = (props) => {
 
   const dataListView = (
     <Box
-      intensity={900}
       r="2xl"
       p={2}
       style={{
@@ -461,7 +440,7 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = (props) => {
         minHeight: dataListInitialHeight,
         // minHeight: `max(${dataListMinHeight}px, calc(100vh - ${symbolInfoBarHeight}px - ${orderbookMaxHeight}px - ${space}px))`,
       }}
-      className="oui-overflow-hidden"
+      className="oui-overflow-hidden oui-bg-base-10"
     >
       {dataListWidget}
     </Box>
@@ -817,7 +796,6 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = (props) => {
               </Flex>
 
               <Box
-                intensity={900}
                 r="2xl"
                 p={2}
                 style={{
@@ -825,7 +803,7 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = (props) => {
                   minHeight: Math.max(dataListMinHeight, props.dataListHeight),
                   maxHeight: dataListMaxHeight,
                 }}
-                className="oui-overflow-hidden"
+                className="oui-bg-base-10 oui-overflow-hidden"
               >
                 {dataListWidget}
               </Box>

@@ -106,6 +106,8 @@ export const TrailingCallbackInput: FC<TrailingCallbackInputProps> = memo(
             onBlur={(e) => {
               onBlur(InputType.CALLBACK_RATE)(e);
             }}
+            externalLabel={false}
+            compact={false}
             classNames={{
               root: "oui-h-[58px]",
               input: "oui-mb-4",
@@ -133,6 +135,8 @@ export const TrailingCallbackInput: FC<TrailingCallbackInputProps> = memo(
         formatters={[inputFormatter.dpFormatter(quote_dp)]}
         onFocus={onFocus(InputType.CALLBACK_VALUE)}
         onBlur={onBlur(InputType.CALLBACK_VALUE)}
+        externalLabel={false}
+        compact={false}
       />
     );
   },

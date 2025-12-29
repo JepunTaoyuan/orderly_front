@@ -22,7 +22,7 @@ import {
   Statistic,
   Text,
 } from "@orderly.network/ui";
-import { LeverageProps, LeverageSlider } from "@orderly.network/ui-leverage";
+import { LeverageProps, LeverageSlider } from "@/packages/ui-leverage";
 import { USDCIcon } from "../accountSheet/icons";
 import {
   getMarginRatioColor,
@@ -50,13 +50,18 @@ const Asset: FC<PortfolioSheetState> = (props) => {
   const onUnsettleClick = useCallback(() => {
     return modal.confirm({
       title: t("settle.settlePnl"),
-      // maxWidth: "xs",
       content: (
-        <Text intensity={54} size="xs">
+        <Text
+          size="xs"
+          style={{ letterSpacing: "0.12px", color: "rgba(255, 255, 255, 0.9)" }}
+        >
           {/* @ts-ignore */}
           <Trans i18nKey="settle.settlePnl.description" />
         </Text>
       ),
+      classNames: {
+        footer: "oui-gap-2",
+      },
       onCancel: () => {
         return Promise.reject();
       },
@@ -76,52 +81,68 @@ const Asset: FC<PortfolioSheetState> = (props) => {
 
   return (
     <Flex direction={"column"} gap={3} width={"100%"}>
-      <Flex direction={"column"} itemAlign={"start"} width={"100%"}>
-        <Text.formatted
-          size="2xs"
-          intensity={36}
-          suffix={
-            props.hideAssets ? (
-              <EyeIcon
-                opacity={1}
-                size={16}
-                className="oui-text-primary-light"
-              />
-            ) : (
-              <EyeCloseIcon
-                opacity={1}
-                size={16}
-                className="oui-text-primary-light"
-              />
-            )
-          }
-          onClick={() => {
-            props.toggleHideAssets();
-          }}
-          className="oui-cursor-pointer"
+      {/* Total Value row with Settle PnL button */}
+      <Flex justify={"between"} itemAlign={"start"} width={"100%"}>
+        <Flex direction={"column"} itemAlign={"start"} gap={1}>
+          <Flex itemAlign={"center"} gap={1}>
+            <Text size="2xs" className="oui-text-white/40">
+              {t("common.totalValue")} (USDC)
+            </Text>
+            <div
+              onClick={() => props.toggleHideAssets()}
+              className="oui-cursor-pointer"
+            >
+              {props.hideAssets ? (
+                <EyeIcon
+                  opacity={1}
+                  size={15}
+                  className="oui-text-primary-light"
+                />
+              ) : (
+                <EyeCloseIcon
+                  opacity={1}
+                  size={15}
+                  className="oui-text-primary-light"
+                />
+              )}
+            </div>
+          </Flex>
+          <Flex itemAlign={"center"} gap={1}>
+            <Text.numeral
+              size="base"
+              weight="bold"
+              dp={2}
+              padding={false}
+              visible={!props.hideAssets}
+              className="oui-text-white/90"
+            >
+              {props.totalValue ?? "--"}
+            </Text.numeral>
+            <Text size="xs" className="oui-text-white/50">
+              USDC
+            </Text>
+          </Flex>
+        </Flex>
+        <button
+          className="oui-h-7 oui-px-4 oui-rounded-full oui-bg-white/30 oui-flex oui-items-center oui-justify-center"
+          onClick={onUnsettleClick}
         >
-          {`${t("common.totalValue")} (USDC)`}
-        </Text.formatted>
-        <Text.numeral
-          size="base"
-          // coloring
-          dp={2}
-          padding={false}
-          visible={!props.hideAssets}
-        >
-          {props.totalValue ?? "--"}
-        </Text.numeral>
+          <Text size="2xs" weight="semibold" className="oui-text-white">
+            {t("settle.settlePnl")}
+          </Text>
+        </button>
       </Flex>
+
+      {/* Unrealized PnL and Unsettled PnL row */}
       <Grid cols={2} rows={1} width={"100%"}>
-        <Statistic
-          label={`${t("common.unrealizedPnl")} (USDC)`}
-          classNames={{
-            label: "oui-text-2xs oui-text-base-contrast-36",
-          }}
-        >
-          <Flex gap={1}>
+        <Flex direction={"column"} itemAlign={"start"} gap={1}>
+          <Text size="2xs" className="oui-text-white/40">
+            {t("common.unrealizedPnl")} (USDC)
+          </Text>
+          <Flex gap={1} itemAlign={"start"}>
             <Text.pnl
               size="xs"
+              weight="semibold"
               coloring
               dp={2}
               padding={false}
@@ -137,44 +158,28 @@ const Asset: FC<PortfolioSheetState> = (props) => {
                 rule="percentages"
                 prefix={"("}
                 suffix={")"}
-                className={clsName}
+                className="oui-text-white/50"
               >
                 {props.totalUnrealizedROI}
               </Text.roi>
             )}
           </Flex>
-        </Statistic>
-        <Statistic
-          label={`${t("trading.asset.unsettledPnl")} (USDC)`}
-          classNames={{
-            label: "oui-text-2xs oui-text-base-contrast-36",
-          }}
-        >
-          <Flex justify={"between"} width={"100%"}>
-            <Text.pnl
-              size="xs"
-              coloring
-              dp={2}
-              padding={false}
-              visible={!props.hideAssets}
-            >
-              {props.aggregated.total_unsettled_pnl}
-            </Text.pnl>
-            <button
-              className="oui-flex oui-gap-1 oui-items-center"
-              onClick={onUnsettleClick}
-            >
-              <RefreshIcon
-                opacity={1}
-                size={12}
-                className="oui-text-primary-light"
-              />
-              <Text size="2xs" color="primary">
-                {t("settle.settlePnl")}
-              </Text>
-            </button>
-          </Flex>
-        </Statistic>
+        </Flex>
+        <Flex direction={"column"} itemAlign={"start"} gap={1}>
+          <Text size="2xs" className="oui-text-white/40">
+            {t("trading.asset.unsettledPnl")} (USDC)
+          </Text>
+          <Text.pnl
+            size="xs"
+            weight="semibold"
+            coloring
+            dp={2}
+            padding={false}
+            visible={!props.hideAssets}
+          >
+            {props.aggregated.total_unsettled_pnl}
+          </Text.pnl>
+        </Flex>
       </Grid>
     </Flex>
   );
@@ -346,7 +351,7 @@ export const LeverageSelector: React.FC<PortfolioSheetState> = (props) => {
           itemAlign="center"
           justify="center"
           className={cn(
-            `oui-transition-all oui-cursor-pointer oui-box-border oui-bg-clip-padding oui-px-3 oui-py-2.5 oui-rounded-md oui-border oui-border-solid`,
+            `oui-transition-all oui-cursor-pointer oui-box-border oui-bg-clip-padding oui-px-3 oui-py-2.5 oui-rounded-md oui-border oui-border-solid oui-bg-base-10`,
             value === option
               ? "oui-border-primary oui-bg-base-6"
               : "oui-border-line-12",
@@ -384,29 +389,40 @@ const Buttons: FC<PortfolioSheetState> = (props) => {
         pb={4}
       >
         <Button
-          icon={<ArrowDownShortIcon color="white" opacity={0.8} />}
           size="md"
           fullWidth
+          className="oui-rounded-full"
+          style={{
+            backgroundColor: "#6E55DF",
+          }}
           onClick={props.onDeposit}
         >
           {t("common.deposit")}
         </Button>
         {props.hasSubAccount && (
           <Button
-            icon={<ArrowLeftRightIcon color="white" opacity={0.8} />}
-            color="gray"
+            variant="outlined"
             size="md"
             onClick={props.onTransfer}
             data-testid="oui-testid-assetView-transfer-button"
+            className="oui-rounded-full"
+            style={{
+              borderColor: "rgba(255, 255, 255, 0.3)",
+              color: "rgba(255, 255, 255, 0.6)",
+            }}
           >
-            <Text>{t("common.transfer")}</Text>
+            {t("common.transfer")}
           </Button>
         )}
         <Button
-          icon={<ArrowUpShortIcon color="white" opacity={0.8} />}
           size="md"
+          variant="outlined"
           fullWidth
-          className="oui-bg-base-2 hover:oui-bg-base-2/50"
+          className="oui-rounded-full"
+          style={{
+            borderColor: "rgba(255, 255, 255, 0.3)",
+            color: "rgba(255, 255, 255, 0.6)",
+          }}
           onClick={props.onWithdraw}
         >
           {t("common.withdraw")}
@@ -422,6 +438,7 @@ const Buttons: FC<PortfolioSheetState> = (props) => {
       size="md"
       onClick={props.onTransfer}
       data-testid="oui-testid-assetView-transfer-button"
+      className="oui-rounded-full"
     >
       <Text>{t("common.transfer")}</Text>
     </Button>

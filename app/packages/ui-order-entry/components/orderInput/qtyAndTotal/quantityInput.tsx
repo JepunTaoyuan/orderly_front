@@ -18,33 +18,25 @@ export const QuantityInput: FC<QuantityInputProps> = memo((props) => {
   const { base, base_dp } = symbolInfo;
 
   return (
-    <div className="oui-flex oui-justify-between oui-flex-col">
-      <label
-        htmlFor="order_quantity_input"
-        className="oui-mb-1 oui-text-2xs oui-text-base-contrast-36"
-      >
-        {t("common.qty")}
-      </label>
-      <CustomInput
-        id="order_quantity_input"
-        name="order_quantity_input"
-        label=""
-        externalLabel={false}
-        suffix={base}
-        error={getErrorMsg("order_quantity")}
-        value={props.order_quantity}
-        onChange={(e) => {
-          setOrderValue("order_quantity", e);
-        }}
-        formatters={[inputFormatter.dpFormatter(base_dp)]}
-        onFocus={onFocus(InputType.QUANTITY)}
-        onBlur={onBlur(InputType.QUANTITY)}
-        className="!oui-rounded-r"
-        classNames={{
-          suffix: "oui-justify-end",
-        }}
-      />
-    </div>
+    <CustomInput
+      id="order_quantity_input"
+      name="order_quantity_input"
+      label={t("common.qty")}
+      externalLabel={false}
+      compact={false}
+      suffix={base}
+      error={getErrorMsg("order_quantity")}
+      value={props.order_quantity}
+      onChange={(e) => {
+        setOrderValue("order_quantity", e);
+      }}
+      formatters={[inputFormatter.dpFormatter(base_dp)]}
+      onFocus={onFocus(InputType.QUANTITY)}
+      onBlur={onBlur(InputType.QUANTITY)}
+      classNames={{
+        suffix: "oui-justify-end",
+      }}
+    />
   );
 });
 

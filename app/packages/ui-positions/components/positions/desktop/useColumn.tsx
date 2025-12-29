@@ -11,8 +11,8 @@ import {
   Text,
   Tooltip,
 } from "@orderly.network/ui";
-import { SymbolLeverageDialogId } from "@orderly.network/ui-leverage";
 import { Decimal, formatNum } from "@orderly.network/utils";
+import { SymbolLeverageDialogId } from "@/packages/ui-leverage";
 import { SharePnLOptions, SharePnLDialogId } from "@/packages/ui-share";
 import { FundingFeeButton } from "../../fundingFeeHistory/fundingFeeButton";
 import { RwaStatusTag } from "../../rwaStatus/rwaStatus";

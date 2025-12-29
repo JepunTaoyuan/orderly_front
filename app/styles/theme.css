@@ -139,6 +139,10 @@
     background-color: rgba(255, 255, 255, 0.05);
   }
 
+  .custom-apply-to-some {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
   .api-key-table table {
     min-width: 700px;
   }
@@ -153,5 +157,74 @@
 
   .mad {
     background-color: rgba(12, 13, 16, 1)
+  }
+
+  .mad2 {
+    background-color: rgba(31, 33, 37, 1)
+  }
+
+  .mad3 {
+    background-color: rgba(24, 25, 28, 1)
+  }
+
+  .oui-dialog-content.oui-bg-base-8 {
+    background-color: rgba(12, 13, 16, 1) !important;
+  }
+
+  .oui-fixed.oui-bg-base-8[data-state="open"] {
+    background-color: rgba(12, 13, 16, 1) !important;
+  }
+
+  .mad-button {
+    border-radius: 50px;
+    background: linear-gradient(90deg, #52419e, #7ffbff);
+    color: rgba(255, 255, 255, 1);
+    font-size: 11px;
+    border: none;
+  }
+
+  .oui-button.oui-gradient-brand {
+    border-radius: 999px;
+    background: #6e55df !important;
+    color: rgba(255, 255, 255, 1);
+    font-size: 11px;
+    padding: 0px 16px;
+    border: none;
+  }
+
+  .oui-text-lg.oui-font-bold.oui-text-transparent.oui-bg-clip-text.oui-gradient-brand {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+  }
+
+  .dewi-button {
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .mad4 {
+    padding: 0 10px;
+  }
+
+  .oui-box.oui-p-2.oui-flex.oui-flex-row.oui-items-center.oui-justify-start.oui-flex-nowrap.oui-gap-2.oui-rounded-b-xl.oui-bg-base-9 {
+    background: rgba(12, 13, 16, 1);
+  }
+
+  .oui-box.oui-absolute.oui-position.oui-flex.oui-items-center.oui-justify-center {
+    background: rgba(12, 13, 16, 1);
+  }
+
+  .oui-button.oui-inline-flex.oui-items-center.oui-justify-center.oui-whitespace-nowrap.oui-transition-colors.disabled\:oui-cursor-not-allowed.disabled\:oui-bg-base-3.disabled\:oui-text-base-contrast-36.disabled\:hover\:oui-bg-base-3.oui-px-3.oui-rounded-md.hover\:oui-bg-base-2\/80.active\:oui-bg-base-2\/70.oui-bg-base-2.oui-text-base-contrast.oui-text-sm.oui-font-semibold.oui-w-\[100\%\].oui-h-8 {
+    background-color: rgba(12, 13, 16, 1);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .oui-button.oui-inline-flex.oui-items-center.oui-justify-center.oui-whitespace-nowrap.oui-transition-colors.disabled\:oui-cursor-not-allowed.disabled\:oui-bg-base-3.disabled\:oui-text-base-contrast-36.disabled\:hover\:oui-bg-base-3.oui-px-3.oui-rounded-md.hover\:oui-bg-primary-darken\/80.active\:oui-bg-primary-darken\/70.oui-bg-primary-darken.oui-text-primary-contrast.oui-text-sm.oui-font-semibold.oui-w-\[100\%\].oui-h-8 {
+    background-color: rgba(110, 85, 223, 1);
+    border-radius: 50px;
+    border: none;
   }
 }

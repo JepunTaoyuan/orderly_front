@@ -25,8 +25,8 @@ import {
   toast,
   useScreen,
 } from "@orderly.network/ui";
-import { TPSLAdvancedWidget } from "@orderly.network/ui-tpsl";
 import { Decimal } from "@orderly.network/utils";
+import { TPSLAdvancedWidget } from "@/packages/ui-tpsl";
 import { AdditionalConfigButton } from "./components/additional/additionalConfigButton";
 import {
   AdditionalInfo,
@@ -381,6 +381,9 @@ export const OrderEntry: React.FC<OrderEntryProps> = (props) => {
       />
       <div
         className={"oui-space-y-2 oui-text-base-contrast-54 xl:oui-space-y-3"}
+        style={{
+          background: "rgba(19, 21, 25, 1)",
+        }}
         ref={props.containerRef}
       >
         <OrderEntryHeader
@@ -424,11 +427,13 @@ export const OrderEntry: React.FC<OrderEntryProps> = (props) => {
           id={"order-entry-submit-button"}
           // color={side === OrderSide.BUY ? "buy" : "sell"}
           data-type={OrderSide.BUY}
-          className={cn(
-            side === OrderSide.BUY
-              ? "orderly-order-entry-submit-button-buy oui-bg-success-darken hover:oui-bg-success-darken/80 active:oui-bg-success-darken/80"
-              : "orderly-order-entry-submit-button-sell oui-bg-danger-darken hover:oui-bg-danger-darken/80 active:oui-bg-danger-darken/80",
-          )}
+          className={cn("oui-rounded-full")}
+          style={{
+            background:
+              side === OrderSide.SELL && props.canTrade
+                ? "linear-gradient(90deg, #F34EA3 55%, #CC55BC 100%)"
+                : "linear-gradient(90deg, #46CCB9 32%, #00E49C 100%)",
+          }}
           onClick={validateSubmit}
           loading={props.isMutating}
           disabled={!props.canTrade}
@@ -550,7 +555,13 @@ export const OrderEntry: React.FC<OrderEntryProps> = (props) => {
           )}
         {/* Additional info （fok，ioc、post only， order confirm hidden） */}
         {pinned && (
-          <Box p={2} r={"md"} intensity={700} position={"relative"}>
+          <Box
+            p={2}
+            r={"md"}
+            intensity={700}
+            position={"relative"}
+            className="custom-apply-to-everything"
+          >
             <AdditionalInfo {...additionalInfoProps} />
             <PinButton
               onClick={() => {

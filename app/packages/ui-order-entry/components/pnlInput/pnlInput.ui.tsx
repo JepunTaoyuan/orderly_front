@@ -75,7 +75,10 @@ export const PNLInput = (props: PNLInputProps) => {
         // inputFormatter.identifierFormatter(),
       ]}
       classNames={{
-        root: type === "TP" ? "oui-text-trade-profit" : "oui-text-trade-loss",
+        root:
+          type === "TP"
+            ? "oui-text-trade-profit custom-apply-to-everything"
+            : "oui-text-trade-loss custom-apply-to-everything",
         additional: "oui-text-base-contrast-54",
         input: "oui-text-inherit",
       }}

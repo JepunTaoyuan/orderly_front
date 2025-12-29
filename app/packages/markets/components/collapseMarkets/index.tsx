@@ -18,7 +18,15 @@ export const CollapseMarkets: React.FC<CollapseMarketsProps> = (props) => {
       <Flex direction="column" px={2} gapY={1}>
         {props.dataSource?.map((item) => {
           const content = (
-            <Flex intensity={800} p={2} className="oui-gap-x-7" r="base">
+            <Flex
+              intensity={800}
+              p={2}
+              className="oui-gap-x-7"
+              r="base"
+              style={{
+                backgroundColor: "rgba(31, 33, 37, 1)",
+              }}
+            >
               <Flex direction="column" itemAlign="start" gapY={1}>
                 <Flex gapX={1}>
                   <TokenIcon symbol={item.symbol} className="oui-size-[18px]" />
@@ -80,11 +88,7 @@ export const CollapseMarkets: React.FC<CollapseMarketsProps> = (props) => {
                 width={54}
                 height={54}
                 r="lg"
-                className={cn(
-                  "oui-cursor-pointer",
-                  "hover:oui-bg-base-7",
-                  symbol === item.symbol && "oui-bg-base-6 hover:oui-bg-base-6",
-                )}
+                className={cn("oui-cursor-pointer", "market-header-list-item")}
                 onClick={() => {
                   onSymbolChange?.(item);
                 }}

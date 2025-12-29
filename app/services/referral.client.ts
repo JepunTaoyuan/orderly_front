@@ -1,158 +1,50 @@
-import { api } from "./api-refer-client";
+// app/services/referral.client.ts
+// Referral code API endpoints
+import {
+  api,
+  ReferralCodeResponse,
+  CreateReferralCodeRequest,
+  CreateAffiliateReferralCodeRequest,
+  UpdateReferralCodeRequest,
+  RenameReferralCodeRequest,
+  VerifyReferralCodeResponse,
+  MessageResponse,
+} from "./api-refer-client";
 
-// ==================== 型別定義 ====================
+export const referralApi = {
+  // Create a referral code for regular user
+  create: (data: CreateReferralCodeRequest, token?: string) =>
+    api.post<ReferralCodeResponse>("/referrals/user", data, token),
 
-/**
- * 創建普通用戶邀請碼請求
- */
-export interface CreateUserReferralCodeRequest {
-  user_id: string;
-  custom_code?: string;
-}
-
-/**
- * 創建 Affiliate 邀請碼請求
- */
-export interface CreateAffiliateReferralCodeRequest {
-  affiliate_id: string;
-  fee_discount_rate: number; // 0-1
-  custom_code?: string;
-}
-
-/**
- * 更新邀請碼折扣請求
- */
-export interface UpdateReferralCodeRequest {
-  new_fee_discount_rate: number; // 0-1
-}
-
-/**
- * 重命名邀請碼請求
- */
-export interface RenameReferralCodeRequest {
-  new_code: string;
-}
-
-/**
- * 邀請碼回應
- */
-export interface ReferralCodeResponse {
-  code: string;
-  owner_user_id: string;
-  fee_discount_rate: number;
-  owner_commission_ratio: number;
-  total_commission: number;
-  total_referrals: number;
-}
-
-/**
- * 驗證邀請碼回應
- */
-export interface VerifyReferralCodeResponse {
-  valid: boolean;
-}
-
-// ==================== Referral Code Service ====================
-
-export const referralService = {
-  /**
-   * 為普通用戶創建邀請碼(使用固定配置)
-   * POST /referral/user
-   * 需要 user 權限
-   */
-  async createUserReferralCode(
-    data: CreateUserReferralCodeRequest,
-    token: string,
-  ): Promise<ReferralCodeResponse> {
-    return api.post<ReferralCodeResponse>("/referral/user", data, token);
-  },
-
-  /**
-   * 為 Affiliate 創建邀請碼(允許自定義)
-   * POST /referral/affiliate
-   * 需要 affiliate 權限
-   */
-  async createAffiliateReferralCode(
+  // Create referral code for affiliate (admin)
+  createForAffiliate: (
     data: CreateAffiliateReferralCodeRequest,
-    token: string,
-  ): Promise<ReferralCodeResponse> {
-    return api.post<ReferralCodeResponse>("/referral/affiliate", data, token);
-  },
+    token?: string,
+  ) => api.post<ReferralCodeResponse>("/referrals/affiliate", data, token),
 
-  /**
-   * 通過邀請碼字符串獲取邀請碼信息
-   * GET /referral/by-code/{code_str}
-   * 無需認證
-   */
-  async getReferralCodeByString(
-    codeStr: string,
-  ): Promise<ReferralCodeResponse> {
-    return api.get<ReferralCodeResponse>(`/referral/by-code/${codeStr}`);
-  },
+  // Get referral codes by user
+  getByUser: (userId: string, token?: string) =>
+    api.get<ReferralCodeResponse[]>(`/referrals/user/${userId}`, token),
 
-  /**
-   * 通過內部ID獲取邀請碼信息
-   * GET /referral/{code_id}
-   * 無需認證
-   */
-  async getReferralCodeById(codeId: string): Promise<ReferralCodeResponse> {
-    return api.get<ReferralCodeResponse>(`/referral/${codeId}`);
-  },
+  // Get referral code by code string
+  getByCode: (code: string, token?: string) =>
+    api.get<ReferralCodeResponse>(`/referrals/by-code/${code}`, token),
 
-  /**
-   * 獲取用戶的所有邀請碼
-   * GET /referral/user/{user_id}
-   * 需要 user 權限
-   */
-  async getUserReferralCodes(
-    userId: string,
-    token: string,
-  ): Promise<ReferralCodeResponse[]> {
-    return api.get<ReferralCodeResponse[]>(`/referral/user/${userId}`, token);
-  },
+  // Update referral code fee discount rate
+  update: (code: string, data: UpdateReferralCodeRequest, token?: string) =>
+    api.put<ReferralCodeResponse>(`/referrals/${code}/discount`, data, token),
 
-  /**
-   * 更新邀請碼折扣率(僅供 Affiliate 使用)
-   * PUT /referral/{code_id}/discount
-   * 需要 affiliate 權限
-   */
-  async updateReferralCodeDiscount(
-    codeStr: string,
-    data: UpdateReferralCodeRequest,
-    token: string,
-  ): Promise<ReferralCodeResponse> {
-    return api.put<ReferralCodeResponse>(
-      `/referral/${codeStr}/discount`,
-      data,
-      token,
-    );
-  },
+  // Rename referral code
+  rename: (code: string, data: RenameReferralCodeRequest, token?: string) =>
+    api.put<ReferralCodeResponse>(`/referrals/${code}/rename`, data, token),
 
-  /**
-   * 重命名邀請碼(僅供 Affiliate 使用)
-   * PUT /referral/{code_id}/rename
-   * 需要 affiliate 權限
-   */
-  async renameReferralCode(
-    codeStr: string,
-    data: RenameReferralCodeRequest,
-    token: string,
-  ): Promise<ReferralCodeResponse> {
-    return api.put<ReferralCodeResponse>(
-      `/referral/${codeStr}/rename`,
-      data,
-      token,
-    );
-  },
+  // Verify if referral code is valid
+  verify: (code: string) =>
+    api.get<VerifyReferralCodeResponse>(`/referrals/verify/${code}`),
 
-  /**
-   * 驗證邀請碼是否存在
-   * GET /referral/verify/{code_str}
-   * 無需認證
-   */
-  async verifyReferralCode(
-    codeStr: string,
-  ): Promise<VerifyReferralCodeResponse> {
-    return api.get<VerifyReferralCodeResponse>(`/referral/verify/${codeStr}`);
-  },
+  // Delete referral code
+  // WARNING: This endpoint is NOT implemented in the backend yet
+  // Uncomment when backend adds DELETE /referrals/{code} endpoint
+  // delete: (code: string, token?: string) =>
+  //   api.delete<MessageResponse>(`/referrals/${code}`, token),
 };

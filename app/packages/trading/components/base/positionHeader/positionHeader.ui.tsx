@@ -26,7 +26,7 @@ const MobileLayout: React.FC<PositionHeaderState> = (props) => {
       width={"100%"}
       itemAlign={"start"}
       p={2}
-      className="oui-rounded-b-xl oui-bg-base-9"
+      className="oui-rounded-b-xl oui-bg-base-10"
     >
       <Flex width={"100%"} justify={"between"}>
         <UnrealPnL

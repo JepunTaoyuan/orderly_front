@@ -175,7 +175,7 @@ const Tip: React.FC<{
       </TooltipTrigger>
       <TooltipContent
         className={cn(
-          "oui-rounded-base oui-flex oui-w-full oui-max-w-[400px] oui-flex-col oui-gap-2 oui-bg-base-6 oui-p-3 oui-text-2xs oui-shadow-md",
+          "oui-rounded-base oui-flex oui-w-full oui-max-w-[400px] oui-flex-col oui-gap-2 mad2 oui-p-3 oui-text-2xs oui-shadow-md",
           // type === OrderBookCellType.ASK ? `oui-mb-${30}` : "oui-mt-0"
         )}
         align={type === OrderBookCellType.ASK ? "end" : "start"}

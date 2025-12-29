@@ -78,6 +78,15 @@ export const DesktopOrderBookCell: FC<DesktopOrderBookCellProps> = (props) => {
       onMouseEnter={props.onMouseEnter}
       onMouseLeave={props.onMouseLeave}
     >
+      <CellBar
+        width={width}
+        direction={CellBarDirection.RIGHT_TO_LEFT}
+        className={
+          props.type === OrderBookCellType.ASK
+            ? "oui-bg-trade-loss/10"
+            : "oui-bg-trade-profit/10"
+        }
+      />
       <div
         className={cn(
           "oui-mr-2 oui-flex oui-basis-7/12 oui-flex-row oui-items-center",
@@ -131,15 +140,6 @@ export const DesktopOrderBookCell: FC<DesktopOrderBookCellProps> = (props) => {
             )}
           </div>
         )}
-        <CellBar
-          width={width}
-          direction={CellBarDirection.LEFT_TO_RIGHT}
-          className={
-            props.type === OrderBookCellType.ASK
-              ? "oui-bg-trade-loss/10"
-              : "oui-bg-trade-profit/10"
-          }
-        />
       </div>
 
       {isPendingOrder && (

@@ -10,7 +10,7 @@ import {
 import { useAppContext } from "@orderly.network/react-app";
 import { AccountStatusEnum } from "@orderly.network/types";
 import { modal, useScreen } from "@orderly.network/ui";
-import { LeverageWidgetWithDialogId } from "@orderly.network/ui-leverage";
+import { LeverageWidgetWithDialogId } from "@/packages/ui-leverage";
 import {
   DepositAndWithdrawWithDialogId,
   DepositAndWithdrawWithSheetId,
@@ -42,7 +42,11 @@ export const useAssetScript = () => {
   }, [state.status, wrongNetwork, disabledConnect]);
 
   const onLeverageEdit = () => {
-    modal.show(LeverageWidgetWithDialogId);
+    modal.show(LeverageWidgetWithDialogId, {
+      classNames: {
+        content: "bg-base-10", // 更改背景顏色
+      },
+    });
   };
 
   const onDeposit = useCallback(() => {

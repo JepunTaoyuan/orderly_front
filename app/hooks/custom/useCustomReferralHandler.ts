@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAccount } from "@orderly.network/hooks";
 import { AccountStatusEnum } from "@orderly.network/types";
-import { referralService } from "@/services/referral.client";
+import { referralApi } from "@/services/referral.client";
 
 export const useCustomReferralHandler = () => {
   const { createAccount, createOrderlyKey, state } = useAccount();
@@ -22,7 +22,7 @@ export const useCustomReferralHandler = () => {
     }
 
     try {
-      const response = await referralService.verifyReferralCode(refCode);
+      const response = await referralApi.verify(refCode);
 
       if (!response.valid) {
         // 顯示警告並阻止創建

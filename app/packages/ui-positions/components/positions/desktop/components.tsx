@@ -9,14 +9,14 @@ import {
   useScreen,
 } from "@orderly.network/ui";
 import { modal } from "@orderly.network/ui";
+import { Decimal } from "@orderly.network/utils";
 import {
   PositionTPSLPopover,
   TPSLDetailDialogId,
   TPSLDialogId,
   TPSLSheetId,
   TPSLDetailSheetId,
-} from "@orderly.network/ui-tpsl";
-import { Decimal } from "@orderly.network/utils";
+} from "@/packages/ui-tpsl";
 import { usePositionsRowContext } from "../positionsRowContext";
 
 // ------------ TP/SL Price input end------------

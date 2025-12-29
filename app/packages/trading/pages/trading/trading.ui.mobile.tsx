@@ -105,47 +105,78 @@ export const MobileLayout: React.FC<TradingState> = (props) => {
       symbol={props.symbol}
       onSymbol={() => props.onOpenMarketsSheetChange(true)}
       trailing={
-        <Flex
-          direction={"column"}
-          itemAlign={"end"}
-          className="oui-cursor-pointer oui-text-[11px]"
-          onClick={props.onShowPortfolioSheet}
-        >
-          <Flex>
-            <Text intensity={54}>{t("common.totalValue")}</Text>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                props.setHideAssets(!props.hideAssets);
-              }}
-              className="oui-px-1"
-            >
-              {props.hideAssets ? (
-                <EyeIcon
-                  color="primary"
-                  opacity={1}
-                  size={16}
-                  className="oui-text-primary-light"
-                />
-              ) : (
-                <EyeCloseIcon
-                  color="primary"
-                  opacity={1}
-                  size={16}
-                  className="oui-text-primary-light"
-                />
-              )}
-            </button>
-            <MaybeEqual />
-          </Flex>
-          <Text.numeral
-            suffix={<Text intensity={20}>&nbsp;USDC</Text>}
-            dp={2}
-            visible={!props.hideAssets}
+        <Flex itemAlign="center" gap={4}>
+          <Flex
+            direction={"column"}
+            itemAlign={"end"}
+            className="oui-text-[11px]"
           >
-            {props.canTrade ? (props.total ?? "--") : "--"}
-          </Text.numeral>
+            <Flex>
+              <Text intensity={54}>{t("common.totalValue")}</Text>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  props.setHideAssets(!props.hideAssets);
+                }}
+                className="oui-px-1"
+              >
+                {props.hideAssets ? (
+                  <EyeIcon
+                    color="primary"
+                    opacity={1}
+                    size={16}
+                    className="oui-text-primary-light"
+                  />
+                ) : (
+                  <EyeCloseIcon
+                    color="primary"
+                    opacity={1}
+                    size={16}
+                    className="oui-text-primary-light"
+                  />
+                )}
+              </button>
+            </Flex>
+            <Text.numeral
+              suffix={<Text intensity={20}>&nbsp;USDC</Text>}
+              dp={2}
+              visible={!props.hideAssets}
+            >
+              {props.canTrade ? (props.total ?? "--") : "--"}
+            </Text.numeral>
+          </Flex>
+          <Flex
+            itemAlign="center"
+            style={{ gap: "2px" }}
+            className="oui-cursor-pointer oui-w-5 oui-h-5"
+            onClick={props.onShowPortfolioSheet}
+          >
+            <div
+              style={{
+                width: "4px",
+                height: "4px",
+                borderRadius: "50%",
+                backgroundColor: "rgba(255, 255, 255, 0.5)",
+              }}
+            />
+            <div
+              style={{
+                width: "4px",
+                height: "4px",
+                borderRadius: "50%",
+                backgroundColor: "rgba(255, 255, 255, 0.5)",
+              }}
+            />
+            <div
+              style={{
+                width: "4px",
+                height: "4px",
+                borderRadius: "50%",
+                backgroundColor: "rgba(255, 255, 255, 0.5)",
+              }}
+            />
+          </Flex>
         </Flex>
       }
     />

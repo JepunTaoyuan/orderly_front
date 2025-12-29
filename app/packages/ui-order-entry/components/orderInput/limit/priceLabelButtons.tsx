@@ -16,10 +16,10 @@ export const PriceLabelButtons = (props: PriceLabelButtonsProps) => {
   const { t } = useTranslation();
 
   return (
-    <Flex itemAlign="center" gap={2} className="oui-text-2xs">
+    <Flex itemAlign="center" gap={1} className="oui-text-2xs">
       {/* BBO Button */}
       <Flex
-        px={3}
+        px={2}
         height={20}
         justify="center"
         itemAlign="center"
@@ -55,9 +55,6 @@ export const PriceLabelButtons = (props: PriceLabelButtonsProps) => {
           {t("orderEntry.bbo")}
         </Text>
       </Flex>
-
-      {/* Divider */}
-      <div className="oui-h-3 oui-w-px oui-bg-line-12" />
 
       {/* Mid Button */}
       <Text

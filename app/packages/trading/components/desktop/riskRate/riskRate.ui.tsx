@@ -11,7 +11,7 @@ import {
   cn,
   EditIcon,
 } from "@orderly.network/ui";
-import { LeverageWidgetWithDialogId } from "@orderly.network/ui-leverage";
+import { LeverageWidgetWithDialogId } from "@/packages/ui-leverage";
 import { TooltipContent } from "../assetView/assetView.ui";
 import { RiskRateState } from "./riskRate.script";
 
@@ -31,33 +31,8 @@ export const RiskRate: FC<RiskRateState> = (props) => {
           ? gradientTextVariants({ color: "brand" })
           : "";
 
-  const boxClsName = wrongNetwork
-    ? "oui-bg-gradient-to-r oui-opacity-20 oui-from-[#26fefe]  oui-via-[#ff7d00] oui-to-[#d92d6b] oui-h-1.5 oui-rounded-full"
-    : isHigh
-      ? "oui-bg-gradient-to-tr oui-from-[#791438] oui-to-[#ff447c] oui-h-1.5 oui-rounded-full"
-      : isMedium
-        ? "oui-bg-gradient-to-tr oui-from-[#792e00] oui-to-[#ffb65d] oui-h-1.5 oui-rounded-full"
-        : isLow
-          ? "oui-bg-gradient-to-tr oui-from-[#59b0fe] oui-to-[#26fefe] oui-h-1.5 oui-rounded-full"
-          : "oui-bg-gradient-to-r oui-opacity-20 oui-from-[#26fefe]  oui-via-[#ff7d00] oui-to-[#d92d6b] oui-h-1.5 oui-rounded-full";
-
   return (
     <Box data-risk={""} className="oui-space-y-2">
-      <Flex
-        itemAlign="center"
-        justify="start"
-        className="oui-w-full oui-bg-base-6 oui-rounded-full oui-h-2 oui-px-[1px]"
-      >
-        <Box
-          className={boxClsName}
-          style={
-            riskRate && riskRate !== "--"
-              ? { width: riskRate }
-              : { width: "100%" }
-          }
-        />
-      </Flex>
-
       <Flex direction="row" justify="between">
         <Tooltip
           content={
@@ -83,10 +58,25 @@ export const RiskRate: FC<RiskRateState> = (props) => {
           size="xs"
           color="neutral"
           weight="semibold"
-          className={cn(textColor)}
+          style={{ color: "#678bd5" }}
         >
           {riskRate ?? "--"}
         </Text>
+      </Flex>
+      <Flex
+        itemAlign="center"
+        justify="start"
+        className="oui-w-full oui-bg-base-6 oui-rounded-full oui-h-2 oui-px-[1px]"
+      >
+        <Box
+          style={{
+            borderRadius: "9999px",
+            background: "linear-gradient(90deg, #26fefe, #cf4aff 50%, #d92d6b)",
+            width: riskRate && riskRate !== "--" ? riskRate : "100%",
+            opacity: 0.4,
+            height: "6px",
+          }}
+        />
       </Flex>
     </Box>
   );

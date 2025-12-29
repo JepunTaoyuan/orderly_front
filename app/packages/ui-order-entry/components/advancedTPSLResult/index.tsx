@@ -209,7 +209,7 @@ export function AdvancedTPSLResult(props: {
         </Flex>
       </Flex>
       <Flex justify={"between"} itemAlign={"start"} className="oui-w-full">
-        <Text>{t("tpsl.mode")}</Text>
+        <Text className="oui-bg-base-9">{t("tpsl.mode")}</Text>
         <Text className="oui-text-base-contrast">
           {formattedOrder.position_type === PositionType.FULL
             ? t("tpsl.fullPosition")

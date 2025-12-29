@@ -29,14 +29,16 @@ export function OrderEntryHeader(props: OrderEntryHeaderProps) {
           onClick={() => {
             props.setOrderValue("side", OrderSide.BUY);
           }}
-          size={"md"}
+          size={"lg"}
           fullWidth
           data-type={OrderSide.BUY}
-          className={cn(
-            side === OrderSide.BUY && canTrade
-              ? "oui-bg-success-darken hover:oui-bg-success-darken/80 active:oui-bg-success-darken/80"
-              : "oui-bg-base-7 oui-text-base-contrast-36 hover:oui-bg-base-6 active:oui-bg-base-6",
-          )}
+          className={cn("oui-rounded-full")}
+          style={{
+            background:
+              side === OrderSide.BUY && canTrade
+                ? "linear-gradient(90deg, #46CCB9 32%, #00E49C 100%)"
+                : "rgba(255, 255, 255, 0.30)",
+          }}
           data-testid="oui-testid-orderEntry-side-buy-button"
         >
           {t("common.buy")}
@@ -45,14 +47,16 @@ export function OrderEntryHeader(props: OrderEntryHeaderProps) {
           onClick={() => {
             props.setOrderValue("side", OrderSide.SELL);
           }}
+          className={cn("oui-rounded-full")}
           data-type={OrderSide.SELL}
           fullWidth
-          size={"md"}
-          className={cn(
-            side === OrderSide.SELL && props.canTrade
-              ? "oui-bg-danger-darken hover:oui-bg-danger-darken/80 active:oui-bg-danger-darken/80"
-              : "oui-bg-base-7 oui-text-base-contrast-36 hover:oui-bg-base-6 active:oui-bg-base-6",
-          )}
+          size={"lg"}
+          style={{
+            background:
+              side === OrderSide.SELL && canTrade
+                ? "linear-gradient(90deg, #F34EA3 55%, #CC55BC 100%)"
+                : "rgba(255, 255, 255, 0.30)",
+          }}
           data-testid="oui-testid-orderEntry-side-sell-button"
         >
           {t("common.sell")}

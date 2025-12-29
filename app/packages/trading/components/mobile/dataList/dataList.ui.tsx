@@ -42,7 +42,7 @@ const SymbolControlHeader: React.FC<
       width={"100%"}
       justify={"between"}
       gap={2}
-      className="oui-rounded-b-xl oui-bg-base-9"
+      className="oui-rounded-b-xl oui-bg-base-10"
     >
       <Flex className="oui-cursor-pointer oui-gap-[2px]">
         <Checkbox
@@ -90,8 +90,8 @@ const OrdersView: React.FC<
         ordersStatus={props.ordersStatus}
         classNames={{
           root: "oui-w-full oui-hide-scrollbar oui-overflow-y-hidden",
-          content: "!oui-space-y-1",
-          cell: "oui-py-2 oui-bg-base-9 oui-p-2 oui-rounded-xl",
+          content: "!oui-space-y-1 mad4",
+          cell: "oui-bg-base-9 oui-p-2 !oui-rounded-sm",
         }}
         sharePnLConfig={props.sharePnLConfig}
         showFilter={props.type === TabType.orderHistory}
@@ -130,8 +130,9 @@ const HistoryTab: React.FC<DataListState> = (props) => {
       <Tabs
         value={props.subTab}
         onValueChange={(e: any) => props.setSubTab(e)}
-        size="md"
-        classNames={{ tabsList: "oui-bg-base-9 oui-rounded-t-xl oui-p-2" }}
+        variant="text"
+        size="sm"
+        classNames={{ tabsList: "oui-bg-base-10 oui-rounded-t-xl oui-p-2" }}
       >
         <TabPanel
           title={t("positions.positionHistory")}
@@ -140,7 +141,7 @@ const HistoryTab: React.FC<DataListState> = (props) => {
           <MobilePositionHistoryWidget
             symbol={props.showAllSymbol ? undefined : props.symbol}
             onSymbolChange={props.onSymbolChange}
-            classNames={{ cell: "oui-p-2 oui-bg-base-9 oui-rounded-xl" }}
+            classNames={{ cell: "oui-p-4 oui-bg-base-9 oui-rounded-sm" }}
             sharePnLConfig={props.sharePnLConfig}
           />
         </TabPanel>
@@ -226,11 +227,12 @@ export const DataList: React.FC<DataListState & { className?: string }> = (
       value={tab}
       defaultValue={DataListTabType.position}
       onValueChange={(e) => setTab(e as DataListTabType)}
-      size="lg"
+      size="sm"
       className={className}
+      variant="text"
       classNames={{
         tabsList:
-          "oui-bg-base-9 oui-rounded-t-xl oui-p-2 oui-overflow-x-scroll oui-hide-scrollbar",
+          "oui-bg-base-10 oui-rounded-t-xl oui-p-2 oui-overflow-x-scroll oui-hide-scrollbar",
       }}
     >
       {tabPanelItems.map((item) => {

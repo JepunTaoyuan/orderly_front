@@ -122,7 +122,8 @@ export const PositionHistory: FC<PositionHistoryProps> = (props) => {
           body: "oui-testid-dataList-positionHistory-tab-body",
         }}
         classNames={{
-          root: "!oui-h-[calc(100%_-_49px)]",
+          root: "!oui-h-[calc(100%_-_49px)] oui-bg-base-10",
+          header: "oui-bg-base-10",
         }}
       />
     </Flex>
@@ -142,7 +143,7 @@ export const MobilePositionHistory: FC<
       className="oui-w-full oui-grid-rows-[auto,1fr]"
       gap={1}
     >
-      <Flex gap={2} p={2} className="oui-rounded-b-xl oui-bg-base-9">
+      <Flex gap={2} p={2} className="oui-bg-base-10">
         <DataFilter
           className="oui-border-none oui-py-0"
           items={props.filterItems}
@@ -156,6 +157,7 @@ export const MobilePositionHistory: FC<
           "oui-hide-scrollbar oui-w-full oui-space-y-0 oui-overflow-y-hidden",
           props.classNames?.root,
         )}
+        style={{ padding: "0 10px" }}
         contentClassName={cn("!oui-space-y-1", props.classNames?.content)}
         dataSource={props.dataSource}
         renderItem={(item, index) => (

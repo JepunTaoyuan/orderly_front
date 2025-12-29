@@ -104,6 +104,8 @@
   },
   "customs": {
     "howtotrade": "How to trade on Dexless?",
-    "pnlTitle": "Share PnL"
+    "pnlTitle": "Share PnL",
+    "price": "Price",
+    "change": "24h Chg"
   }
 }

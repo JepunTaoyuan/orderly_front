@@ -76,7 +76,7 @@ export const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
         }
         classNames={{
           root: cn(
-            "orderly-order-entry oui-relative oui-rounded oui-border oui-border-solid oui-border-line oui-px-2 group-first:oui-rounded-t-xl group-last:oui-rounded-b-xl",
+            "orderly-order-entry custom-apply-to-everything oui-relative oui-rounded-md oui-px-2",
             inputHeight,
             inputPadding,
             props.className,

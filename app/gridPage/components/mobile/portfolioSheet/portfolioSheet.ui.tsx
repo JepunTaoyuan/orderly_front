@@ -22,7 +22,7 @@ import {
   Statistic,
   Text,
 } from "@orderly.network/ui";
-import { LeverageProps, LeverageSlider } from "@orderly.network/ui-leverage";
+import { LeverageProps, LeverageSlider } from "@/packages/ui-leverage";
 import { USDCIcon } from "../accountSheet/icons";
 import {
   getMarginRatioColor,
