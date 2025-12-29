@@ -9,6 +9,7 @@ import {
   RenameReferralCodeRequest,
   VerifyReferralCodeResponse,
   MessageResponse,
+  ReferralCodeStatsResponse,
 } from "./api-refer-client";
 
 export const referralApi = {
@@ -47,4 +48,11 @@ export const referralApi = {
   // Uncomment when backend adds DELETE /referrals/{code} endpoint
   // delete: (code: string, token?: string) =>
   //   api.delete<MessageResponse>(`/referrals/${code}`, token),
+
+  // Get all referral codes with detailed statistics
+  getCodesWithStats: (userId: string, token?: string) =>
+    api.get<ReferralCodeStatsResponse>(
+      `/referrals/codes/${userId}/stats`,
+      token,
+    ),
 };

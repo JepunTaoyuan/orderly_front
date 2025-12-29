@@ -17,6 +17,12 @@ export const useAsAnAffiliateScript = () => {
   const { wrongNetwork } = useAppContext();
 
   const becomeAnAffiliate = () => {
+    // 如果已經是 Affiliate，直接進入 Dashboard
+    if (isAffiliate) {
+      onEnterAffiliatePage();
+      return;
+    }
+    // 否則開啟外部申請 URL
     window.open(becomeAnAffiliateUrl, "_blank");
   };
 

@@ -28,11 +28,24 @@ export const useSummaryScript = (): SummaryReturns => {
     { label: t("common.select.30d"), value: "30D" },
   ];
 
-  const { referralInfo, userVolume } = useReferralContext();
+  const { traderSummary, referralInfo, userVolume } = useReferralContext();
 
   const rebates = useMemo(() => {
+    // 優先使用 orderly_refer API
+    if (traderSummary) {
+      switch (period) {
+        case "All":
+          return traderSummary.total_referee_rebate;
+        case "1D":
+          return traderSummary.day_1_referee_rebate;
+        case "7D":
+          return traderSummary.day_7_referee_rebate;
+        case "30D":
+          return traderSummary.day_30_referee_rebate;
+      }
+    }
+    // 回退到 Orderly API
     if (!referralInfo) return 0;
-    //
     switch (period) {
       case "All":
         return referralInfo.referee_info.total_referee_rebate;
@@ -43,9 +56,23 @@ export const useSummaryScript = (): SummaryReturns => {
       case "30D":
         return referralInfo.referee_info["30d_referee_rebate"];
     }
-  }, [referralInfo, period]);
+  }, [traderSummary, referralInfo, period]);
 
   const vol = useMemo(() => {
+    // 優先使用 orderly_refer API (traderSummary)
+    if (traderSummary) {
+      switch (period) {
+        case "All":
+          return traderSummary.all_volume;
+        case "1D":
+          return traderSummary.day_1_volume;
+        case "7D":
+          return traderSummary.day_7_volume;
+        case "30D":
+          return traderSummary.day_30_volume;
+      }
+    }
+    // 回退到 userVolume
     if (!userVolume) return undefined;
     switch (period) {
       case "All":
@@ -57,10 +84,14 @@ export const useSummaryScript = (): SummaryReturns => {
       case "30D":
         return userVolume["30d_volume"];
     }
-  }, [userVolume, period]);
+  }, [traderSummary, userVolume, period]);
 
-  const code = referralInfo?.referee_info?.referer_code;
-  const rebate = referralInfo?.referee_info?.referee_rebate_rate;
+  // 優先使用 orderly_refer API
+  const code =
+    traderSummary?.referer_code || referralInfo?.referee_info?.referer_code;
+  const rebate =
+    traderSummary?.referee_rebate_rate ||
+    referralInfo?.referee_info?.referee_rebate_rate;
 
   const rebateText = useMemo(() => {
     if (!!rebate) {

@@ -1,6 +1,14 @@
 import { ReactNode, createContext, useContext } from "react";
 import { RefferalAPI as API } from "@orderly.network/hooks";
-import { UserResponse } from "@/services/api-refer-client";
+import {
+  UserResponse,
+  AffiliateSummaryResponse,
+  TraderSummaryResponse,
+  ReferralCodeStatsResponse,
+  DailyVolumeItem,
+  CommissionHistoryItem,
+  RebateHistoryItem,
+} from "@/services/api-refer-client";
 
 export enum TabTypes {
   affiliate = "affiliate",
@@ -92,21 +100,34 @@ export type ReferralContextProps = {
 };
 
 export type ReferralContextReturns = {
+  // Legacy Orderly API (逐步淘汰)
   referralInfo?: API.ReferralInfo;
+  generateCode?: API.AutoGenerateCode;
+  dailyVolume?: API.DayliVolume[];
+
+  // orderly_refer API 數據
+  affiliateSummary?: AffiliateSummaryResponse;
+  traderSummary?: TraderSummaryResponse;
+  referralCodesStats?: ReferralCodeStatsResponse;
+  dailyVolumeData?: DailyVolumeItem[];
+  commissionHistory?: CommissionHistoryItem[];
+  rebateHistory?: RebateHistoryItem[];
+
+  // 狀態標誌
   isAffiliate: boolean;
   isTrader: boolean;
-  // 樂觀更新：手動設置 isTrader 狀態
+  setOptimisticIsAffiliate?: (value: boolean | null) => void;
   setOptimisticIsTrader?: (value: boolean | null) => void;
-  // 新增欄位
   isTopLevelAgent: boolean;
+
+  // 用戶數據
   userId: string | null;
   userInfo: UserResponse | null;
   totalCommission: number;
   weeklyCommission: number;
-  // 現有欄位
-  mutate: any;
+
+  // UI 狀態
   userVolume?: UserVolumeType;
-  dailyVolume?: API.DayliVolume[];
   isLoading: boolean;
   showHome: boolean;
   setShowHome: (value: boolean) => void;
@@ -114,7 +135,9 @@ export type ReferralContextReturns = {
   setTab: React.Dispatch<React.SetStateAction<TabTypes>>;
   wrongNetwork: boolean;
   disabledConnect: boolean;
-  generateCode: API.AutoGenerateCode | undefined;
+
+  // 工具方法
+  mutate: () => void;
 } & ReferralContextProps;
 
 export const ReferralContext = createContext<ReferralContextReturns>(

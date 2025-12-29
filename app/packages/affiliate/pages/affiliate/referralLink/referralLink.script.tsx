@@ -22,16 +22,33 @@ export const useReferralLinkScript = (): ReferralLinkReturns => {
     toast.success(t("common.copy.copied"));
   };
 
-  const { referralInfo, referralLinkUrl, overwrite } = useReferralContext();
+  const { referralInfo, referralLinkUrl, overwrite, referralCodesStats } =
+    useReferralContext();
   const [pinCodes, setPinCodes] = useLocalStorage<string[]>(
     "orderly_referral_codes",
     [] as string[],
   );
 
   const codes = useMemo((): RefferalAPI.ReferralCode[] => {
-    if (!referralInfo?.referrer_info?.referral_codes)
-      return [] as RefferalAPI.ReferralCode[];
-    const referralCodes = [...referralInfo?.referrer_info?.referral_codes];
+    let referralCodes: RefferalAPI.ReferralCode[] = [];
+
+    // 優先使用 Legacy Orderly API
+    if (referralInfo?.referrer_info?.referral_codes?.length) {
+      referralCodes = [...referralInfo.referrer_info.referral_codes];
+    }
+    // Fallback 到 orderly_refer API (referralCodesStats)
+    else if (referralCodesStats?.codes?.length) {
+      referralCodes = referralCodesStats.codes.map((code) => ({
+        code: code.code,
+        referrer_rebate_rate: code.owner_commission_ratio,
+        referee_rebate_rate: code.fee_discount_rate,
+        total_invites: code.total_invites,
+        total_traded: code.total_traded,
+        max_rebate_rate: code.owner_commission_ratio + code.fee_discount_rate,
+      }));
+    } else {
+      return [];
+    }
 
     const pinedItems: RefferalAPI.ReferralCode[] = [];
 
@@ -46,7 +63,11 @@ export const useReferralLinkScript = (): ReferralLinkReturns => {
     }
 
     return [...pinedItems, ...referralCodes];
-  }, [referralInfo?.referrer_info?.referral_codes, pinCodes]);
+  }, [
+    referralInfo?.referrer_info?.referral_codes,
+    referralCodesStats,
+    pinCodes,
+  ]);
 
   const firstCode = useMemo(() => {
     if (codes.length === 0) {

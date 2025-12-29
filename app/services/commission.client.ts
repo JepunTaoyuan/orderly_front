@@ -13,6 +13,8 @@ import {
   RetryFailedUserRequest,
   RetryFailedUsersResponse,
   MessageResponse,
+  CommissionHistoryResponse,
+  RebateHistoryResponse,
 } from "./api-refer-client";
 
 export const commissionApi = {
@@ -67,4 +69,52 @@ export const commissionApi = {
   // WARNING: This endpoint is NOT implemented in the backend yet
   // resetAll: (token?: string) =>
   //   api.post<MessageResponse>("/commissions/reset-all", {}, token),
+
+  // Get commission history (for affiliate charts)
+  getCommissionHistory: (
+    userId: string,
+    params?: {
+      startDate?: string;
+      endDate?: string;
+      page?: number;
+      pageSize?: number;
+    },
+    token?: string,
+  ) => {
+    const searchParams = new URLSearchParams();
+    if (params?.startDate) searchParams.append("start_date", params.startDate);
+    if (params?.endDate) searchParams.append("end_date", params.endDate);
+    if (params?.page) searchParams.append("page", params.page.toString());
+    if (params?.pageSize)
+      searchParams.append("page_size", params.pageSize.toString());
+    const queryString = searchParams.toString();
+    return api.get<CommissionHistoryResponse>(
+      `/commissions/${userId}/history${queryString ? `?${queryString}` : ""}`,
+      token,
+    );
+  },
+
+  // Get rebate history (for trader charts)
+  getRebateHistory: (
+    userId: string,
+    params?: {
+      startDate?: string;
+      endDate?: string;
+      page?: number;
+      pageSize?: number;
+    },
+    token?: string,
+  ) => {
+    const searchParams = new URLSearchParams();
+    if (params?.startDate) searchParams.append("start_date", params.startDate);
+    if (params?.endDate) searchParams.append("end_date", params.endDate);
+    if (params?.page) searchParams.append("page", params.page.toString());
+    if (params?.pageSize)
+      searchParams.append("page_size", params.pageSize.toString());
+    const queryString = searchParams.toString();
+    return api.get<RebateHistoryResponse>(
+      `/commissions/rebates/${userId}/history${queryString ? `?${queryString}` : ""}`,
+      token,
+    );
+  },
 };

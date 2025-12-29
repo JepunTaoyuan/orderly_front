@@ -12,7 +12,7 @@ export function fillData(
       return {
         date: format(subDays(now, index + 1), "yyyy-MM-dd"),
         volume: 0,
-        opacity: 0,
+        opacity: 0.3, // 讓空資料的 bar 可見但較淡
       };
     })
     .reverse();

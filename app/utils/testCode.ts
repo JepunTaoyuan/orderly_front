@@ -4,6 +4,7 @@
  * ⚠️ TODO: 上 production 前需要恢復環境檢查
  */
 export const TEST_CODE = "10TEST01";
+const TEST_MODE_KEY = "test_mode";
 
 /**
  * 檢查是否為測試代碼
@@ -16,4 +17,22 @@ export const isTestCodeInDevMode = (code: string): boolean => {
   //   process.env.DEBUG === "true" &&
   //   code.toUpperCase() === TEST_CODE;
   return code.toUpperCase() === TEST_CODE;
+};
+
+/**
+ * 設置測試模式 flag
+ */
+export const setTestMode = (enabled: boolean): void => {
+  if (enabled) {
+    localStorage.setItem(TEST_MODE_KEY, "true");
+  } else {
+    localStorage.removeItem(TEST_MODE_KEY);
+  }
+};
+
+/**
+ * 檢查是否處於測試模式
+ */
+export const isTestMode = (): boolean => {
+  return localStorage.getItem(TEST_MODE_KEY) === "true";
 };

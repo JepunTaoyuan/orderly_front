@@ -116,6 +116,104 @@ export interface ResetWeeklyVolumeResponse {
 }
 
 // ============================================================================
+// Affiliate/Trader Summary Types
+// ============================================================================
+
+export interface AffiliateSummaryResponse {
+  affiliate_id: string;
+  total_invites: number;
+  total_traded: number;
+  total_referee_volume: number;
+  total_referrer_rebate: number;
+  day_1_invites: number;
+  day_1_traded: number;
+  day_1_referee_volume: number;
+  day_1_referrer_rebate: number;
+  day_7_invites: number;
+  day_7_traded: number;
+  day_7_referee_volume: number;
+  day_7_referrer_rebate: number;
+  day_30_invites: number;
+  day_30_traded: number;
+  day_30_referee_volume: number;
+  day_30_referrer_rebate: number;
+}
+
+export interface TraderSummaryResponse {
+  user_id: string;
+  referer_code?: string;
+  referee_rebate_rate: number;
+  total_referee_rebate: number;
+  all_volume: number;
+  day_1_referee_rebate: number;
+  day_1_volume: number;
+  day_7_referee_rebate: number;
+  day_7_volume: number;
+  day_30_referee_rebate: number;
+  day_30_volume: number;
+}
+
+// ============================================================================
+// Commission/Rebate History Types
+// ============================================================================
+
+export interface CommissionHistoryItem {
+  date: string;
+  referral_rebate: number;
+  referee_rebate: number;
+  referral_volume: number;
+  total_invites: number;
+  total_traded: number;
+}
+
+export interface CommissionHistoryResponse {
+  user_id: string;
+  data: CommissionHistoryItem[];
+  start_date: string;
+  end_date: string;
+  total: number;
+  page: number;
+  page_size: number;
+  total_pages: number;
+}
+
+export interface RebateHistoryItem {
+  date: string;
+  referee_rebate: number;
+  volume: number;
+}
+
+export interface RebateHistoryResponse {
+  user_id: string;
+  data: RebateHistoryItem[];
+  start_date: string;
+  end_date: string;
+  total: number;
+  page: number;
+  page_size: number;
+  total_pages: number;
+}
+
+// ============================================================================
+// Daily Volume Types
+// ============================================================================
+
+export interface DailyVolumeItem {
+  date: string;
+  volume: number;
+  perp_volume: number;
+  spot_volume: number;
+}
+
+export interface DailyVolumeResponse {
+  user_id: string;
+  data: DailyVolumeItem[];
+  start_date: string;
+  end_date: string;
+  total_volume: number;
+}
+
+// ============================================================================
 // Referral Code Types
 // ============================================================================
 
@@ -149,6 +247,26 @@ export interface RenameReferralCodeRequest {
 
 export interface VerifyReferralCodeResponse {
   valid: boolean;
+}
+
+export interface ReferralCodeStatsItem {
+  code: string;
+  fee_discount_rate: number;
+  owner_commission_ratio: number;
+  total_commission: number;
+  total_referrals: number;
+  total_invites: number;
+  total_traded: number;
+  total_volume: number;
+  day_1_volume: number;
+  day_7_volume: number;
+  day_30_volume: number;
+}
+
+export interface ReferralCodeStatsResponse {
+  user_id: string;
+  codes: ReferralCodeStatsItem[];
+  total_codes: number;
 }
 
 // ============================================================================
@@ -364,10 +482,15 @@ export class ApiError extends Error {
 async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const url = `${API_URL}${endpoint}`;
 
+  // 檢查是否處於測試模式
+  const isTestMode = localStorage.getItem("test_mode") === "true";
+
   const response = await fetch(url, {
     ...options,
     headers: {
       "Content-Type": "application/json",
+      // 如果是測試模式，添加 X-Test-Mode header
+      ...(isTestMode ? { "X-Test-Mode": "true" } : {}),
       ...options?.headers,
     },
   });
