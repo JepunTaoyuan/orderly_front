@@ -12,6 +12,10 @@ export type ReferralCodeType = RefferalAPI.ReferralCode & {
 };
 
 export type ReferralCodesReturns = {
+  // 加mutate createReferralCode
+  mutate: () => void;
+  createReferralCode: () => Promise<void>;
+
   copyCode: (code: string) => void;
   copyLink: (code: string) => void;
   editRate: (code: ReferralCodeType) => void;
@@ -41,6 +45,13 @@ export const useReferralCodesScript = (): ReferralCodesReturns => {
         mutate();
       },
     });
+  };
+  // 加入 createReferralCode
+  const createReferralCode = async () => {
+    if (!generateCode) {
+      throw new Error("Generate code not available");
+    }
+    await generateCode.create();
   };
 
   const [pinCodes, setPinCodes] = useLocalStorage<string[]>(
@@ -93,6 +104,10 @@ export const useReferralCodesScript = (): ReferralCodesReturns => {
   }, [referralInfo?.referrer_info?.referral_codes, pinCodes, generateCode]);
 
   return {
+    // return 兩個
+    mutate,
+    createReferralCode,
+
     copyCode,
     copyLink,
     editRate,
