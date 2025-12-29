@@ -283,7 +283,7 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
   // 根據開發環境決定使用 MockData 還是真實 API
   const data = useMockData ? MockData.referralInfo : apiData;
   const generateCode = useMockData
-    ? MockData.referralInfo.referrer_info.referral_codes[0]
+    ? MockData.autoGenerateCode
     : apiGenerateCode;
   const finalReferralInfoMutate = useMockData ? () => {} : referralInfoMutate;
   const finalGenerateCodeMutate = useMockData ? () => {} : generateCodeMutate;

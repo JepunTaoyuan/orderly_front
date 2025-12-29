@@ -121,6 +121,11 @@
 
 // 測試
 export class MockData {
+  static autoGenerateCode = {
+    code: "AUTO_CODE",
+    requireVolume: 100000,
+    completedVolume: 50000,
+  };
   static referralInfo = {
     referrer_info: {
       total_invites: 46,
