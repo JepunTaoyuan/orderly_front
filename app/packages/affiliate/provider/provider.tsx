@@ -199,6 +199,7 @@
 import {
   FC,
   PropsWithChildren,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -215,6 +216,9 @@ import {
 } from "@orderly.network/hooks";
 import { useAppContext } from "@orderly.network/react-app";
 import { AccountStatusEnum } from "@orderly.network/types";
+import { UserResponse } from "@/services/api-refer-client";
+import { commissionApi } from "@/services/commission.client";
+import { userApi } from "@/services/user.client";
 import { MockData } from "../utils/mockData";
 import {
   ReferralContext,
@@ -243,6 +247,56 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
 
   const { state } = useAccount();
   const useMockData = process.env.NODE_ENV === "development";
+
+  // 自訂 API 數據狀態
+  const [userInfo, setUserInfo] = useState<UserResponse | null>(null);
+  const [totalCommission, setTotalCommission] = useState<number>(0);
+  const [weeklyCommission, setWeeklyCommission] = useState<number>(0);
+  const [customApiLoading, setCustomApiLoading] = useState<boolean>(false);
+
+  // 從 Orderly account 取得 userId
+  const userId = state.accountId || null;
+
+  // 獲取自訂 API 數據
+  const fetchCustomApiData = useCallback(async () => {
+    if (!userId) {
+      setUserInfo(null);
+      setTotalCommission(0);
+      setWeeklyCommission(0);
+      return;
+    }
+
+    setCustomApiLoading(true);
+    try {
+      // 並行獲取用戶資訊和佣金數據
+      const [userResponse, commissionResponse] = await Promise.all([
+        userApi.getUser(userId).catch(() => null),
+        commissionApi.getUserCommission(userId).catch(() => null),
+      ]);
+
+      if (userResponse) {
+        setUserInfo(userResponse);
+      }
+
+      if (commissionResponse) {
+        setTotalCommission(
+          commissionResponse.total_commission_and_discount || 0,
+        );
+        setWeeklyCommission(
+          commissionResponse.weekly_commission_and_discount || 0,
+        );
+      }
+    } catch (error) {
+      console.error("Failed to fetch custom API data:", error);
+    } finally {
+      setCustomApiLoading(false);
+    }
+  }, [userId]);
+
+  // 當 userId 變化時獲取數據
+  useEffect(() => {
+    fetchCustomApiData();
+  }, [fetchCustomApiData]);
 
   // API 調用
   const {
@@ -293,14 +347,46 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
     setShowHome(true);
   }, [isLoading]);
 
-  // 代理人身份判斷
+  // 代理人身份判斷 (優先使用自訂 API 數據)
   const isAffiliate = useMemo(() => {
+    // 優先使用自訂 API
+    if (userInfo) {
+      return userInfo.is_affiliate;
+    }
+    // 回退到 Orderly API
     return (data?.referrer_info?.referral_codes?.length || 0) > 0;
-  }, [data?.referrer_info]);
+  }, [userInfo, data?.referrer_info]);
+
+  // 樂觀更新：手動設置 isTrader 狀態
+  const [optimisticIsTrader, setOptimisticIsTrader] = useState<boolean | null>(
+    null,
+  );
 
   const isTrader = useMemo(() => {
+    // 如果有樂觀更新值，優先使用
+    if (optimisticIsTrader !== null) {
+      return optimisticIsTrader;
+    }
+    // 優先使用自訂 API (有使用過推薦碼)
+    if (userInfo) {
+      return !!userInfo.used_referral_code;
+    }
+    // 回退到 Orderly API
     return (data?.referee_info?.referer_code?.length || 0) > 0;
-  }, [data?.referee_info]);
+  }, [optimisticIsTrader, userInfo, data?.referee_info]);
+
+  // 當 API 數據更新後，重置樂觀更新狀態
+  useEffect(() => {
+    if (userInfo?.used_referral_code || data?.referee_info?.referer_code) {
+      setOptimisticIsTrader(null);
+    }
+  }, [userInfo, data?.referee_info]);
+
+  // 頂級代理判斷 (parent_affiliate_id 為空)
+  const isTopLevelAgent = useMemo(() => {
+    if (!userInfo) return false;
+    return userInfo.is_affiliate && !userInfo.parent_affiliate_id;
+  }, [userInfo]);
 
   const userVolume = useMemo<UserVolumeType>(() => {
     const volume: UserVolumeType = {};
@@ -332,6 +418,7 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
     dailyVolumeMutate();
     finalReferralInfoMutate();
     finalGenerateCodeMutate();
+    fetchCustomApiData();
   });
 
   useEffect(() => {
@@ -368,6 +455,15 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
       referralInfo: data,
       isAffiliate,
       isTrader,
+      // 樂觀更新
+      setOptimisticIsTrader,
+      // 新增欄位
+      isTopLevelAgent,
+      userId,
+      userInfo,
+      totalCommission,
+      weeklyCommission,
+      // 現有欄位
       tab,
       becomeAnAffiliateUrl,
       learnAffiliateUrl,
@@ -376,7 +472,7 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
       dailyVolume,
       chartConfig,
       overwrite,
-      isLoading,
+      isLoading: isLoading || customApiLoading,
       wrongNetwork,
       disabledConnect,
       setShowHome,
@@ -391,26 +487,33 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
   }, [
     becomeAnAffiliateUrl,
     chartConfig,
+    customApiLoading,
     dailyVolume,
     data,
     disabledConnect,
     generateCode,
     isAffiliate,
     isLoading,
+    isTopLevelAgent,
     isTrader,
     learnAffiliateUrl,
+    memoMutate,
     overwrite,
     referralLinkUrl,
+    setOptimisticIsTrader,
     showHome,
     tab,
+    totalCommission,
+    userId,
+    userInfo,
     userVolume,
+    weeklyCommission,
     wrongNetwork,
     onBecomeAnAffiliate,
     bindReferralCodeState,
     onLearnAffiliate,
     showReferralPage,
     splashPage,
-    memoMutate,
   ]);
 
   return (
