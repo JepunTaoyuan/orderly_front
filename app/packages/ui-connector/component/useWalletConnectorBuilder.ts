@@ -2,21 +2,18 @@ import { useEffect, useState } from "react";
 import {
   useAccount,
   useGetReferralCode,
-  useLazyQuery,
   useMutation,
 } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import { toast } from "@orderly.network/ui";
+import { referralApi } from "@/services/referral.client";
+import { isTestCodeInDevMode } from "@/utils/testCode";
 
 export const useWalletConnectorBuilder = () => {
   const { account, state, createOrderlyKey, createAccount } = useAccount();
   const [refCode, setRefCode] = useState("");
   const [helpText, setHelpText] = useState("");
   const { t } = useTranslation();
-
-  const { trigger: verifyRefCode } = useLazyQuery(
-    `/v1/public/referral/verify_ref_code?referral_code=${refCode}`,
-  );
 
   useEffect(() => {
     const refCode = localStorage.getItem("referral_code");
@@ -39,10 +36,16 @@ export const useWalletConnectorBuilder = () => {
   const enableTradingComplted = () => {
     toast.success(t("connector.walletConnected"));
     // validate ref code and bind referral code
-    if (refCode.length >= 4 && refCode.length <= 10)
-      bindRefCode({ referral_code: refCode }).finally(() => {
+    if (refCode.length >= 4 && refCode.length <= 10) {
+      // 測試代碼在開發模式下跳過實際 bind
+      if (!isTestCodeInDevMode(refCode)) {
+        bindRefCode({ referral_code: refCode }).finally(() => {
+          localStorage.removeItem("referral_code");
+        });
+      } else {
         localStorage.removeItem("referral_code");
-      });
+      }
+    }
   };
 
   const checkRefCode = async () => {
@@ -54,9 +57,9 @@ export const useWalletConnectorBuilder = () => {
       return Promise.resolve(t("connector.referralCode.invalid"));
     }
 
-    const { exist } = await verifyRefCode();
-
-    if (exist === false) {
+    try {
+      await referralApi.verify(refCode);
+    } catch {
       return Promise.resolve(t("connector.referralCode.notExist"));
     }
 

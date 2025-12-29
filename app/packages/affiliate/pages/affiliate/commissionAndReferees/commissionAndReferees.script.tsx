@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { format, subDays } from "date-fns";
 import {
   RefferalAPI,
@@ -7,6 +7,9 @@ import {
   useReferralRebateSummary,
 } from "@orderly.network/hooks";
 import { PaginationMeta, usePagination } from "@orderly.network/ui";
+import { SubAffiliateItem } from "@/services/api-refer-client";
+import { userApi } from "@/services/user.client";
+import { useReferralContext } from "../../../provider/context";
 import { DateRange } from "../../../utils/types";
 
 export type ListReturns<T> = {
@@ -18,19 +21,29 @@ export type ListReturns<T> = {
   pagination: PaginationMeta;
 };
 
+export type SubAgentReturns = {
+  data: SubAffiliateItem[] | undefined;
+  isLoading?: boolean;
+  pagination: PaginationMeta;
+  refresh: () => void;
+};
+
 export type CommissionAndRefereesReturns = {
   commission: ListReturns<RefferalAPI.ReferralRebateSummary[] | undefined>;
   referees: ListReturns<RefferalAPI.RefereeInfoItem[] | undefined>;
+  subAgents: SubAgentReturns;
 };
 
 export const useCommissionAndRefereesScript =
   (): CommissionAndRefereesReturns => {
     const commission = useCommissionDataScript();
     const referees = useRefereesDataScript();
+    const subAgents = useSubAgentDataScript();
 
     return {
       commission,
       referees,
+      subAgents,
     };
   };
 
@@ -142,5 +155,52 @@ const useRefereesDataScript = (): ListReturns<
     setDateRange: setCommissionRange,
     isLoading,
     loadMore,
+  };
+};
+
+const useSubAgentDataScript = (): SubAgentReturns => {
+  const { userId, isTopLevelAgent } = useReferralContext();
+  const [data, setData] = useState<SubAffiliateItem[] | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { page, pageSize, parsePagination } = usePagination();
+
+  const fetchSubAgents = useCallback(async () => {
+    if (!userId || !isTopLevelAgent) {
+      setData(undefined);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await userApi.getSubAffiliates(userId);
+      setData(response.sub_affiliates || []);
+    } catch (error) {
+      console.error("Failed to fetch sub-agents:", error);
+      setData([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [userId, isTopLevelAgent]);
+
+  useEffect(() => {
+    fetchSubAgents();
+  }, [fetchSubAgents]);
+
+  const pagination = useMemo(
+    () =>
+      parsePagination({
+        total: data?.length || 0,
+        current_page: page,
+        records_per_page: pageSize,
+      }),
+    [parsePagination, data?.length, page, pageSize],
+  );
+
+  return {
+    data,
+    isLoading,
+    pagination,
+    refresh: fetchSubAgents,
   };
 };

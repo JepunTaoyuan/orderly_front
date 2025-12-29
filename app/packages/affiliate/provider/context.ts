@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useContext } from "react";
 import { RefferalAPI as API } from "@orderly.network/hooks";
+import { UserResponse } from "@/services/api-refer-client";
 
 export enum TabTypes {
   affiliate = "affiliate",
@@ -94,6 +95,15 @@ export type ReferralContextReturns = {
   referralInfo?: API.ReferralInfo;
   isAffiliate: boolean;
   isTrader: boolean;
+  // 樂觀更新：手動設置 isTrader 狀態
+  setOptimisticIsTrader?: (value: boolean | null) => void;
+  // 新增欄位
+  isTopLevelAgent: boolean;
+  userId: string | null;
+  userInfo: UserResponse | null;
+  totalCommission: number;
+  weeklyCommission: number;
+  // 現有欄位
   mutate: any;
   userVolume?: UserVolumeType;
   dailyVolume?: API.DayliVolume[];

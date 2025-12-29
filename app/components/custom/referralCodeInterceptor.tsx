@@ -7,8 +7,8 @@ export const ReferralCodeInterceptor: React.FC = () => {
     const refCode = searchParams.get("ref");
 
     if (refCode) {
-      // 儲存到 localStorage,供後續使用
-      localStorage.setItem("referral_code", refCode);
+      // 儲存到 localStorage,供後續使用（統一轉大寫）
+      localStorage.setItem("referral_code", refCode.toUpperCase());
     }
   }, []);
 

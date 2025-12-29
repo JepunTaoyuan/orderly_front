@@ -23,12 +23,12 @@ export const EditReferralRate = modal.create<{
 }>((props) => {
   const { code, mutate } = props;
   const { visible, hide, resolve, reject, onOpenChange } = useModal();
-  const maxRate = new Decimal(code.max_rebate_rate).mul(100);
+  const maxRate = new Decimal(code.max_rebate_rate ?? 0).mul(100);
   const [refereeRebateRate, setRefereeRebateRate] = useState(
-    `${new Decimal(code.referee_rebate_rate).mul(100)}`,
+    `${new Decimal(code.referee_rebate_rate ?? 0).mul(100)}`,
   );
   const [referrerRebateRate, setReferrerRebateRate] = useState(
-    `${new Decimal(code.referrer_rebate_rate).mul(100)}`,
+    `${new Decimal(code.referrer_rebate_rate ?? 0).mul(100)}`,
   );
   const [showError, setShowError] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -45,8 +45,12 @@ export const EditReferralRate = modal.create<{
   }, [inputRef]);
 
   useEffect(() => {
-    setRefereeRebateRate(`${new Decimal(code.referee_rebate_rate).mul(100)}`);
-    setReferrerRebateRate(`${new Decimal(code.referrer_rebate_rate).mul(100)}`);
+    setRefereeRebateRate(
+      `${new Decimal(code.referee_rebate_rate ?? 0).mul(100)}`,
+    );
+    setReferrerRebateRate(
+      `${new Decimal(code.referrer_rebate_rate ?? 0).mul(100)}`,
+    );
   }, [code]);
 
   const [editRate, { error, isMutating }] = useMutation(

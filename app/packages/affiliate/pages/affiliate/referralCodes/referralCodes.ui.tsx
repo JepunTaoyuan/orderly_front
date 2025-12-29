@@ -503,11 +503,11 @@ const DesktopLayout: FC<ReferralCodesReturns> = (props) => {
 };
 
 const getRate = (item: ReferralCodeType) => {
-  const refereeRate = new Decimal(item.referee_rebate_rate)
+  const refereeRate = new Decimal(item.referee_rebate_rate ?? 0)
     .mul(100)
     .toFixed(1, Decimal.ROUND_DOWN)
     .toString();
-  const referralRate = new Decimal(item.referrer_rebate_rate)
+  const referralRate = new Decimal(item.referrer_rebate_rate ?? 0)
     .mul(100)
     .toFixed(1, Decimal.ROUND_DOWN)
     .toString();

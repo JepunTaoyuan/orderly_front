@@ -15,7 +15,6 @@ import {
   SyncVolumeResponse,
   UserVolumeResponse,
   ResetWeeklyVolumeResponse,
-  MessageResponse,
 } from "./api-refer-client";
 
 export const userApi = {
@@ -94,11 +93,7 @@ export const userApi = {
     data: BindReferralCodeRequest,
     token?: string,
   ) =>
-    api.post<MessageResponse>(
-      `/users/${userId}/bind-referral-code`,
-      data,
-      token,
-    ),
+    api.post<UserResponse>(`/users/${userId}/bind-referral-code`, data, token),
 
   // Get affiliate's referrals (paginated)
   getReferrals: (
