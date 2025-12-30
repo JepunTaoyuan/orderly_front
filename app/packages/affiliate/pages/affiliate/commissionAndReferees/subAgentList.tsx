@@ -130,7 +130,7 @@ export const SubAgentList: FC<SubAgentListProps> = (props) => {
                 gap={3}
                 className="oui-border-b-2 oui-border-line-6 oui-pb-3"
               >
-                <Flex direction={"row"} width={"100%"}>
+                <Flex direction={"row"} width={"100%"} gap={2}>
                   <MobileCellItem
                     title={t("affiliate.subAgent.address", "Sub-agent address")}
                     value={e.wallet_address}
@@ -145,7 +145,7 @@ export const SubAgentList: FC<SubAgentListProps> = (props) => {
                     align="end"
                   />
                 </Flex>
-                <Flex direction={"row"} width={"100%"}>
+                <Flex direction={"row"} width={"100%"} gap={2}>
                   <MobileCellItem
                     title={`${t("affiliate.subAgent.totalCommission", "Total commission")} (USDC)`}
                     value={commifyOptional(e.total_commission, {
@@ -164,7 +164,7 @@ export const SubAgentList: FC<SubAgentListProps> = (props) => {
                     align="end"
                   />
                 </Flex>
-                <Flex direction={"row"} width={"100%"}>
+                <Flex direction={"row"} width={"100%"} gap={2}>
                   <MobileCellItem
                     title={t(
                       "affiliate.subAgent.commissionRate",

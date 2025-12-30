@@ -169,7 +169,7 @@ const CommissionList: FC<CommissionAndRefereesReturns> = (props) => {
           renderItem={(e) => {
             return (
               <div>
-                <Flex direction={"row"} width={"100%"}>
+                <Flex direction={"row"} width={"100%"} gap={2}>
                   <MobileCellItem
                     title={t("affiliate.commission")}
                     value={commifyOptional(e.referral_rebate, {
@@ -315,10 +315,10 @@ const RefereesList: FC<CommissionAndRefereesReturns> = (props) => {
         dataIndex: "operation",
         render: (_, _record, index) => (
           <Button
-            variant="text"
             size="sm"
             onClick={() => handleEditClick(index)}
-            className="oui-text-primary"
+            className="oui-rounded-full oui-px-4"
+            style={{ background: "#6E55DF", fontSize: "11px", fontWeight: 600 }}
           >
             {t("common.edit", "Edit")}
           </Button>
@@ -346,7 +346,7 @@ const RefereesList: FC<CommissionAndRefereesReturns> = (props) => {
                 gap={3}
                 className="oui-border-b-2 oui-border-line-6 oui-pb-3"
               >
-                <Flex direction={"row"} width={"100%"}>
+                <Flex direction={"row"} width={"100%"} gap={2}>
                   <MobileCellItem
                     title={t("affiliate.referralCode")}
                     value={e.referral_code}
@@ -360,7 +360,6 @@ const RefereesList: FC<CommissionAndRefereesReturns> = (props) => {
                       prefix: "$",
                       padEnd: true,
                     })}
-                    className="oui-min-w-[102px]"
                   />
                   <MobileCellItem
                     title={t("affiliate.referees.column.totalVol")}
@@ -372,7 +371,7 @@ const RefereesList: FC<CommissionAndRefereesReturns> = (props) => {
                     align="end"
                   />
                 </Flex>
-                <Flex direction={"row"} pt={3} gap={3} width={"100%"}>
+                <Flex direction={"row"} pt={3} gap={2} width={"100%"}>
                   <MobileCellItem
                     title={t("affiliate.referees.column.refereeAddress")}
                     value={e.user_address}
@@ -389,10 +388,14 @@ const RefereesList: FC<CommissionAndRefereesReturns> = (props) => {
                 {/* Edit button */}
                 <Flex justify="end" width={"100%"} pt={2}>
                   <Button
-                    variant="text"
                     size="sm"
                     onClick={() => handleEditClick(index)}
-                    className="oui-text-primary"
+                    className="oui-rounded-full oui-px-4"
+                    style={{
+                      background: "#6E55DF",
+                      fontSize: "11px",
+                      fontWeight: 600,
+                    }}
                   >
                     {t("common.edit", "Edit")}
                   </Button>

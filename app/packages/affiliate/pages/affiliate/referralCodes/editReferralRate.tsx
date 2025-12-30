@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { cleanStringStyle, useMutation } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import {
@@ -31,18 +31,7 @@ export const EditReferralRate = modal.create<{
     `${new Decimal(code.referrer_rebate_rate ?? 0).mul(100)}`,
   );
   const [showError, setShowError] = useState(false);
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
-
-  useEffect(() => {
-    if (inputRef?.current) {
-      inputRef.current.focus();
-      inputRef.current.setSelectionRange(
-        inputRef.current.value.length,
-        inputRef.current.value.length,
-      );
-    }
-  }, [inputRef]);
 
   useEffect(() => {
     setRefereeRebateRate(

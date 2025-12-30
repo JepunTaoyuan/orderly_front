@@ -2,6 +2,32 @@
   "extend.tradingRewards.description": "在 Orderly 交易即可赚取 ORDER",
   "extend.affiliate.tag": "40% 返佣",
   "extend.affiliate.description": "成为 Orderly 推荐人赚取更多收益",
+  "affiliate": {
+    "editModal": {
+      "editInvitee": "編輯被邀請人",
+      "totalCommissionRate": "總佣金比例",
+      "noteOptional": "備註（選填）",
+      "notePlaceholder": "備註（選填）",
+      "forYou": "你的佣金",
+      "forInvitee": "被邀請人的佣金",
+      "upgradeSubAgent": "升級為下級代理",
+      "forSubAgent": "下級代理的佣金",
+      "upgrade": "升級",
+      "error": "更新失敗，請重試。",
+      "upgradeError": "升級失敗，請重試。"
+    },
+    "createCode": {
+      "title": "建立邀請碼",
+      "totalRate": "總佣金比例",
+      "rateNote": "新的佣金比例僅適用於新用戶，現有用戶不受影響。",
+      "codePlaceholder": "邀請碼（選填）",
+      "codeHint": "使用 4-10 個字元：A-Z 或 0-9。留空則自動生成邀請碼。",
+      "forYou": "你的佣金",
+      "forReferee": "被邀請人的佣金",
+      "success": "邀請碼建立成功",
+      "error": "建立邀請碼失敗"
+    }
+  },
   "extend.staking": "质押",
   "extend.staking.description": "质押 ORDER/esORDER 以获取 VALOR",
   "common": {

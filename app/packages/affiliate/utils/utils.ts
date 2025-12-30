@@ -11,7 +11,11 @@ export function addQueryParam(
   paramValue: string,
 ): string {
   try {
-    const urlObj = new URL(url);
+    // 處理相對路徑：如果 URL 以 "/" 開頭，加上當前網域
+    const baseUrl = url.startsWith("/")
+      ? (typeof window !== "undefined" ? window.location.origin : "") + url
+      : url;
+    const urlObj = new URL(baseUrl);
     const searchParams = new URLSearchParams(urlObj.search);
 
     searchParams.set(paramName, paramValue);

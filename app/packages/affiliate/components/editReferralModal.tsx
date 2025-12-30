@@ -4,9 +4,6 @@ import {
   Dialog,
   DialogContent,
   Button,
-  Flex,
-  Text,
-  Input,
   cn,
   Tabs,
   TabPanel,
@@ -33,8 +30,8 @@ export const EditReferralModal: FC<EditReferralModalProps> = ({
   const { t } = useTranslation();
   const { userId, isTopLevelAgent, userInfo } = useReferralContext();
 
-  // 使用 userInfo 的 max_referral_rate 或 props 傳入的值，頂級代理預設 50%
-  const totalRate = maxCommissionRate ?? userInfo?.max_referral_rate ?? 0.5;
+  // 使用 userInfo 的 max_referral_rate 或 props 傳入的值，頂級代理預設 40%
+  const totalRate = maxCommissionRate ?? userInfo?.max_referral_rate ?? 0.4;
   const totalRatePercent = totalRate * 100;
 
   // Tab state
@@ -229,7 +226,11 @@ export const EditReferralModal: FC<EditReferralModalProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="oui-max-w-[480px] oui-p-0">
+      <DialogContent
+        size="md"
+        className="oui-rounded-sm oui-p-5"
+        style={{ backgroundColor: "#0c0d10" }}
+      >
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
@@ -241,81 +242,69 @@ export const EditReferralModal: FC<EditReferralModalProps> = ({
             value="edit"
             title={t("affiliate.editModal.editInvitee", "Edit Invitee")}
           >
-            <Flex direction="column" gap={4} p={4}>
+            <div className="oui-flex oui-flex-col oui-gap-4">
               {/* Total commission rate */}
-              <Flex justify="between" itemAlign="center">
-                <Text className="oui-text-base-contrast-80 oui-text-sm oui-font-semibold">
+              <div className="oui-flex oui-justify-between oui-items-center oui-pt-3">
+                <span className="oui-text-xs oui-font-semibold oui-text-white/80">
                   {t(
                     "affiliate.editModal.totalCommissionRate",
                     "Total commission rate",
                   )}
-                </Text>
-                <Text className="oui-text-primary oui-text-lg oui-font-semibold">
+                </span>
+                <span className="oui-text-xs oui-font-semibold oui-text-primary">
                   {totalRatePercent.toFixed(0)}%
-                </Text>
-              </Flex>
+                </span>
+              </div>
 
               {/* Note */}
-              <Flex direction="column" gap={1}>
-                <Text className="oui-text-base-contrast-54 oui-text-xs">
+              <div className="oui-flex oui-flex-col oui-gap-1">
+                <label className="oui-text-xs oui-text-white/60">
                   {t("affiliate.editModal.noteOptional", "Note (Optional)")}
-                </Text>
-                <textarea
+                </label>
+                <input
+                  type="text"
                   value={editNote}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setEditNote(e.target.value)
                   }
                   placeholder={t(
                     "affiliate.editModal.notePlaceholder",
                     "Note (Optional)",
                   )}
-                  rows={2}
-                  className={cn(
-                    "oui-w-full oui-rounded-md oui-p-3 oui-text-sm oui-text-base-contrast-80",
-                    "oui-border oui-border-line-6 oui-outline-none",
-                    "oui-placeholder-base-contrast-36",
-                    "oui-bg-base-8",
-                  )}
-                  style={{ resize: "none" }}
+                  className="oui-bg-base-9 oui-w-full oui-h-10 oui-px-3 oui-bg-white/5 oui-text-white oui-rounded-md"
                 />
-              </Flex>
+              </div>
 
               {/* Commission Rate Inputs */}
-              <Flex itemAlign="center" gap={2}>
-                <Flex direction="column" gap={1} className="oui-flex-1">
-                  <Text className="oui-text-base-contrast-54 oui-text-xs">
+              <div className="oui-flex oui-items-center oui-gap-3">
+                <div className="oui-flex oui-flex-col oui-flex-1">
+                  <label className="oui-text-gray-400 oui-text-xs oui-font-semibold oui-mb-1">
                     {t("affiliate.editModal.forYou", "For you")}
-                  </Text>
-                  <Flex
-                    itemAlign="center"
-                    className="oui-bg-base-8 oui-rounded-md oui-border oui-border-line-6"
-                  >
-                    <Input
+                  </label>
+                  <div className="oui-bg-base-9 oui-flex oui-items-center oui-bg-base-8 oui-rounded-md oui-px-3 oui-py-2">
+                    <input
                       type="number"
                       value={editRateYou}
                       onChange={(e) => handleEditRateYouChange(e.target.value)}
                       min={0}
                       max={totalRatePercent}
                       step={0.1}
-                      className="oui-border-0 oui-bg-transparent oui-text-right oui-pr-1"
+                      className="oui-bg-transparent oui-text-white oui-text-lg oui-font-bold oui-w-full oui-outline-none"
                     />
-                    <Text className="oui-text-base-contrast-54 oui-pr-3">
-                      %
-                    </Text>
-                  </Flex>
-                </Flex>
+                    <span className="oui-text-gray-400 oui-font-medium">%</span>
+                  </div>
+                </div>
 
-                <Text className="oui-text-base-contrast-54 oui-mt-5">+</Text>
+                <div className="oui-font-bold oui-text-xl oui-flex oui-items-end oui-h-11 oui-text-base-contrast-54">
+                  +
+                </div>
 
-                <Flex direction="column" gap={1} className="oui-flex-1">
-                  <Text className="oui-text-base-contrast-54 oui-text-xs">
+                <div className="oui-flex oui-flex-col oui-flex-1">
+                  <label className="oui-text-gray-400 oui-text-xs oui-font-semibold oui-mb-1">
                     {t("affiliate.editModal.forInvitee", "For invitee")}
-                  </Text>
-                  <Flex
-                    itemAlign="center"
-                    className="oui-bg-base-8 oui-rounded-md oui-border oui-border-line-6"
-                  >
-                    <Input
+                  </label>
+                  <div className="oui-border oui-border-line-12 oui-bg-base-9 oui-flex oui-items-center oui-bg-base-8 oui-rounded-md oui-px-3 oui-py-2">
+                    <input
                       type="number"
                       value={editRateInvitee}
                       onChange={(e) =>
@@ -324,46 +313,62 @@ export const EditReferralModal: FC<EditReferralModalProps> = ({
                       min={0}
                       max={totalRatePercent}
                       step={0.1}
-                      className="oui-border-0 oui-bg-transparent oui-text-right oui-pr-1"
+                      className="oui-bg-transparent oui-text-white oui-text-lg oui-font-bold oui-w-full oui-outline-none"
                     />
-                    <Text className="oui-text-base-contrast-54 oui-pr-3">
-                      %
-                    </Text>
-                  </Flex>
-                </Flex>
+                    <span className="oui-text-gray-400 oui-font-medium">%</span>
+                  </div>
+                </div>
 
-                <Text className="oui-text-base-contrast-54 oui-mt-5">=</Text>
+                <div className="oui-text-base-contrast-54 oui-font-bold oui-text-xl oui-flex oui-items-end oui-h-11">
+                  =
+                </div>
 
-                <Text className="oui-text-primary oui-text-lg oui-font-semibold oui-mt-5 oui-min-w-[50px] oui-text-right">
+                <div
+                  className={cn(
+                    "oui-font-bold oui-text-md oui-flex oui-items-end oui-h-11",
+                    editTotal > totalRatePercent
+                      ? "oui-text-danger"
+                      : "oui-text-primary",
+                  )}
+                >
                   {editTotal.toFixed(0)}%
-                </Text>
-              </Flex>
+                </div>
+              </div>
 
               {/* 錯誤訊息 */}
               {error && activeTab === "edit" && (
-                <Text className="oui-text-danger oui-text-sm">{error}</Text>
+                <span className="oui-text-danger oui-text-sm">{error}</span>
               )}
-
-              {/* Buttons */}
-              <Flex gap={3} className="oui-mt-2">
-                <Button
-                  variant="outlined"
-                  onClick={() => onOpenChange(false)}
-                  disabled={isLoading}
-                  className="oui-flex-1"
-                >
-                  {t("common.cancel", "Cancel")}
-                </Button>
-                <Button
-                  onClick={handleEditConfirm}
-                  disabled={isLoading || editTotal > totalRatePercent}
-                  loading={isLoading}
-                  className="oui-flex-1"
-                >
-                  {t("common.confirm", "Confirm")}
-                </Button>
-              </Flex>
-            </Flex>
+            </div>
+            <div className="oui-flex oui-gap-2 oui-justify-end oui-w-full oui-pt-8">
+              <Button
+                variant="outlined"
+                className="oui-rounded-full oui-text-base-contrast-54 oui-flex-1"
+                onClick={() => onOpenChange(false)}
+                disabled={isLoading}
+                style={{
+                  backgroundColor: "rgba(12, 13, 16, 1)",
+                  borderRadius: "50px",
+                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                  color: "rgba(255, 255, 255, 0.6)",
+                }}
+              >
+                {t("common.cancel", "Cancel")}
+              </Button>
+              <Button
+                className="oui-flex-1 oui-rounded-full oui-text-white"
+                onClick={handleEditConfirm}
+                disabled={isLoading || editTotal > totalRatePercent}
+                loading={isLoading}
+                style={{
+                  backgroundColor: "rgba(110, 85, 223, 1)",
+                  borderRadius: "50px",
+                  border: "none",
+                }}
+              >
+                {t("common.confirm", "Confirm")}
+              </Button>
+            </div>
           </TabPanel>
 
           {showUpgradeTab && (
@@ -374,56 +379,47 @@ export const EditReferralModal: FC<EditReferralModalProps> = ({
                 "Upgrade Sub-Agent",
               )}
             >
-              <Flex direction="column" gap={4} p={4}>
+              <div className="oui-flex oui-flex-col oui-gap-4">
                 {/* Total commission rate */}
-                <Flex justify="between" itemAlign="center">
-                  <Text className="oui-text-base-contrast-80 oui-text-sm oui-font-semibold">
+                <div className="oui-flex oui-justify-between oui-items-center oui-pt-3">
+                  <span className="oui-text-xs oui-font-semibold oui-text-white/80">
                     {t(
                       "affiliate.editModal.totalCommissionRate",
                       "Total commission rate",
                     )}
-                  </Text>
-                  <Text className="oui-text-primary oui-text-lg oui-font-semibold">
+                  </span>
+                  <span className="oui-text-xs oui-font-semibold oui-text-primary">
                     {totalRatePercent.toFixed(0)}%
-                  </Text>
-                </Flex>
+                  </span>
+                </div>
 
                 {/* Note */}
-                <Flex direction="column" gap={1}>
-                  <Text className="oui-text-base-contrast-54 oui-text-xs">
+                <div className="oui-flex oui-flex-col oui-gap-1">
+                  <label className="oui-text-xs oui-text-white/60">
                     {t("affiliate.editModal.noteOptional", "Note (Optional)")}
-                  </Text>
-                  <textarea
+                  </label>
+                  <input
+                    type="text"
                     value={upgradeNote}
-                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setUpgradeNote(e.target.value)
                     }
                     placeholder={t(
                       "affiliate.editModal.notePlaceholder",
                       "Note (Optional)",
                     )}
-                    rows={2}
-                    className={cn(
-                      "oui-w-full oui-rounded-md oui-p-3 oui-text-sm oui-text-base-contrast-80",
-                      "oui-border oui-border-line-6 oui-outline-none",
-                      "oui-placeholder-base-contrast-36",
-                      "oui-bg-base-8",
-                    )}
-                    style={{ resize: "none" }}
+                    className="oui-bg-base-9 oui-w-full oui-h-10 oui-px-3 oui-bg-white/5 oui-text-white oui-rounded-md"
                   />
-                </Flex>
+                </div>
 
                 {/* Commission Rate Inputs */}
-                <Flex itemAlign="center" gap={2}>
-                  <Flex direction="column" gap={1} className="oui-flex-1">
-                    <Text className="oui-text-base-contrast-54 oui-text-xs">
+                <div className="oui-flex oui-items-center oui-gap-3">
+                  <div className="oui-flex oui-flex-col oui-flex-1">
+                    <label className="oui-text-gray-400 oui-text-xs oui-font-semibold oui-mb-1">
                       {t("affiliate.editModal.forYou", "For you")}
-                    </Text>
-                    <Flex
-                      itemAlign="center"
-                      className="oui-bg-base-8 oui-rounded-md oui-border oui-border-line-6"
-                    >
-                      <Input
+                    </label>
+                    <div className="oui-bg-base-9 oui-flex oui-items-center oui-bg-base-8 oui-rounded-md oui-px-3 oui-py-2">
+                      <input
                         type="number"
                         value={upgradeRateYou}
                         onChange={(e) =>
@@ -432,25 +428,24 @@ export const EditReferralModal: FC<EditReferralModalProps> = ({
                         min={0}
                         max={totalRatePercent}
                         step={0.1}
-                        className="oui-border-0 oui-bg-transparent oui-text-right oui-pr-1"
+                        className="oui-bg-transparent oui-text-white oui-text-lg oui-font-bold oui-w-full oui-outline-none"
                       />
-                      <Text className="oui-text-base-contrast-54 oui-pr-3">
+                      <span className="oui-text-gray-400 oui-font-medium">
                         %
-                      </Text>
-                    </Flex>
-                  </Flex>
+                      </span>
+                    </div>
+                  </div>
 
-                  <Text className="oui-text-base-contrast-54 oui-mt-5">+</Text>
+                  <div className="oui-font-bold oui-text-xl oui-flex oui-items-end oui-h-11 oui-text-base-contrast-54">
+                    +
+                  </div>
 
-                  <Flex direction="column" gap={1} className="oui-flex-1">
-                    <Text className="oui-text-base-contrast-54 oui-text-xs">
+                  <div className="oui-flex oui-flex-col oui-flex-1">
+                    <label className="oui-text-gray-400 oui-text-xs oui-font-semibold oui-mb-1">
                       {t("affiliate.editModal.forSubAgent", "For Sub-Agent")}
-                    </Text>
-                    <Flex
-                      itemAlign="center"
-                      className="oui-bg-base-8 oui-rounded-md oui-border oui-border-line-6"
-                    >
-                      <Input
+                    </label>
+                    <div className="oui-border oui-border-line-12 oui-bg-base-9 oui-flex oui-items-center oui-bg-base-8 oui-rounded-md oui-px-3 oui-py-2">
+                      <input
                         type="number"
                         value={upgradeRateSubAgent}
                         onChange={(e) =>
@@ -459,46 +454,64 @@ export const EditReferralModal: FC<EditReferralModalProps> = ({
                         min={0}
                         max={totalRatePercent}
                         step={0.1}
-                        className="oui-border-0 oui-bg-transparent oui-text-right oui-pr-1"
+                        className="oui-bg-transparent oui-text-white oui-text-lg oui-font-bold oui-w-full oui-outline-none"
                       />
-                      <Text className="oui-text-base-contrast-54 oui-pr-3">
+                      <span className="oui-text-gray-400 oui-font-medium">
                         %
-                      </Text>
-                    </Flex>
-                  </Flex>
+                      </span>
+                    </div>
+                  </div>
 
-                  <Text className="oui-text-base-contrast-54 oui-mt-5">=</Text>
+                  <div className="oui-text-base-contrast-54 oui-font-bold oui-text-xl oui-flex oui-items-end oui-h-11">
+                    =
+                  </div>
 
-                  <Text className="oui-text-primary oui-text-lg oui-font-semibold oui-mt-5 oui-min-w-[50px] oui-text-right">
+                  <div
+                    className={cn(
+                      "oui-font-bold oui-text-md oui-flex oui-items-end oui-h-11",
+                      upgradeTotal > totalRatePercent
+                        ? "oui-text-danger"
+                        : "oui-text-primary",
+                    )}
+                  >
                     {upgradeTotal.toFixed(0)}%
-                  </Text>
-                </Flex>
+                  </div>
+                </div>
 
                 {/* 錯誤訊息 */}
                 {error && activeTab === "upgrade" && (
-                  <Text className="oui-text-danger oui-text-sm">{error}</Text>
+                  <span className="oui-text-danger oui-text-sm">{error}</span>
                 )}
-
-                {/* Buttons */}
-                <Flex gap={3} className="oui-mt-2">
-                  <Button
-                    variant="outlined"
-                    onClick={() => onOpenChange(false)}
-                    disabled={isLoading}
-                    className="oui-flex-1"
-                  >
-                    {t("common.cancel", "Cancel")}
-                  </Button>
-                  <Button
-                    onClick={handleUpgrade}
-                    disabled={isLoading || upgradeTotal > totalRatePercent}
-                    loading={isLoading}
-                    className="oui-flex-1"
-                  >
-                    {t("affiliate.editModal.upgrade", "Upgrade")}
-                  </Button>
-                </Flex>
-              </Flex>
+              </div>
+              <div className="oui-flex oui-gap-2 oui-justify-end oui-w-full oui-pt-8">
+                <Button
+                  variant="outlined"
+                  className="oui-rounded-full oui-text-base-contrast-54 oui-flex-1"
+                  onClick={() => onOpenChange(false)}
+                  disabled={isLoading}
+                  style={{
+                    backgroundColor: "rgba(12, 13, 16, 1)",
+                    borderRadius: "50px",
+                    border: "1px solid rgba(255, 255, 255, 0.3)",
+                    color: "rgba(255, 255, 255, 0.6)",
+                  }}
+                >
+                  {t("common.cancel", "Cancel")}
+                </Button>
+                <Button
+                  className="oui-flex-1 oui-rounded-full oui-text-white"
+                  onClick={handleUpgrade}
+                  disabled={isLoading || upgradeTotal > totalRatePercent}
+                  loading={isLoading}
+                  style={{
+                    backgroundColor: "rgba(110, 85, 223, 1)",
+                    borderRadius: "50px",
+                    border: "none",
+                  }}
+                >
+                  {t("affiliate.editModal.upgrade", "Upgrade")}
+                </Button>
+              </div>
             </TabPanel>
           )}
         </Tabs>
