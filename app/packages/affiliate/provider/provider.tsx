@@ -1,7 +1,314 @@
+// import {
+//   FC,
+//   PropsWithChildren,
+//   useCallback,
+//   useEffect,
+//   useMemo,
+//   useRef,
+//   useState,
+// } from "react";
+// import { format, subDays } from "date-fns";
+// import {
+//   RefferalAPI as API,
+//   usePrivateQuery,
+//   useDaily,
+//   useAccount,
+//   useMemoizedFn,
+//   noCacheConfig,
+// } from "@orderly.network/hooks";
+// import { useAppContext } from "@orderly.network/react-app";
+// import { AccountStatusEnum } from "@orderly.network/types";
+// import { UserResponse } from "@/services/api-refer-client";
+// import { commissionApi } from "@/services/commission.client";
+// import { userApi } from "@/services/user.client";
+// import { MockData } from "../utils/mockData";
+// import {
+//   ReferralContext,
+//   ReferralContextProps,
+//   ReferralContextReturns,
+//   TabTypes,
+//   UserVolumeType,
+// } from "./context";
+// export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
+//   props,
+// ) => {
+//   const {
+//     becomeAnAffiliateUrl = "https://orderly.network/",
+//     learnAffiliateUrl = "https://orderly.network/",
+//     referralLinkUrl = "https://orderly.network/",
+//     chartConfig,
+//     overwrite,
+//     children,
+//     splashPage,
+//     onBecomeAnAffiliate,
+//     bindReferralCodeState,
+//     onLearnAffiliate,
+//     showReferralPage,
+//   } = props;
+//   const { state } = useAccount();
+//   const useMockData = process.env.NODE_ENV === "development";
+//   // 自訂 API 數據狀態
+//   const [userInfo, setUserInfo] = useState<UserResponse | null>(null);
+//   const [totalCommission, setTotalCommission] = useState<number>(0);
+//   const [weeklyCommission, setWeeklyCommission] = useState<number>(0);
+//   const [customApiLoading, setCustomApiLoading] = useState<boolean>(false);
+//   // 從 Orderly account 取得 userId
+//   const userId = state.accountId || null;
+//   // 獲取自訂 API 數據
+//   const fetchCustomApiData = useCallback(async () => {
+//     if (!userId) {
+//       setUserInfo(null);
+//       setTotalCommission(0);
+//       setWeeklyCommission(0);
+//       return;
+//     }
+//     setCustomApiLoading(true);
+//     try {
+//       // 並行獲取用戶資訊和佣金數據
+//       const [userResponse, commissionResponse] = await Promise.all([
+//         userApi.getUser(userId).catch(() => null),
+//         commissionApi.getUserCommission(userId).catch(() => null),
+//       ]);
+//       if (userResponse) {
+//         setUserInfo(userResponse);
+//       }
+//       if (commissionResponse) {
+//         setTotalCommission(
+//           commissionResponse.total_commission_and_discount || 0,
+//         );
+//         setWeeklyCommission(
+//           commissionResponse.weekly_commission_and_discount || 0,
+//         );
+//       }
+//     } catch (error) {
+//       console.error("Failed to fetch custom API data:", error);
+//     } finally {
+//       setCustomApiLoading(false);
+//     }
+//   }, [userId]);
+//   // 當 userId 變化時獲取數據
+//   useEffect(() => {
+//     fetchCustomApiData();
+//   }, [fetchCustomApiData]);
+//   // API 調用
+//   const {
+//     data,
+//     mutate: referralInfoMutate,
+//     isLoading,
+//   } = usePrivateQuery<API.ReferralInfo>("/v1/referral/info", {
+//     revalidateOnFocus: true,
+//     errorRetryCount: 3,
+//     ...noCacheConfig,
+//   });
+//   const { data: generateCode, mutate: generateCodeMutate } =
+//     usePrivateQuery<API.AutoGenerateCode>(
+//       "/v1/referral/auto_referral/progress",
+//       {
+//         revalidateOnFocus: true,
+//         errorRetryCount: 2,
+//         formatter: (data) => {
+//           return {
+//             code: data.auto_referral_code,
+//             requireVolume: data.required_volume,
+//             completedVolume: data.completed_volume,
+//           };
+//         },
+//       },
+//     );
+//   const [showHome, setShowHome] = useState(isLoading);
+//   useEffect(() => {
+//     setShowHome(true);
+//   }, [isLoading]);
+//   const { data: dailyVolume, mutate: dailyVolumeMutate } = useDaily({
+//     startDate: subDays(new Date(), 1),
+//     endDate: subDays(new Date(), 90),
+//   });
+//   const { data: volumeStatistics, mutate: volumeStatisticsMutate } =
+//     usePrivateQuery<API.UserVolStats>("/v1/volume/user/stats", {
+//       revalidateOnFocus: true,
+//     });
+//   // 根據開發環境決定使用 MockData 還是真實 API
+//   const data = useMockData ? MockData.referralInfo : apiData;
+//   const generateCode = useMockData
+//     ? MockData.autoGenerateCode
+//     : apiGenerateCode;
+//   const finalReferralInfoMutate = useMockData ? () => {} : referralInfoMutate;
+//   const finalGenerateCodeMutate = useMockData ? () => {} : generateCodeMutate;
+//   const [showHome, setShowHome] = useState(isLoading);
+//   useEffect(() => {
+//     setShowHome(true);
+//   }, [isLoading]);
+//   // 代理人身份判斷 (優先使用自訂 API 數據)
+//   const isAffiliate = useMemo(() => {
+//     // 優先使用自訂 API
+//     if (userInfo) {
+//       return userInfo.is_affiliate;
+//     }
+//     // 回退到 Orderly API
+//     return (data?.referrer_info?.referral_codes?.length || 0) > 0;
+//   }, [userInfo, data?.referrer_info]);
+//   // 樂觀更新：手動設置 isTrader 狀態
+//   const [optimisticIsTrader, setOptimisticIsTrader] = useState<boolean | null>(
+//     null,
+//   );
+//   const isTrader = useMemo(() => {
+//     // 如果有樂觀更新值，優先使用
+//     if (optimisticIsTrader !== null) {
+//       return optimisticIsTrader;
+//     }
+//     // 優先使用自訂 API (有使用過推薦碼)
+//     if (userInfo) {
+//       return !!userInfo.used_referral_code;
+//     }
+//     // 回退到 Orderly API
+//     return (data?.referee_info?.referer_code?.length || 0) > 0;
+//   }, [optimisticIsTrader, userInfo, data?.referee_info]);
+//   // 當 API 數據更新後，重置樂觀更新狀態
+//   useEffect(() => {
+//     if (userInfo?.used_referral_code || data?.referee_info?.referer_code) {
+//       setOptimisticIsTrader(null);
+//     }
+//   }, [userInfo, data?.referee_info]);
+//   // 頂級代理判斷 (parent_affiliate_id 為空)
+//   const isTopLevelAgent = useMemo(() => {
+//     if (!userInfo) return false;
+//     return userInfo.is_affiliate && !userInfo.parent_affiliate_id;
+//   }, [userInfo]);
+//   const userVolume = useMemo<UserVolumeType>(() => {
+//     const volume: UserVolumeType = {};
+//     if (dailyVolume && dailyVolume.length > 0) {
+//       const now = format(new Date(), "yyyy-MM-dd");
+//       const index = dailyVolume.findIndex((item) => item.date === now);
+//       let oneDayVolume = 0;
+//       if (index !== -1) {
+//         oneDayVolume = dailyVolume[index].perp_volume;
+//       }
+//       volume["1d_volume"] = oneDayVolume;
+//     }
+//     if (volumeStatistics) {
+//       volume["7d_volume"] = volumeStatistics.perp_volume_last_7_days;
+//       volume["30d_volume"] = volumeStatistics.perp_volume_last_30_days;
+//       volume["all_volume"] = volumeStatistics.perp_volume_ltd;
+//     }
+//     return volume;
+//   }, [dailyVolume, volumeStatistics]);
+//   useEffect(() => {
+//     if (isAffiliate || isTrader) {
+//       setShowHome(false);
+//     }
+//   }, [isAffiliate, isTrader]);
+//   const memoMutate = useMemoizedFn(() => {
+//     volumeStatisticsMutate();
+//     dailyVolumeMutate();
+//     finalReferralInfoMutate();
+//     finalGenerateCodeMutate();
+//     fetchCustomApiData();
+//     referralInfoMutate();
+//     generateCodeMutate();
+//   });
+//   useEffect(() => {
+//     const searchParams = new URLSearchParams(window.location.search);
+//     const refCode = searchParams.get("ref");
+//     if (refCode) {
+//       localStorage.setItem("referral_code", refCode);
+//     }
+//   }, []);
+//   const [tab, setTab] = useState<TabTypes>(TabTypes.affiliate);
+//   const { wrongNetwork, disabledConnect } = useAppContext();
+//   const lastStete = useRef<AccountStatusEnum>(AccountStatusEnum.NotConnected);
+//   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+//   useEffect(() => {
+//     if (lastStete.current !== state.status) {
+//       lastStete.current = state.status;
+//       timerRef.current = setTimeout(() => {
+//         memoMutate();
+//       }, 1000);
+//     }
+//     return () => {
+//       if (timerRef.current) {
+//         clearTimeout(timerRef.current);
+//       }
+//     };
+//   }, [memoMutate, state.status]);
+//   const memoizedValue = useMemo<ReferralContextReturns>(() => {
+//     return {
+//       generateCode,
+//       showHome,
+//       referralInfo: data,
+//       isAffiliate,
+//       isTrader,
+//       // 樂觀更新
+//       setOptimisticIsTrader,
+//       // 新增欄位
+//       isTopLevelAgent,
+//       userId,
+//       userInfo,
+//       totalCommission,
+//       weeklyCommission,
+//       // 現有欄位
+//       isAffiliate: isAffiliate,
+//       isTrader: isTrader,
+//       tab,
+//       becomeAnAffiliateUrl,
+//       learnAffiliateUrl,
+//       referralLinkUrl,
+//       userVolume,
+//       dailyVolume,
+//       chartConfig,
+//       overwrite,
+//       isLoading: isLoading || customApiLoading,
+//       wrongNetwork,
+//       disabledConnect,
+//       setShowHome,
+//       setTab: setTab,
+//       mutate: memoMutate,
+//       onBecomeAnAffiliate,
+//       bindReferralCodeState,
+//       onLearnAffiliate,
+//       showReferralPage,
+//       splashPage,
+//     };
+//   }, [
+//     becomeAnAffiliateUrl,
+//     chartConfig,
+//     customApiLoading,
+//     dailyVolume,
+//     data,
+//     disabledConnect,
+//     generateCode,
+//     isAffiliate,
+//     isLoading,
+//     isTopLevelAgent,
+//     isTrader,
+//     learnAffiliateUrl,
+//     memoMutate,
+//     overwrite,
+//     referralLinkUrl,
+//     setOptimisticIsTrader,
+//     showHome,
+//     tab,
+//     totalCommission,
+//     userId,
+//     userInfo,
+//     userVolume,
+//     weeklyCommission,
+//     wrongNetwork,
+//     onBecomeAnAffiliate,
+//     bindReferralCodeState,
+//     onLearnAffiliate,
+//     showReferralPage,
+//     splashPage,
+//   ]);
+//   return (
+//     <ReferralContext.Provider value={memoizedValue}>
+//       {children}
+//     </ReferralContext.Provider>
+//   );
+// };
+// 測試版本
 import {
   FC,
   PropsWithChildren,
-  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -18,9 +325,6 @@ import {
 } from "@orderly.network/hooks";
 import { useAppContext } from "@orderly.network/react-app";
 import { AccountStatusEnum } from "@orderly.network/types";
-import { UserResponse } from "@/services/api-refer-client";
-import { commissionApi } from "@/services/commission.client";
-import { userApi } from "@/services/user.client";
 import { MockData } from "../utils/mockData";
 import {
   ReferralContext,
@@ -46,62 +350,13 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
     onLearnAffiliate,
     showReferralPage,
   } = props;
+
   const { state } = useAccount();
   const useMockData = process.env.NODE_ENV === "development";
 
-  // 自訂 API 數據狀態
-  const [userInfo, setUserInfo] = useState<UserResponse | null>(null);
-  const [totalCommission, setTotalCommission] = useState<number>(0);
-  const [weeklyCommission, setWeeklyCommission] = useState<number>(0);
-  const [customApiLoading, setCustomApiLoading] = useState<boolean>(false);
-
-  // 從 Orderly account 取得 userId
-  const userId = state.accountId || null;
-
-  // 獲取自訂 API 數據
-  const fetchCustomApiData = useCallback(async () => {
-    if (!userId) {
-      setUserInfo(null);
-      setTotalCommission(0);
-      setWeeklyCommission(0);
-      return;
-    }
-
-    setCustomApiLoading(true);
-    try {
-      // 並行獲取用戶資訊和佣金數據
-      const [userResponse, commissionResponse] = await Promise.all([
-        userApi.getUser(userId).catch(() => null),
-        commissionApi.getUserCommission(userId).catch(() => null),
-      ]);
-
-      if (userResponse) {
-        setUserInfo(userResponse);
-      }
-
-      if (commissionResponse) {
-        setTotalCommission(
-          commissionResponse.total_commission_and_discount || 0,
-        );
-        setWeeklyCommission(
-          commissionResponse.weekly_commission_and_discount || 0,
-        );
-      }
-    } catch (error) {
-      console.error("Failed to fetch custom API data:", error);
-    } finally {
-      setCustomApiLoading(false);
-    }
-  }, [userId]);
-
-  // 當 userId 變化時獲取數據
-  useEffect(() => {
-    fetchCustomApiData();
-  }, [fetchCustomApiData]);
-
   // API 調用
   const {
-    data,
+    data: apiData,
     mutate: referralInfoMutate,
     isLoading,
   } = usePrivateQuery<API.ReferralInfo>("/v1/referral/info", {
@@ -109,29 +364,27 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
     errorRetryCount: 3,
     ...noCacheConfig,
   });
-  const { data: generateCode, mutate: generateCodeMutate } =
+
+  const { data: apiGenerateCode, mutate: generateCodeMutate } =
     usePrivateQuery<API.AutoGenerateCode>(
       "/v1/referral/auto_referral/progress",
       {
         revalidateOnFocus: true,
         errorRetryCount: 2,
-        formatter: (data) => {
-          return {
-            code: data.auto_referral_code,
-            requireVolume: data.required_volume,
-            completedVolume: data.completed_volume,
-          };
-        },
+        formatter: (data) => ({
+          code: data.auto_referral_code,
+          requireVolume: data.required_volume,
+          completedVolume: data.completed_volume,
+        }),
       },
     );
-  const [showHome, setShowHome] = useState(isLoading);
-  useEffect(() => {
-    setShowHome(true);
-  }, [isLoading]);
+
+  // dailyVolume & volumeStatistics
   const { data: dailyVolume, mutate: dailyVolumeMutate } = useDaily({
     startDate: subDays(new Date(), 1),
     endDate: subDays(new Date(), 90),
   });
+
   const { data: volumeStatistics, mutate: volumeStatisticsMutate } =
     usePrivateQuery<API.UserVolStats>("/v1/volume/user/stats", {
       revalidateOnFocus: true,
@@ -140,7 +393,7 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
   // 根據開發環境決定使用 MockData 還是真實 API
   const data = useMockData ? MockData.referralInfo : apiData;
   const generateCode = useMockData
-    ? MockData.autoGenerateCode
+    ? MockData.referralInfo.referrer_info.referral_codes[0]
     : apiGenerateCode;
   const finalReferralInfoMutate = useMockData ? () => {} : referralInfoMutate;
   const finalGenerateCodeMutate = useMockData ? () => {} : generateCodeMutate;
@@ -150,46 +403,14 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
     setShowHome(true);
   }, [isLoading]);
 
-  // 代理人身份判斷 (優先使用自訂 API 數據)
+  // 代理人身份判斷
   const isAffiliate = useMemo(() => {
-    // 優先使用自訂 API
-    if (userInfo) {
-      return userInfo.is_affiliate;
-    }
-    // 回退到 Orderly API
     return (data?.referrer_info?.referral_codes?.length || 0) > 0;
-  }, [userInfo, data?.referrer_info]);
-
-  // 樂觀更新：手動設置 isTrader 狀態
-  const [optimisticIsTrader, setOptimisticIsTrader] = useState<boolean | null>(
-    null,
-  );
+  }, [data?.referrer_info]);
 
   const isTrader = useMemo(() => {
-    // 如果有樂觀更新值，優先使用
-    if (optimisticIsTrader !== null) {
-      return optimisticIsTrader;
-    }
-    // 優先使用自訂 API (有使用過推薦碼)
-    if (userInfo) {
-      return !!userInfo.used_referral_code;
-    }
-    // 回退到 Orderly API
     return (data?.referee_info?.referer_code?.length || 0) > 0;
-  }, [optimisticIsTrader, userInfo, data?.referee_info]);
-
-  // 當 API 數據更新後，重置樂觀更新狀態
-  useEffect(() => {
-    if (userInfo?.used_referral_code || data?.referee_info?.referer_code) {
-      setOptimisticIsTrader(null);
-    }
-  }, [userInfo, data?.referee_info]);
-
-  // 頂級代理判斷 (parent_affiliate_id 為空)
-  const isTopLevelAgent = useMemo(() => {
-    if (!userInfo) return false;
-    return userInfo.is_affiliate && !userInfo.parent_affiliate_id;
-  }, [userInfo]);
+  }, [data?.referee_info]);
 
   const userVolume = useMemo<UserVolumeType>(() => {
     const volume: UserVolumeType = {};
@@ -209,20 +430,20 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
     }
     return volume;
   }, [dailyVolume, volumeStatistics]);
+
   useEffect(() => {
     if (isAffiliate || isTrader) {
       setShowHome(false);
     }
   }, [isAffiliate, isTrader]);
+
   const memoMutate = useMemoizedFn(() => {
     volumeStatisticsMutate();
     dailyVolumeMutate();
     finalReferralInfoMutate();
     finalGenerateCodeMutate();
-    fetchCustomApiData();
-    referralInfoMutate();
-    generateCodeMutate();
   });
+
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
     const refCode = searchParams.get("ref");
@@ -230,10 +451,12 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
       localStorage.setItem("referral_code", refCode);
     }
   }, []);
+
   const [tab, setTab] = useState<TabTypes>(TabTypes.affiliate);
   const { wrongNetwork, disabledConnect } = useAppContext();
   const lastStete = useRef<AccountStatusEnum>(AccountStatusEnum.NotConnected);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(() => {
     if (lastStete.current !== state.status) {
       lastStete.current = state.status;
@@ -247,6 +470,7 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
       }
     };
   }, [memoMutate, state.status]);
+
   const memoizedValue = useMemo<ReferralContextReturns>(() => {
     return {
       generateCode,
@@ -254,17 +478,6 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
       referralInfo: data,
       isAffiliate,
       isTrader,
-      // 樂觀更新
-      setOptimisticIsTrader,
-      // 新增欄位
-      isTopLevelAgent,
-      userId,
-      userInfo,
-      totalCommission,
-      weeklyCommission,
-      // 現有欄位
-      isAffiliate: isAffiliate,
-      isTrader: isTrader,
       tab,
       becomeAnAffiliateUrl,
       learnAffiliateUrl,
@@ -273,11 +486,11 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
       dailyVolume,
       chartConfig,
       overwrite,
-      isLoading: isLoading || customApiLoading,
+      isLoading,
       wrongNetwork,
       disabledConnect,
       setShowHome,
-      setTab: setTab,
+      setTab,
       mutate: memoMutate,
       onBecomeAnAffiliate,
       bindReferralCodeState,
@@ -288,262 +501,31 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
   }, [
     becomeAnAffiliateUrl,
     chartConfig,
-    customApiLoading,
     dailyVolume,
     data,
     disabledConnect,
     generateCode,
     isAffiliate,
     isLoading,
-    isTopLevelAgent,
     isTrader,
     learnAffiliateUrl,
-    memoMutate,
     overwrite,
     referralLinkUrl,
-    setOptimisticIsTrader,
     showHome,
     tab,
-    totalCommission,
-    userId,
-    userInfo,
     userVolume,
-    weeklyCommission,
     wrongNetwork,
     onBecomeAnAffiliate,
     bindReferralCodeState,
     onLearnAffiliate,
     showReferralPage,
     splashPage,
+    memoMutate,
   ]);
+
   return (
     <ReferralContext.Provider value={memoizedValue}>
       {children}
     </ReferralContext.Provider>
   );
 };
-
-// 測試版本
-// import {
-//   FC,
-//   PropsWithChildren,
-//   useEffect,
-//   useMemo,
-//   useRef,
-//   useState,
-// } from "react";
-// import { format, subDays } from "date-fns";
-// import {
-//   RefferalAPI as API,
-//   usePrivateQuery,
-//   useDaily,
-//   useAccount,
-//   useMemoizedFn,
-//   noCacheConfig,
-// } from "@orderly.network/hooks";
-// import { useAppContext } from "@orderly.network/react-app";
-// import { AccountStatusEnum } from "@orderly.network/types";
-// import { MockData } from "../utils/mockData";
-// import {
-//   ReferralContext,
-//   ReferralContextProps,
-//   ReferralContextReturns,
-//   TabTypes,
-//   UserVolumeType,
-// } from "./context";
-
-// export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
-//   props,
-// ) => {
-//   const {
-//     becomeAnAffiliateUrl = "https://orderly.network/",
-//     learnAffiliateUrl = "https://orderly.network/",
-//     referralLinkUrl = "https://orderly.network/",
-//     chartConfig,
-//     overwrite,
-//     children,
-//     splashPage,
-//     onBecomeAnAffiliate,
-//     bindReferralCodeState,
-//     onLearnAffiliate,
-//     showReferralPage,
-//   } = props;
-
-//   const { state } = useAccount();
-//   const useMockData = process.env.NODE_ENV === "development";
-
-//   // API 調用
-//   const {
-//     data: apiData,
-//     mutate: referralInfoMutate,
-//     isLoading,
-//   } = usePrivateQuery<API.ReferralInfo>("/v1/referral/info", {
-//     revalidateOnFocus: true,
-//     errorRetryCount: 3,
-//     ...noCacheConfig,
-//   });
-
-//   const { data: apiGenerateCode, mutate: generateCodeMutate } =
-//     usePrivateQuery<API.AutoGenerateCode>(
-//       "/v1/referral/auto_referral/progress",
-//       {
-//         revalidateOnFocus: true,
-//         errorRetryCount: 2,
-//         formatter: (data) => ({
-//           code: data.auto_referral_code,
-//           requireVolume: data.required_volume,
-//           completedVolume: data.completed_volume,
-//         }),
-//       },
-//     );
-
-//   // dailyVolume & volumeStatistics
-//   const { data: dailyVolume, mutate: dailyVolumeMutate } = useDaily({
-//     startDate: subDays(new Date(), 1),
-//     endDate: subDays(new Date(), 90),
-//   });
-
-//   const { data: volumeStatistics, mutate: volumeStatisticsMutate } =
-//     usePrivateQuery<API.UserVolStats>("/v1/volume/user/stats", {
-//       revalidateOnFocus: true,
-//     });
-
-//   // 根據開發環境決定使用 MockData 還是真實 API
-//   const data = useMockData ? MockData.referralInfo : apiData;
-//   const generateCode = useMockData
-//     ? MockData.referralInfo.referrer_info.referral_codes[0]
-//     : apiGenerateCode;
-//   const finalReferralInfoMutate = useMockData ? () => {} : referralInfoMutate;
-//   const finalGenerateCodeMutate = useMockData ? () => {} : generateCodeMutate;
-
-//   const [showHome, setShowHome] = useState(isLoading);
-//   useEffect(() => {
-//     setShowHome(true);
-//   }, [isLoading]);
-
-//   // 代理人身份判斷
-//   const isAffiliate = useMemo(() => {
-//     return (data?.referrer_info?.referral_codes?.length || 0) > 0;
-//   }, [data?.referrer_info]);
-
-//   const isTrader = useMemo(() => {
-//     return (data?.referee_info?.referer_code?.length || 0) > 0;
-//   }, [data?.referee_info]);
-
-//   const userVolume = useMemo<UserVolumeType>(() => {
-//     const volume: UserVolumeType = {};
-//     if (dailyVolume && dailyVolume.length > 0) {
-//       const now = format(new Date(), "yyyy-MM-dd");
-//       const index = dailyVolume.findIndex((item) => item.date === now);
-//       let oneDayVolume = 0;
-//       if (index !== -1) {
-//         oneDayVolume = dailyVolume[index].perp_volume;
-//       }
-//       volume["1d_volume"] = oneDayVolume;
-//     }
-//     if (volumeStatistics) {
-//       volume["7d_volume"] = volumeStatistics.perp_volume_last_7_days;
-//       volume["30d_volume"] = volumeStatistics.perp_volume_last_30_days;
-//       volume["all_volume"] = volumeStatistics.perp_volume_ltd;
-//     }
-//     return volume;
-//   }, [dailyVolume, volumeStatistics]);
-
-//   useEffect(() => {
-//     if (isAffiliate || isTrader) {
-//       setShowHome(false);
-//     }
-//   }, [isAffiliate, isTrader]);
-
-//   const memoMutate = useMemoizedFn(() => {
-//     volumeStatisticsMutate();
-//     dailyVolumeMutate();
-//     finalReferralInfoMutate();
-//     finalGenerateCodeMutate();
-//   });
-
-//   useEffect(() => {
-//     const searchParams = new URLSearchParams(window.location.search);
-//     const refCode = searchParams.get("ref");
-//     if (refCode) {
-//       localStorage.setItem("referral_code", refCode);
-//     }
-//   }, []);
-
-//   const [tab, setTab] = useState<TabTypes>(TabTypes.affiliate);
-//   const { wrongNetwork, disabledConnect } = useAppContext();
-//   const lastStete = useRef<AccountStatusEnum>(AccountStatusEnum.NotConnected);
-//   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-//   useEffect(() => {
-//     if (lastStete.current !== state.status) {
-//       lastStete.current = state.status;
-//       timerRef.current = setTimeout(() => {
-//         memoMutate();
-//       }, 1000);
-//     }
-//     return () => {
-//       if (timerRef.current) {
-//         clearTimeout(timerRef.current);
-//       }
-//     };
-//   }, [memoMutate, state.status]);
-
-//   const memoizedValue = useMemo<ReferralContextReturns>(() => {
-//     return {
-//       generateCode,
-//       showHome,
-//       referralInfo: data,
-//       isAffiliate,
-//       isTrader,
-//       tab,
-//       becomeAnAffiliateUrl,
-//       learnAffiliateUrl,
-//       referralLinkUrl,
-//       userVolume,
-//       dailyVolume,
-//       chartConfig,
-//       overwrite,
-//       isLoading,
-//       wrongNetwork,
-//       disabledConnect,
-//       setShowHome,
-//       setTab,
-//       mutate: memoMutate,
-//       onBecomeAnAffiliate,
-//       bindReferralCodeState,
-//       onLearnAffiliate,
-//       showReferralPage,
-//       splashPage,
-//     };
-//   }, [
-//     becomeAnAffiliateUrl,
-//     chartConfig,
-//     dailyVolume,
-//     data,
-//     disabledConnect,
-//     generateCode,
-//     isAffiliate,
-//     isLoading,
-//     isTrader,
-//     learnAffiliateUrl,
-//     overwrite,
-//     referralLinkUrl,
-//     showHome,
-//     tab,
-//     userVolume,
-//     wrongNetwork,
-//     onBecomeAnAffiliate,
-//     bindReferralCodeState,
-//     onLearnAffiliate,
-//     showReferralPage,
-//     splashPage,
-//     memoMutate,
-//   ]);
-
-//   return (
-//     <ReferralContext.Provider value={memoizedValue}>
-//       {children}
-//     </ReferralContext.Provider>
-//   );
-// };
