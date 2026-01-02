@@ -57,7 +57,7 @@ export const BaseLayout: FC<BaseLayoutProps> = (props) => {
               icon: <MarketsIcon />,
             },
             {
-              name: t("common.affiliate"),
+              name: "Rewards",
               href: "/rewards/affiliate",
               icon: <RewardsIcon />,
             },

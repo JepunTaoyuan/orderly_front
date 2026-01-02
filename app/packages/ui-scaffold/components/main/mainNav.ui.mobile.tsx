@@ -91,7 +91,7 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
     props?.routerAdapter?.onRouteChange(target as any);
   };
 
-  const isSmallScreen = useMediaQuery("(max-width: 389px)");
+  const isSmallScreen = useMediaQuery("(max-width: 768px)");
   const showLinkDevice =
     state.status == AccountStatusEnum.EnableTradingWithoutConnected;
   const shouldShowLinkDevice = showLinkDevice || isSmallScreen;
