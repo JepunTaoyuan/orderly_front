@@ -3,6 +3,7 @@ import { generatePath } from "@orderly.network/i18n";
 import { Text, useScreen } from "@orderly.network/ui";
 import { BaseLayout } from "@/components/baseLayout";
 import { LandingBackground } from "@/components/custom/LandingBackground";
+import { LandingBackgroundMobile } from "@/components/custom/LandingBackgroundMobile";
 import { PathEnum } from "@/constant";
 
 export default function LandingPage() {
@@ -42,7 +43,7 @@ export default function LandingPage() {
         className="oui-relative oui-w-full oui-overflow-hidden"
         style={{ height: "calc(100vh - 56px)" }}
       >
-        <LandingBackground />
+        {isMobile ? <LandingBackgroundMobile /> : <LandingBackground />}
 
         <div
           className="oui-relative oui-z-10 oui-flex oui-flex-col oui-justify-between oui-h-full"
@@ -59,7 +60,7 @@ export default function LandingPage() {
                 : ""
             }`}
             style={{
-              transform: isMobile ? "translateY(0px)" : "translateY(200px)",
+              transform: isMobile ? "translateY(0px)" : "translateY(150px)",
             }} // 調整手機位移，避免太靠下
           >
             {/* 標題 */}
