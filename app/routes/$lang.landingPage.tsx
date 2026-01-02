@@ -40,7 +40,7 @@ export default function LandingPage() {
 
       <div
         className="oui-relative oui-w-full oui-overflow-hidden"
-        style={{ height: "calc(100vh - 76px)" }}
+        style={{ height: "calc(100vh - 56px)" }}
       >
         <LandingBackground />
 
@@ -125,7 +125,7 @@ export default function LandingPage() {
 
               {/* 按鈕區 */}
               <div
-                className={`oui-flex ${isMobile ? "oui-flex-col oui-gap-y-5 " : "oui-gap-x-3"}`}
+                className={`oui-flex ${isMobile ? "oui-flex-col oui-gap-y-4 oui-pb-4" : "oui-gap-x-3"}`}
               >
                 <button
                   onClick={handleTradeNow}

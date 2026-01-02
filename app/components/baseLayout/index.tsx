@@ -88,7 +88,7 @@ export const BaseLayout: FC<BaseLayoutProps> = (props) => {
           feedbackUrl: "https://orderly.network/feedback",
         },
       }}
-      footer={<CustomFooter {...config.scaffold.footerProps} />}
+      footer={null}
       bottomNavProps={bottomNavProps}
       routerAdapter={{
         onRouteChange,
