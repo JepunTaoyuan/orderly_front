@@ -30,6 +30,7 @@ export const useOrderlyConfig = () => {
       scaffold: {
         mainNavProps: {
           mainMenus: [
+            // { name: t("common.landingPage"), href: PathEnum.LandingPage },
             { name: t("common.trading"), href: PathEnum.Root },
             { name: t("common.portfolio"), href: PathEnum.Portfolio },
             { name: t("common.markets"), href: PathEnum.Markets },

@@ -1,4 +1,5 @@
 import { FC, useMemo } from "react";
+import { useLocation } from "react-router-dom";
 import { useAccount } from "@orderly.network/hooks";
 import { useAppContext } from "@orderly.network/react-app";
 import { AccountStatusEnum } from "@orderly.network/types";
@@ -31,20 +32,29 @@ type MainNavMobileProps = {
 } & MainNavWidgetProps;
 
 export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
-  const { wrongNetwork, disabledConnect } = useAppContext();
+  const { wrongNetwork } = useAppContext();
   const { state } = useAccount();
+  const location = useLocation(); // 取得當前路由
+  const currentPath = props.current || location.pathname; // fallback: props.current 或 location.pathname
+
+  // currentMenu 判斷
   const currentMenu = useMemo(() => {
     if (Array.isArray(props?.initialMenu)) {
       return props?.campaigns;
     }
-    return props?.mainMenus?.find((menu) => {
-      if (!props.current) {
-        return menu.href === props?.initialMenu;
-      } else {
-        return menu.href === props.current;
-      }
-    });
-  }, [props?.mainMenus, props?.initialMenu, props?.current]);
+    // 嘗試用 currentPath 找 menu
+    const foundMenu = props?.mainMenus?.find(
+      (menu) => menu.href === currentPath,
+    );
+    if (foundMenu) return foundMenu;
+
+    // fallback: 如果找不到 menu（例如 /landingPage），就給一個虛擬 menu
+    return {
+      name: "Landing",
+      isHomePageInMobile: true,
+      href: currentPath,
+    };
+  }, [props?.mainMenus, props?.initialMenu, props?.campaigns, currentPath]);
 
   const title = useMemo(() => {
     if (currentMenu?.isHomePageInMobile) {
@@ -65,12 +75,11 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
     if (currentMenu?.isSubMenuInMobile) {
       return currentMenu?.name;
     }
-    if (props?.subItems?.some((item) => item.href === props?.current)) {
-      return props?.subItems?.find((item) => item.href === props?.current)
-        ?.name;
+    if (props?.subItems?.some((item) => item.href === currentPath)) {
+      return props?.subItems?.find((item) => item.href === currentPath)?.name;
     }
     return null;
-  }, [props?.subItems, props?.current, currentMenu]);
+  }, [props?.subItems, currentPath, currentMenu]);
 
   const onBack = () => {
     let target = props.mainMenus?.find(
@@ -81,16 +90,13 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
     }
     props?.routerAdapter?.onRouteChange(target as any);
   };
-  const isSmallScreen = useMediaQuery("(max-width: 389px)");
+
+  const isSmallScreen = useMediaQuery("(max-width: 768px)");
   const showLinkDevice =
     state.status == AccountStatusEnum.EnableTradingWithoutConnected;
-
   const shouldShowLinkDevice = showLinkDevice || isSmallScreen;
-
   const showChainMenu = !showLinkDevice && !wrongNetwork;
-
   const showQrcode = state.status === AccountStatusEnum.NotConnected;
-
   const showSubAccount = useMemo(
     () => state.status >= AccountStatusEnum.EnableTrading,
     [state.status],
@@ -150,17 +156,13 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
     return (
       <Flex width="100%" justify="between">
         <Flex gapX={2}>{title}</Flex>
-
         <Flex gapX={1}>
           {props.leading}
           {accountSummary}
           {linkDevice}
           {languageSwitcher}
-          {/* {scanQRCode} */}
-          {/* {subAccount} */}
           {chainMenu}
           {walletConnect}
-
           {props?.customLeftNav || leftNav}
           {props.trailing}
         </Flex>

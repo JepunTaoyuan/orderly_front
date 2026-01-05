@@ -63,7 +63,8 @@ export default async function handleRequest(
     const localePaths = Object.values(PathEnum);
 
     if (pathname === "/") {
-      newPathname = `/${cookieLocale}${PathEnum.Perp}/${DEFAULT_SYMBOL}`;
+      // newPathname = `/${cookieLocale}${PathEnum.Perp}/${DEFAULT_SYMBOL}`;
+      newPathname = `/${cookieLocale}${PathEnum.LandingPage}`;
     } else if (localePaths.includes(pathname as PathEnum)) {
       newPathname = `/${cookieLocale}${pathname}`;
     } else if (pathname.startsWith(PathEnum.Perp)) {
