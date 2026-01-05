@@ -1,6 +1,6 @@
 import { useTranslation } from "@orderly.network/i18n";
 import { OrderlyOrder, OrderSide, OrderType } from "@orderly.network/types";
-import { Button, cn, Flex } from "@orderly.network/ui";
+import { Button, cn, Flex, useMediaQuery } from "@orderly.network/ui";
 import { OrderTypeSelect } from "../orderTypeSelect";
 import { LeverageBadge } from "./LeverageBadge";
 
@@ -16,7 +16,7 @@ type OrderEntryHeaderProps = {
 export function OrderEntryHeader(props: OrderEntryHeaderProps) {
   const { canTrade, side, order_type, setOrderValue } = props;
   const { t } = useTranslation();
-
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   return (
     <>
       <div
@@ -64,11 +64,13 @@ export function OrderEntryHeader(props: OrderEntryHeaderProps) {
       </div>
       <Flex
         className={cn(
-          "oui-grid oui-gap-x-2 lg:oui-flex lg:oui-gap-x-[6px]",
-          "oui-grid-cols-2",
+          isSmallScreen
+            ? "oui-grid-cols-1 oui-gap-y-2"
+            : "oui-grid-cols-2 oui-gap-x-2",
+          "oui-grid lg:oui-flex lg:oui-gap-x-[6px]",
         )}
       >
-        <div className="oui-w-full flex-[3]">
+        <div className="oui-w-full oui-min-w-0">
           <OrderTypeSelect
             type={order_type!}
             side={side}
@@ -78,7 +80,7 @@ export function OrderEntryHeader(props: OrderEntryHeaderProps) {
             }}
           />
         </div>
-        <div className="oui-w-full flex-[2]">
+        <div className="oui-w-full oui-min-w-0">
           <LeverageBadge
             symbol={props.symbol}
             side={props.side}
