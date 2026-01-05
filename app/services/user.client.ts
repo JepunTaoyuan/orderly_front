@@ -15,6 +15,9 @@ import {
   SyncVolumeResponse,
   UserVolumeResponse,
   ResetWeeklyVolumeResponse,
+  AffiliateSummaryResponse,
+  TraderSummaryResponse,
+  DailyVolumeResponse,
 } from "./api-refer-client";
 
 export const userApi = {
@@ -147,4 +150,32 @@ export const userApi = {
       {},
       token,
     ),
+
+  // Get affiliate summary statistics
+  getAffiliateSummary: (affiliateId: string, token?: string) =>
+    api.get<AffiliateSummaryResponse>(
+      `/users/affiliates/${affiliateId}/summary`,
+      token,
+    ),
+
+  // Get trader summary statistics
+  getTraderSummary: (userId: string, token?: string) =>
+    api.get<TraderSummaryResponse>(`/users/traders/${userId}/summary`, token),
+
+  // Get user daily volume history
+  getUserDailyVolume: (
+    userId: string,
+    startDate?: string,
+    endDate?: string,
+    token?: string,
+  ) => {
+    const params = new URLSearchParams();
+    if (startDate) params.append("start_date", startDate);
+    if (endDate) params.append("end_date", endDate);
+    const queryString = params.toString();
+    return api.get<DailyVolumeResponse>(
+      `/users/volume/${userId}/daily${queryString ? `?${queryString}` : ""}`,
+      token,
+    );
+  },
 };

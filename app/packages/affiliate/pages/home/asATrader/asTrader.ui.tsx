@@ -213,16 +213,6 @@ const EntryCode: FC<AsTraderReturns> = (props) => {
               label: "oui-text-2xs oui-text-base-contrast-54",
               root: "oui-bg-base-9",
             }}
-            helpText={
-              !props.isExist && !props.isLoading && props.code.length > 0
-                ? t("affiliate.referralCode.notExist")
-                : undefined
-            }
-            color={
-              !props.isExist && !props.isLoading && props.code.length > 0
-                ? "danger"
-                : undefined
-            }
           />
 
           <Flex direction={"column"} gapY={3} mt={6}>
@@ -238,7 +228,7 @@ const EntryCode: FC<AsTraderReturns> = (props) => {
                 size="md"
                 className="oui-px-[40px]"
                 fullWidth
-                disabled={props.code.length < 4 || !props.isExist}
+                disabled={props.code.length < 4 || props.isMutating}
                 onClick={(e) => {
                   e.stopPropagation();
                   props.onClickConfirm();

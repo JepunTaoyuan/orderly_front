@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { useAccount } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import { useAppContext } from "@orderly.network/react-app";
@@ -6,7 +6,7 @@ import { toast, useScreen } from "@orderly.network/ui";
 import { AuthStatusEnum, useAuthStatus } from "@orderly.network/ui-connector";
 import { referralApi } from "@/services/referral.client";
 import { userApi } from "@/services/user.client";
-import { isTestCodeInDevMode } from "@/utils/testCode";
+import { isTestCodeInDevMode, setTestMode } from "@/utils/testCode";
 import { TabTypes, useReferralContext } from "../../../provider";
 
 export const useAsTraderScript = () => {
@@ -20,6 +20,7 @@ export const useAsTraderScript = () => {
     setTab,
     mutate,
     userId,
+    setOptimisticIsAffiliate,
     setOptimisticIsTrader,
   } = useReferralContext();
 
@@ -35,30 +36,7 @@ export const useAsTraderScript = () => {
   const [code, setCode] = useState("");
   const [open, setOpen] = useState(false);
 
-  const [isExist, setIsExist] = useState<boolean | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(false);
   const [isMutating, setIsMutating] = useState(false);
-
-  useEffect(() => {
-    if (!code || code.length < 4) {
-      setIsExist(undefined);
-      return;
-    }
-    setIsLoading(true);
-
-    // 測試代碼在開發模式下直接標記為存在
-    if (isTestCodeInDevMode(code)) {
-      setIsExist(true);
-      setIsLoading(false);
-      return;
-    }
-
-    referralApi
-      .verify(code)
-      .then(() => setIsExist(true))
-      .catch(() => setIsExist(false))
-      .finally(() => setIsLoading(false));
-  }, [code]);
 
   const hide = () => {
     setOpen(false);
@@ -76,12 +54,46 @@ export const useAsTraderScript = () => {
   );
 
   const onClickConfirm = async () => {
+    // 基本長度檢查
+    if (!code || code.length < 4) {
+      toast.error(
+        t("affiliate.referralCode.tooShort", "邀請碼至少需要 4 個字元"),
+      );
+      return;
+    }
+
     try {
       setIsMutating(true);
-      // 測試代碼在開發模式下跳過實際 bind
-      if (!isTestCodeInDevMode(code)) {
-        await bindReferralCode(code);
+
+      // 測試代碼處理：導航到 Affiliate 頁面（因為 TEST_USER.is_affiliate = true）
+      if (isTestCodeInDevMode(code)) {
+        toast.success(t("affiliate.referralCode.bound"));
+
+        // 設置測試模式 flag
+        setTestMode(true);
+
+        // 樂觀更新：設置 isAffiliate 為 true（測試用戶是 affiliate）
+        setOptimisticIsAffiliate?.(true);
+
+        mutate(); // 刷新數據
+
+        // 測試用戶是 affiliate，導航到 Affiliate 頁面
+        setTab(TabTypes.affiliate);
+        setShowHome(false);
+        hide();
+        return;
       }
+
+      // 先驗證邀請碼是否存在
+      try {
+        await referralApi.verify(code);
+      } catch {
+        toast.error(t("affiliate.referralCode.notExist"));
+        return;
+      }
+
+      // 驗證通過，執行綁定
+      await bindReferralCode(code);
       toast.success(t("affiliate.referralCode.bound"));
 
       // 樂觀更新：立即設置 isTrader 為 true，不等待 API 返回
@@ -134,7 +146,7 @@ export const useAsTraderScript = () => {
 
   return {
     isTrader,
-    isLoading,
+    isMutating,
     referralInfo,
     onEnterTraderPage,
     code,
@@ -142,7 +154,6 @@ export const useAsTraderScript = () => {
     open,
     setOpen,
     onClickConfirm,
-    isExist,
     wrongNetwork,
     isMobile,
     warningMessage,

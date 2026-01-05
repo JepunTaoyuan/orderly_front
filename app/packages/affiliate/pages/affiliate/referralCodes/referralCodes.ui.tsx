@@ -1,4 +1,4 @@
-import { FC, ReactNode, useMemo } from "react";
+import { FC, ReactNode, useMemo, useState, useCallback } from "react";
 import { useMediaQuery } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import {
@@ -17,11 +17,14 @@ import {
   Dialog,
   modal,
   useModal,
+  toast,
 } from "@orderly.network/ui";
 import { Decimal } from "@orderly.network/utils";
+import { referralApi } from "@/services/referral.client";
 import { EditCode } from "../../../components/editCodeBtn";
 import { EditIcon } from "../../../components/editIcon";
 import { PinBtn } from "../../../components/pinButton";
+import { useReferralContext } from "../../../provider/context";
 import { ReferralCodesReturns, ReferralCodeType } from "./referralCodes.script";
 
 export const ReferralCodes: FC<ReferralCodesReturns> = (props) => {
@@ -46,19 +49,111 @@ export const ReferralCodes: FC<ReferralCodesReturns> = (props) => {
 };
 // 新增邀請碼
 export const CreateReferralCodeModal = modal.create<{
-  mutate: any;
-  createReferralCode: () => Promise<void>;
+  mutate: () => void;
 }>((props) => {
-  const { mutate, createReferralCode } = props;
+  const { mutate } = props;
   const { visible, hide, onOpenChange } = useModal();
+  const { t } = useTranslation();
+  const { userId, userInfo } = useReferralContext();
+
+  // 從 userInfo 獲取 max_referral_rate，頂級代理預設 40% (0.4)
+  const totalRate = userInfo?.max_referral_rate ?? 0.4;
+  const totalRatePercent = totalRate * 100;
+
+  // State 管理
+  const [customCode, setCustomCode] = useState<string>("");
+  const [referrerRate, setReferrerRate] = useState<string>(
+    String((totalRatePercent / 2).toFixed(1)),
+  );
+  const [refereeRate, setRefereeRate] = useState<string>(
+    String((totalRatePercent / 2).toFixed(1)),
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // 處理 "For you" rate 變更
+  const handleReferrerRateChange = useCallback(
+    (value: string) => {
+      const numValue = parseFloat(value) || 0;
+      const clampedValue = Math.min(Math.max(0, numValue), totalRatePercent);
+      setReferrerRate(String(clampedValue));
+
+      // 自動調整 referee rate 以確保總和不超過 total
+      const currentReferee = parseFloat(refereeRate) || 0;
+      if (clampedValue + currentReferee > totalRatePercent) {
+        setRefereeRate(String((totalRatePercent - clampedValue).toFixed(1)));
+      }
+    },
+    [totalRatePercent, refereeRate],
+  );
+
+  // 處理 "For referee" rate 變更
+  const handleRefereeRateChange = useCallback(
+    (value: string) => {
+      const numValue = parseFloat(value) || 0;
+      const clampedValue = Math.min(Math.max(0, numValue), totalRatePercent);
+      setRefereeRate(String(clampedValue));
+
+      // 自動調整 referrer rate 以確保總和不超過 total
+      const currentReferrer = parseFloat(referrerRate) || 0;
+      if (currentReferrer + clampedValue > totalRatePercent) {
+        setReferrerRate(String((totalRatePercent - clampedValue).toFixed(1)));
+      }
+    },
+    [totalRatePercent, referrerRate],
+  );
+
+  // 計算當前總和
+  const currentTotal =
+    (parseFloat(referrerRate) || 0) + (parseFloat(refereeRate) || 0);
+
+  // 驗證 custom code 格式 (4-10 字元, A-Z 或 0-9)
+  const isValidCode =
+    customCode.length === 0 ||
+    (customCode.length >= 4 &&
+      customCode.length <= 10 &&
+      /^[A-Z0-9]+$/.test(customCode.toUpperCase()));
 
   const handleSubmit = async () => {
+    if (!userId) {
+      setError("User not logged in");
+      return;
+    }
+
+    if (customCode && !isValidCode) {
+      setError("Referral code must be 4-10 characters (A-Z, 0-9)");
+      return;
+    }
+
+    if (currentTotal > totalRatePercent) {
+      setError(`Total rate cannot exceed ${totalRatePercent}%`);
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
     try {
-      await createReferralCode();
+      // 調用 referralApi.createForAffiliate
+      await referralApi.createForAffiliate({
+        affiliate_id: userId,
+        fee_discount_rate: parseFloat(refereeRate) / 100,
+        custom_code: customCode.toUpperCase() || undefined,
+      });
+
+      toast.success(
+        t("affiliate.createCode.success", "Referral code created successfully"),
+      );
       mutate();
       hide();
-    } catch (error) {
-      console.error(error);
+    } catch (err: any) {
+      console.error("Failed to create referral code:", err);
+      setError(
+        err?.message ||
+          t("affiliate.createCode.error", "Failed to create referral code"),
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -69,49 +164,68 @@ export const CreateReferralCodeModal = modal.create<{
         className="oui-py-2 oui-rounded-sm"
         style={{ backgroundColor: "#0c0d10" }}
       >
-        <DialogTitle>Create a referral code</DialogTitle>
-        {/* 表單*/}
+        <DialogTitle>
+          {t("affiliate.createCode.title", "Create a referral code")}
+        </DialogTitle>
+        {/* 表單 */}
         <div className="oui-flex oui-flex-col oui-gap-6 oui-pt-5">
           {/* 總佣金 */}
           <div className="oui-flex oui-flex-col oui-gap-1">
             <div className="oui-flex oui-justify-between oui-items-center">
               <span className="oui-text-xs oui-font-semibold oui-text-white/80">
-                Total commission rate
+                {t("affiliate.createCode.totalRate", "Total commission rate")}
               </span>
               <span className="oui-text-xs oui-font-semibold oui-text-primary">
-                40%
+                {totalRatePercent.toFixed(0)}%
               </span>
             </div>
             <span className="oui-text-2xs oui-text-white/50">
-              New rates apply to new users only. Existing users are unchanged.
+              {t(
+                "affiliate.createCode.rateNote",
+                "New rates apply to new users only. Existing users are unchanged.",
+              )}
             </span>
           </div>
 
           {/* Referral code 輸入 */}
           <div className="oui-flex oui-flex-col oui-gap-1">
             <label className="oui-text-xs oui-text-white/60">
-              Referral code
+              {t("affiliate.referralCode", "Referral code")}
             </label>
             <input
               type="text"
-              placeholder="Referral code"
-              className="oui-bg-base-9 oui-w-full oui-h-10 oui-px-3 oui-bg-white/5 oui-text-white oui-rounded-md "
+              value={customCode}
+              onChange={(e) => setCustomCode(e.target.value.toUpperCase())}
+              placeholder={t(
+                "affiliate.createCode.codePlaceholder",
+                "Referral code (optional)",
+              )}
+              className="oui-bg-base-9 oui-w-full oui-h-10 oui-px-3 oui-bg-white/5 oui-text-white oui-rounded-md"
+              maxLength={10}
             />
             <span className="oui-text-2xs oui-text-white/50">
-              Use 4–10 characters: A–Z or 0–9.
+              {t(
+                "affiliate.createCode.codeHint",
+                "Use 4–10 characters: A–Z or 0–9. Leave empty for auto-generated code.",
+              )}
             </span>
           </div>
 
           {/* Rate inputs */}
           <div className="oui-flex oui-items-center oui-gap-3">
             <div className="oui-flex oui-flex-col oui-flex-1">
-              <label className="oui-text-gray-400 oui-text-xs font-semibold mb-1">
-                For you
+              <label className="oui-text-gray-400 oui-text-xs oui-font-semibold oui-mb-1">
+                {t("affiliate.createCode.forYou", "For you")}
               </label>
               <div className="oui-bg-base-9 oui-flex oui-items-center oui-bg-base-8 oui-rounded-md oui-px-3 oui-py-2">
                 <input
-                  type="text"
-                  className="oui-bg-base-9 oui-text-white oui-text-lg oui-font-bold oui-w-full oui-outline-none"
+                  type="number"
+                  value={referrerRate}
+                  onChange={(e) => handleReferrerRateChange(e.target.value)}
+                  min={0}
+                  max={totalRatePercent}
+                  step={0.1}
+                  className="oui-bg-transparent oui-text-white oui-text-lg oui-font-bold oui-w-full oui-outline-none"
                 />
                 <span className="oui-text-gray-400 oui-font-medium">%</span>
               </div>
@@ -122,13 +236,18 @@ export const CreateReferralCodeModal = modal.create<{
             </div>
 
             <div className="oui-flex oui-flex-col oui-flex-1">
-              <label className="oui-text-gray-400 oui-text-xs font-semibold mb-1">
-                For referee
+              <label className="oui-text-gray-400 oui-text-xs oui-font-semibold oui-mb-1">
+                {t("affiliate.createCode.forReferee", "For referee")}
               </label>
               <div className="oui-border oui-border-line-12 oui-bg-base-9 oui-flex oui-items-center oui-bg-base-8 oui-rounded-md oui-px-3 oui-py-2">
                 <input
-                  type="text"
-                  className="oui-bg-base-9 oui-bg-transparent oui-text-white oui-text-lg oui-font-bold oui-w-full oui-outline-none"
+                  type="number"
+                  value={refereeRate}
+                  onChange={(e) => handleRefereeRateChange(e.target.value)}
+                  min={0}
+                  max={totalRatePercent}
+                  step={0.1}
+                  className="oui-bg-transparent oui-text-white oui-text-lg oui-font-bold oui-w-full oui-outline-none"
                 />
                 <span className="oui-text-gray-400 oui-font-medium">%</span>
               </div>
@@ -138,10 +257,22 @@ export const CreateReferralCodeModal = modal.create<{
               =
             </div>
 
-            <div className="oui-text-primary oui-font-bold oui-text-md oui-flex oui-items-end oui-h-11">
-              40%
+            <div
+              className={cn(
+                "oui-font-bold oui-text-md oui-flex oui-items-end oui-h-11",
+                currentTotal > totalRatePercent
+                  ? "oui-text-danger"
+                  : "oui-text-primary",
+              )}
+            >
+              {currentTotal.toFixed(0)}%
             </div>
           </div>
+
+          {/* 錯誤訊息 */}
+          {error && (
+            <span className="oui-text-danger oui-text-sm">{error}</span>
+          )}
         </div>
         <div className="oui-flex oui-gap-2 oui-justify-end oui-w-full oui-py-5">
           <Button
@@ -149,14 +280,21 @@ export const CreateReferralCodeModal = modal.create<{
             color="gray"
             className="oui-rounded-full oui-text-base-contrast-54 oui-flex-1"
             onClick={hide}
+            disabled={isLoading}
           >
-            cancel
+            {t("common.cancel", "Cancel")}
           </Button>
           <Button
             className="oui-flex-1 oui-rounded-full oui-text-white"
             onClick={handleSubmit}
+            disabled={
+              isLoading ||
+              currentTotal > totalRatePercent ||
+              (customCode.length > 0 && !isValidCode)
+            }
+            loading={isLoading}
           >
-            create
+            {t("common.create", "Create")}
           </Button>
         </div>
       </DialogContent>
@@ -169,7 +307,6 @@ const Title: FC<ReferralCodesReturns> = (props) => {
   const handleCreate = () => {
     modal.show(CreateReferralCodeModal, {
       mutate: props.mutate,
-      createReferralCode: props.createReferralCode,
     });
   };
   return (

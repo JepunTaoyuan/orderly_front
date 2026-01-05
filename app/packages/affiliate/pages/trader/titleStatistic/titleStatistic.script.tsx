@@ -1,8 +1,10 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { format, subDays } from "date-fns";
 import { VolChartDataItem } from "@orderly.network/chart";
 import { useRefereeRebateSummary } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
+import { RebateHistoryItem } from "@/services/api-refer-client";
+import { commissionApi } from "@/services/commission.client";
 import { useReferralContext } from "../../../provider";
 import { fillData } from "../../../utils/chartUtils";
 import { BarDayFilter } from "../../../utils/types";
@@ -19,6 +21,12 @@ export type TitleStatisticReturns = {
 
 export const useTitleStatisticScript = (): TitleStatisticReturns => {
   const { t } = useTranslation();
+  const {
+    userId,
+    rebateHistory: contextHistory,
+    dailyVolume,
+    dailyVolumeData,
+  } = useReferralContext();
   const [period, setPeriod] = useState<BarDayFilter>("7");
 
   const periodTypes = [
@@ -42,8 +50,8 @@ export const useTitleStatisticScript = (): TitleStatisticReturns => {
   };
 
   const dateRange = useMemo((): {
-    startDate?: Date;
-    endDate?: Date;
+    startDate: Date;
+    endDate: Date;
   } => {
     if (period === "7") {
       return {
@@ -68,11 +76,45 @@ export const useTitleStatisticScript = (): TitleStatisticReturns => {
     }
   }, [period]);
 
-  const { data: distributionData, mutate } = useRefereeRebateSummary(dateRange);
-  const { dailyVolume, chartConfig } = useReferralContext();
+  // orderly_refer API 數據
+  const [apiHistory, setApiHistory] = useState<RebateHistoryItem[]>([]);
+
+  const fetchHistory = useCallback(async () => {
+    if (!userId) return;
+    try {
+      const response = await commissionApi.getRebateHistory(userId, {
+        startDate: format(dateRange.startDate, "yyyy-MM-dd"),
+        endDate: format(dateRange.endDate, "yyyy-MM-dd"),
+        pageSize: Number(period),
+      });
+      setApiHistory(response.data || []);
+    } catch {
+      setApiHistory([]);
+    }
+  }, [userId, dateRange.startDate, dateRange.endDate, period]);
+
+  useEffect(() => {
+    fetchHistory();
+  }, [fetchHistory]);
+
+  // Legacy Orderly API (回退)
+  const { data: distributionData } = useRefereeRebateSummary({
+    startDate: dateRange.startDate,
+    endDate: dateRange.endDate,
+  });
 
   const dataSource = useMemo(() => {
     if (volType === "rebate") {
+      // 優先使用 orderly_refer API
+      if (apiHistory.length > 0) {
+        return apiHistory
+          .map((e) => ({
+            date: e.date,
+            volume: e.referee_rebate,
+          }))
+          .reverse();
+      }
+      // 回退到 Orderly API
       const newData = distributionData || [];
       return newData
         .map((e) => ({
@@ -81,11 +123,27 @@ export const useTitleStatisticScript = (): TitleStatisticReturns => {
         }))
         .reverse();
     } else if (volType === "volume") {
+      // 優先使用 orderly_refer dailyVolumeData
+      if (dailyVolumeData && dailyVolumeData.length > 0) {
+        return dailyVolumeData
+          .filter((e) => {
+            return (
+              e.date >
+              format(subDays(new Date(), Number(period) + 1), "yyyy-MM-dd")
+            );
+          })
+          .map((e) => ({
+            date: e.date,
+            volume: e.volume,
+          }));
+      }
+      // 回退到 Orderly API dailyVolume
       return (
         dailyVolume
           ?.filter((e) => {
             return (
-              e.date > format(subDays(Date(), Number(period) + 1), "yyyy-MM-dd")
+              e.date >
+              format(subDays(new Date(), Number(period) + 1), "yyyy-MM-dd")
             );
           })
           .map((e) => ({
@@ -96,7 +154,14 @@ export const useTitleStatisticScript = (): TitleStatisticReturns => {
     } else {
       return [];
     }
-  }, [distributionData, dailyVolume, volType]);
+  }, [
+    apiHistory,
+    distributionData,
+    dailyVolumeData,
+    dailyVolume,
+    volType,
+    period,
+  ]);
 
   return {
     period,

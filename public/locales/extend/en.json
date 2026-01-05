@@ -2,6 +2,32 @@
   "extend.tradingRewards.description": "Trade with Orderly to earn ORDER",
   "extend.affiliate.tag": "40% Rebate",
   "extend.affiliate.description": "Earn more as a Orderly affiliate",
+  "affiliate": {
+    "editModal": {
+      "editInvitee": "Edit Invitee",
+      "totalCommissionRate": "Total commission rate",
+      "noteOptional": "Note (Optional)",
+      "notePlaceholder": "Note (Optional)",
+      "forYou": "For you",
+      "forInvitee": "For invitee",
+      "upgradeSubAgent": "Upgrade Sub-Agent",
+      "forSubAgent": "For Sub-Agent",
+      "upgrade": "Upgrade",
+      "error": "Failed to update. Please try again.",
+      "upgradeError": "Failed to upgrade. Please try again."
+    },
+    "createCode": {
+      "title": "Create a referral code",
+      "totalRate": "Total commission rate",
+      "rateNote": "New rates apply to new users only. Existing users are unchanged.",
+      "codePlaceholder": "Referral code (optional)",
+      "codeHint": "Use 4–10 characters: A–Z or 0–9. Leave empty for auto-generated code.",
+      "forYou": "For you",
+      "forReferee": "For referee",
+      "success": "Referral code created successfully",
+      "error": "Failed to create referral code"
+    }
+  },
   "extend.staking": "Staking",
   "extend.staking.description": "Stake ORDER/esORDER to acquire VALOR",
   "common": {

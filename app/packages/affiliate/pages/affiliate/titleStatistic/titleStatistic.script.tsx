@@ -1,7 +1,10 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { format, subDays } from "date-fns";
 import { RefferalAPI, useReferralRebateSummary } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
+import { CommissionHistoryItem } from "@/services/api-refer-client";
+import { commissionApi } from "@/services/commission.client";
+import { useReferralContext } from "../../../provider";
 import { fillData } from "../../../utils/chartUtils";
 
 export type TitleStatisticReturns = {
@@ -19,6 +22,7 @@ export type TitleStatisticReturns = {
 
 export const useTitleStatisticScript = (): TitleStatisticReturns => {
   const { t } = useTranslation();
+  const { userId, commissionHistory: contextHistory } = useReferralContext();
 
   const [period, setPeriod] = useState("7");
 
@@ -69,6 +73,28 @@ export const useTitleStatisticScript = (): TitleStatisticReturns => {
     }
   }, [period]);
 
+  // orderly_refer API 數據
+  const [apiHistory, setApiHistory] = useState<CommissionHistoryItem[]>([]);
+
+  const fetchHistory = useCallback(async () => {
+    if (!userId) return;
+    try {
+      const response = await commissionApi.getCommissionHistory(userId, {
+        startDate: format(dateRange.startDate, "yyyy-MM-dd"),
+        endDate: format(dateRange.endDate, "yyyy-MM-dd"),
+        pageSize: Number(period),
+      });
+      setApiHistory(response.data || []);
+    } catch {
+      setApiHistory([]);
+    }
+  }, [userId, dateRange.startDate, dateRange.endDate, period]);
+
+  useEffect(() => {
+    fetchHistory();
+  }, [fetchHistory]);
+
+  // Legacy Orderly API (回退)
   const [rebateSummary] = useReferralRebateSummary({
     startDate: format(dateRange.startDate, "yyyy-MM-dd"),
     endDate: format(dateRange.endDate, "yyyy-MM-dd"),
@@ -76,6 +102,18 @@ export const useTitleStatisticScript = (): TitleStatisticReturns => {
   });
 
   const dataSource = useMemo(() => {
+    // 優先使用 orderly_refer API
+    if (apiHistory.length > 0) {
+      return apiHistory
+        .map((e) => ({
+          date: e.date,
+          volume:
+            volType === "Commission" ? e.referral_rebate : e.referral_volume,
+        }))
+        .reverse();
+    }
+
+    // 回退到 Orderly API
     return (
       (rebateSummary as RefferalAPI.ReferralRebateSummary[] | null)?.map(
         (e) => ({
@@ -84,7 +122,7 @@ export const useTitleStatisticScript = (): TitleStatisticReturns => {
         }),
       ) || []
     ).reverse();
-  }, [rebateSummary, volType]);
+  }, [apiHistory, rebateSummary, volType]);
 
   return {
     period,

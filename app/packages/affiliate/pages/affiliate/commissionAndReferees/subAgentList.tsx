@@ -2,23 +2,19 @@ import { FC, useMemo } from "react";
 import { useMediaQuery } from "@orderly.network/hooks";
 import { useTranslation } from "@orderly.network/i18n";
 import {
-  Divider,
   Flex,
   ListView,
   Statistic,
   Column,
   Text,
   cn,
-  Button,
 } from "@orderly.network/ui";
 import { AuthGuardDataTable } from "@orderly.network/ui-connector";
 import { commifyOptional } from "@orderly.network/utils";
 import { SubAffiliateItem } from "@/services/api-refer-client";
 import { SubAgentReturns } from "./commissionAndReferees.script";
 
-interface SubAgentListProps extends SubAgentReturns {
-  onEdit?: (item: SubAffiliateItem) => void;
-}
+type SubAgentListProps = SubAgentReturns;
 
 const MobileCellItem: FC<{
   title: string;
@@ -49,17 +45,6 @@ const MobileCellItem: FC<{
         </Text.formatted>
       }
     />
-  );
-};
-
-const EditButton: FC<{ onClick: () => void }> = ({ onClick }) => {
-  return (
-    <button
-      onClick={onClick}
-      className="oui-h-[28px] oui-rounded-full oui-bg-[#6e55df] oui-px-4 oui-text-[11px] oui-text-white oui-font-semibold oui-leading-[18px] hover:oui-opacity-80 oui-transition-opacity"
-    >
-      Edit
-    </button>
   );
 };
 
@@ -125,18 +110,10 @@ export const SubAgentList: FC<SubAgentListProps> = (props) => {
         ),
         className: "oui-w-[13%]",
       },
-      {
-        title: t("affiliate.subAgent.operation", "Operation"),
-        dataIndex: "user_id",
-        render: (_, record) => (
-          <EditButton onClick={() => props.onEdit?.(record)} />
-        ),
-        className: "oui-w-[10%]",
-      },
     ];
 
     return cols;
-  }, [t, props.onEdit]);
+  }, [t]);
 
   const body = useMemo(() => {
     if (isLG) {
@@ -153,7 +130,7 @@ export const SubAgentList: FC<SubAgentListProps> = (props) => {
                 gap={3}
                 className="oui-border-b-2 oui-border-line-6 oui-pb-3"
               >
-                <Flex direction={"row"} width={"100%"}>
+                <Flex direction={"row"} width={"100%"} gap={2}>
                   <MobileCellItem
                     title={t("affiliate.subAgent.address", "Sub-agent address")}
                     value={e.wallet_address}
@@ -168,7 +145,7 @@ export const SubAgentList: FC<SubAgentListProps> = (props) => {
                     align="end"
                   />
                 </Flex>
-                <Flex direction={"row"} width={"100%"}>
+                <Flex direction={"row"} width={"100%"} gap={2}>
                   <MobileCellItem
                     title={`${t("affiliate.subAgent.totalCommission", "Total commission")} (USDC)`}
                     value={commifyOptional(e.total_commission, {
@@ -187,7 +164,7 @@ export const SubAgentList: FC<SubAgentListProps> = (props) => {
                     align="end"
                   />
                 </Flex>
-                <Flex direction={"row"} width={"100%"} itemAlign="center">
+                <Flex direction={"row"} width={"100%"} gap={2}>
                   <MobileCellItem
                     title={t(
                       "affiliate.subAgent.commissionRate",
@@ -195,7 +172,6 @@ export const SubAgentList: FC<SubAgentListProps> = (props) => {
                     )}
                     value={`${(e.commission_rate_you * 100).toFixed(1)}% | ${(e.commission_rate_sub * 100).toFixed(1)}%`}
                   />
-                  <EditButton onClick={() => props.onEdit?.(e)} />
                 </Flex>
                 {e.note && (
                   <MobileCellItem
@@ -225,15 +201,7 @@ export const SubAgentList: FC<SubAgentListProps> = (props) => {
         }}
       />
     );
-  }, [
-    isLG,
-    props.data,
-    props.isLoading,
-    props.pagination,
-    columns,
-    props.onEdit,
-    t,
-  ]);
+  }, [isLG, props.data, props.isLoading, props.pagination, columns, t]);
 
   return (
     <Flex

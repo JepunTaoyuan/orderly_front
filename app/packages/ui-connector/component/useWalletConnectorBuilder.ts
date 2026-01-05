@@ -7,7 +7,7 @@ import {
 import { useTranslation } from "@orderly.network/i18n";
 import { toast } from "@orderly.network/ui";
 import { referralApi } from "@/services/referral.client";
-import { isTestCodeInDevMode } from "@/utils/testCode";
+import { isTestCodeInDevMode, setTestMode } from "@/utils/testCode";
 
 export const useWalletConnectorBuilder = () => {
   const { account, state, createOrderlyKey, createAccount } = useAccount();
@@ -43,6 +43,8 @@ export const useWalletConnectorBuilder = () => {
           localStorage.removeItem("referral_code");
         });
       } else {
+        // 設置測試模式 flag
+        setTestMode(true);
         localStorage.removeItem("referral_code");
       }
     }
