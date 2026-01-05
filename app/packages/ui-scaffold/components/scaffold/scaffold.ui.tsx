@@ -58,6 +58,7 @@ export const DesktopScaffold: React.FC<DesktopScaffoldProps> = (props) => {
     footerProps,
     children,
   } = props;
+
   return (
     <div
       style={{

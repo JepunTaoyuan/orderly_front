@@ -29,6 +29,9 @@ export const BaseLayout: FC<BaseLayoutProps> = (props) => {
 
   const { onRouteChange } = useNav();
 
+  // 檢查是否為 landing page
+  const isLandingPage =
+    location.pathname === "/" || location.pathname.includes("landing");
   return (
     <Scaffold
       mainNavProps={{
@@ -54,7 +57,7 @@ export const BaseLayout: FC<BaseLayoutProps> = (props) => {
               icon: <MarketsIcon />,
             },
             {
-              name: t("common.affiliate"),
+              name: "Rewards",
               href: "/rewards/affiliate",
               icon: <RewardsIcon />,
             },
@@ -85,14 +88,14 @@ export const BaseLayout: FC<BaseLayoutProps> = (props) => {
           feedbackUrl: "https://orderly.network/feedback",
         },
       }}
-      footer={<CustomFooter {...config.scaffold.footerProps} />}
+      footer={null}
       bottomNavProps={bottomNavProps}
       routerAdapter={{
         onRouteChange,
       }}
       classNames={{
         ...props.classNames,
-        footer: "oui-border-none oui-bg-base-9",
+        footer: `${isLandingPage ? "oui-hidden" : "oui-border-none oui-bg-base-9"}`,
       }}
     >
       {props.children}
