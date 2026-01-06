@@ -3,5 +3,8 @@
   "extend.affiliate.tag": "40% di Rimborso",
   "extend.affiliate.description": "Guadagna di più come affiliato Orderly",
   "extend.staking": "Staking",
-  "extend.staking.description": "Fai staking di ORDER/esORDER per ottenere VALOR"
+  "extend.staking.description": "Fai staking di ORDER/esORDER per ottenere VALOR",
+  "common": {
+    "swap": "Swap"
+  }
 }

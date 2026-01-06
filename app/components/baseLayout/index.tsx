@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { useTranslation } from "@orderly.network/i18n";
+import { i18n } from "@orderly.network/i18n";
 import { VaultsIcon } from "@orderly.network/ui";
 import { CustomFooter } from "@/components/custom/customFooter";
 import { PathEnum } from "@/constant";
@@ -12,6 +13,7 @@ import { MarketsIcon } from "../icons/marketsIcon";
 import { PortfolioIcon } from "../icons/portfolioIcon";
 import { RewardsIcon } from "../icons/rewardsIcon";
 import { StrategyIcon } from "../icons/strategyIcon";
+import { SwapIcon } from "../icons/swapIcon";
 import { TradingIcon } from "../icons/tradingIcon";
 
 export type BaseLayoutProps = {
@@ -80,6 +82,11 @@ export const BaseLayout: FC<BaseLayoutProps> = (props) => {
               name: t("common.vaults"),
               href: "/vaults",
               icon: <VaultsIcon />,
+            },
+            {
+              name: t("common.swap"),
+              href: "/swap",
+              icon: <SwapIcon />,
             },
           ],
           telegramUrl: "https://t.me/orderlynetwork",

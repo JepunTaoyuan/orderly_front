@@ -31,6 +31,7 @@
   "extend.staking": "质押",
   "extend.staking.description": "质押 ORDER/esORDER 以获取 VALOR",
   "common": {
+    "swap": "交换",
     "strategy": "策略交易",
     "strategy.comingSoon": "即將推出",
     "strategy.apikey1": "要使用策略交易或其他我們提供的服務（包括點數計算），我們需要您的 API 密鑰來啟用。",

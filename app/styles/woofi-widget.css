@@ -1,0 +1,256 @@
+/* WooFi Widget Color Overrides - DEXless Theme */
+
+.el-button.el-button--primary {
+  background: linear-gradient(
+    90deg,
+    rgb(82, 65, 158),
+    rgb(127, 251, 255)
+  ) !important;
+  border-color: transparent !important;
+  color: rgba(255, 255, 255, 1) !important;
+  border-radius: 50px !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+
+.el-button.el-button--primary:hover {
+  background: linear-gradient(
+    90deg,
+    rgb(110, 85, 223),
+    rgb(156, 241, 255)
+  ) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(127, 251, 255, 0.3) !important;
+}
+
+.el-button.el-button--primary:active {
+  transform: translateY(0) !important;
+}
+
+.el-button.el-button--primary.is-disabled {
+  background: rgb(var(--oui-color-base-3)) !important;
+  border-color: rgb(var(--oui-color-base-3)) !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+.dex .swap {
+  background: rgba(12, 13, 16, 0.8) !important;
+  backdrop-filter: blur(20px) !important;
+  border-radius: 20px !important;
+  border: 1px solid rgba(127, 251, 255, 0.1) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dex .swap .block {
+  background: rgba(29, 26, 38, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 16px !important;
+  transition: all 0.3s ease !important;
+}
+
+.dex .swap .block:hover {
+  background: rgba(36, 32, 47, 0.8) !important;
+  border-color: rgba(127, 251, 255, 0.15) !important;
+}
+
+.el-dialog {
+  background: rgba(12, 13, 16, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border-radius: 20px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+}
+
+.el-dialog__header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding: 20px 24px !important;
+}
+
+.el-dialog__title {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
+
+.el-dialog__body {
+  padding: 24px !important;
+}
+
+.coin-input .input-main {
+  background: rgba(12, 13, 16, 0.6) !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  transition: all 0.3s ease !important;
+}
+
+.coin-input .input-main:hover,
+.coin-input .input-main:focus-within {
+  background: rgba(29, 26, 38, 0.8) !important;
+  border-color: rgba(127, 251, 255, 0.2) !important;
+}
+
+.dex .swap input {
+  background: transparent !important;
+  color: rgb(var(--oui-color-base-foreground)) !important;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+}
+
+.dex .swap input::placeholder {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.dex .swap input:focus {
+  outline: none !important;
+}
+
+.el-select .el-input__inner {
+  background: rgba(12, 13, 16, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 8px !important;
+}
+
+.el-select .el-input__inner:hover,
+.el-select .el-input__inner:focus {
+  border-color: rgba(127, 251, 255, 0.2) !important;
+}
+
+.el-select-dropdown {
+  background: rgba(12, 13, 16, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+}
+
+.el-select-dropdown__item {
+  color: rgba(255, 255, 255, 0.7) !important;
+  transition: all 0.2s ease !important;
+}
+
+.el-select-dropdown__item:hover {
+  background: rgba(127, 251, 255, 0.1) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.el-select-dropdown__item.selected {
+  color: rgb(127, 251, 255) !important;
+  background: rgba(127, 251, 255, 0.15) !important;
+}
+
+.dex .swap .token-select .token-select-button {
+  background: rgba(12, 13, 16, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  transition: all 0.3s ease !important;
+}
+
+.dex .swap .token-select .token-select-button:hover {
+  border-color: rgba(127, 251, 255, 0.2) !important;
+  background: rgba(29, 26, 38, 0.8) !important;
+}
+
+.dex .swap .swap-rate {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: 14px !important;
+}
+
+.dex .swap .swap-direction {
+  background: rgba(12, 13, 16, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.dex .swap .swap-direction svg {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.dex .swap .swap-direction:hover {
+  border-color: rgba(127, 251, 255, 0.2) !important;
+}
+
+.dex .swap .swap-direction:hover svg {
+  color: rgb(127, 251, 255) !important;
+}
+
+.dex .swap .balance {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: 12px !important;
+}
+
+.dex .swap .balance span {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.dex .swap .max-button {
+  background: rgba(127, 251, 255, 0.1) !important;
+  color: rgb(127, 251, 255) !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  padding: 2px 8px !important;
+  transition: all 0.2s ease !important;
+}
+
+.dex .swap .max-button:hover {
+  background: rgba(127, 251, 255, 0.2) !important;
+}
+
+.el-message {
+  background: rgba(12, 13, 16, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
+.el-message--success {
+  background: rgba(0, 161, 120, 0.1) !important;
+  border-color: rgba(41, 233, 169, 0.3) !important;
+}
+
+.el-message--error {
+  background: rgba(237, 72, 122, 0.1) !important;
+  border-color: rgba(245, 97, 139, 0.3) !important;
+}
+
+.el-message--warning {
+  background: rgba(255, 152, 0, 0.1) !important;
+  border-color: rgba(255, 209, 70, 0.3) !important;
+}
+
+.dex .swap .token-list-item {
+  background: rgba(12, 13, 16, 0.6) !important;
+  border: 1px solid transparent !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+}
+
+.dex .swap .token-list-item:hover {
+  background: rgba(127, 251, 255, 0.08) !important;
+  border-color: rgba(127, 251, 255, 0.15) !important;
+}
+
+.dex .swap .token-list-item.selected {
+  background: rgba(127, 251, 255, 0.12) !important;
+  border-color: rgba(127, 251, 255, 0.25) !important;
+}
+
+.dex .swap .search-input {
+  background: rgba(12, 13, 16, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dex .swap .search-input::placeholder {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.dex .swap .search-input:focus {
+  outline: none !important;
+  border-color: rgba(127, 251, 255, 0.2) !important;
+}

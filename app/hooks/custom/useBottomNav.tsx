@@ -27,6 +27,7 @@ import {
   RewardsIcon,
   RewardsActiveIcon,
 } from "../../components/icons/rewardsIcon";
+import { SwapIcon, SwapActiveIcon } from "../../components/icons/swapIcon";
 import {
   TradingIcon,
   TradingActiveIcon,
@@ -67,6 +68,12 @@ export const useBottomNav = (): BottomNavProps => {
           href: "/leaderboard",
           activeIcon: <LeaderboardActiveIcon />,
           inactiveIcon: <LeaderboardIcon />,
+        },
+        {
+          name: t("common.swap"),
+          href: "/swap",
+          activeIcon: <SwapActiveIcon />,
+          inactiveIcon: <SwapIcon />,
         },
       ],
     }),
