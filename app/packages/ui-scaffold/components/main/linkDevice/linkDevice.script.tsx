@@ -6,6 +6,7 @@ import {
   useTrack,
 } from "@orderly.network/hooks";
 import { TrackerEventName } from "@orderly.network/types";
+import { useScreen } from "@orderly.network/ui";
 
 export type UseLinkDeviceScriptReturn = ReturnType<typeof useLinkDeviceScript>;
 
@@ -20,7 +21,7 @@ export function useLinkDeviceScript() {
   const [url, setUrl] = useState("");
   const ee = useEventEmitter();
   const { track } = useTrack();
-
+  const { isMobile } = useScreen();
   const { state, account } = useAccount();
 
   const [_, { findByChainId }] = useChains(undefined, {
@@ -42,11 +43,11 @@ export function useLinkDeviceScript() {
       const res = await account.createApiKey(30);
       setSecretKey(res.secretKey);
       setLoading(false);
-
       track(TrackerEventName.signLinkDeviceMessageSuccess, createTrackParams());
     } catch (e) {
       console.error("getOrderlyKey", e);
 
+      // 檢測是否為行動裝置簽名問題
       if (e instanceof Error) {
         if (
           e.message.indexOf(
@@ -58,10 +59,50 @@ export function useLinkDeviceScript() {
             userAddress: account.address,
           });
         }
+
+        // 新增行動裝置簽名錯誤處理
+        if (
+          e.message.indexOf("user rejected action") !== -1 ||
+          e.message.indexOf("User denied") !== -1 ||
+          // 檢測行動裝置特定錯誤
+          (isMobile && e.message.indexOf("signature") !== -1)
+        ) {
+          // 顯示行動裝置專用的錯誤訊息或替代方案
+          ee.emit("wallet:sign-message-mobile-error", {
+            message: "行動裝置簽名失敗，請嘗試重新整理頁面或使用桌面版",
+            userAddress: account.address,
+          });
+        }
       }
       hideDialog();
     }
   }, [account]);
+
+  // const getOrderlyKey = useCallback(async () => {
+  //   try {
+  //     const res = await account.createApiKey(30);
+  //     setSecretKey(res.secretKey);
+  //     setLoading(false);
+
+  //     track(TrackerEventName.signLinkDeviceMessageSuccess, createTrackParams());
+  //   } catch (e) {
+  //     console.error("getOrderlyKey", e);
+
+  //     if (e instanceof Error) {
+  //       if (
+  //         e.message.indexOf(
+  //           "Signing off chain messages with Ledger is not yet supported",
+  //         ) !== -1
+  //       ) {
+  //         ee.emit("wallet:sign-message-with-ledger-error", {
+  //           message: e.message,
+  //           userAddress: account.address,
+  //         });
+  //       }
+  //     }
+  //     hideDialog();
+  //   }
+  // }, [account]);
 
   const showDialog = useCallback(() => {
     setOpen(true);

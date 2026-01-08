@@ -143,7 +143,7 @@ export const MobilePositionHistory: FC<
       className="oui-w-full oui-grid-rows-[auto,1fr]"
       gap={1}
     >
-      <Flex gap={2} p={2} className="oui-bg-base-10">
+      <Flex gap={2} p={2} className="oui-bg-base-9">
         <DataFilter
           className="oui-border-none oui-py-0"
           items={props.filterItems}
