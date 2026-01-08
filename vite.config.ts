@@ -46,6 +46,23 @@ export default defineConfig(() => {
     ssr: {
       noExternal,
       // noExternal: [/^@orderly.*$/, "ethers"],
+      external: [
+        "@solana/web3.js",
+        "woofi-swap-widget-kit",
+        "woofi-swap-widget-kit/react",
+      ],
+    },
+    optimizeDeps: {
+      include: [
+        "@solana/web3.js",
+        "woofi-swap-widget-kit",
+        "woofi-swap-widget-kit/react",
+      ],
+      esbuildOptions: {
+        define: {
+          global: "globalThis",
+        },
+      },
     },
     plugins: [
       remix({
@@ -60,10 +77,35 @@ export default defineConfig(() => {
       }),
       tsconfigPaths(),
       cjsInterop({
-        dependencies: ["bs58", "@coral-xyz/anchor", "lodash"],
+        dependencies: [
+          "bs58",
+          "@coral-xyz/anchor",
+          "lodash",
+          "@solana/web3.js",
+          "woofi-swap-widget-kit",
+          "woofi-swap-widget-kit/react",
+        ],
       }),
       nodePolyfills({
-        include: ["buffer", "crypto"],
+        include: [
+          "buffer",
+          "crypto",
+          "stream",
+          "util",
+          "process",
+          "events",
+          "assert",
+          "http",
+          "https",
+          "os",
+          "url",
+          "zlib",
+        ],
+        globals: {
+          Buffer: true,
+          global: true,
+          process: true,
+        },
       }),
     ],
   };

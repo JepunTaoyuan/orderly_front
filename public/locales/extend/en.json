@@ -32,6 +32,7 @@
   "extend.staking.description": "Stake ORDER/esORDER to acquire VALOR",
   "common": {
     "strategy": "Strategy",
+    "swap": "Swap",
     "strategy.comingSoon": "Coming Soon",
     "strategy.apikey1": "To use automated trading strategies or other services that we provide ( including points calculation ), we need your api key to enable.",
     "strategy.apikey2": "The following api key scopes will be applied:",
