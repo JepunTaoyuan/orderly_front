@@ -50,6 +50,9 @@ export default defineConfig(() => {
         "@solana/web3.js",
         "woofi-swap-widget-kit",
         "woofi-swap-widget-kit/react",
+        "stream-browserify",
+        "inherits",
+        "readable-stream",
       ],
     },
     optimizeDeps: {
@@ -90,7 +93,6 @@ export default defineConfig(() => {
         include: [
           "buffer",
           "crypto",
-          "stream",
           "util",
           "process",
           "events",
@@ -106,6 +108,7 @@ export default defineConfig(() => {
           global: true,
           process: true,
         },
+        protocolImports: true,
       }),
     ],
   };
