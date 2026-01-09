@@ -41,7 +41,7 @@ export default defineConfig(() => {
           __dirname,
           "app/packages/ui-leverage",
         ),
-        // Use Node.js native stream module for SSR compatibility
+
         stream: "node:stream",
       },
     },
@@ -68,6 +68,7 @@ export default defineConfig(() => {
           global: "globalThis",
         },
       },
+      exclude: ["react/jsx-dev-runtime", "react/jsx-runtime"],
     },
     plugins: [
       remix({
