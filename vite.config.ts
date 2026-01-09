@@ -1,9 +1,62 @@
 import { vitePlugin as remix } from "@remix-run/dev";
 import path from "path";
-import { defineConfig } from "vite";
+import { defineConfig, Plugin } from "vite";
 import { cjsInterop } from "vite-plugin-cjs-interop";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import tsconfigPaths from "vite-tsconfig-paths";
+
+// Custom plugin to provide stream polyfill for client builds only
+function clientStreamPolyfill(): Plugin {
+  const virtualModuleId = "virtual:stream-polyfill";
+  const resolvedVirtualModuleId = "\0" + virtualModuleId;
+
+  // Minimal stream shim for browser
+  const streamShimCode = `
+    class EventEmitter {
+      constructor() { this._events = {}; }
+      on(e, fn) { (this._events[e] = this._events[e] || []).push(fn); return this; }
+      emit(e, ...args) { (this._events[e] || []).forEach(fn => fn(...args)); return true; }
+      removeListener(e, fn) { this._events[e] = (this._events[e] || []).filter(f => f !== fn); return this; }
+      once(e, fn) { const onceFn = (...args) => { this.removeListener(e, onceFn); fn(...args); }; return this.on(e, onceFn); }
+    }
+    class Stream extends EventEmitter {
+      constructor() { super(); this.readable = true; this.writable = true; }
+      pipe(dest) { return dest; }
+      read() { return null; }
+      write() { return true; }
+      end() {}
+      destroy() {}
+    }
+    export class Readable extends Stream {}
+    export class Writable extends Stream {}
+    export class Duplex extends Stream {}
+    export class Transform extends Stream {}
+    export class PassThrough extends Stream {}
+    export { Stream };
+    export default { Stream, Readable, Writable, Duplex, Transform, PassThrough };
+  `;
+
+  return {
+    name: "client-stream-polyfill",
+    enforce: "pre",
+    resolveId(id, importer, options) {
+      // Only apply to client builds (not SSR)
+      if (options?.ssr) return null;
+
+      // Intercept stream imports for client
+      if (id === "stream" || id === "node:stream") {
+        return resolvedVirtualModuleId;
+      }
+      return null;
+    },
+    load(id) {
+      if (id === resolvedVirtualModuleId) {
+        return streamShimCode;
+      }
+      return null;
+    },
+  };
+}
 
 declare module "@remix-run/node" {
   interface Future {
@@ -41,8 +94,6 @@ export default defineConfig(() => {
           __dirname,
           "app/packages/ui-leverage",
         ),
-
-        stream: "node:stream",
       },
     },
     ssr: {
@@ -67,10 +118,50 @@ export default defineConfig(() => {
         define: {
           global: "globalThis",
         },
+        plugins: [
+          {
+            name: "stream-polyfill",
+            setup(build) {
+              // Provide a minimal stream shim for browser
+              build.onResolve({ filter: /^stream$|^node:stream$/ }, () => ({
+                path: "stream-shim",
+                namespace: "stream-shim",
+              }));
+              build.onLoad({ filter: /.*/, namespace: "stream-shim" }, () => ({
+                contents: `
+                    class EventEmitter {
+                      constructor() { this._events = {}; }
+                      on(e, fn) { (this._events[e] = this._events[e] || []).push(fn); return this; }
+                      emit(e, ...args) { (this._events[e] || []).forEach(fn => fn(...args)); return true; }
+                      removeListener(e, fn) { this._events[e] = (this._events[e] || []).filter(f => f !== fn); return this; }
+                      once(e, fn) { const onceFn = (...args) => { this.removeListener(e, onceFn); fn(...args); }; return this.on(e, onceFn); }
+                    }
+                    class Stream extends EventEmitter {
+                      constructor() { super(); this.readable = true; this.writable = true; }
+                      pipe(dest) { return dest; }
+                      read() { return null; }
+                      write() { return true; }
+                      end() {}
+                      destroy() {}
+                    }
+                    export class Readable extends Stream {}
+                    export class Writable extends Stream {}
+                    export class Duplex extends Stream {}
+                    export class Transform extends Stream {}
+                    export class PassThrough extends Stream {}
+                    export { Stream };
+                    export default { Stream, Readable, Writable, Duplex, Transform, PassThrough };
+                  `,
+                loader: "js",
+              }));
+            },
+          },
+        ],
       },
       exclude: ["react/jsx-dev-runtime", "react/jsx-runtime"],
     },
     plugins: [
+      clientStreamPolyfill(),
       remix({
         ssr: true,
         future: {

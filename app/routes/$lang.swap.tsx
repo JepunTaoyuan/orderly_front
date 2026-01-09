@@ -1,15 +1,79 @@
-import React, { lazy, Suspense } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, useScreen } from "@orderly.network/ui";
 import { BaseLayout } from "@/components/baseLayout";
 import { WooFiWidget } from "@/components/custom/WooFiWidget";
 import { PathEnum } from "@/constant";
 import { useHydrated } from "@/hooks/useHydrated";
 
-const WooFiSwapWidgetReact = lazy(() =>
-  import("woofi-swap-widget-kit/react").then((m) => ({
-    default: m.WooFiSwapWidgetReact,
-  })),
-);
+// Stream shim for browser compatibility
+// This provides minimal stream classes that the widget might need
+function setupStreamShim() {
+  if (typeof window !== "undefined" && !(window as any).__streamShimInstalled) {
+    const EventEmitter = class {
+      private listeners: Record<string, Function[]> = {};
+      on(event: string, fn: Function) {
+        if (!this.listeners[event]) this.listeners[event] = [];
+        this.listeners[event].push(fn);
+        return this;
+      }
+      emit(event: string, ...args: any[]) {
+        if (this.listeners[event]) {
+          this.listeners[event].forEach((fn) => fn(...args));
+        }
+        return true;
+      }
+      removeListener(event: string, fn: Function) {
+        if (this.listeners[event]) {
+          this.listeners[event] = this.listeners[event].filter((f) => f !== fn);
+        }
+        return this;
+      }
+    };
+
+    class StreamBase extends EventEmitter {
+      readable = true;
+      writable = true;
+      pipe(dest: any) {
+        return dest;
+      }
+      read() {
+        return null;
+      }
+      write() {
+        return true;
+      }
+      end() {}
+      destroy() {}
+    }
+
+    const streamShim = {
+      Stream: StreamBase,
+      Readable: class extends StreamBase {},
+      Writable: class extends StreamBase {},
+      Duplex: class extends StreamBase {},
+      Transform: class extends StreamBase {},
+      PassThrough: class extends StreamBase {},
+    };
+
+    // Install shim globally
+    (window as any).stream = streamShim;
+    (window as any).__streamShimInstalled = true;
+  }
+}
+
+// Define the Widget type
+type WooFiWidgetType = React.ComponentType<{
+  brokerAddress: string;
+  config: Record<string, boolean>;
+  evmProvider?: unknown;
+  currentChain?: number;
+  onConnectWallet: () => void;
+  onChainSwitch: (targetChain: {
+    chainName: string;
+    chainId?: string;
+    key: string;
+  }) => void;
+}>;
 
 function LoadingSpinner() {
   return (
@@ -117,11 +181,57 @@ const widgetConfig = {
 export default function SwapLayout() {
   const isHydrated = useHydrated();
   const { isMobile } = useScreen();
+  const [Widget, setWidget] = useState<WooFiWidgetType | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
-  if (!isHydrated) {
+  // Client-side dynamic import - only runs in useEffect after hydration
+  useEffect(() => {
+    if (!isHydrated) return;
+
+    // Setup stream shim before loading the widget
+    setupStreamShim();
+
+    import("woofi-swap-widget-kit/react")
+      .then((m) => {
+        setWidget(() => m.WooFiSwapWidgetReact);
+      })
+      .catch((err) => {
+        console.error("[Swap] Failed to load widget:", err);
+        setLoadError(err.message);
+      });
+  }, [isHydrated]);
+
+  // Show loading spinner during SSR and while loading widget
+  if (!isHydrated || (!Widget && !loadError)) {
     return (
       <BaseLayout initialMenu={PathEnum.Swap}>
-        <LoadingSpinner />
+        <Box
+          className="oui-flex oui-flex-col oui-items-center oui-justify-center oui-w-full"
+          style={{
+            minHeight: isMobile ? "calc(100vh - 120px)" : "calc(100vh - 80px)",
+          }}
+        >
+          <LoadingSpinner />
+        </Box>
+      </BaseLayout>
+    );
+  }
+
+  // Show error if widget failed to load
+  if (loadError) {
+    return (
+      <BaseLayout initialMenu={PathEnum.Swap}>
+        <Box
+          className="oui-flex oui-flex-col oui-items-center oui-justify-center oui-w-full"
+          style={{
+            minHeight: isMobile ? "calc(100vh - 120px)" : "calc(100vh - 80px)",
+          }}
+        >
+          <SwapError
+            error={loadError}
+            onRetry={() => window.location.reload()}
+          />
+        </Box>
       </BaseLayout>
     );
   }
@@ -140,61 +250,27 @@ export default function SwapLayout() {
           minHeight: isMobile ? "calc(100vh - 120px)" : "calc(100vh - 80px)",
         }}
       >
-        <Suspense fallback={<LoadingSpinner />}>
-          <ErrorBoundary>
-            <Box
-              className="oui-w-full oui-max-w-[480px]"
-              style={{
-                animation: "fadeIn 0.6s ease-out",
-              }}
-            >
-              <style>
-                {`
-                  @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(20px); }
-                    to { opacity: 1; transform: translateY(0); }
-                  }
-                `}
-              </style>
-              <WooFiWidget
-                Widget={WooFiSwapWidgetReact}
-                brokerAddress={brokerAddress}
-                config={widgetConfig}
-              />
-            </Box>
-          </ErrorBoundary>
-        </Suspense>
+        <Box
+          className="oui-w-full oui-max-w-[480px]"
+          style={{
+            animation: "fadeIn 0.6s ease-out",
+          }}
+        >
+          <style>
+            {`
+              @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+              }
+            `}
+          </style>
+          <WooFiWidget
+            Widget={Widget}
+            brokerAddress={brokerAddress}
+            config={widgetConfig}
+          />
+        </Box>
       </Box>
     </BaseLayout>
   );
-}
-
-class ErrorBoundary extends React.Component<
-  { children: React.ReactNode },
-  { hasError: boolean; error: string }
-> {
-  constructor(props: { children: React.ReactNode }) {
-    super(props);
-    this.state = { hasError: false, error: "" };
-  }
-
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error: error.message };
-  }
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error("[Swap] Error caught by boundary:", error, errorInfo);
-  }
-
-  handleRetry = () => {
-    window.location.reload();
-  };
-
-  render() {
-    if (this.state.hasError) {
-      return <SwapError error={this.state.error} onRetry={this.handleRetry} />;
-    }
-
-    return this.props.children;
-  }
 }

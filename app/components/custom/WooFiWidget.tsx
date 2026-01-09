@@ -66,7 +66,9 @@ function createNonReactiveProvider(provider: any): any {
 
   // Create an object that Vue's reactivity system won't deeply observe
   // by only exposing the necessary methods through a frozen wrapper
-  const wrapper = Object.create(null);
+  // Using {} instead of Object.create(null) to preserve prototype chain
+  // which Vue needs to access prototype methods
+  const wrapper: Record<string, any> = {};
 
   // Define essential EIP-1193 properties as non-enumerable to prevent Vue traversal
   Object.defineProperty(wrapper, "request", {
