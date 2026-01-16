@@ -65,7 +65,7 @@ export const UnsettlePnlInfo = (props: UnsettlePnlInfoProps) => {
           dp={6}
           data-testid="oui-testid-withdraw-dialog-unsettledPnl-value"
         >
-          {unsettledPnl}
+          {unsettledPnl ?? 0}
         </Text.numeral>
         <Text>USDC</Text>
       </Flex>

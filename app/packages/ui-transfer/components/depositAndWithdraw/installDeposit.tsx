@@ -10,6 +10,6 @@ export function installDeposit() {
     positions: [ExtensionPositionEnum.DepositForm],
     __isInternal: true,
   })((props: DepositFormWidgetProps) => {
-    return <DepositFormWidget onClose={props.onClose} />;
+    return <DepositFormWidget close={props.close} />;
   });
 }

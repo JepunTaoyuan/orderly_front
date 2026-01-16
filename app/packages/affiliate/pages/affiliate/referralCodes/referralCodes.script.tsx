@@ -56,7 +56,12 @@ export const useReferralCodesScript = (): ReferralCodesReturns => {
     if (!generateCode) {
       throw new Error("Generate code not available");
     }
-    await generateCode.create();
+    // Call generateCode if it's a function, otherwise call its create method
+    if (typeof generateCode === "function") {
+      await generateCode();
+    } else if (typeof generateCode.create === "function") {
+      await generateCode.create();
+    }
   };
 
   const [pinCodes, setPinCodes] = useLocalStorage<string[]>(

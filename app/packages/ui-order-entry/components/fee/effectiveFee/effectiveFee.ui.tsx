@@ -10,11 +10,10 @@ import {
   useScreen,
 } from "@orderly.network/ui";
 import { AuthGuard } from "@orderly.network/ui-connector";
-import {
-  RouterAdapter,
-  useScaffoldContext,
-} from "@orderly.network/ui-scaffold";
+import { useScaffoldContext } from "@orderly.network/ui-scaffold";
 import { EffectiveFee } from "./icons";
+
+type RouterAdapter = ReturnType<typeof useScaffoldContext>["routerAdapter"];
 
 const EffectiveFeeBody: React.FC<{
   routerAdapter: RouterAdapter | undefined;

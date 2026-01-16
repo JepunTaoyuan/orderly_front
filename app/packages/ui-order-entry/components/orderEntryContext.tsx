@@ -7,7 +7,7 @@ import {
 } from "react";
 import { OrderValidationResult } from "@orderly.network/hooks";
 import { API, OrderlyOrder } from "@orderly.network/types";
-import { InputType, QuantityInputType } from "../types";
+import { InputType } from "../types";
 
 export type OrderEntryContextState = {
   errors: OrderValidationResult | null;

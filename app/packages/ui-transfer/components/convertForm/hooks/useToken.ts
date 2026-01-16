@@ -56,9 +56,9 @@ interface Options {
 }
 
 type ConvertTokenInfo = API.Chain & {
-  contract_address: string;
-  quoteChainId: string;
-  precision: number;
+  contract_address?: string;
+  quoteChainId?: string;
+  precision?: number;
 };
 
 export const useToken = (options: Options) => {

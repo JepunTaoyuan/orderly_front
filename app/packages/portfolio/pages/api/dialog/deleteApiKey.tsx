@@ -23,13 +23,12 @@ export const DeleteAPIKeyDialog: FC<{
           label: t("common.confirm"),
           "data-testid": "oui-testid-apiKey-deleteApiKey-dialog-confirm-btn",
           className:
-            "oui-w-[120px] lg:oui-w-[154px] oui-rounded-full oui-text-xs",
+            "oui-w-[120px] lg:oui-w-[154px] oui-rounded-full oui-text-xs oui-bg-[rgba(110,85,223,1)]",
           size: "lg",
           onClick: async () => {
             await props.onDelete?.(item);
             setOpen(false);
           },
-          style: { backgroundColor: "rgba(110, 85, 223, 1)" },
         },
         secondary: {
           label: t("common.cancel"),

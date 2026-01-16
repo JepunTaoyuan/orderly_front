@@ -35,7 +35,7 @@ export const CreateAPIKeyDialog: FC<ApiManagerScriptReturns> = (props) => {
       actions={{
         primary: {
           label: t("common.confirm"),
-          className: "oui-rounded-full",
+          className: "oui-rounded-full oui-bg-[rgba(110,85,223,1)]",
           "data-testid": "oui-testid-apiKey-createApiKey-dialog-comfirm-btn",
           onClick: async () => {
             if (ipText.length > 0) {
@@ -57,7 +57,6 @@ export const CreateAPIKeyDialog: FC<ApiManagerScriptReturns> = (props) => {
           },
           disabled: !trade && !read,
           size: "lg",
-          style: { backgroundColor: "rgba(110, 85, 223, 1)" },
         },
       }}
       classNames={{

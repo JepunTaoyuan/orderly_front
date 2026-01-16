@@ -1,6 +1,7 @@
 export { PositionTPSLPopover } from "./editorPopover";
 export { PositionTPSLSheet } from "./editorSheet";
 export { TPSLPositionTypeWidget } from "./components/tpslPostionType";
+export { CloseToLiqPriceIcon } from "./components/closeLiqPriceIcon";
 export * from "./tpslAdvanced";
 export * from "./tpslDetail";
 export * from "./tpslSimpleDialog";
