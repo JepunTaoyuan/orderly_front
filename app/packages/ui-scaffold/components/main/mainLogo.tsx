@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useNavigate } from "@remix-run/react";
 import { useMediaQuery } from "@orderly.network/hooks";
 import { useAppConfig } from "@orderly.network/react-app";
 import { Logo } from "@orderly.network/ui";
@@ -10,6 +11,7 @@ type MainLogoProps = {
 };
 export const MainLogo: FC<MainLogoProps> = (props) => {
   const isSmall = useMediaQuery("(max-width: 389px)");
+  const navigate = useNavigate();
   return (
     // logo 標題
     // <div
@@ -27,6 +29,8 @@ export const MainLogo: FC<MainLogoProps> = (props) => {
       viewBox="0 0 114 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      onClick={() => navigate("/en/landingPage")}
+      style={{ cursor: "pointer" }}
       {...props}
     >
       <defs>
