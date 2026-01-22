@@ -73,11 +73,11 @@ export const BaseLayout: FC<BaseLayoutProps> = (props) => {
               href: "/leaderboard",
               icon: <LeaderboardIcon />,
             },
-            {
-              name: t("common.strategy"),
-              href: "/strategy",
-              icon: <StrategyIcon />,
-            },
+            // {
+            //   name: t("common.strategy"),
+            //   href: "/strategy",
+            //   icon: <StrategyIcon />,
+            // },
             {
               name: t("common.vaults"),
               href: "/vaults",
