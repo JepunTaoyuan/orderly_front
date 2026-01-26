@@ -177,11 +177,15 @@ export function WooFiWidget({
   // Pass wrapped provider and current chain directly (not through useMemo)
   // to avoid React comparing the provider object
   return (
-    <Widget
-      key={widgetKey}
-      {...widgetProps}
-      evmProvider={wrappedProviderRef.current}
-      currentChain={connectedChain?.id ? Number(connectedChain.id) : undefined}
-    />
+    <div className="custom-woofi-widget-container">
+      <Widget
+        key={widgetKey}
+        {...widgetProps}
+        evmProvider={wrappedProviderRef.current}
+        currentChain={
+          connectedChain?.id ? Number(connectedChain.id) : undefined
+        }
+      />
+    </div>
   );
 }

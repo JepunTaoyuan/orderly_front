@@ -265,7 +265,7 @@ export default function SwapLayout() {
             `}
           </style>
           <WooFiWidget
-            Widget={Widget}
+            Widget={Widget as WooFiWidgetType}
             brokerAddress={brokerAddress}
             config={widgetConfig}
           />

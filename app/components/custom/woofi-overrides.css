@@ -1,0 +1,42 @@
+/* Custom styles for WooFi Swap Widget */
+/* 
+   NOTE: Since the WooFiWidget is a pre-compiled component, we cannot change its internal HTML structure via React props.
+   However, we can use CSS to change colors, spacing, and even re-order elements visually using Flexbox.
+*/
+
+/* 1. Basic Styling (Colors, Fonts, Borders) */
+.custom-woofi-widget-container .woo-swap-widget {
+  /* background-color: #1e1e1e !important; */
+  /* border-radius: 16px !important; */
+}
+
+.custom-woofi-widget-container button {
+  /* background-color: #52419e !important; */
+}
+
+/* 2. Advanced Layout Tweaks (Visual Reordering) */
+/* 
+   If the internal elements are inside a flex container, you can use the 'order' property to change their sequence.
+   You need to inspect the widget to find the specific class names of the flex container and its children.
+*/
+
+/* Example: Moving an element to the top */
+/*
+.custom-woofi-widget-container .specific-child-class {
+  order: -1 !important; 
+}
+*/
+
+/* Example: Reversing the order of a flex container */
+/*
+.custom-woofi-widget-container .specific-flex-container {
+  flex-direction: column-reverse !important;
+}
+*/
+
+/* Example: Hiding unwanted elements */
+/*
+.custom-woofi-widget-container .element-to-hide {
+  display: none !important;
+}
+*/
