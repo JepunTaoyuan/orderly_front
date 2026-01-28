@@ -1,11 +1,9 @@
 /* WooFi Widget Color Overrides - DEXless Theme */
 
 .el-button.el-button--primary {
-  background: linear-gradient(
-    90deg,
-    rgb(82, 65, 158),
-    rgb(127, 251, 255)
-  ) !important;
+  background: linear-gradient(90deg,
+      rgb(82, 65, 158),
+      rgb(127, 251, 255)) !important;
   border-color: transparent !important;
   color: rgba(255, 255, 255, 1) !important;
   border-radius: 50px !important;
@@ -14,11 +12,9 @@
 }
 
 .el-button.el-button--primary:hover {
-  background: linear-gradient(
-    90deg,
-    rgb(110, 85, 223),
-    rgb(156, 241, 255)
-  ) !important;
+  background: linear-gradient(90deg,
+      rgb(110, 85, 223),
+      rgb(156, 241, 255)) !important;
   transform: translateY(-1px) !important;
   box-shadow: 0 4px 12px rgba(127, 251, 255, 0.3) !important;
 }
@@ -43,14 +39,14 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
 }
 
-.dex .swap .block {
+.dex .swap {
   background: rgba(29, 26, 38, 0.6) !important;
   border: 1px solid rgba(255, 255, 255, 0.05) !important;
   border-radius: 16px !important;
   transition: all 0.3s ease !important;
 }
 
-.dex .swap .block:hover {
+.dex .swap:hover {
   background: rgba(36, 32, 47, 0.8) !important;
   border-color: rgba(127, 251, 255, 0.15) !important;
 }
@@ -76,19 +72,6 @@
 
 .el-dialog__body {
   padding: 24px !important;
-}
-
-.coin-input .input-main {
-  background: rgba(12, 13, 16, 0.6) !important;
-  border-radius: 12px !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  transition: all 0.3s ease !important;
-}
-
-.coin-input .input-main:hover,
-.coin-input .input-main:focus-within {
-  background: rgba(29, 26, 38, 0.8) !important;
-  border-color: rgba(127, 251, 255, 0.2) !important;
 }
 
 .dex .swap input {
@@ -253,4 +236,57 @@
 .dex .swap .search-input:focus {
   outline: none !important;
   border-color: rgba(127, 251, 255, 0.2) !important;
+}
+
+.block {
+  background: rgba(12, 13, 16) !important;
+}
+
+.coin-input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  padding: 12px !important;
+  border-radius: 12px !important;
+}
+
+.input-main {
+  background: transparent !important;
+  border-radius: 12px !important;
+  padding: 0px !important;
+}
+
+.to-touch.flex-align.touch {
+  background: rgba(255, 255, 255, 0.1) !important;
+  padding: 8px 4px !important;
+  border-radius: 99px !important;
+}
+
+.change-order {
+  padding: 3px !important;
+}
+
+.select-token-dialog {
+  background: rgba(19, 21, 25, 1) !important;
+}
+
+.search-box.flex-align {
+  background: rgba(255, 255, 255, 0.05) !important;
+  font-size: 6px !important;
+}
+
+.switch-list-wrapper {
+  background: rgba(19, 21, 25, 1) !important;
+}
+
+.switch-list.with-scrollbar {
+  background: rgba(19, 21, 25, 1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.el-dialog.normal-dialog {
+  background: rgba(12, 13, 16, 1) !important;
+}
+
+.block.touch-opacity.bold {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: rgba(255, 255, 255, 0.80);
 }

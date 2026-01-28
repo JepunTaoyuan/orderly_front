@@ -122,8 +122,8 @@ export const PositionHistory: FC<PositionHistoryProps> = (props) => {
           body: "oui-testid-dataList-positionHistory-tab-body",
         }}
         classNames={{
-          root: "!oui-h-[calc(100%_-_49px)] oui-bg-base-10",
-          header: "oui-bg-base-10",
+          root: "!oui-h-[calc(100%_-_49px)]",
+          header: "",
         }}
       />
     </Flex>
