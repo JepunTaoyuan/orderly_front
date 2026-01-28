@@ -158,7 +158,12 @@ export default defineConfig(() => {
           },
         ],
       },
-      exclude: ["react/jsx-dev-runtime", "react/jsx-runtime"],
+      exclude: [
+        // "@orderly/network-wallet-connector",  // 新增
+        // "@toruslabs/base-controllers",        // 新增
+        "react/jsx-dev-runtime",
+        "react/jsx-runtime",
+      ],
     },
     plugins: [
       clientStreamPolyfill(),
@@ -207,3 +212,4 @@ export default defineConfig(() => {
     ],
   };
 });
+// 所有 Node.js-only 或混 Node / browser 的套件，要在 dev server 優化階段排除。

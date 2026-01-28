@@ -33,9 +33,7 @@ export const OverviewPage: React.FC = () => {
   const isDesktop = useMediaQuery("(min-width: 769px)");
   return (
     <OverviewProvider>
-      {isDesktop ? (
-        <HistoryPage />
-      ) : isMobile ? (
+      {isMobile ? (
         <MobileOverview />
       ) : (
         <Grid cols={2} gap={1}>

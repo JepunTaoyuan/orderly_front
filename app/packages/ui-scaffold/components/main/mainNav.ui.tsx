@@ -112,7 +112,9 @@ export const MainNav: FC<PropsWithChildren<MainNavScriptReturn>> = (props) => {
       </>
     );
   };
-
+  // 判斷是否landingpage 背景改為白色
+  const isLandingPage =
+    location.pathname === "/" || location.pathname.includes("landing");
   return (
     <Flex
       width="100%"
@@ -136,6 +138,11 @@ export const MainNav: FC<PropsWithChildren<MainNavScriptReturn>> = (props) => {
           props.status! >= AccountStatusEnum.SignedIn
             ? "linear-gradient(90deg, #3b3d48 1.44%, #121419 4.59%, #121419 84.64%, #52419e 92%, rgba(127, 251, 255, 0.9))"
             : "linear-gradient(90deg, #3b3d48 1.44%, #121419 2.89%, #121419 88.94%)",
+        // isLandingPage
+        // ? "white"
+        //     : props.status! >= AccountStatusEnum.SignedIn
+        //         ? "linear-gradient(90deg, #3b3d48 1.44%, #121419 4.59%, #121419 84.64%, #52419e 92%, rgba(127, 251, 255, 0.9))"
+        //         : "linear-gradient(90deg, #3b3d48 1.44%, #121419 2.89%, #121419 88.94%)",
       }}
     >
       {renderContent()}
