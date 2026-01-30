@@ -47,13 +47,16 @@ export function WhyDexless() {
         minHeight: "100vh",
       }}
     >
-      <div className="">
+      <div>
         <div
-          className="oui-space-y-4 oui-text-center"
+          className="oui-space-y-4 oui-flex oui-flex-col oui-items-center oui-text-center"
           style={{ paddingTop: "120px", paddingBottom: "120px" }}
         >
           <h2 className="oui-text-6xl">Why Dexless?</h2>
-          <p className="oui-text-2xl">
+          <p
+            className="oui-text-2xl"
+            style={{ maxWidth: "650px", fontWeight: "400", color: "#666" }}
+          >
             Trading platforms shouldn’t just execute trades — they should help
             traders understand, improve, and evolve.
           </p>
@@ -72,8 +75,8 @@ export function WhyDexless() {
                 overflow: "hidden",
                 display: "flex",
                 flexDirection: "column",
-                height: "600px", // 設定固定高度
-                width: "500px",
+                height: "480px", // 設定固定高度
+                width: "350px",
                 border: "1px solid rgba(255,255,255,0.4)",
                 boxShadow: "0 10px 30px rgba(0,0,0,0.05)",
               }}

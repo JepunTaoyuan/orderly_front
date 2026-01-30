@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "@remix-run/react";
 import { useMediaQuery } from "@orderly.network/hooks";
 import { generatePath } from "@orderly.network/i18n";
+import { Button, useScreen } from "@orderly.network/ui";
 import { PathEnum } from "@/constant";
 
 const Hero: React.FC = () => {
@@ -9,7 +10,7 @@ const Hero: React.FC = () => {
   const handleTradeNow = () => {
     navigate("/en/perp/PERP_BTC_USDC");
   };
-
+  const isMobile = useScreen();
   return (
     <section
       className="oui-relative oui-bg-cover oui-bg-center"
@@ -58,13 +59,13 @@ const Hero: React.FC = () => {
           <div className="oui-mt-8 oui-flex oui-gap-4 oui-font-bold">
             <button
               onClick={handleTradeNow}
-              className="oui-px-6 oui-py-3 oui-rounded-full oui-border oui-text-white"
+              className="oui-px-6 oui-py-2 oui-rounded-full oui-border oui-text-white"
               style={{
                 background:
                   "linear-gradient(90deg, #7053f3, #70c3b6 44.8%, #d0f473 78.01%)",
               }}
             >
-              View Trading
+              Trading Now
             </button>
             {/* <button className="oui-px-6 oui-py-3 oui-rounded-full oui-border oui-border-base-6">
               Read Docs
