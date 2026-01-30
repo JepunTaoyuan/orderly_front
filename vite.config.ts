@@ -159,8 +159,8 @@ export default defineConfig(() => {
         ],
       },
       exclude: [
-        // "@orderly/network-wallet-connector",  // 新增
-        // "@toruslabs/base-controllers",        // 新增
+        "@orderly/network-wallet-connector", // 新增
+        "@toruslabs/base-controllers", // 新增
         "react/jsx-dev-runtime",
         "react/jsx-runtime",
       ],

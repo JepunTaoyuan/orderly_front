@@ -189,6 +189,7 @@ export const NavItem: FC<
               "oui-whitespace-nowrap oui-break-normal",
               isActive ? "oui-text-white" : "oui-text-base-contrast-36",
             )}
+            //2026/1/30 style={{ color: 'rgba(0, 0, 0, 0.40)' }}
           >
             {item.name}
           </Text>

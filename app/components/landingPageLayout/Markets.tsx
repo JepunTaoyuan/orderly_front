@@ -1,45 +1,52 @@
 import React from "react";
+import { useNavigate } from "@remix-run/react";
 import { useMarketsStream } from "@orderly.network/hooks";
-import { Flex } from "@orderly.network/ui";
+import { generatePath } from "@orderly.network/i18n";
+import { Flex, useScreen } from "@orderly.network/ui";
 
 export default function Markets() {
-  // 使用 Orderly 的 hook 獲取實時市場數據
+  const navigate = useNavigate();
+  const handleTradeNow = () => {
+    navigate(generatePath({ path: "/markets" }));
+  };
+  const { isMobile } = useScreen();
+  /**
+   * 取得 Orderly 即時市場資
+   */
   const { data: markets } = useMarketsStream();
 
-  // 過濾出 BTC 和 ETH 的數據
+  /**
+   *  將原始市場資料轉換為 Landing Page 使用的格式
+   * - 只顯示 BTC / ETH
+   */
+
   const marketData = React.useMemo(() => {
     if (!markets) return [];
 
-    return markets
-      .filter(
-        (market) =>
-          market.symbol === "PERP_BTC_USDC" ||
-          market.symbol === "PERP_ETH_USDC",
-      )
-      .map((market) => ({
-        symbol: market.symbol.includes("BTC") ? "BTC" : "ETH",
-        pair: market.symbol.includes("BTC") ? "BTC-PERP" : "ETH-PERP",
-        price: `$${market["24h_close"]?.toFixed(2) || "0.00"}`,
-        change: `${(market.change * 100).toFixed(2)}%`,
-        tag: market.symbol.includes("BTC") ? "BITCOIN" : "ETHEREUM",
-      }));
+    // 定義想要的順序
+    const desiredOrder = ["PERP_BTC_USDC", "PERP_ETH_USDC"];
+
+    return desiredOrder
+      .filter((symbol) => markets.some((market) => market.symbol === symbol))
+      .map((symbol) => {
+        const market = markets.find((m) => m.symbol === symbol);
+        const isBTC = market.symbol.includes("BTC");
+
+        return {
+          symbol: isBTC ? "BTC" : "ETH",
+          pair: isBTC ? "BTC-PERP" : "ETH-PERP",
+          price: market["24h_close"]
+            ? `$${market["24h_close"].toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}`
+            : "$0.00",
+          change: `${(market.change * 100).toFixed(2)}%`,
+          tag: isBTC ? "BITCOIN" : "ETHEREUM",
+        };
+      });
   }, [markets]);
-  //     const marketData = [
-  //     {
-  //       symbol: 'BTC',
-  //       pair: 'BTC-PERP',
-  //       price: '$56,623.54',
-  //       change: '1.41%',
-  //       tag: 'BITCOIN',
-  //     },
-  //     {
-  //       symbol: 'ETH',
-  //       pair: 'ETH-PERP',
-  //       price: '$4,267.90',
-  //       change: '2.22%',
-  //       tag: 'ETHEREUM',
-  //     },
-  //   ];
+
   return (
     <section
       className="relative oui-bg-cover oui-bg-center oui-text-black oui-flex oui-justify-center oui-text-center"
@@ -51,10 +58,16 @@ export default function Markets() {
       }}
     >
       <div>
+        {/* 標題區 */}
         <p className="oui-text-6xl">Markets</p>
-        <p className="oui-text-2xl oui-py-4">Perpetual Markets Available</p>
+        <p className="oui-text-2xl oui-py-4" style={{ color: "#666" }}>
+          Perpetual Markets Available
+        </p>
+
+        {/* CTA */}
         <button
-          className="oui-px-10 oui-py-3 oui-rounded-full oui-border oui-text-white"
+          onClick={handleTradeNow}
+          className="oui-px-6 oui-py-2 oui-rounded-full oui-border oui-text-white"
           style={{
             background:
               "linear-gradient(90deg, #7053f3, #70c3b6 44.8%, #d0f473 78.01%)",
@@ -62,7 +75,13 @@ export default function Markets() {
         >
           View Markets
         </button>
-        <Flex gap={6} style={{ paddingTop: "64px", paddingBottom: "64px" }}>
+
+        {/* 市場卡片區 */}
+        <Flex
+          gap={6}
+          direction={isMobile ? "column" : "row"}
+          style={{ paddingTop: "64px", paddingBottom: "64px" }}
+        >
           {marketData.map((market) => (
             <div
               key={market.pair}
@@ -73,7 +92,7 @@ export default function Markets() {
                 {market.pair}
               </p>
 
-              {/* 卡片本體 */}
+              {/* 卡片 */}
               <div
                 className="oui-bg-white oui-rounded-xl oui-p-8 oui-text-left oui-relative"
                 style={{
@@ -82,6 +101,7 @@ export default function Markets() {
                   border: "1px solid #f0f0f0",
                 }}
               >
+                {/* 幣種標題 */}
                 <div className="oui-flex oui-items-center oui-gap-2 oui-mb-2">
                   <span className="oui-text-2xl oui-font-bold">
                     {market.symbol}
@@ -96,6 +116,7 @@ export default function Markets() {
                   </span>
                 </div>
 
+                {/* 價格與漲跌 */}
                 <div className="oui-flex oui-justify-between oui-items-end">
                   <div>
                     <p className="oui-text-4xl oui-font-bold oui-mb-4">
@@ -106,8 +127,8 @@ export default function Markets() {
                     </span>
                   </div>
 
-                  {/* 模擬 Sparkline 曲線圖 */}
-                  <div className="oui-w-24">
+                  {/* 價格走勢 */}
+                  {/* <div className="oui-w-24">
                     <svg viewBox="0 0 100 40" fill="none">
                       <path
                         d="M0 30 Q 15 10, 30 25 T 60 15 T 100 20"
@@ -116,12 +137,14 @@ export default function Markets() {
                         fill="none"
                       />
                     </svg>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
           ))}
         </Flex>
+
+        {/* Footer Hint */}
         <div className="oui-mt-16 oui-flex oui-items-center oui-justify-center oui-gap-2 oui-cursor-pointer hover:oui-opacity-70">
           <p className="oui-text-xl">More markets coming</p>
           <span className="oui-text-2xl">→</span>
