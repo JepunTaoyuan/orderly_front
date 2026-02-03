@@ -133,14 +133,14 @@ export const DesktopSharePnLContent: FC<{
           <Flex itemAlign={"center"} justify={"center"}>
             <Poster
               width={552}
-              height={310}
+              height={690}
               data={{
                 backgroundImg: curBgImg,
                 ...resetOptions,
                 data: posterData,
               }}
               ratio={3}
-              ref={posterRef}
+              ref={posterRef as any}
               className="oui-rounded"
             />
           </Flex>
