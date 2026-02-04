@@ -160,6 +160,8 @@ export const NavItem: FC<
         isActive,
       });
     }
+    const isLandingPage =
+      location.pathname === "/" || location.pathname.includes("landing");
     const button = (
       <button
         id={item.id}
@@ -187,9 +189,17 @@ export const NavItem: FC<
             // className="oui-whitespace-nowrap oui-break-normal"
             className={cn(
               "oui-whitespace-nowrap oui-break-normal",
-              isActive ? "oui-text-white" : "oui-text-base-contrast-36",
+              isActive && "oui-text-white",
             )}
-            //2026/1/30 style={{ color: 'rgba(0, 0, 0, 0.40)' }}
+            style={{
+              color: isActive
+                ? isLandingPage
+                  ? "black"
+                  : "rgba(219, 253, 92, 1)"
+                : isLandingPage
+                  ? "rgba(0, 0, 0, 0.40)"
+                  : "rgba(255, 255, 255, 0.4)",
+            }}
           >
             {item.name}
           </Text>

@@ -40,7 +40,8 @@ const TotalValue: FC<{
     visibleAvailable = true,
   } = props;
   const { t } = useTranslation();
-
+  const isLandingPage =
+    location.pathname === "/" || location.pathname.includes("landing");
   return (
     <Flex
       direction={"column"}
@@ -49,7 +50,14 @@ const TotalValue: FC<{
       itemAlign={"start"}
     >
       <Flex gap={1} itemAlign={"center"}>
-        <Text intensity={54} className="oui-whitespace-nowrap">
+        <Text
+          className="oui-whitespace-nowrap"
+          style={{
+            color: isLandingPage
+              ? "rgba(0, 0, 0, 0.40)"
+              : "rgba(255, 255, 255, 0.4)",
+          }}
+        >
           {t("common.totalValue")}
         </Text>
         {visibleAvailable && (
@@ -75,7 +83,14 @@ const TotalValue: FC<{
       <Text.numeral
         visible={props.visible}
         unit="USDC"
-        unitClassName="oui-text-base-contrast-20 oui-ml-1"
+        unitClassName={
+          isLandingPage
+            ? "oui-text-black/20 oui-ml-1"
+            : "oui-text-base-contrast-36 oui-ml-1"
+        }
+        style={{
+          color: isLandingPage ? "rgba(0, 0, 0, 0.8)" : "white",
+        }}
         as="div"
       >
         {totalValue ?? "-"}
@@ -621,6 +636,9 @@ const Items: FC<{
 };
 
 const Dot = () => {
+  const isLandingPage =
+    location.pathname === "/" || location.pathname.includes("landing");
+
   return (
     <svg
       width="20"
@@ -628,9 +646,14 @@ const Dot = () => {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="oui-fill-base-contrast-36 hover:oui-fill-primary-light group-data-[state=open]:oui-fill-primary-light"
+      style={{
+        color: isLandingPage ? "rgba(0, 0, 0, 0.8)" : "white",
+      }}
     >
-      <path d="M10.007 8.335a1.666 1.666 0 1 1 0 3.333 1.666 1.666 0 0 1 0-3.333m-5.84 0a1.666 1.666 0 1 1 0 3.333 1.666 1.666 0 0 1 0-3.333m11.666 0a1.666 1.666 0 1 1 0 3.333 1.666 1.666 0 0 1 0-3.333" />
+      <path
+        d="M10.007 8.335a1.666 1.666 0 1 1 0 3.333 1.666 1.666 0 0 1 0-3.333m-5.84 0a1.666 1.666 0 1 1 0 3.333 1.666 1.666 0 0 1 0-3.333m11.666 0a1.666 1.666 0 1 1 0 3.333 1.666 1.666 0 0 1 0-3.333"
+        fill="currentColor"
+      />
     </svg>
   );
 };

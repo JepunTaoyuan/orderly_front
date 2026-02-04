@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
   font-family: 'Manrope';
   src: url('/fonts/Manrope/Manrope-Medium.ttf') format('truetype');
   font-weight: 500;
@@ -17,4 +17,31 @@
   src: url('/fonts/Manrope/Manrope-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
+} */
+
+/* Poppins - Medium */
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap; /* 建議加上，優化載入體驗 */
+}
+
+/* Poppins - SemiBold */
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Poppins - Bold */
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }

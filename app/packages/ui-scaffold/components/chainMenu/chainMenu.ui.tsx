@@ -99,25 +99,9 @@ export const ChainMenu = (props: UseChainMenuScriptReturn) => {
       //   "oui-w-11 oui-h-8",
       //   "oui-rounded-t-[6px] oui-rounded-bl-[6px] oui-rounded-br-[3px]",
       // )}
-      className={cn("oui-relative oui-cursor-pointer", "oui-w-11 oui-h-8")}
+      className={cn("oui-relative oui-cursor-pointer", "oui-w-6 oui-h-8")}
     >
-      <div
-        style={{
-          width: "1px",
-          height: "28px",
-          background: "rgba(255,255,255,0.2)",
-          marginRight: "8px",
-        }}
-      />
       {renderIcon()}
-      <div
-        style={{
-          width: "1px",
-          height: "28px",
-          background: "rgba(255,255,255,0.2)",
-          marginLeft: "8px",
-        }}
-      />
       {/* <svg
         width="10"
         height="10"
