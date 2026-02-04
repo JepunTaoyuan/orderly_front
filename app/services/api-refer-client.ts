@@ -404,6 +404,31 @@ export interface BatchOperationResponse {
   message: string;
 }
 
+export interface WeeklyLeaderboardEntry {
+  user_id: string;
+  weekly_points: number;
+}
+
+export interface WeeklyLeaderboardResponse {
+  week_start: number;
+  leaderboard: WeeklyLeaderboardEntry[];
+  total_users: number;
+  success: boolean;
+  message: string;
+}
+
+export interface WeeklyHistoryItem {
+  week_start: number;
+  weekly_points: number;
+}
+
+export interface WeeklyHistoryResponse {
+  user_id: string;
+  data: WeeklyHistoryItem[];
+  success: boolean;
+  message: string;
+}
+
 // ============================================================================
 // Global Types
 // ============================================================================

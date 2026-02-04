@@ -106,6 +106,7 @@ export const useOrderlyConfig = () => {
         },
         sharePnLConfig: {
           backgroundImages: [
+            "/images/pnl/test.png",
             "/images/pnl/poster_bg_1.png",
             "/images/pnl/poster_bg_2.png",
             "/images/pnl/poster_bg_3.png",

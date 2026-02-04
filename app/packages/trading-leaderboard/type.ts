@@ -7,4 +7,5 @@ export type DateRange = {
 export enum LeaderboardTab {
   Volume = "volume",
   Pnl = "pnl",
+  Points = "points",
 }

@@ -84,7 +84,7 @@ export const MobileSharePnLContent: FC<{
   // console.log("pster data", posterData, props.entity);
 
   const carouselRef = useRef<any>();
-  const aspectRatio = 552 / 310;
+  const aspectRatio = 552 / 690;
   const [scale, setScale] = useState(1);
   const [carouselHeight, setCarouselHeight] = useState(0);
 
@@ -161,7 +161,7 @@ export const MobileSharePnLContent: FC<{
                   className="oui-origin-top-left oui-transform"
                   style={{ scale: `${scale}` }}
                   width={552}
-                  height={310}
+                  height={690}
                   data={{
                     backgroundImg: item,
                     ...resetOptions,

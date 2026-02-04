@@ -9,6 +9,8 @@ import {
   SavePointsResponse,
   BatchOperationResponse,
   MessageResponse,
+  WeeklyLeaderboardResponse,
+  WeeklyHistoryResponse,
 } from "./api-refer-client";
 
 export const pointsApi = {
@@ -16,15 +18,44 @@ export const pointsApi = {
   getUserPoints: (userId: string, token?: string) =>
     api.get<UserPointsResponse>(`/points/${userId}`, token),
 
-  // Get leaderboard
+  // Get leaderboard (total points)
   getLeaderboard: (limit: number = 100, token?: string) =>
     api.get<LeaderboardResponse>(`/points/leaderboard?limit=${limit}`, token),
 
-  // Calculate points for a user
+  // Get weekly leaderboard
+  getWeeklyLeaderboard: (
+    weekStartMs?: number,
+    limit: number = 10,
+    token?: string,
+  ) =>
+    api.get<WeeklyLeaderboardResponse>(
+      `/points/weekly-leaderboard?${weekStartMs ? `week_start_ms=${weekStartMs}&` : ""}limit=${limit}`,
+      token,
+    ),
+
+  // Get user weekly history
+  getUserWeeklyHistory: (
+    userId: string,
+    limit: number = 52,
+    startWeekMs?: number,
+    endWeekMs?: number,
+    token?: string,
+  ) => {
+    const params = new URLSearchParams();
+    params.set("limit", limit.toString());
+    if (startWeekMs) params.set("start_week_ms", startWeekMs.toString());
+    if (endWeekMs) params.set("end_week_ms", endWeekMs.toString());
+    return api.get<WeeklyHistoryResponse>(
+      `/points/${userId}/weekly-history?${params.toString()}`,
+      token,
+    );
+  },
+
+  // Calculate points for a user (admin)
   calculate: (userId: string, token?: string) =>
     api.post<CalculatePointsResponse>(`/points/${userId}/calculate`, {}, token),
 
-  // Save points for a user
+  // Save points for a user (admin)
   save: (userId: string, data: SavePointsRequest, token?: string) =>
     api.post<SavePointsResponse>(`/points/${userId}/save`, data, token),
 

@@ -14,6 +14,7 @@ import {
   TradingLeaderboardProviderProps,
   useTradingLeaderboardContext,
 } from "../../components/provider";
+import { PointsRankingWidget } from "../../components/ranking/pointsRanking";
 import { RewardsWidget } from "../../components/rewards/rewards.widget";
 import { RuleWidget } from "../../components/rule";
 
@@ -21,9 +22,13 @@ export type LeaderboardPageProps = GeneralLeaderboardWidgetProps &
   TradingLeaderboardProviderProps & {
     style?: React.CSSProperties;
     className?: string;
+    showPointsLeaderboard?: boolean;
   };
 
 export const LeaderboardPage: FC<LeaderboardPageProps> = (props) => {
+  const { t } = useTranslation();
+  const { isMobile } = useScreen();
+
   return (
     <TradingLeaderboardProvider {...props}>
       <div
@@ -40,6 +45,18 @@ export const LeaderboardPage: FC<LeaderboardPageProps> = (props) => {
         <CampaignsWidget className="oui-relative oui-z-[1] oui-mx-6" />
         <RewardsWidget />
         <LeaderboardSection {...props} />
+
+        {/* Points Leaderboard Section */}
+        {props.showPointsLeaderboard !== false && (
+          <Box px={3} className="oui-mt-10">
+            <LeaderboardTitle
+              title={t("tradingLeaderboard.pointsRanking", "Points Ranking")}
+              isMobile={isMobile}
+            />
+            <PointsRankingWidget />
+          </Box>
+        )}
+
         <RuleWidget />
       </div>
     </TradingLeaderboardProvider>
