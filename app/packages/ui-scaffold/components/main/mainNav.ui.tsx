@@ -1,6 +1,7 @@
 import { FC, PropsWithChildren, useMemo } from "react";
 import { AccountStatusEnum } from "@orderly.network/types";
 import { cn, Divider, Flex, useScreen } from "@orderly.network/ui";
+import Airdrop from "@/components/custom/Airdrop";
 import { WalletConnectButtonExtension } from "../accountMenu/menu.widget";
 import { AccountSummaryWidget } from "../accountSummary";
 import { ChainMenuWidget } from "../chainMenu";
@@ -77,7 +78,8 @@ export const MainNav: FC<PropsWithChildren<MainNavScriptReturn>> = (props) => {
         walletConnect,
       });
     }
-
+    const isLandingPage =
+      location.pathname === "/" || location.pathname.includes("landing");
     return (
       <>
         <Flex
@@ -91,6 +93,7 @@ export const MainNav: FC<PropsWithChildren<MainNavScriptReturn>> = (props) => {
           {title}
           {props.leading}
           {mainNav}
+          <Airdrop />
           {props.trailing}
         </Flex>
 
@@ -100,13 +103,29 @@ export const MainNav: FC<PropsWithChildren<MainNavScriptReturn>> = (props) => {
           {accountSummary}
           {showLinkIcon && (
             <>
-              <Divider direction="vertical" className="oui-h-8" intensity={8} />
+              <Divider
+                direction="vertical"
+                className="oui-h-8"
+                intensity={isLandingPage ? 54 : 8}
+              />
               {linkDevice}
             </>
           )}
           {languageSwitcher}
           {subAccount}
-          {chainMenu}
+          <>
+            <Divider
+              direction="vertical"
+              className="oui-h-8"
+              intensity={isLandingPage ? 54 : 8}
+            />
+            {chainMenu}
+            <Divider
+              direction="vertical"
+              className="oui-h-8"
+              intensity={isLandingPage ? 54 : 8}
+            />
+          </>
           {walletConnect}
         </Flex>
       </>
@@ -133,16 +152,20 @@ export const MainNav: FC<PropsWithChildren<MainNavScriptReturn>> = (props) => {
       //   background:
       //     "linear-gradient(90deg, #3b3d48 1.44%, #121419 2.89%, #121419 88.94%)",
       // }}
+      // style={{
+      //   background:
+      //     // props.status! >= AccountStatusEnum.SignedIn
+      //     //   ? "linear-gradient(90deg, #3b3d48 1.44%, #121419 4.59%, #121419 84.64%, #52419e 92%, rgba(127, 251, 255, 0.9))"
+      //     //   : "linear-gradient(90deg, #3b3d48 1.44%, #121419 2.89%, #121419 88.94%)",
+      // }}
       style={{
-        background:
-          props.status! >= AccountStatusEnum.SignedIn
-            ? "linear-gradient(90deg, #3b3d48 1.44%, #121419 4.59%, #121419 84.64%, #52419e 92%, rgba(127, 251, 255, 0.9))"
+        background: isLandingPage
+          ? props.status! >= AccountStatusEnum.SignedIn
+            ? "white"
+            : "white"
+          : props.status! >= AccountStatusEnum.SignedIn
+            ? "linear-gradient(90deg, #3B3D48 2%, #121419 3%, #121419 84%, #7158F1 88%, #8BD9CA 98%, #B3EAB0 100%)"
             : "linear-gradient(90deg, #3b3d48 1.44%, #121419 2.89%, #121419 88.94%)",
-        // isLandingPage
-        // ? "white"
-        //     : props.status! >= AccountStatusEnum.SignedIn
-        //         ? "linear-gradient(90deg, #3b3d48 1.44%, #121419 4.59%, #121419 84.64%, #52419e 92%, rgba(127, 251, 255, 0.9))"
-        //         : "linear-gradient(90deg, #3b3d48 1.44%, #121419 2.89%, #121419 88.94%)",
       }}
     >
       {renderContent()}

@@ -27,16 +27,20 @@ export const LanguageSwitcher: FC<LanguageSwitcherProps> = (props) => {
   if (languages.length <= 1) {
     return null;
   }
-
+  const isLandingPage =
+    location.pathname === "/" || location.pathname.includes("landing");
   const trigger = (
     <Tooltip content={t("languageSwitcher.tooltip")}>
       <LanguageIcon
         className={cn(
           "oui-size-6 lg:oui-size-5",
           "oui-cursor-pointer oui-text-base-contrast-80",
-          "oui-transition-colors hover:oui-fill-base-contrast",
+          "oui-transition-colors",
           isMobile && "oui-size-[18px]",
         )}
+        style={{
+          color: isLandingPage ? "rgba(0, 0, 0, 0.8)" : "white",
+        }}
         id="language-switcher-icon"
         onClick={() => props.onOpenChange(true)}
       />

@@ -18,12 +18,16 @@ export type LinkDeviceProps = UseLinkDeviceScriptReturn;
 
 export const LinkDevice: FC<LinkDeviceProps> = (props) => {
   const { t } = useTranslation();
-
+  const isLandingPage =
+    location.pathname === "/" || location.pathname.includes("landing");
   return (
     <>
       <Tooltip content={t("linkDevice.tooltip")}>
         <LinkDeviceIcon
-          className="oui-text-base-contrast-80 oui-cursor-pointer hover:oui-fill-base-contrast oui-transition-colors"
+          className="oui-cursor-pointer oui-transition-colors"
+          style={{
+            color: isLandingPage ? "rgba(0, 0, 0, 0.8)" : "white",
+          }}
           onClick={props.showDialog}
         />
       </Tooltip>

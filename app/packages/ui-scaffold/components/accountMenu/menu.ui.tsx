@@ -70,6 +70,8 @@ export const AccountMenu = (props: AccountMenuProps) => {
   }
 
   if (state.status <= AccountStatusEnum.NotConnected || disabled) {
+    const isLandingPage =
+      location.pathname === "/" || location.pathname.includes("landing");
     return (
       <Button
         data-testid="oui-testid-nav-bar-connectWallet-btn"
@@ -77,8 +79,9 @@ export const AccountMenu = (props: AccountMenuProps) => {
         // variant={disabled ? undefined : "gradient"}
         // angle={45}
         style={{
-          background:
-            "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
+          background: isLandingPage
+            ? "linear-gradient(90deg, #7053F3 0%, #85D7CD 45%, #dbf987 96%)"
+            : "linear-gradient(90deg, #7053F3 0%, #85D7CD 45%, #dbf987 86%)",
         }}
         className="wallet-connect-button oui-rounded-full oui-text-xs"
         loading={state.validating}
@@ -182,6 +185,8 @@ const WalletMenu = (props: {
   const { address, onDisconnect } = props;
   const { t } = useTranslation();
   const isSmallScreen = useMediaQuery("(max-width: 389px)");
+  const isLandingPage =
+    location.pathname === "/" || location.pathname.includes("landing");
   return (
     <DropdownMenuRoot>
       <DropdownMenuTrigger asChild>
@@ -191,11 +196,21 @@ const WalletMenu = (props: {
           data-testid="oui-testid-nav-bar-address-btn"
           className="hover:oui-bg-base-0"
         >
-          <Text.formatted rule="address" className="oui-text-white oui-px-1">
+          <Text.formatted
+            rule="address"
+            className="oui-px-1 oui-rounded-full oui-px-2 oui-py-1"
+            style={{
+              color: isLandingPage ? "rgba(0, 0, 0, 0.8)" : "white",
+              borderColor: isLandingPage ? "rgba(0, 0, 0, 0.8)" : "",
+              border: isLandingPage
+                ? "1px solid rgba(0, 0, 0, 0.8)"
+                : "2px solid transparent",
+            }}
+          >
             {address}
           </Text.formatted>
           <svg
-            width="7"
+            width="12"
             height="5"
             viewBox="0 0 7 5"
             fill="none"
@@ -203,7 +218,7 @@ const WalletMenu = (props: {
           >
             <path
               d="M0.493837 2.28982e-05C0.401404 5.33536e-05 0.310833 0.0260166 0.232422 0.074961C0.15401 0.123905 0.0909039 0.193867 0.0502764 0.276893C0.00964883 0.359919 -0.00686952 0.452678 0.00259884 0.544626C0.0120672 0.636573 0.0471424 0.724019 0.103837 0.797023L3.10384 4.79702C3.30384 5.06302 3.70084 5.06302 3.90084 4.79702L6.90084 0.797023C6.95605 0.722253 6.98933 0.633573 6.99694 0.540938C7.00455 0.448303 6.98619 0.355381 6.94392 0.272602C6.90165 0.189824 6.83714 0.120467 6.75764 0.0723178C6.67813 0.0241688 6.58678 -0.000866491 6.49384 2.28982e-05H0.493837Z"
-              fill="white"
+              fill={isLandingPage ? "black" : "white"}
               fillOpacity="0.5"
             />
           </svg>

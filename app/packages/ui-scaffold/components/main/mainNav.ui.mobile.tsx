@@ -9,6 +9,7 @@ import {
   ChevronLeftIcon,
   cn,
   useMediaQuery,
+  Divider,
 } from "@orderly.network/ui";
 import { WalletConnectButtonExtension } from "../accountMenu/menu.widget";
 import { AccountSummaryWidget } from "../accountSummary";
@@ -152,7 +153,8 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
         walletConnect,
       });
     }
-
+    const isLandingPage =
+      location.pathname === "/" || location.pathname.includes("landing");
     return (
       <Flex width="100%" justify="between">
         <Flex gapX={2}>{title}</Flex>
@@ -162,6 +164,11 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
           {linkDevice}
           {languageSwitcher}
           {chainMenu}
+          <Divider
+            direction="vertical"
+            className="oui-h-8"
+            intensity={isLandingPage ? 54 : 8}
+          />
           {walletConnect}
           {props?.customLeftNav || leftNav}
           {props.trailing}
@@ -169,7 +176,8 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
       </Flex>
     );
   };
-
+  const isLandingPage =
+    location.pathname === "/" || location.pathname.includes("landing");
   return (
     <Flex
       width={"100%"}
@@ -178,8 +186,11 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
       itemAlign={"center"}
       className={cn(props.className, props.classNames?.root)}
       style={{
-        background:
-          state.status! >= AccountStatusEnum.SignedIn
+        background: isLandingPage
+          ? state.status! >= AccountStatusEnum.SignedIn
+            ? "white"
+            : "white"
+          : state.status! >= AccountStatusEnum.SignedIn
             ? "linear-gradient(90deg, #3b3d48 1.44%, #121419 4.59%, #121419 84.64%, #52419e 92%, rgba(127, 251, 255, 0.9))"
             : "linear-gradient(90deg, #3b3d48 1.44%, #121419 2.89%, #121419 88.94%)",
       }}
