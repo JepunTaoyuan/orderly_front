@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { cn, Flex } from "@orderly.network/ui";
 import { useScreenSize } from "@/hooks/custom/useScreenSize";
+import { GeneralLeaderboardWidget } from "../../../components/leaderboard/generalLeaderboard";
 import { CampaignsWidget } from "../../components/campaigns";
-import { TradingListWidget } from "../../components/tradingList";
 import { LeaderboardScriptReturn } from "./leaderboard.script";
 
 export type LeaderboardProps = {
@@ -92,7 +92,7 @@ export const Leaderboard: FC<LeaderboardProps> = (props) => {
         }}
       >
         {props.showCampaigns && <CampaignsWidget />}
-        <TradingListWidget
+        <GeneralLeaderboardWidget
           className={cn(
             props.showCampaigns
               ? "oui-h-[calc(100%_-_288px_-_20px)]"

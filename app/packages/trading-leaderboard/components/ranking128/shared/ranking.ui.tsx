@@ -52,10 +52,12 @@ export const Ranking: FC<RankingProps> = (props) => {
           // use oui-relative to let the background image position based on row
           "oui-relative",
           isYou
+            ? "oui-bg-[rgba(39,44,32,1)]"
+            : showBg && "oui-border-b-2 oui-border-b-transparent",
+          isYou
             ? // add 4px extra height to make row has 2px space
               "oui-h-[44px] md:oui-h-[52px]"
             : cn(
-                showBg && "oui-border-b-2 oui-border-b-transparent",
                 isFirst &&
                   "oui-bg-[linear-gradient(270deg,rgba(241,215,121,0.0225)_-2.05%,rgba(255,203,70,0.45)_100%)]",
                 isSecond &&

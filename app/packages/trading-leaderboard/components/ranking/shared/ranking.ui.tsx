@@ -40,29 +40,16 @@ export const Ranking: FC<RankingProps> = (props) => {
   const onRow = useCallback(
     (record: RankingData, index: number) => {
       const isYou = record.key === getCurrentAddressRowKey(props.address!);
-      const isFirst = record.rank === 1;
-      const isSecond = record.rank === 2;
-      const isThird = record.rank === 3;
-
-      const showBg = isFirst || isSecond || isThird;
 
       return {
         className: cn(
           "oui-h-[40px] md:oui-h-[48px]",
           // use oui-relative to let the background image position based on row
           "oui-relative",
-          isYou
-            ? // add 4px extra height to make row has 2px space
-              "oui-h-[44px] md:oui-h-[52px]"
-            : cn(
-                showBg && "oui-border-b-2 oui-border-b-transparent",
-                isFirst &&
-                  "oui-bg-[linear-gradient(270deg,rgba(241,215,121,0.0225)_-2.05%,rgba(255,203,70,0.45)_100%)]",
-                isSecond &&
-                  "oui-bg-[linear-gradient(270deg,rgba(255,255,255,0.0225)_-2.05%,rgba(199,199,199,0.45)_100%)]",
-                isThird &&
-                  "oui-bg-[linear-gradient(270deg,rgba(255,233,157,0.0225)_-1.3%,rgba(160,101,46,0.45)_100%)]",
-              ),
+          isYou ? "oui-bg-[rgba(39,44,32,1)]" : "oui-bg-[rgba(19,21,25,1)]",
+          isYou &&
+            // add 4px extra height to make row has 2px space
+            "oui-h-[44px] md:oui-h-[52px]",
         ),
       };
     },
@@ -77,32 +64,20 @@ export const Ranking: FC<RankingProps> = (props) => {
     ) => {
       const isFirstColumn = column.getIsFirstColumn();
       const isLastColumn = column.getIsLastColumn();
-      const isRank = [1, 2, 3].includes(record.rank as number);
       if (record.key === getCurrentAddressRowKey(props.address!)) {
         return {
           className: cn(
             "after:oui-absolute after:oui-h-[40px] after:oui-w-full md:after:oui-h-[48px]",
-            "after:oui-border-[rgb(var(--oui-gradient-brand-start))]",
+            "after:oui-border-[rgba(219,253,92,1)]",
             "after:oui-left-0 after:oui-top-[2px] after:oui-z-[-1]",
             "after:oui-border-y",
+            "after:oui-bg-[rgba(39,44,32,1)]",
             isFirstColumn && "after:oui-rounded-l-lg after:oui-border-l",
             isLastColumn && "after:oui-rounded-r-lg after:oui-border-r",
           ),
         };
       }
-      return {
-        className: cn(
-          isFirstColumn &&
-            isRank &&
-            "oui-rounded-l-lg oui-mix-blend-luminosity",
-          isLastColumn && isRank && "oui-rounded-r-lg oui-mix-blend-luminosity",
-        ),
-        // style: isRank
-        //   ? {
-        //       position: "unset",
-        //     }
-        //   : undefined,
-      };
+      return {};
     },
     [props.address],
   );

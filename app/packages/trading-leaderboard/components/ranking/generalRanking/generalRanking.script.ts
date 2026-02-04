@@ -7,7 +7,9 @@ import {
 } from "@orderly.network/hooks";
 import { API } from "@orderly.network/types";
 import { TableSort, usePagination, useScreen } from "@orderly.network/ui";
+import { LeaderboardEntry } from "@/services/api-refer-client";
 import { useEndReached } from "../../../hooks/useEndReached";
+import { usePointsLeaderboard } from "../../../hooks/usePointsLeaderboard";
 import { DateRange } from "../../../type";
 import { formatDateRange, getDateRange } from "../../../utils";
 import { getCurrentAddressRowKey, isSameAddress } from "../shared/util";
@@ -175,6 +177,12 @@ export function useGeneralRankingScript(options?: GeneralRankingScriptOptions) {
     },
   );
 
+  // Fetch points data
+  const { data: pointsData } = usePointsLeaderboard({
+    limit: 100,
+    type: "total",
+  });
+
   const getAddressRank = useCallback(
     (address: string) => {
       const index = top100Data?.rows.findIndex((item) =>
@@ -232,6 +240,36 @@ export function useGeneralRankingScript(options?: GeneralRankingScriptOptions) {
   );
 
   const dataSource = useMemo(() => {
+    // Handling sort by totalPoints
+    if (sort?.sortKey === "totalPoints") {
+      const list = (pointsData as LeaderboardEntry[]) || [];
+      const total = list.length;
+
+      const mappedList = list.slice(0, pageSize).map((item, index) => ({
+        account_id: "",
+        address: item.user_id,
+        broker_fee: 0,
+        date: "",
+        perp_maker_volume: 0,
+        perp_taker_volume: 0,
+        perp_volume: 0,
+        realized_pnl: 0,
+        total_fee: 0,
+        key: getCurrentAddressRowKey(item.user_id),
+        rank: index + 1,
+        totalPoints: item.total_points,
+        volume: 0,
+        pnl: 0,
+      }));
+
+      if (page === 1 && !searchValue) {
+        // Try to find user in points data for "You" row, or use existing user logic?
+        // For simplicity, just return the mapped list for now, or merge user
+        return mappedList;
+      }
+      return mappedList;
+    }
+
     let list = data?.rows || [];
     // hardcode for 128 campaign
     if (campaignRankingList && campaignRankingList.length >= 0) {
@@ -253,10 +291,27 @@ export function useGeneralRankingScript(options?: GeneralRankingScriptOptions) {
     }
     const rankList = addRankForList(list, total);
 
+    // Merge points data
+    const pointsMap = new Map(
+      (pointsData as LeaderboardEntry[])?.map((p) => [
+        p.user_id.toLowerCase(),
+        p.total_points,
+      ]) || [],
+    );
+    const mergedList = rankList.map((item) => ({
+      ...item,
+      totalPoints: pointsMap.get(item.address.toLowerCase()),
+    }));
+
     if (page === 1 && !searchValue) {
-      return formatData([...userDataList, ...rankList]);
+      // Merge points for user data too
+      const userListWithPoints = userDataList.map((item) => ({
+        ...item,
+        totalPoints: pointsMap.get(item.address.toLowerCase()),
+      }));
+      return formatData([...userListWithPoints, ...mergedList]);
     }
-    return formatData(rankList);
+    return formatData(mergedList);
   }, [
     data,
     page,
@@ -266,6 +321,8 @@ export function useGeneralRankingScript(options?: GeneralRankingScriptOptions) {
     addRankForList,
     campaignRankingList,
     filteredCampaignData,
+    pointsData,
+    sort,
   ]);
 
   const dataList = useMemo(() => {

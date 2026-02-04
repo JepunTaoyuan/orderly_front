@@ -65,7 +65,6 @@ export const CampaignLeaderboard: FC<CampaignLeaderboardProps> = (props) => {
       intensity={900}
       className={cn(
         "oui-trading-leaderboard-campaign-leaderboard oui-relative",
-        "oui-mx-auto oui-max-w-[992px]",
       )}
     >
       <LeaderboardTabs

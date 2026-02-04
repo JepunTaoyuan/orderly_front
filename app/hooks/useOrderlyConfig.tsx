@@ -106,11 +106,16 @@ export const useOrderlyConfig = () => {
         },
         sharePnLConfig: {
           backgroundImages: [
-            "/images/pnl/test.png",
-            "/images/pnl/poster_bg_1.png",
-            "/images/pnl/poster_bg_2.png",
-            "/images/pnl/poster_bg_3.png",
-            "/images/pnl/poster_bg_4.png",
+            "/images/pnl/bg01.png",
+            "/images/pnl/bg02.png",
+            "/images/pnl/bg03.png",
+            "/images/pnl/bg04.png",
+            "/images/pnl/bg05.png",
+            "/images/pnl/bg06.png",
+            "/images/pnl/bg07.png",
+            "/images/pnl/bg08.png",
+            "/images/pnl/bg09.png",
+            "/images/pnl/bg10.png",
           ],
 
           color: "rgba(255, 255, 255, 0.98)",

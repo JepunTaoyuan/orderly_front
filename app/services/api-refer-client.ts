@@ -420,6 +420,8 @@ export interface WeeklyLeaderboardResponse {
 export interface WeeklyHistoryItem {
   week_start: number;
   weekly_points: number;
+  weekly_volume?: number;
+  weekly_positive_pnl?: number;
 }
 
 export interface WeeklyHistoryResponse {

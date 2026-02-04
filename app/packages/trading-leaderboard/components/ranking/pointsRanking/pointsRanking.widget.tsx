@@ -146,7 +146,6 @@ export const PointsRankingWidget: FC<PointsRankingWidgetProps> = (props) => {
       intensity={900}
       className={cn(
         "oui-trading-leaderboard-points-ranking oui-relative",
-        !isMobile && "oui-mx-auto oui-max-w-[992px]",
         props.className,
       )}
       style={props.style}
