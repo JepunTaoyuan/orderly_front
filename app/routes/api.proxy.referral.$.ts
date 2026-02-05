@@ -21,6 +21,10 @@ async function proxyRequest(request: Request, path: string) {
   const url = new URL(request.url);
   const targetUrl = `${REFERRAL_API_URL}${path}${url.search}`;
 
+  console.log(
+    `[Referral Proxy] Forwarding ${request.method} ${url.pathname} -> ${targetUrl}`,
+  );
+
   // Copy headers from original request
   const headers = new Headers();
   request.headers.forEach((value, key) => {

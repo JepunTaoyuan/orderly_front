@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { cn, Flex } from "@orderly.network/ui";
+import { GeneralLeaderboardWidget } from "../../../components/leaderboard/generalLeaderboard";
 import { CampaignsWidget } from "../../components/campaigns";
-import { TradingListWidget } from "../../components/tradingList";
 import { LeaderboardScriptReturn } from "./leaderboard.script";
 
 export type LeaderboardProps = {
@@ -101,7 +101,7 @@ export const MobileLeaderboardWidget: FC<LeaderboardProps> = (props) => {
         )}
       >
         {props.showCampaigns && <CampaignsWidget />}
-        <TradingListWidget />
+        <GeneralLeaderboardWidget />
       </Flex>
     </div>
   );

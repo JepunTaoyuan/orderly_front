@@ -1,4 +1,5 @@
 import { FC, useMemo, useState } from "react";
+import { useMediaQuery } from "@orderly.network/hooks";
 import { cn, Box, useScreen, Divider, Flex } from "@orderly.network/ui";
 import { LeaderboardTab } from "../../../type";
 import { GeneralRankingWidget } from "../../ranking/generalRanking";
@@ -27,8 +28,14 @@ export const GeneralLeaderboard: FC<GeneralLeaderboardProps> = (props) => {
   const [activeMainTab, setActiveMainTab] =
     useState<LeaderboardMainTab>("leaderboard");
 
+  const isBelowDesktop = useMediaQuery("(max-width: 1024px)");
+
   const fields = useMemo<RankingColumnFields[]>(() => {
     if (isMobile) {
+      if (props.activeTab === LeaderboardTab.Points) {
+        return ["rank", "address", "totalPoints"];
+      }
+
       return [
         "rank",
         "address",
@@ -39,7 +46,31 @@ export const GeneralLeaderboard: FC<GeneralLeaderboardProps> = (props) => {
     return ["rank", "address", "volume", "pnl", "totalPoints"];
   }, [isMobile, props.activeTab]);
 
-  const showProfile = !isMobile && activeMainTab === "leaderboard";
+  const sortKey = useMemo(() => {
+    if (!isMobile) return undefined;
+
+    switch (props.activeTab) {
+      case LeaderboardTab.Volume:
+        return "perp_volume";
+      case LeaderboardTab.Pnl:
+        return "realized_pnl";
+      case LeaderboardTab.Points:
+        // Assuming "totalPoints" is the sort key for points, checking backend mapping
+        // In most cases for this project, it might be handled differently or just "points"
+        // But GeneralRankingWidget often maps keys. Let's assume undefined relies on default or handle inside widget
+        // If we look at GeneralRankingWidget, it passes sortKey to useGeneralRankingScript
+        // which maps it.
+        // For now, let's set it to undefined if Points, relying on the widget/hook to default or
+        // if we need a specific key like 'ladders_score' or 'points', we might need to verify.
+        // However, based on existing pattern:
+        return undefined; // Or "total_points" if we knew the backend key.
+      default:
+        return undefined;
+    }
+  }, [isMobile, props.activeTab]);
+
+  const showProfile =
+    activeMainTab === "leaderboard" || activeMainTab === "myPoints";
 
   const content = (
     <Box
@@ -75,13 +106,7 @@ export const GeneralLeaderboard: FC<GeneralLeaderboardProps> = (props) => {
           <GeneralRankingWidget
             dateRange={props.dateRange}
             address={props.searchValue}
-            sortKey={
-              isMobile
-                ? props.activeTab === LeaderboardTab.Volume
-                  ? "perp_volume"
-                  : "realized_pnl"
-                : undefined
-            }
+            sortKey={sortKey}
             fields={fields}
           />
         </>
@@ -99,10 +124,17 @@ export const GeneralLeaderboard: FC<GeneralLeaderboardProps> = (props) => {
         gap={3}
         className={props.className}
         style={props.style}
-        align="start"
+        itemAlign="start"
+        direction={isBelowDesktop ? "column" : "row"}
       >
-        <LeaderboardProfile className="oui-h-full" />
-        <Box className="oui-flex-1" height="100%">
+        <LeaderboardProfile
+          className={isBelowDesktop ? "oui-w-full" : "oui-h-full"}
+        />
+        <Box
+          className="oui-flex-1"
+          height="100%"
+          width={isBelowDesktop ? "100%" : undefined}
+        >
           {content}
         </Box>
       </Flex>

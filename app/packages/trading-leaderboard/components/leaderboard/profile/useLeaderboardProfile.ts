@@ -49,7 +49,7 @@ export const useLeaderboardProfile = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const address = state.address;
+        const address = state.address!;
 
         // Parallel requests
         const [userPointsRes, historyRes, leaderboardRes] = await Promise.all([

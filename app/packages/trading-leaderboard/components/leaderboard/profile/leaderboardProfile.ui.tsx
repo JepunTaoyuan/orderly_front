@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { useMediaQuery } from "@orderly.network/hooks";
 import { Box, Flex, Text, Button } from "@orderly.network/ui";
 import { commify } from "@orderly.network/utils";
 import { useOrderlyConfig } from "../../../../../hooks/useOrderlyConfig";
@@ -12,6 +13,8 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
   const [showShare, setShowShare] = useState(false);
   const config = useOrderlyConfig();
   const sharePnLConfig = config?.tradingPage?.sharePnLConfig;
+  const isDesktop = useMediaQuery("(min-width: 1025px)");
+  const isMobile = useMediaQuery("(max-width: 390px)");
 
   const shortAddress = (address?: string) => {
     if (!address) return "--";
@@ -35,98 +38,583 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
     characterImage: "",
   };
 
-  return (
-    <div
-      className={className}
-      style={{
-        width: "fit-content",
-        height: "100%",
-        padding: 24,
-        background: "#131519",
-        borderRadius: 4,
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        alignItems: "flex-start",
-        gap: 20,
-        display: "inline-flex",
-      }}
-    >
-      <div
-        style={{
-          width: 317,
-          justifyContent: "space-between",
-          alignItems: "center",
-          display: "inline-flex",
-        }}
-      >
+  const renderContent = () => {
+    if (isDesktop) {
+      return (
         <div
+          className={className}
           style={{
-            width: 175,
+            width: "fit-content",
+            height: "100%",
+            padding: 24,
+            background: "#131519",
+            borderRadius: 4,
             flexDirection: "column",
             justifyContent: "flex-start",
             alignItems: "flex-start",
-            gap: 12,
+            gap: 20,
             display: "inline-flex",
           }}
         >
           <div
             style={{
-              alignSelf: "stretch",
-              justifyContent: "flex-start",
+              width: 317,
+              justifyContent: "space-between",
               alignItems: "center",
+              display: "inline-flex",
+            }}
+          >
+            <div
+              style={{
+                width: 175,
+                flexDirection: "column",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+                gap: 12,
+                display: "inline-flex",
+              }}
+            >
+              <div
+                style={{
+                  alignSelf: "stretch",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  gap: 12,
+                  display: "inline-flex",
+                }}
+              >
+                <div
+                  style={{
+                    justifyContent: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    color: "white",
+                    fontSize: 20,
+                    fontFamily: "Manrope",
+                    fontWeight: "700",
+                    lineHeight: "36px",
+                    wordWrap: "break-word",
+                  }}
+                >
+                  Points You Earned
+                </div>
+              </div>
+            </div>
+            {sharePnLConfig && (
+              <div
+                onClick={() => setShowShare(true)}
+                data-color="neutral"
+                data-left-icon="false"
+                data-right-icon="false"
+                data-size="md"
+                data-state="default"
+                data-style="tertiary"
+                data-variant="outline"
+                style={{
+                  width: 104,
+                  height: 32,
+                  minHeight: 32,
+                  paddingLeft: 16,
+                  paddingRight: 16,
+                  borderRadius: 999,
+                  outline: "1px rgba(255, 255, 255, 0.90) solid",
+                  outlineOffset: "-1px",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 4,
+                  display: "flex",
+                  cursor: "pointer",
+                }}
+              >
+                <div
+                  style={{
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                    gap: 4,
+                    display: "flex",
+                  }}
+                >
+                  <div
+                    style={{
+                      justifyContent: "center",
+                      display: "flex",
+                      flexDirection: "column",
+                      color: "rgba(255, 255, 255, 0.90)",
+                      fontSize: 11,
+                      fontFamily: "Manrope",
+                      fontWeight: "600",
+                      lineHeight: "20px",
+                      wordWrap: "break-word",
+                    }}
+                  >
+                    Share
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          <div
+            style={{
+              background: "#131519",
+              borderRadius: 4,
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+              gap: 50,
+              display: "flex",
+            }}
+          >
+            <div
+              style={{
+                alignSelf: "stretch",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "flex-start",
+                gap: 3,
+                display: "flex",
+              }}
+            >
+              <div
+                style={{
+                  width: 317,
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  gap: 3,
+                  display: "inline-flex",
+                }}
+              >
+                <div
+                  style={{
+                    flex: "1 1 0",
+                    alignSelf: "stretch",
+                    padding: 20,
+                    background: "rgba(255, 255, 255, 0.05)",
+                    borderRadius: 4,
+                    justifyContent: "flex-start",
+                    alignItems: "flex-start",
+                    gap: 20,
+                    display: "flex",
+                  }}
+                >
+                  <img
+                    style={{
+                      width: 76,
+                      height: 94,
+                      padding: 1,
+                      borderRadius: 4,
+                      outline: "1px rgba(112, 83, 243, 0.80) solid",
+                      objectFit: "cover",
+                    }}
+                    src="/images/fe8b32d6e954177f4cb7627fd7a03b58faaecd46.png"
+                    alt="Avatar"
+                  />
+                  <div
+                    style={{
+                      height: 90,
+                      flexDirection: "column",
+                      justifyContent: "flex-start",
+                      alignItems: "flex-start",
+                      gap: 10,
+                      display: "inline-flex",
+                    }}
+                  >
+                    <div
+                      style={{
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                        gap: 16,
+                        display: "inline-flex",
+                      }}
+                    >
+                      <div
+                        style={{
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "flex-start",
+                          gap: 4,
+                          display: "inline-flex",
+                        }}
+                      >
+                        <div
+                          style={{
+                            justifyContent: "center",
+                            display: "flex",
+                            flexDirection: "column",
+                            color: "rgba(255, 255, 255, 0.50)",
+                            fontSize: 13,
+                            fontFamily: "Manrope",
+                            fontWeight: "700",
+                            lineHeight: "24px",
+                            wordWrap: "break-word",
+                          }}
+                        >
+                          Name
+                        </div>
+                        <div
+                          style={{
+                            color: "rgba(255, 255, 255, 0.90)",
+                            fontSize: 12,
+                            fontFamily: "Manrope",
+                            fontWeight: "700",
+                            lineHeight: "12px",
+                            wordWrap: "break-word",
+                          }}
+                        >
+                          {data.name}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                        gap: 16,
+                        display: "inline-flex",
+                      }}
+                    >
+                      <div
+                        style={{
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "flex-start",
+                          gap: 4,
+                          display: "inline-flex",
+                        }}
+                      >
+                        <div
+                          style={{
+                            justifyContent: "center",
+                            display: "flex",
+                            flexDirection: "column",
+                            color: "rgba(255, 255, 255, 0.50)",
+                            fontSize: 13,
+                            fontFamily: "Manrope",
+                            fontWeight: "700",
+                            lineHeight: "24px",
+                            wordWrap: "break-word",
+                          }}
+                        >
+                          ID
+                        </div>
+                        <div
+                          style={{
+                            color: "white",
+                            fontSize: 12,
+                            fontFamily: "Manrope",
+                            fontWeight: "700",
+                            lineHeight: "12px",
+                            wordWrap: "break-word",
+                          }}
+                        >
+                          {shortAddress(data.address)}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                style={{
+                  width: 317,
+                  padding: 20,
+                  background: "rgba(255, 255, 255, 0.05)",
+                  borderRadius: 4,
+                  flexDirection: "column",
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  gap: 10,
+                  display: "flex",
+                }}
+              >
+                <div
+                  style={{
+                    alignSelf: "stretch",
+                    justifyContent: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    color: "rgba(255, 255, 255, 0.90)",
+                    fontSize: 13,
+                    fontFamily: "Manrope",
+                    fontWeight: "700",
+                    lineHeight: "24px",
+                    wordWrap: "break-word",
+                  }}
+                >
+                  Overall
+                </div>
+                <div
+                  style={{
+                    alignSelf: "stretch",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                    gap: 16,
+                    display: "inline-flex",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 125,
+                      height: 68,
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "flex-start",
+                      gap: 8,
+                      display: "inline-flex",
+                    }}
+                  >
+                    <div
+                      style={{
+                        alignSelf: "stretch",
+                        justifyContent: "center",
+                        display: "flex",
+                        flexDirection: "column",
+                        color: "rgba(255, 255, 255, 0.50)",
+                        fontSize: 13,
+                        fontFamily: "Manrope",
+                        fontWeight: "700",
+                        lineHeight: "24px",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      Total Points
+                    </div>
+                    <div
+                      style={{
+                        alignSelf: "stretch",
+                        justifyContent: "center",
+                        display: "flex",
+                        flexDirection: "column",
+                        color: "#C9BDFF",
+                        fontSize: 28,
+                        fontFamily: "Manrope",
+                        fontWeight: "600",
+                        lineHeight: "28px",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      {data.overall.points}
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      width: 125,
+                      height: 68,
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "flex-start",
+                      gap: 8,
+                      display: "inline-flex",
+                    }}
+                  >
+                    <div
+                      style={{
+                        alignSelf: "stretch",
+                        justifyContent: "center",
+                        display: "flex",
+                        flexDirection: "column",
+                        color: "rgba(255, 255, 255, 0.50)",
+                        fontSize: 13,
+                        fontFamily: "Manrope",
+                        fontWeight: "700",
+                        lineHeight: "24px",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      Rank
+                    </div>
+                    <div
+                      style={{
+                        alignSelf: "stretch",
+                        justifyContent: "center",
+                        display: "flex",
+                        flexDirection: "column",
+                        color: "#C9BDFF",
+                        fontSize: 28,
+                        fontFamily: "Manrope",
+                        fontWeight: "600",
+                        lineHeight: "28px",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      {data.overall.rank}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                style={{
+                  width: 317,
+                  padding: 20,
+                  background: "rgba(255, 255, 255, 0.05)",
+                  borderRadius: 4,
+                  flexDirection: "column",
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  gap: 10,
+                  display: "flex",
+                }}
+              >
+                <div
+                  style={{
+                    alignSelf: "stretch",
+                    justifyContent: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    color: "rgba(255, 255, 255, 0.90)",
+                    fontSize: 13,
+                    fontFamily: "Manrope",
+                    fontWeight: "700",
+                    lineHeight: "24px",
+                    wordWrap: "break-word",
+                  }}
+                >
+                  Last Week’s Performance
+                </div>
+                <div
+                  style={{
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                    gap: 16,
+                    display: "inline-flex",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 125,
+                      height: 68,
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "flex-start",
+                      gap: 8,
+                      display: "inline-flex",
+                    }}
+                  >
+                    <div
+                      style={{
+                        alignSelf: "stretch",
+                        justifyContent: "center",
+                        display: "flex",
+                        flexDirection: "column",
+                        color: "rgba(255, 255, 255, 0.50)",
+                        fontSize: 13,
+                        fontFamily: "Manrope",
+                        fontWeight: "700",
+                        lineHeight: "24px",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      Points
+                    </div>
+                    <div
+                      style={{
+                        alignSelf: "stretch",
+                        justifyContent: "center",
+                        display: "flex",
+                        flexDirection: "column",
+                        color: "#C9BDFF",
+                        fontSize: 28,
+                        fontFamily: "Manrope",
+                        fontWeight: "600",
+                        lineHeight: "28px",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      {data.lastWeek.points}
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      width: 125,
+                      height: 68,
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "flex-start",
+                      gap: 8,
+                      display: "inline-flex",
+                    }}
+                  >
+                    <div
+                      style={{
+                        alignSelf: "stretch",
+                        justifyContent: "center",
+                        display: "flex",
+                        flexDirection: "column",
+                        color: "rgba(255, 255, 255, 0.50)",
+                        fontSize: 13,
+                        fontFamily: "Manrope",
+                        fontWeight: "700",
+                        lineHeight: "24px",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      Rank
+                    </div>
+                    <div
+                      style={{
+                        alignSelf: "stretch",
+                        justifyContent: "center",
+                        display: "flex",
+                        flexDirection: "column",
+                        color: "#C9BDFF",
+                        fontSize: 28,
+                        fontFamily: "Manrope",
+                        fontWeight: "600",
+                        lineHeight: "28px",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      {data.lastWeek.rank}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Mobile & Tablet (Vertical Layout)
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          padding: 16,
+          background: "#131519",
+          borderRadius: 4,
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
+          gap: 12,
+          display: "inline-flex",
+        }}
+      >
+        <div
+          style={{
+            alignSelf: "stretch",
+            justifyContent: "space-between",
+            alignItems: "center",
+            display: "inline-flex",
+          }}
+        >
+          <div
+            style={{
+              width: 175,
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
               gap: 12,
               display: "inline-flex",
             }}
           >
             <div
               style={{
-                justifyContent: "center",
-                display: "flex",
-                flexDirection: "column",
-                color: "white",
-                fontSize: 20,
-                fontFamily: "Manrope",
-                fontWeight: "700",
-                lineHeight: "36px",
-                wordWrap: "break-word",
-              }}
-            >
-              Points You Earned
-            </div>
-          </div>
-        </div>
-        {sharePnLConfig && (
-          <div
-            onClick={() => setShowShare(true)}
-            data-color="neutral"
-            data-left-icon="false"
-            data-right-icon="false"
-            data-size="md"
-            data-state="default"
-            data-style="tertiary"
-            data-variant="outline"
-            style={{
-              width: 104,
-              height: 32,
-              minHeight: 32,
-              paddingLeft: 16,
-              paddingRight: 16,
-              borderRadius: 999,
-              outline: "1px rgba(255, 255, 255, 0.90) solid",
-              outlineOffset: "-1px",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 4,
-              display: "flex",
-              cursor: "pointer",
-            }}
-          >
-            <div
-              style={{
+                alignSelf: "stretch",
                 justifyContent: "flex-start",
                 alignItems: "center",
-                gap: 4,
-                display: "flex",
+                gap: 12,
+                display: "inline-flex",
               }}
             >
               <div
@@ -134,438 +622,499 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                   justifyContent: "center",
                   display: "flex",
                   flexDirection: "column",
-                  color: "rgba(255, 255, 255, 0.90)",
-                  fontSize: 11,
+                  color: "white",
+                  fontSize: 20,
                   fontFamily: "Manrope",
-                  fontWeight: "600",
-                  lineHeight: "20px",
+                  fontWeight: "700",
+                  lineHeight: "36px",
                   wordWrap: "break-word",
                 }}
               >
-                Share
+                Points You Earned
               </div>
             </div>
           </div>
-        )}
-      </div>
-      <div
-        style={{
-          background: "#131519",
-          borderRadius: 4,
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          gap: 50,
-          display: "flex",
-        }}
-      >
+          {sharePnLConfig && (
+            <div
+              onClick={() => setShowShare(true)}
+              data-color="neutral"
+              data-left-icon="false"
+              data-right-icon="false"
+              data-size="md"
+              data-state="default"
+              data-style="tertiary"
+              data-variant="outline"
+              style={{
+                width: 104,
+                height: 32,
+                minHeight: 32,
+                paddingLeft: 16,
+                paddingRight: 16,
+                borderRadius: 999,
+                outline: "1px rgba(255, 255, 255, 0.90) solid",
+                outlineOffset: "-1px",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 4,
+                display: "flex",
+                cursor: "pointer",
+              }}
+            >
+              <div
+                style={{
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  gap: 4,
+                  display: "flex",
+                }}
+              >
+                <div
+                  style={{
+                    justifyContent: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    color: "rgba(255, 255, 255, 0.90)",
+                    fontSize: 11,
+                    fontFamily: "Manrope",
+                    fontWeight: "600",
+                    lineHeight: "20px",
+                    wordWrap: "break-word",
+                  }}
+                >
+                  Share
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
         <div
           style={{
             alignSelf: "stretch",
-            flexDirection: "column",
-            justifyContent: "center",
+            background: "#131519",
+            borderRadius: 4,
+            justifyContent: "flex-start",
             alignItems: "flex-start",
-            gap: 3,
-            display: "flex",
+            gap: 50,
+            display: "inline-flex",
           }}
         >
           <div
             style={{
-              width: 317,
-              justifyContent: "flex-start",
-              alignItems: "center",
+              flex: "1 1 0",
+              width: "100%",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "flex-start",
               gap: 3,
               display: "inline-flex",
             }}
           >
             <div
               style={{
-                flex: "1 1 0",
                 alignSelf: "stretch",
+                height: 142,
+                justifyContent: "flex-start",
+                alignItems: "center",
+                gap: 3,
+                display: "inline-flex",
+              }}
+            >
+              <div
+                style={{
+                  flex: "1 1 0",
+                  alignSelf: "stretch",
+                  padding: 20,
+                  background: "rgba(255, 255, 255, 0.05)",
+                  borderRadius: 4,
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  gap: 20,
+                  display: "flex",
+                }}
+              >
+                <img
+                  style={{
+                    width: 76,
+                    height: 94,
+                    padding: 1,
+                    borderRadius: 4,
+                    outline: "1px rgba(112, 83, 243, 0.80) solid",
+                    objectFit: "cover",
+                  }}
+                  src="/images/fe8b32d6e954177f4cb7627fd7a03b58faaecd46.png"
+                  alt="Avatar"
+                />
+                <div
+                  style={{
+                    height: 90,
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    alignItems: "flex-start",
+                    gap: 10,
+                    display: "inline-flex",
+                  }}
+                >
+                  <div
+                    style={{
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                      gap: 16,
+                      display: "inline-flex",
+                    }}
+                  >
+                    <div
+                      style={{
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "flex-start",
+                        gap: 4,
+                        display: "inline-flex",
+                      }}
+                    >
+                      <div
+                        style={{
+                          justifyContent: "center",
+                          display: "flex",
+                          flexDirection: "column",
+                          color: "rgba(255, 255, 255, 0.50)",
+                          fontSize: 13,
+                          fontFamily: "Manrope",
+                          fontWeight: "700",
+                          lineHeight: "24px",
+                          wordWrap: "break-word",
+                        }}
+                      >
+                        Name
+                      </div>
+                      <div
+                        style={{
+                          color: "rgba(255, 255, 255, 0.90)",
+                          fontSize: 12,
+                          fontFamily: "Manrope",
+                          fontWeight: "700",
+                          lineHeight: "12px",
+                          wordWrap: "break-word",
+                        }}
+                      >
+                        {data.name}
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                      gap: 16,
+                      display: "inline-flex",
+                    }}
+                  >
+                    <div
+                      style={{
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "flex-start",
+                        gap: 4,
+                        display: "inline-flex",
+                      }}
+                    >
+                      <div
+                        style={{
+                          justifyContent: "center",
+                          display: "flex",
+                          flexDirection: "column",
+                          color: "rgba(255, 255, 255, 0.50)",
+                          fontSize: 13,
+                          fontFamily: "Manrope",
+                          fontWeight: "700",
+                          lineHeight: "24px",
+                          wordWrap: "break-word",
+                        }}
+                      >
+                        ID
+                      </div>
+                      <div
+                        style={{
+                          color: "white",
+                          fontSize: 12,
+                          fontFamily: "Manrope",
+                          fontWeight: "700",
+                          lineHeight: "12px",
+                          wordWrap: "break-word",
+                        }}
+                      >
+                        {shortAddress(data.address)}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              style={{
+                alignSelf: "stretch",
+                height: 142,
                 padding: 20,
                 background: "rgba(255, 255, 255, 0.05)",
                 borderRadius: 4,
+                flexDirection: "column",
                 justifyContent: "flex-start",
                 alignItems: "flex-start",
-                gap: 20,
+                gap: 10,
                 display: "flex",
               }}
             >
-              <img
-                style={{
-                  width: 76,
-                  height: 94,
-                  padding: 1,
-                  borderRadius: 4,
-                  outline: "1px rgba(112, 83, 243, 0.80) solid",
-                  objectFit: "cover",
-                }}
-                src="/images/fe8b32d6e954177f4cb7627fd7a03b58faaecd46.png"
-                alt="Avatar"
-              />
               <div
                 style={{
-                  height: 90,
+                  alignSelf: "stretch",
+                  justifyContent: "center",
+                  display: "flex",
                   flexDirection: "column",
+                  color: "rgba(255, 255, 255, 0.90)",
+                  fontSize: 13,
+                  fontFamily: "Manrope",
+                  fontWeight: "700",
+                  lineHeight: "24px",
+                  wordWrap: "break-word",
+                }}
+              >
+                Overall
+              </div>
+              <div
+                style={{
+                  alignSelf: "stretch",
                   justifyContent: "flex-start",
-                  alignItems: "flex-start",
-                  gap: 10,
+                  alignItems: "center",
+                  gap: 16,
                   display: "inline-flex",
                 }}
               >
                 <div
                   style={{
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    gap: 16,
+                    width: 125,
+                    height: 68,
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "flex-start",
+                    gap: 8,
                     display: "inline-flex",
                   }}
                 >
                   <div
                     style={{
-                      flexDirection: "column",
+                      alignSelf: "stretch",
                       justifyContent: "center",
-                      alignItems: "flex-start",
-                      gap: 4,
-                      display: "inline-flex",
+                      display: "flex",
+                      flexDirection: "column",
+                      color: "rgba(255, 255, 255, 0.50)",
+                      fontSize: 13,
+                      fontFamily: "Manrope",
+                      fontWeight: "700",
+                      lineHeight: "24px",
+                      wordWrap: "break-word",
                     }}
                   >
-                    <div
-                      style={{
-                        justifyContent: "center",
-                        display: "flex",
-                        flexDirection: "column",
-                        color: "rgba(255, 255, 255, 0.50)",
-                        fontSize: 13,
-                        fontFamily: "Manrope",
-                        fontWeight: "700",
-                        lineHeight: "24px",
-                        wordWrap: "break-word",
-                      }}
-                    >
-                      Name
-                    </div>
-                    <div
-                      style={{
-                        color: "rgba(255, 255, 255, 0.90)",
-                        fontSize: 12,
-                        fontFamily: "Manrope",
-                        fontWeight: "700",
-                        lineHeight: "12px",
-                        wordWrap: "break-word",
-                      }}
-                    >
-                      {data.name}
-                    </div>
+                    Total Points
+                  </div>
+                  <div
+                    style={{
+                      alignSelf: "stretch",
+                      justifyContent: "center",
+                      display: "flex",
+                      flexDirection: "column",
+                      color: "#C9BDFF",
+                      fontSize: 28,
+                      fontFamily: "Manrope",
+                      fontWeight: "600",
+                      lineHeight: "28px",
+                      wordWrap: "break-word",
+                    }}
+                  >
+                    {data.overall.points}
                   </div>
                 </div>
                 <div
                   style={{
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    gap: 16,
+                    width: 125,
+                    height: 68,
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "flex-start",
+                    gap: 8,
                     display: "inline-flex",
                   }}
                 >
                   <div
                     style={{
-                      flexDirection: "column",
+                      alignSelf: "stretch",
                       justifyContent: "center",
-                      alignItems: "flex-start",
-                      gap: 4,
-                      display: "inline-flex",
+                      display: "flex",
+                      flexDirection: "column",
+                      color: "rgba(255, 255, 255, 0.50)",
+                      fontSize: 13,
+                      fontFamily: "Manrope",
+                      fontWeight: "700",
+                      lineHeight: "24px",
+                      wordWrap: "break-word",
                     }}
                   >
-                    <div
-                      style={{
-                        justifyContent: "center",
-                        display: "flex",
-                        flexDirection: "column",
-                        color: "rgba(255, 255, 255, 0.50)",
-                        fontSize: 13,
-                        fontFamily: "Manrope",
-                        fontWeight: "700",
-                        lineHeight: "24px",
-                        wordWrap: "break-word",
-                      }}
-                    >
-                      ID
-                    </div>
-                    <div
-                      style={{
-                        color: "white",
-                        fontSize: 12,
-                        fontFamily: "Manrope",
-                        fontWeight: "700",
-                        lineHeight: "12px",
-                        wordWrap: "break-word",
-                      }}
-                    >
-                      {shortAddress(data.address)}
-                    </div>
+                    Rank
+                  </div>
+                  <div
+                    style={{
+                      alignSelf: "stretch",
+                      justifyContent: "center",
+                      display: "flex",
+                      flexDirection: "column",
+                      color: "#C9BDFF",
+                      fontSize: 28,
+                      fontFamily: "Manrope",
+                      fontWeight: "600",
+                      lineHeight: "28px",
+                      wordWrap: "break-word",
+                    }}
+                  >
+                    {data.overall.rank}
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            style={{
-              width: 317,
-              padding: 20,
-              background: "rgba(255, 255, 255, 0.05)",
-              borderRadius: 4,
-              flexDirection: "column",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              gap: 10,
-              display: "flex",
-            }}
-          >
             <div
               style={{
                 alignSelf: "stretch",
-                justifyContent: "center",
-                display: "flex",
+                height: 142,
+                padding: 20,
+                background: "rgba(255, 255, 255, 0.05)",
+                borderRadius: 4,
                 flexDirection: "column",
-                color: "rgba(255, 255, 255, 0.90)",
-                fontSize: 13,
-                fontFamily: "Manrope",
-                fontWeight: "700",
-                lineHeight: "24px",
-                wordWrap: "break-word",
-              }}
-            >
-              Overall
-            </div>
-            <div
-              style={{
-                alignSelf: "stretch",
                 justifyContent: "flex-start",
-                alignItems: "center",
-                gap: 16,
-                display: "inline-flex",
-              }}
-            >
-              <div
-                style={{
-                  width: 125,
-                  height: 68,
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "flex-start",
-                  gap: 8,
-                  display: "inline-flex",
-                }}
-              >
-                <div
-                  style={{
-                    alignSelf: "stretch",
-                    justifyContent: "center",
-                    display: "flex",
-                    flexDirection: "column",
-                    color: "rgba(255, 255, 255, 0.50)",
-                    fontSize: 13,
-                    fontFamily: "Manrope",
-                    fontWeight: "700",
-                    lineHeight: "24px",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  Total Points
-                </div>
-                <div
-                  style={{
-                    alignSelf: "stretch",
-                    justifyContent: "center",
-                    display: "flex",
-                    flexDirection: "column",
-                    color: "#C9BDFF",
-                    fontSize: 28,
-                    fontFamily: "Manrope",
-                    fontWeight: "600",
-                    lineHeight: "28px",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  {data.overall.points}
-                </div>
-              </div>
-              <div
-                style={{
-                  width: 125,
-                  height: 68,
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "flex-start",
-                  gap: 8,
-                  display: "inline-flex",
-                }}
-              >
-                <div
-                  style={{
-                    alignSelf: "stretch",
-                    justifyContent: "center",
-                    display: "flex",
-                    flexDirection: "column",
-                    color: "rgba(255, 255, 255, 0.50)",
-                    fontSize: 13,
-                    fontFamily: "Manrope",
-                    fontWeight: "700",
-                    lineHeight: "24px",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  Rank
-                </div>
-                <div
-                  style={{
-                    alignSelf: "stretch",
-                    justifyContent: "center",
-                    display: "flex",
-                    flexDirection: "column",
-                    color: "#C9BDFF",
-                    fontSize: 28,
-                    fontFamily: "Manrope",
-                    fontWeight: "600",
-                    lineHeight: "28px",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  {data.overall.rank}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            style={{
-              width: 317,
-              padding: 20,
-              background: "rgba(255, 255, 255, 0.05)",
-              borderRadius: 4,
-              flexDirection: "column",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              gap: 10,
-              display: "flex",
-            }}
-          >
-            <div
-              style={{
-                alignSelf: "stretch",
-                justifyContent: "center",
+                alignItems: "flex-start",
+                gap: 10,
                 display: "flex",
-                flexDirection: "column",
-                color: "rgba(255, 255, 255, 0.90)",
-                fontSize: 13,
-                fontFamily: "Manrope",
-                fontWeight: "700",
-                lineHeight: "24px",
-                wordWrap: "break-word",
-              }}
-            >
-              Last Week’s Performance
-            </div>
-            <div
-              style={{
-                justifyContent: "flex-start",
-                alignItems: "center",
-                gap: 16,
-                display: "inline-flex",
               }}
             >
               <div
                 style={{
-                  width: 125,
-                  height: 68,
-                  flexDirection: "column",
+                  alignSelf: "stretch",
                   justifyContent: "center",
-                  alignItems: "flex-start",
-                  gap: 8,
-                  display: "inline-flex",
+                  display: "flex",
+                  flexDirection: "column",
+                  color: "rgba(255, 255, 255, 0.90)",
+                  fontSize: 13,
+                  fontFamily: "Manrope",
+                  fontWeight: "700",
+                  lineHeight: "24px",
+                  wordWrap: "break-word",
                 }}
               >
-                <div
-                  style={{
-                    alignSelf: "stretch",
-                    justifyContent: "center",
-                    display: "flex",
-                    flexDirection: "column",
-                    color: "rgba(255, 255, 255, 0.50)",
-                    fontSize: 13,
-                    fontFamily: "Manrope",
-                    fontWeight: "700",
-                    lineHeight: "24px",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  Points
-                </div>
-                <div
-                  style={{
-                    alignSelf: "stretch",
-                    justifyContent: "center",
-                    display: "flex",
-                    flexDirection: "column",
-                    color: "#C9BDFF",
-                    fontSize: 28,
-                    fontFamily: "Manrope",
-                    fontWeight: "600",
-                    lineHeight: "28px",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  {data.lastWeek.points}
-                </div>
+                Last Week’s Performance
               </div>
               <div
                 style={{
-                  width: 125,
-                  height: 68,
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "flex-start",
-                  gap: 8,
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  gap: 16,
                   display: "inline-flex",
                 }}
               >
                 <div
                   style={{
-                    alignSelf: "stretch",
-                    justifyContent: "center",
-                    display: "flex",
+                    width: 125,
+                    height: 68,
                     flexDirection: "column",
-                    color: "rgba(255, 255, 255, 0.50)",
-                    fontSize: 13,
-                    fontFamily: "Manrope",
-                    fontWeight: "700",
-                    lineHeight: "24px",
-                    wordWrap: "break-word",
+                    justifyContent: "center",
+                    alignItems: "flex-start",
+                    gap: 8,
+                    display: "inline-flex",
                   }}
                 >
-                  Rank
+                  <div
+                    style={{
+                      alignSelf: "stretch",
+                      justifyContent: "center",
+                      display: "flex",
+                      flexDirection: "column",
+                      color: "rgba(255, 255, 255, 0.50)",
+                      fontSize: 13,
+                      fontFamily: "Manrope",
+                      fontWeight: "700",
+                      lineHeight: "24px",
+                      wordWrap: "break-word",
+                    }}
+                  >
+                    Points
+                  </div>
+                  <div
+                    style={{
+                      alignSelf: "stretch",
+                      justifyContent: "center",
+                      display: "flex",
+                      flexDirection: "column",
+                      color: "#C9BDFF",
+                      fontSize: 28,
+                      fontFamily: "Manrope",
+                      fontWeight: "600",
+                      lineHeight: "28px",
+                      wordWrap: "break-word",
+                    }}
+                  >
+                    {data.lastWeek.points}
+                  </div>
                 </div>
                 <div
                   style={{
-                    alignSelf: "stretch",
-                    justifyContent: "center",
-                    display: "flex",
+                    width: 125,
+                    height: 68,
                     flexDirection: "column",
-                    color: "#C9BDFF",
-                    fontSize: 28,
-                    fontFamily: "Manrope",
-                    fontWeight: "600",
-                    lineHeight: "28px",
-                    wordWrap: "break-word",
+                    justifyContent: "center",
+                    alignItems: "flex-start",
+                    gap: 8,
+                    display: "inline-flex",
                   }}
                 >
-                  {data.lastWeek.rank}
+                  <div
+                    style={{
+                      alignSelf: "stretch",
+                      justifyContent: "center",
+                      display: "flex",
+                      flexDirection: "column",
+                      color: "rgba(255, 255, 255, 0.50)",
+                      fontSize: 13,
+                      fontFamily: "Manrope",
+                      fontWeight: "700",
+                      lineHeight: "24px",
+                      wordWrap: "break-word",
+                    }}
+                  >
+                    Rank
+                  </div>
+                  <div
+                    style={{
+                      alignSelf: "stretch",
+                      justifyContent: "center",
+                      display: "flex",
+                      flexDirection: "column",
+                      color: "#C9BDFF",
+                      fontSize: 28,
+                      fontFamily: "Manrope",
+                      fontWeight: "600",
+                      lineHeight: "28px",
+                      wordWrap: "break-word",
+                    }}
+                  >
+                    {data.lastWeek.rank}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    );
+  };
 
+  return (
+    <>
+      {renderContent()}
       {sharePnLConfig && (
         <SharePointDialog
           open={showShare}
@@ -574,6 +1123,6 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
           config={sharePnLConfig}
         />
       )}
-    </div>
+    </>
   );
 };

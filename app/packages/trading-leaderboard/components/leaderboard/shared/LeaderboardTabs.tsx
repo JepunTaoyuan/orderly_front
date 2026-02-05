@@ -23,7 +23,7 @@ export const LeaderboardTabs: FC<LeaderboardTabsProps> = (props) => {
     return "";
   }, [props.isMobile, updatedTime, currentCampaign]);
 
-  const { showVolume, showPnl } = useMemo(() => {
+  const { showVolume, showPnl, showPoints } = useMemo(() => {
     const metrics = currentCampaign?.prize_pools?.map((item) => item.metric);
     const isMobileGeneral = props.isMobile && !currentCampaign;
     const showVolume = isMobileGeneral
@@ -33,79 +33,77 @@ export const LeaderboardTabs: FC<LeaderboardTabsProps> = (props) => {
       ? true
       : metrics?.includes(LeaderboardTab.Pnl);
 
+    // Always show points if not in a specific campaign (general leaderboard), or if explicitly included
+    const showPoints = isMobileGeneral
+      ? true
+      : (metrics as string[])?.includes(LeaderboardTab.Points) ||
+        !currentCampaign;
+
     return {
       showVolume,
       showPnl,
+      showPoints,
     };
   }, [currentCampaign, props.activeTab, props.isMobile]);
 
   useEffect(() => {
-    // set default tab
-    if (showVolume && showPnl) {
-      props.onTabChange(LeaderboardTab.Volume);
-    } else if (showVolume) {
-      props.onTabChange(LeaderboardTab.Volume);
-    } else if (showPnl) {
-      props.onTabChange(LeaderboardTab.Pnl);
+    // set default tab logic
+    if (props.activeTab === LeaderboardTab.Points && !showPoints) {
+      // If currently on Points but it shouldn't be shown, switch to others
+      if (showVolume) props.onTabChange(LeaderboardTab.Volume);
+      else if (showPnl) props.onTabChange(LeaderboardTab.Pnl);
+    } else if (props.activeTab === LeaderboardTab.Volume && !showVolume) {
+      if (showPnl) props.onTabChange(LeaderboardTab.Pnl);
+      else if (showPoints) props.onTabChange(LeaderboardTab.Points);
+    } else if (props.activeTab === LeaderboardTab.Pnl && !showPnl) {
+      if (showVolume) props.onTabChange(LeaderboardTab.Volume);
+      else if (showPoints) props.onTabChange(LeaderboardTab.Points);
     }
-  }, [currentCampaign, showVolume, showPnl]);
+  }, [currentCampaign, showVolume, showPnl, showPoints]);
 
   const renderTabs = () => {
-    if (showVolume && showPnl) {
-      return (
-        <Tabs
-          value={props.activeTab}
-          onValueChange={props.onTabChange as (tab: string) => void}
-          variant="contained"
-          size="lg"
-          key={currentCampaign?.campaign_id}
-        >
-          <TabPanel
-            title={t("tradingLeaderboard.tradingVolume")}
-            value={LeaderboardTab.Volume}
-          ></TabPanel>
-          <TabPanel
-            title={t("common.pnl")}
-            value={LeaderboardTab.Pnl}
-          ></TabPanel>
-        </Tabs>
-      );
-    }
-
+    const tabs = [];
     if (showVolume) {
-      return (
-        <Tabs
-          value={props.activeTab}
-          onValueChange={props.onTabChange as (tab: string) => void}
-          variant="contained"
-          size="lg"
-          key={currentCampaign?.campaign_id}
-        >
-          <TabPanel
-            title={t("tradingLeaderboard.tradingVolume")}
-            value={LeaderboardTab.Volume}
-          ></TabPanel>
-        </Tabs>
+      tabs.push(
+        <TabPanel
+          key={LeaderboardTab.Volume}
+          title={t("tradingLeaderboard.tradingVolume")}
+          value={LeaderboardTab.Volume}
+        ></TabPanel>,
+      );
+    }
+    if (showPnl) {
+      tabs.push(
+        <TabPanel
+          key={LeaderboardTab.Pnl}
+          title={t("common.pnl")}
+          value={LeaderboardTab.Pnl}
+        ></TabPanel>,
+      );
+    }
+    if (showPoints) {
+      tabs.push(
+        <TabPanel
+          key={LeaderboardTab.Points}
+          title={t("common.points", "Total Points")}
+          value={LeaderboardTab.Points}
+        ></TabPanel>,
       );
     }
 
-    if (showPnl) {
-      return (
-        <Tabs
-          value={props.activeTab}
-          onValueChange={props.onTabChange as (tab: string) => void}
-          variant="contained"
-          size="lg"
-          key={currentCampaign?.campaign_id}
-        >
-          <TabPanel
-            title={t("common.pnl")}
-            value={LeaderboardTab.Pnl}
-          ></TabPanel>
-        </Tabs>
-      );
-    }
-    return <div></div>;
+    if (tabs.length === 0) return <div></div>;
+
+    return (
+      <Tabs
+        value={props.activeTab}
+        onValueChange={props.onTabChange as (tab: string) => void}
+        variant="contained"
+        size="lg"
+        key={currentCampaign?.campaign_id}
+      >
+        {tabs}
+      </Tabs>
+    );
   };
 
   return (
@@ -120,18 +118,6 @@ export const LeaderboardTabs: FC<LeaderboardTabsProps> = (props) => {
       )}
     >
       {renderTabs()}
-      {/* <Tabs
-        value={props.activeTab}
-        onValueChange={props.onTabChange as (tab: string) => void}
-        variant="contained"
-        size="lg"
-      >
-        <TabPanel
-          title="Trading volume"
-          value={LeaderboardTab.Volume}
-        ></TabPanel>
-        <TabPanel title="Realized PnL" value={LeaderboardTab.Pnl}></TabPanel>
-      </Tabs> */}
       {updateTime && (
         <Flex
           itemAlign="start"
