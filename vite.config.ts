@@ -66,7 +66,15 @@ declare module "@remix-run/node" {
 
 export default defineConfig(() => {
   const isProduction = process.env.NODE_ENV === "production";
-  const noExternal: any[] = [/^@orderly.*$/, "@uiw/react-split"];
+  const noExternal: any[] = [
+    /^@orderly.*$/,
+    "@uiw/react-split",
+    "buffer-polyfill",
+    "builtin-status-codes",
+    "pako",
+    "buffer",
+    "crypto-browserify",
+  ];
   if (isProduction) {
     noExternal.push("ethers");
   }

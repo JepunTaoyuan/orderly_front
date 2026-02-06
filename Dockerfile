@@ -6,7 +6,7 @@ WORKDIR /app
 ENV NPM_CONFIG_CACHE=/tmp/.npm
 ENV NPM_CONFIG_CACHE=/tmp/.npm
 COPY package.json package-lock.json ./
-RUN npm ci --legacy-peer-deps --no-audit --no-fund && npm cache clean --force && rm -rf /tmp/.npm
+RUN npm install && npm cache clean --force && rm -rf /tmp/.npm
 
 # TODO fix: use this layer will cause "Cannot find package buffer-polyfill"
 # Setup production node_modules
@@ -20,8 +20,9 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-    ENV NODE_OPTIONS="--max-old-space-size=4096"
-    RUN npm run build
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+ENV NODE_ENV=production
+RUN npm run build
 RUN npm prune --omit=dev
 
 FROM base AS runtime
@@ -37,6 +38,7 @@ COPY --from=builder /app/build/server ./build/server
 COPY --from=builder /app/build/client ./build/client
 
 ENV NODE_ENV=production
+ENV HOST=0.0.0.0
 
 EXPOSE 3000
 
