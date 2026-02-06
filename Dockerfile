@@ -4,8 +4,9 @@ FROM node:24-slim AS base
 FROM base AS deps
 WORKDIR /app
 ENV NPM_CONFIG_CACHE=/tmp/.npm
+ENV NPM_CONFIG_CACHE=/tmp/.npm
 COPY package.json package-lock.json ./
-RUN npm ci --no-audit --no-fund && npm cache clean --force && rm -rf /tmp/.npm
+RUN npm ci --legacy-peer-deps --no-audit --no-fund && npm cache clean --force && rm -rf /tmp/.npm
 
 # TODO fix: use this layer will cause "Cannot find package buffer-polyfill"
 # Setup production node_modules
@@ -40,3 +41,4 @@ ENV NODE_ENV=production
 EXPOSE 3000
 
 CMD ["npm", "run","start"]
+
