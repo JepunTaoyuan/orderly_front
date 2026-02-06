@@ -92,7 +92,10 @@ export const SymbolInfoBarFull: React.FC<SymbolInfoBarFullProps> = (props) => {
           className="oui-mr-1 oui-cursor-pointer"
         >
           {isFavorite ? (
-            <FavoritesIcon2 className="oui-size-3 oui-text-warning-darken" />
+            <FavoritesIcon2
+              className="oui-size-3"
+              style={{ color: "#DBFD3C" }}
+            />
           ) : (
             <UnFavoritesIcon2 className="oui-size-3 oui-text-base-contrast-36 hover:oui-text-warning-darken" />
           )}

@@ -9,8 +9,7 @@ export const RwaTab = () => {
       <Box
         px={1}
         style={{
-          background:
-            "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
+          background: "#DBFD5C",
           borderRadius: "10000px",
         }}
       >
