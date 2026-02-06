@@ -3,8 +3,9 @@ FROM node:24-slim AS base
 
 FROM base AS deps
 WORKDIR /app
+ENV NPM_CONFIG_CACHE=/tmp/.npm
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm ci --no-audit --no-fund && npm cache clean --force && rm -rf /tmp/.npm
 
 # TODO fix: use this layer will cause "Cannot find package buffer-polyfill"
 # Setup production node_modules
@@ -18,7 +19,9 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN npm run build
+    ENV NODE_OPTIONS="--max-old-space-size=4096"
+    RUN npm run build
+RUN npm prune --omit=dev
 
 FROM base AS runtime
 WORKDIR /app
