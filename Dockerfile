@@ -23,6 +23,7 @@ COPY . .
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 ENV NODE_ENV=production
 RUN npm run build
+RUN npm prune --omit=dev
 
 FROM base AS runtime
 WORKDIR /app
@@ -42,4 +43,3 @@ ENV HOST=0.0.0.0
 EXPOSE 3000
 
 CMD ["npm", "run","start"]
-
