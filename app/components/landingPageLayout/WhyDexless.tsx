@@ -36,7 +36,7 @@ const FEATURES = [
   },
 ];
 
-export function WhyDexless() {
+export default function WhyDexless() {
   return (
     <section
       className="relative oui-bg-cover oui-bg-center oui-text-black oui-flex oui-justify-center"

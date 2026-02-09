@@ -1,9 +1,12 @@
 /* WooFi Widget Color Overrides - DEXless Theme */
 
 .el-button.el-button--primary {
-  background: linear-gradient(90deg,
-      rgb(82, 65, 158),
-      rgb(127, 251, 255)) !important;
+  background: linear-gradient(
+    90deg,
+    rgb(112, 83, 243),
+    rgb(120, 203, 193) ,
+    rgb(205, 235, 120) 
+  ) !important;
   border-color: transparent !important;
   color: rgba(255, 255, 255, 1) !important;
   border-radius: 50px !important;
@@ -12,9 +15,13 @@
 }
 
 .el-button.el-button--primary:hover {
-  background: linear-gradient(90deg,
-      rgb(110, 85, 223),
-      rgb(156, 241, 255)) !important;
+  background: linear-gradient(
+    90deg,
+    rgb(112, 83, 243),
+    rgb(120, 203, 193) ,
+    rgb(205, 235, 120) 
+  ) !important;
+
   transform: translateY(-1px) !important;
   box-shadow: 0 4px 12px rgba(127, 251, 255, 0.3) !important;
 }

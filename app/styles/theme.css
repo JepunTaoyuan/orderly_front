@@ -177,7 +177,7 @@
 
   .mad-button {
     border-radius: 50px;
-    background: linear-gradient(90deg, #52419e, #7ffbff);
+    background: linear-gradient(90deg, #7053F3 0%, #78CBC1 45%, #CDEB78 96%);
     color: rgba(255, 255, 255, 1);
     font-size: 11px;
     border: none;

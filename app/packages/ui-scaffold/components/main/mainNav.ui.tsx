@@ -1,6 +1,12 @@
 import { FC, PropsWithChildren, useMemo } from "react";
 import { AccountStatusEnum } from "@orderly.network/types";
-import { cn, Divider, Flex, useScreen } from "@orderly.network/ui";
+import {
+  cn,
+  Divider,
+  Flex,
+  useMediaQuery,
+  useScreen,
+} from "@orderly.network/ui";
 import Airdrop from "@/components/custom/Airdrop";
 import { WalletConnectButtonExtension } from "../accountMenu/menu.widget";
 import { AccountSummaryWidget } from "../accountSummary";
@@ -30,6 +36,7 @@ export const MainNav: FC<PropsWithChildren<MainNavScriptReturn>> = (props) => {
     !props.disabledConnect && props.wrongNetwork && props.isConnected;
 
   const { isDesktop } = useScreen();
+  const is2XL = useMediaQuery("(min-width: 1309px)");
 
   const children = useMemo(() => {
     if (typeof props.children === "undefined") {
@@ -92,8 +99,12 @@ export const MainNav: FC<PropsWithChildren<MainNavScriptReturn>> = (props) => {
         >
           {title}
           {props.leading}
-          {mainNav}
-          <Airdrop />
+          {is2XL && (
+            <>
+              {mainNav}
+              <Airdrop />
+            </>
+          )}
           {props.trailing}
         </Flex>
 

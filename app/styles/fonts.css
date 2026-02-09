@@ -25,7 +25,7 @@
   src: url('/fonts/Poppins/Poppins-Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
-  font-display: swap; /* 建議加上，優化載入體驗 */
+  font-display: swap;
 }
 
 /* Poppins - SemiBold */

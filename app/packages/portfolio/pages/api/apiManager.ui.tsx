@@ -187,7 +187,7 @@ const Subtitle: React.FC<ApiManagerScriptReturns> = (props) => {
           className="oui-rounded-full oui-text-white oui-text-xs"
           style={{
             background:
-              "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
+              "linear-gradient(90deg, #7053F3 0%, #78CBC1 45%, #CDEB78 96%)",
           }}
         >
           {t("portfolio.apiKey.create.dialog.title")}

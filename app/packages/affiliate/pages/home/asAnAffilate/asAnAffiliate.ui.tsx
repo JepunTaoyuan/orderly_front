@@ -19,7 +19,10 @@ export const AsAnAffiliate: FC<AsAnAffiliateReturns> = (props) => {
       // angle={180}
       width={"100%"}
       justify={"between"}
-      style={{ backgroundImage: "linear-gradient(90deg, #52419e, #9ffbff)" }}
+      style={{
+        background:
+          "linear-gradient(90deg, #7053F3 0%, #78CBC1 45%, #CDEB78 96%)",
+      }}
     >
       <Flex
         direction={"row"}
