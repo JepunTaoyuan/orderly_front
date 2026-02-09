@@ -187,7 +187,7 @@ const HeroCampaignItem: FC<{
             className="oui-rounded-full oui-px-5"
             style={{
               background:
-                "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
+                "linear-gradient(90deg, #7053F3 0%, #78CBC1 45%, #CDEB78 96%)",
               color: "rgba(255, 255, 255, 1)",
             }}
           >

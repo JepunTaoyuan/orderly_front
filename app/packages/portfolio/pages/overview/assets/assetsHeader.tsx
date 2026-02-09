@@ -37,7 +37,7 @@ export const AssetsHeader: FC<Props> = (props) => {
             className="oui-rounded-full oui-text-white oui-text-xs oui-px-4 oui-font-semibold oui-leading-5"
             style={{
               background:
-                "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
+                "linear-gradient(90deg, #7053F3 0%, #78CBC1 45%, #CDEB78 96%)",
             }}
           >
             {t("common.deposit")}

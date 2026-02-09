@@ -13,7 +13,8 @@ import "./styles/index.css";
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const localePath = getLocalePathFromPathname(location.pathname);
-
+  const isLandingPage =
+    location.pathname === "/" || location.pathname.includes("landing");
   // if url is include lang, and url lang is not the same as the i18n language, change the i18n language
   if (localePath && localePath !== i18n.language) {
     i18n.changeLanguage(localePath);
@@ -28,7 +29,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body
+        style={
+          isLandingPage
+            ? {
+                backgroundColor: "#121419",
+                backgroundImage: "url(/images/landingpage/landingImage.jpg)",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }
+            : undefined
+        }
+      >
         <OrderlyProvider>{children}</OrderlyProvider>
         <ScrollRestoration />
         <Scripts />

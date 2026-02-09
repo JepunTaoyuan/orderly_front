@@ -131,7 +131,7 @@ function SwapError({ error, onRetry }: { error: string; onRetry: () => void }) {
           .retry-button {
             margin-top: 16px;
             padding: 12px 32px;
-            background: linear-gradient(90deg, rgb(82, 65, 158), rgb(127, 251, 255));
+            background: );
             border: none;
             border-radius: 50px;
             color: rgba(255, 255, 255, 1);

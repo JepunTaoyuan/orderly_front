@@ -317,7 +317,7 @@ const Title: FC<ReferralCodesReturns> = (props) => {
           className={`oui-rounded-full oui-text-xs oui-px-5 oui-font-semibold`}
           style={{
             background:
-              "linear-gradient(90deg, rgb(82, 65, 158) 0%, rgb(127, 251, 255) 100%)",
+              "linear-gradient(90deg, #7053F3 0%, #78CBC1 45%, #CDEB78 96%)",
           }}
           size="md"
           onClick={handleCreate}

@@ -80,8 +80,8 @@ export const AccountMenu = (props: AccountMenuProps) => {
         // angle={45}
         style={{
           background: isLandingPage
-            ? "linear-gradient(90deg, #7053F3 0%, #85D7CD 45%, #dbf987 96%)"
-            : "linear-gradient(90deg, #7053F3 0%, #85D7CD 45%, #dbf987 86%)",
+            ? "linear-gradient(90deg, #7053F3 0%, #78CBC1 45%, #CDEB78 96%)"
+            : "linear-gradient(90deg, #7053F3 0%, #78CBC1 45%, #CDEB78 96%)",
         }}
         className="wallet-connect-button oui-rounded-full oui-text-xs"
         loading={state.validating}

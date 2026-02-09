@@ -8,7 +8,7 @@ import LandingPageFooter from "@/components/landingPageLayout/LandingPageFooter"
 import Markets from "@/components/landingPageLayout/Markets";
 import RiskDisclosure from "@/components/landingPageLayout/RiskDisclosure";
 import SecurityAndRisk from "@/components/landingPageLayout/SecurityAndRisk";
-import { WhyDexless } from "@/components/landingPageLayout/WhyDexless";
+import WhyDexless from "@/components/landingPageLayout/WhyDexless";
 import { PathEnum } from "@/constant";
 
 export default function LandingPage() {
