@@ -76,28 +76,38 @@ export const MobileLeaderboardWidget: FC<LeaderboardProps> = (props) => {
   //     );
   //   }
   // };
+
   return (
     <div
-      style={{
-        paddingBottom: "calc(64px + env(safe-area-inset-bottom))",
-      }}
       className={cn(
-        "oui-relative oui-grid oui-h-[calc(100vh-44px)] oui-gap-1 oui-bg-base-10",
-        "oui-mix-blend-screen",
+        // 1. 移除 mix-blend-screen 避免觸控攔截
+        // 2. 移除外層固定高度計算，改用 flex-1 或簡單的 min-h-screen
+        "oui-relative oui-w-full oui-bg-base-10",
         props.className,
       )}
+      style={{
+        // 確保外層不會溢出，而是交給內層捲動
+        height: "calc(100vh - 44px)",
+        display: "flex",
+        flexDirection: "column",
+      }}
     >
-      {/* {renderBackground()} */}
       <Flex
         direction="column"
         gapY={3}
-        height="100%"
         px={3}
         pt={3}
-        pb={3}
+        // 這裡處理底部安全區域，確保滾動到底部時內容不被遮擋
+        style={{
+          paddingBottom: "calc(64px + env(safe-area-inset-bottom))",
+          WebkitOverflowScrolling: "touch", // 優化 iOS 滑動流暢度
+        }}
         className={cn(
-          "oui-trading-leaderboard-mobile oui-custom-scrollbar oui-overflow-y-auto",
-          "oui-relative oui-h-[calc(100vh_-_64px)]",
+          "oui-trading-leaderboard-mobile",
+          "oui-custom-scrollbar",
+          "oui-overflow-y-auto", // 確保滾動在這一層觸發
+          "oui-flex-1", // 填滿剩餘高度
+          "oui-w-full",
         )}
       >
         {props.showCampaigns && <CampaignsWidget />}
