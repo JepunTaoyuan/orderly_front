@@ -10,7 +10,7 @@ const Hero: React.FC = () => {
   const navigate = useNavigate();
 
   const handleTradeNow = () => {
-    navigate("/en/perp/PERP_BTC_USDC");
+    navigate("/perp/PERP_BTC_USDC");
   };
 
   return (

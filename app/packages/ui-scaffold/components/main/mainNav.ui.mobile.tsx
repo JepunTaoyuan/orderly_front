@@ -14,7 +14,6 @@ import {
 import { WalletConnectButtonExtension } from "../accountMenu/menu.widget";
 import { AccountSummaryWidget } from "../accountSummary";
 import { ChainMenuWidget } from "../chainMenu";
-import { LanguageSwitcherWidget } from "../languageSwitcher";
 import { LeftNavUI } from "../leftNav/leftNav.ui";
 import { RouterAdapter } from "../scaffold";
 import { ScanQRCodeWidget } from "../scanQRCode";
@@ -127,7 +126,6 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
 
   const renderContent = () => {
     const accountSummary = <AccountSummaryWidget />;
-    const languageSwitcher = <LanguageSwitcherWidget />;
     const scanQRCode = showQrcode && <ScanQRCodeWidget />;
     const subAccount = showSubAccount && <SubAccountWidget />;
     const linkDevice = shouldShowLinkDevice && <LinkDeviceWidget />;
@@ -145,7 +143,6 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
       return props.customRender?.({
         leftNav,
         title,
-        languageSwitcher,
         scanQRCode,
         subAccount,
         linkDevice,
@@ -162,7 +159,6 @@ export const MainNavMobile: FC<MainNavMobileProps> = (props) => {
           {props.leading}
           {accountSummary}
           {linkDevice}
-          {languageSwitcher}
           {chainMenu}
           <Divider
             direction="vertical"

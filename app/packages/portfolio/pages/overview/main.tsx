@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, useMediaQuery, useScreen } from "@orderly.network/ui";
-import HistoryPage from "@/routes/$lang.portfolio.history";
+import HistoryPage from "@/routes/portfolio.history";
 import { MobileOverview } from "./mobile";
 import { OverviewProvider } from "./provider/overviewProvider";
 
