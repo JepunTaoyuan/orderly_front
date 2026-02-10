@@ -1,10 +1,6 @@
 import { FC, ReactNode } from "react";
-import {
-  LocaleProvider,
-  LocaleCode,
-  LocaleEnum,
-  i18n,
-} from "@orderly.network/i18n";
+import { LocaleProvider, LocaleCode, LocaleEnum } from "@orderly.network/i18n";
+import { i18n } from "@orderly.network/i18n";
 import { OrderlyAppProvider } from "@orderly.network/react-app";
 import { registerSimpleDialog, registerSimpleSheet } from "@orderly.network/ui";
 import { WalletConnectorProvider } from "@orderly.network/wallet-connector";
@@ -32,8 +28,8 @@ const OrderlyProvider: FC<{ children: ReactNode }> = (props) => {
   const path = usePathWithoutLang();
   const { onRouteChange } = useNav();
 
-  const onLanguageChanged = async () => {
-    window.history.replaceState({}, "", `/${LocaleEnum.en}${path}`);
+  const onLanguageChanged = async (lang: LocaleCode) => {
+    window.history.replaceState({}, "", `/${lang}${path}`);
   };
 
   const loadPath = (lang: LocaleCode) => {
@@ -51,9 +47,9 @@ const OrderlyProvider: FC<{ children: ReactNode }> = (props) => {
     >
       <WalletConnectorProvider>
         <OrderlyAppProvider
-          brokerId="dexless"
-          brokerName="dexless"
-          networkId="mainnet"
+          brokerId="orderly"
+          brokerName="Orderly"
+          networkId="testnet"
           appIcons={config.orderlyAppProvider.appIcons}
           onRouteChange={onRouteChange}
         >

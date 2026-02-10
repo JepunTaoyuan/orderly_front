@@ -6,12 +6,7 @@ import {
   ScrollRestoration,
   useLocation,
 } from "@remix-run/react";
-import {
-  getLocalePathFromPathname,
-  i18n,
-  LocaleEnum,
-  parseI18nLang,
-} from "@orderly.network/i18n";
+import { getLocalePathFromPathname, i18n } from "@orderly.network/i18n";
 import OrderlyProvider from "@/components/orderlyProvider";
 import "./styles/index.css";
 

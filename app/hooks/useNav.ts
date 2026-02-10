@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useNavigate } from "@remix-run/react";
+import { i18n, parseI18nLang } from "@orderly.network/i18n";
 import { PathEnum } from "@/constant";
 import { PortfolioLeftSidebarPath } from "@/packages/portfolio";
 import { RouteOption } from "@/packages/ui-scaffold";
@@ -15,16 +16,18 @@ export function useNav() {
         return;
       }
 
+      const lang = parseI18nLang(i18n.language);
+
       if (option.href === "/") {
         const symbol = getSymbol();
-        navigate(`${PathEnum.Perp}/${symbol}`);
+        navigate(`/${lang}${PathEnum.Perp}/${symbol}`);
         return;
       }
 
       // Strategy 需要符號子路由，與 Perp 行為一致
       if (option.href === PathEnum.Strategy) {
         const symbol = getSymbol();
-        navigate(`${PathEnum.Strategy}/${symbol}`);
+        navigate(`/${lang}${PathEnum.Strategy}/${symbol}`);
         return;
       }
 
@@ -36,7 +39,7 @@ export function useNav() {
 
       const path = routeMap[option.href] || option.href;
 
-      navigate(path);
+      navigate(`/${lang}${path}`);
     },
     [navigate],
   );

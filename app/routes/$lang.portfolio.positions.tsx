@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { MetaFunction } from "@remix-run/node";
 import { useNavigate } from "@remix-run/react";
+import { i18n, parseI18nLang } from "@orderly.network/i18n";
 import { useTradingLocalStorage } from "@orderly.network/trading";
 import { API } from "@orderly.network/types";
 import { Box } from "@orderly.network/ui";
@@ -23,7 +24,7 @@ export default function PositionsPage() {
     (data: API.Symbol) => {
       const symbol = data.symbol;
       updateSymbol(symbol);
-      navigate(`${PathEnum.Perp}/${symbol}`);
+      navigate(`/${parseI18nLang(i18n.language)}${PathEnum.Perp}/${symbol}`);
     },
     [navigate],
   );

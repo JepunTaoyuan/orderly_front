@@ -17,7 +17,7 @@ export type OrderlyConfig = {
     footerProps: FooterProps;
   };
   tradingPage: {
-    Config: TradingPageProps["tradingViewConfig"];
+    tradingViewConfig: TradingPageProps["tradingViewConfig"];
     sharePnLConfig: TradingPageProps["sharePnLConfig"];
   };
 };

@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { MetaFunction } from "@remix-run/node";
+import { i18n, parseI18nLang } from "@orderly.network/i18n";
 import { Box, useScreen } from "@orderly.network/ui";
 import { PageTitleMap, PathEnum } from "@/constant";
 import { Campaign, LeaderboardWidget } from "@/packages/trading-leaderboard";
@@ -47,7 +48,7 @@ export default function MarketsPage() {
 
   const tradingUrl = useMemo(() => {
     const symbol = getSymbol();
-    return `${PathEnum.Perp}/${symbol}`;
+    return `/${parseI18nLang(i18n.language)}${PathEnum.Perp}/${symbol}`;
   }, []);
 
   return (

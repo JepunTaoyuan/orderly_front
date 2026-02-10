@@ -11,6 +11,7 @@ import Airdrop from "@/components/custom/Airdrop";
 import { WalletConnectButtonExtension } from "../accountMenu/menu.widget";
 import { AccountSummaryWidget } from "../accountSummary";
 import { ChainMenuWidget } from "../chainMenu";
+import { LanguageSwitcherWidget } from "../languageSwitcher";
 import { SubAccountWidget } from "../subAccount";
 import { CampaignButton } from "./campaignButton";
 import { LinkDeviceWidget } from "./linkDevice";
@@ -50,6 +51,7 @@ export const MainNav: FC<PropsWithChildren<MainNavScriptReturn>> = (props) => {
     const title = <MainLogo {...props.logo} />;
     const accountSummary = <AccountSummaryWidget />;
     const linkDevice = showLinkIcon && <LinkDeviceWidget />;
+    const languageSwitcher = <LanguageSwitcherWidget />;
     const subAccount = showSubAccount && <SubAccountWidget />;
     const chainMenu = showChainMenu && <ChainMenuWidget />;
     const walletConnect = !hideWalletConnectButton && (
@@ -77,6 +79,7 @@ export const MainNav: FC<PropsWithChildren<MainNavScriptReturn>> = (props) => {
         mainNav,
         accountSummary,
         linkDevice,
+        languageSwitcher,
         subAccount,
         chainMenu,
         walletConnect,
@@ -119,6 +122,7 @@ export const MainNav: FC<PropsWithChildren<MainNavScriptReturn>> = (props) => {
               {linkDevice}
             </>
           )}
+          {languageSwitcher}
           {subAccount}
           <>
             <Divider

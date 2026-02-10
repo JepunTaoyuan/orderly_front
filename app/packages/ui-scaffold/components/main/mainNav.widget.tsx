@@ -47,6 +47,8 @@ export type MainNavWidgetProps = {
   customRender?: (components: {
     /** Logo or title component (desktop & mobile) */
     title?: ReactNode;
+    /** Language selection component (desktop & mobile) */
+    languageSwitcher?: ReactNode;
     /** Sub-account component (desktop & mobile) */
     subAccount?: ReactNode;
     /** Device linking component (desktop & mobile) */

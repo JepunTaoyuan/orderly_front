@@ -1,16 +1,19 @@
-import { FC, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { useAccount } from "@orderly.network/hooks";
+import { useTranslation } from "@orderly.network/i18n";
 import { AccountStatusEnum } from "@orderly.network/types";
 import {
   Sheet,
   SheetContent,
   modal,
   useModal,
+  VectorIcon,
   SwapHorizIcon,
   PeopleIcon,
   Text,
   Divider,
 } from "@orderly.network/ui";
+import { LanguageSwitcherWidget } from "../languageSwitcher";
 import { MainLogo } from "../main/mainLogo";
 import { RouterAdapter, RouteOption } from "../scaffold";
 import { SubAccountWidget } from "../subAccount";
@@ -61,8 +64,9 @@ export const LeftNavUI: FC<LeftNavUIProps> = (props) => {
 };
 
 const LeftNavSheet = modal.create<LeftNavUIProps>((props) => {
-  const { visible, hide, onOpenChange } = useModal();
+  const { visible, hide, resolve, reject, onOpenChange } = useModal();
   const { state } = useAccount();
+  const { t } = useTranslation();
 
   const showSubAccount = useMemo(
     () => state.status >= AccountStatusEnum.EnableTrading,
@@ -105,7 +109,7 @@ const LeftNavSheet = modal.create<LeftNavUIProps>((props) => {
         </div>
       </div>
     );
-  }, [state]);
+  }, [state, t]);
 
   const openExternalLink = (url: string) => {
     window.open(url, "_blank");
@@ -144,6 +148,14 @@ const LeftNavSheet = modal.create<LeftNavUIProps>((props) => {
               <Divider className="oui-w-full" intensity={8} />
             </div>
           )}
+          {/* 如何在這邊加上 切換language以及切換currency? */}
+          {/* 添加語言切換器 */}
+          <div className="oui-flex oui-items-center oui-justify-between oui-py-2">
+            <Text className="oui-text-sm oui-font-semibold oui-text-base-contrast-60">
+              {t("languageSwitcher.language")}
+            </Text>
+            <LanguageSwitcherWidget />
+          </div>
           {/* Footer 底部icon 連接 */}
           <div
             className="oui-absolute oui-bottom-6 oui-flex oui-w-full oui-flex-col oui-z-60"
