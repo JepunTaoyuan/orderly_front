@@ -44,6 +44,7 @@ const OrderlyProvider: FC<{ children: ReactNode }> = (props) => {
     <LocaleProvider
       onLanguageChanged={onLanguageChanged}
       backend={{ loadPath }}
+      supportedLanguages={[LocaleEnum.en, LocaleEnum.zh, LocaleEnum.tc]}
     >
       <WalletConnectorProvider>
         <OrderlyAppProvider
