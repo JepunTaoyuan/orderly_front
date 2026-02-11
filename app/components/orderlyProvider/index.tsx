@@ -48,9 +48,9 @@ const OrderlyProvider: FC<{ children: ReactNode }> = (props) => {
     >
       <WalletConnectorProvider>
         <OrderlyAppProvider
-          brokerId="orderly"
-          brokerName="Orderly"
-          networkId="testnet"
+          brokerId="dexless"
+          brokerName="dexless"
+          networkId="mainnet"
           appIcons={config.orderlyAppProvider.appIcons}
           onRouteChange={onRouteChange}
         >
