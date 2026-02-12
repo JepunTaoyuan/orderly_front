@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import {
   useFundingRates,
   useMarketsStream,
@@ -19,7 +19,7 @@ export type FundingComparisonReturn = ReturnType<
 >;
 
 export const useFundingComparisonScript = () => {
-  const { pagination } = usePagination({ pageSize: 10 });
+  const { setPage, pagination } = usePagination({ pageSize: 10 });
   const { onSort, getSortedList } = useSort();
   const { searchValue } = useMarketsContext();
   const { exchanges, brokerName } = useEXchanges();
@@ -79,6 +79,10 @@ export const useFundingComparisonScript = () => {
   const filteredData = useMemo(() => {
     return searchBySymbol(processedData, searchValue, "base-type");
   }, [processedData, searchValue, pagination]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchValue]);
 
   const dataSource = useMemo(
     () => getSortedList(filteredData),

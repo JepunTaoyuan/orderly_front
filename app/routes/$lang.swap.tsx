@@ -201,6 +201,24 @@ export default function SwapLayout() {
       });
   }, [isHydrated]);
 
+  // Desktop: Auto-open chart by simulating click on the toggle button
+  useEffect(() => {
+    if (!isHydrated || !Widget || isMobile) return;
+
+    // Wait for widget to fully render, then click the chart toggle button to open the chart
+    const timer = setTimeout(() => {
+      const toggleBtn = document.querySelector(
+        ".custom-woofi-widget-container .dex .swap .top .top-left .item.touch",
+      ) as HTMLElement;
+      // Only click if chart is not already visible (button doesn't have 'active' class)
+      if (toggleBtn && !toggleBtn.classList.contains("active")) {
+        toggleBtn.click();
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [isHydrated, Widget, isMobile]);
+
   // Show loading spinner during SSR and while loading widget
   if (!isHydrated || (!Widget && !loadError)) {
     return (
@@ -244,26 +262,41 @@ export default function SwapLayout() {
           "oui-flex oui-justify-center oui-items-center oui-p-4 md:oui-p-8",
       }}
     >
+      <style>
+        {`
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+
+          /* Desktop: keep chart always visible, hide the chart toggle button */
+          .swap-widget-desktop .custom-woofi-widget-container .dex .swap .top .top-left .item.touch {
+            display: none !important;
+          }
+
+          /* Mobile: hide chart entirely and hide the chart toggle button */
+          .swap-widget-mobile .custom-woofi-widget-container .dex .chart {
+            display: none !important;
+          }
+          .swap-widget-mobile .custom-woofi-widget-container .dex .swap .top .top-left .item.touch {
+            display: none !important;
+          }
+        `}
+      </style>
       <Box
-        className="oui-flex oui-flex-col oui-items-center oui-justify-center oui-w-full"
+        className={`oui-flex oui-flex-col oui-items-center oui-justify-center oui-w-full ${
+          isMobile ? "swap-widget-mobile" : "swap-widget-desktop"
+        }`}
         style={{
           minHeight: isMobile ? "calc(100vh - 120px)" : "calc(100vh - 80px)",
         }}
       >
         <Box
-          className="oui-w-full oui-max-w-[480px]"
+          className={isMobile ? "oui-w-full oui-max-w-[480px]" : "oui-w-full"}
           style={{
             animation: "fadeIn 0.6s ease-out",
           }}
         >
-          <style>
-            {`
-              @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-              }
-            `}
-          </style>
           <WooFiWidget
             Widget={Widget as WooFiWidgetType}
             brokerAddress={brokerAddress}

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import {
   MarketsType,
   useFundingRateHistory,
@@ -31,7 +31,7 @@ export type ProcessedFundingData = {
 export type FundingOverviewReturn = ReturnType<typeof useFundingOverviewScript>;
 
 export const useFundingOverviewScript = () => {
-  const { pagination } = usePagination({ pageSize: 10 });
+  const { setPage, pagination } = usePagination({ pageSize: 10 });
   const [marketData] = useMarkets(MarketsType.ALL);
 
   const {
@@ -95,6 +95,10 @@ export const useFundingOverviewScript = () => {
   const filteredData = useMemo(() => {
     return searchBySymbol(processedData, searchValue, "base-type");
   }, [processedData, searchValue, pagination]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchValue]);
 
   const dataSource = useMemo(
     () => getSortedList(filteredData),

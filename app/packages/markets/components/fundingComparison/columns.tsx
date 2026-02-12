@@ -77,8 +77,16 @@ export const useFundingColumns = () => {
                 <img
                   src={imgSrc}
                   className={cn(
-                    "oui-size-6 oui-rounded-full oui-object-cover",
-                    isMobile ? "oui-size-[18px]" : "oui-size-6",
+                    item === brokerName
+                      ? isMobile
+                        ? "oui-size-[14px]"
+                        : "oui-size-5"
+                      : isMobile
+                        ? "oui-size-[18px]"
+                        : "oui-size-6",
+                    item === brokerName
+                      ? "oui-object-contain"
+                      : "oui-rounded-full oui-object-cover",
                   )}
                 />
               )}

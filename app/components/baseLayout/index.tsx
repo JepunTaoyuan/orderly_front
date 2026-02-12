@@ -89,13 +89,13 @@ export const BaseLayout: FC<BaseLayoutProps> = (props) => {
               icon: <SwapIcon />,
             },
           ],
-          telegramUrl: "https://t.me/orderlynetwork",
-          twitterUrl: "https://twitter.com/OrderlyNetwork",
-          discordUrl: "https://discord.com/invite/orderlynetwork",
+          // telegramUrl: "https://t.me/orderlynetwork",
+          twitterUrl: "https://x.com/dexlessex",
+          // discordUrl: "https://discord.com/invite/orderlynetwork",
           feedbackUrl: "https://orderly.network/feedback",
         },
       }}
-      footer={null}
+      footer={<CustomFooter {...config.scaffold.footerProps} />}
       bottomNavProps={bottomNavProps}
       routerAdapter={{
         onRouteChange,
