@@ -1,5 +1,6 @@
 import { useMemo, useCallback } from "react";
 import { useQuery, useMutation, useAccount } from "@orderly.network/hooks";
+import { i18n } from "@orderly.network/i18n";
 import { AccountStatusEnum } from "@orderly.network/types";
 import { toast } from "@orderly.network/ui";
 import { useTradingLeaderboardContext } from "../provider";
@@ -56,7 +57,7 @@ export const useCampaignsScript = () => {
     async (data: { campaign_id: string | number }) => {
       try {
         if (state.status < AccountStatusEnum.EnableTrading) {
-          toast.error("Please enable trading to proceed.");
+          toast.error(i18n.t("leaderboard.enableTradingToProceed"));
           return;
         }
         const result = await doJoinCampaign(data);
@@ -75,10 +76,14 @@ export const useCampaignsScript = () => {
         if (result?.success !== false) {
           // Refresh user campaigns data to update participation status
           await refreshUserCampaigns();
-          toast.success(result?.message || "Campaign joined successfully");
+          toast.success(
+            result?.message || i18n.t("leaderboard.campaignJoinedSuccess"),
+          );
           return result;
         } else {
-          toast.error(result?.message || "Failed to join campaign");
+          toast.error(
+            result?.message || i18n.t("leaderboard.campaignJoinFailed"),
+          );
         }
       } catch (error) {
         console.error("Failed to join campaign:", error);

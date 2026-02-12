@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 import { useMediaQuery } from "@orderly.network/hooks";
+import { useTranslation } from "@orderly.network/i18n";
 import { Box, Flex, Text, Button } from "@orderly.network/ui";
 import { commify } from "@orderly.network/utils";
 import { useOrderlyConfig } from "../../../../../hooks/useOrderlyConfig";
@@ -10,6 +11,7 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
   className,
 }) => {
   const { data } = useLeaderboardProfile();
+  const { t } = useTranslation();
   const [showShare, setShowShare] = useState(false);
   const config = useOrderlyConfig();
   const sharePnLConfig = config?.tradingPage?.sharePnLConfig;
@@ -90,13 +92,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                     flexDirection: "column",
                     color: "white",
                     fontSize: 20,
-                    fontFamily: "Manrope",
+                    fontFamily: "Poppins",
                     fontWeight: "700",
                     lineHeight: "36px",
                     wordWrap: "break-word",
                   }}
                 >
-                  Points You Earned
+                  {t("leaderboard.pointsYouEarned")}
                 </div>
               </div>
             </div>
@@ -141,13 +143,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                       flexDirection: "column",
                       color: "rgba(255, 255, 255, 0.90)",
                       fontSize: 11,
-                      fontFamily: "Manrope",
+                      fontFamily: "Poppins",
                       fontWeight: "600",
                       lineHeight: "20px",
                       wordWrap: "break-word",
                     }}
                   >
-                    Share
+                    {t("leaderboard.share")}
                   </div>
                 </div>
               </div>
@@ -242,19 +244,19 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                             flexDirection: "column",
                             color: "rgba(255, 255, 255, 0.50)",
                             fontSize: 13,
-                            fontFamily: "Manrope",
+                            fontFamily: "Poppins",
                             fontWeight: "700",
                             lineHeight: "24px",
                             wordWrap: "break-word",
                           }}
                         >
-                          Name
+                          {t("leaderboard.name")}
                         </div>
                         <div
                           style={{
                             color: "rgba(255, 255, 255, 0.90)",
                             fontSize: 12,
-                            fontFamily: "Manrope",
+                            fontFamily: "Poppins",
                             fontWeight: "700",
                             lineHeight: "12px",
                             wordWrap: "break-word",
@@ -288,19 +290,19 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                             flexDirection: "column",
                             color: "rgba(255, 255, 255, 0.50)",
                             fontSize: 13,
-                            fontFamily: "Manrope",
+                            fontFamily: "Poppins",
                             fontWeight: "700",
                             lineHeight: "24px",
                             wordWrap: "break-word",
                           }}
                         >
-                          ID
+                          {t("leaderboard.id")}
                         </div>
                         <div
                           style={{
                             color: "white",
                             fontSize: 12,
-                            fontFamily: "Manrope",
+                            fontFamily: "Poppins",
                             fontWeight: "700",
                             lineHeight: "12px",
                             wordWrap: "break-word",
@@ -334,13 +336,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                     flexDirection: "column",
                     color: "rgba(255, 255, 255, 0.90)",
                     fontSize: 13,
-                    fontFamily: "Manrope",
+                    fontFamily: "Poppins",
                     fontWeight: "700",
                     lineHeight: "24px",
                     wordWrap: "break-word",
                   }}
                 >
-                  Overall
+                  {t("leaderboard.overall")}
                 </div>
                 <div
                   style={{
@@ -370,13 +372,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                         flexDirection: "column",
                         color: "rgba(255, 255, 255, 0.50)",
                         fontSize: 13,
-                        fontFamily: "Manrope",
+                        fontFamily: "Poppins",
                         fontWeight: "700",
                         lineHeight: "24px",
                         wordWrap: "break-word",
                       }}
                     >
-                      Total Points
+                      {t("leaderboard.totalPoints")}
                     </div>
                     <div
                       style={{
@@ -386,7 +388,7 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                         flexDirection: "column",
                         color: "#C9BDFF",
                         fontSize: 28,
-                        fontFamily: "Manrope",
+                        fontFamily: "Poppins",
                         fontWeight: "600",
                         lineHeight: "28px",
                         wordWrap: "break-word",
@@ -414,13 +416,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                         flexDirection: "column",
                         color: "rgba(255, 255, 255, 0.50)",
                         fontSize: 13,
-                        fontFamily: "Manrope",
+                        fontFamily: "Poppins",
                         fontWeight: "700",
                         lineHeight: "24px",
                         wordWrap: "break-word",
                       }}
                     >
-                      Rank
+                      {t("leaderboard.rank")}
                     </div>
                     <div
                       style={{
@@ -430,7 +432,7 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                         flexDirection: "column",
                         color: "#C9BDFF",
                         fontSize: 28,
-                        fontFamily: "Manrope",
+                        fontFamily: "Poppins",
                         fontWeight: "600",
                         lineHeight: "28px",
                         wordWrap: "break-word",
@@ -462,13 +464,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                     flexDirection: "column",
                     color: "rgba(255, 255, 255, 0.90)",
                     fontSize: 13,
-                    fontFamily: "Manrope",
+                    fontFamily: "Poppins",
                     fontWeight: "700",
                     lineHeight: "24px",
                     wordWrap: "break-word",
                   }}
                 >
-                  Last Week’s Performance
+                  {t("leaderboard.lastWeekPerformance")}
                 </div>
                 <div
                   style={{
@@ -497,13 +499,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                         flexDirection: "column",
                         color: "rgba(255, 255, 255, 0.50)",
                         fontSize: 13,
-                        fontFamily: "Manrope",
+                        fontFamily: "Poppins",
                         fontWeight: "700",
                         lineHeight: "24px",
                         wordWrap: "break-word",
                       }}
                     >
-                      Points
+                      {t("leaderboard.points")}
                     </div>
                     <div
                       style={{
@@ -513,7 +515,7 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                         flexDirection: "column",
                         color: "#C9BDFF",
                         fontSize: 28,
-                        fontFamily: "Manrope",
+                        fontFamily: "Poppins",
                         fontWeight: "600",
                         lineHeight: "28px",
                         wordWrap: "break-word",
@@ -541,13 +543,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                         flexDirection: "column",
                         color: "rgba(255, 255, 255, 0.50)",
                         fontSize: 13,
-                        fontFamily: "Manrope",
+                        fontFamily: "Poppins",
                         fontWeight: "700",
                         lineHeight: "24px",
                         wordWrap: "break-word",
                       }}
                     >
-                      Rank
+                      {t("leaderboard.rank")}
                     </div>
                     <div
                       style={{
@@ -557,7 +559,7 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                         flexDirection: "column",
                         color: "#C9BDFF",
                         fontSize: 28,
-                        fontFamily: "Manrope",
+                        fontFamily: "Poppins",
                         fontWeight: "600",
                         lineHeight: "28px",
                         wordWrap: "break-word",
@@ -624,13 +626,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                   flexDirection: "column",
                   color: "white",
                   fontSize: 20,
-                  fontFamily: "Manrope",
+                  fontFamily: "Poppins",
                   fontWeight: "700",
                   lineHeight: "36px",
                   wordWrap: "break-word",
                 }}
               >
-                Points You Earned
+                {t("leaderboard.pointsYouEarned")}
               </div>
             </div>
           </div>
@@ -675,13 +677,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                     flexDirection: "column",
                     color: "rgba(255, 255, 255, 0.90)",
                     fontSize: 11,
-                    fontFamily: "Manrope",
+                    fontFamily: "Poppins",
                     fontWeight: "600",
                     lineHeight: "20px",
                     wordWrap: "break-word",
                   }}
                 >
-                  Share
+                  {t("leaderboard.share")}
                 </div>
               </div>
             </div>
@@ -778,19 +780,19 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                           flexDirection: "column",
                           color: "rgba(255, 255, 255, 0.50)",
                           fontSize: 13,
-                          fontFamily: "Manrope",
+                          fontFamily: "Poppins",
                           fontWeight: "700",
                           lineHeight: "24px",
                           wordWrap: "break-word",
                         }}
                       >
-                        Name
+                        {t("leaderboard.name")}
                       </div>
                       <div
                         style={{
                           color: "rgba(255, 255, 255, 0.90)",
                           fontSize: 12,
-                          fontFamily: "Manrope",
+                          fontFamily: "Poppins",
                           fontWeight: "700",
                           lineHeight: "12px",
                           wordWrap: "break-word",
@@ -824,19 +826,19 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                           flexDirection: "column",
                           color: "rgba(255, 255, 255, 0.50)",
                           fontSize: 13,
-                          fontFamily: "Manrope",
+                          fontFamily: "Poppins",
                           fontWeight: "700",
                           lineHeight: "24px",
                           wordWrap: "break-word",
                         }}
                       >
-                        ID
+                        {t("leaderboard.id")}
                       </div>
                       <div
                         style={{
                           color: "white",
                           fontSize: 12,
-                          fontFamily: "Manrope",
+                          fontFamily: "Poppins",
                           fontWeight: "700",
                           lineHeight: "12px",
                           wordWrap: "break-word",
@@ -871,13 +873,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                   flexDirection: "column",
                   color: "rgba(255, 255, 255, 0.90)",
                   fontSize: 13,
-                  fontFamily: "Manrope",
+                  fontFamily: "Poppins",
                   fontWeight: "700",
                   lineHeight: "24px",
                   wordWrap: "break-word",
                 }}
               >
-                Overall
+                {t("leaderboard.overall")}
               </div>
               <div
                 style={{
@@ -907,13 +909,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                       flexDirection: "column",
                       color: "rgba(255, 255, 255, 0.50)",
                       fontSize: 13,
-                      fontFamily: "Manrope",
+                      fontFamily: "Poppins",
                       fontWeight: "700",
                       lineHeight: "24px",
                       wordWrap: "break-word",
                     }}
                   >
-                    Total Points
+                    {t("leaderboard.totalPoints")}
                   </div>
                   <div
                     style={{
@@ -923,7 +925,7 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                       flexDirection: "column",
                       color: "#C9BDFF",
                       fontSize: 28,
-                      fontFamily: "Manrope",
+                      fontFamily: "Poppins",
                       fontWeight: "600",
                       lineHeight: "28px",
                       wordWrap: "break-word",
@@ -951,13 +953,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                       flexDirection: "column",
                       color: "rgba(255, 255, 255, 0.50)",
                       fontSize: 13,
-                      fontFamily: "Manrope",
+                      fontFamily: "Poppins",
                       fontWeight: "700",
                       lineHeight: "24px",
                       wordWrap: "break-word",
                     }}
                   >
-                    Rank
+                    {t("leaderboard.rank")}
                   </div>
                   <div
                     style={{
@@ -967,7 +969,7 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                       flexDirection: "column",
                       color: "#C9BDFF",
                       fontSize: 28,
-                      fontFamily: "Manrope",
+                      fontFamily: "Poppins",
                       fontWeight: "600",
                       lineHeight: "28px",
                       wordWrap: "break-word",
@@ -1000,13 +1002,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                   flexDirection: "column",
                   color: "rgba(255, 255, 255, 0.90)",
                   fontSize: 13,
-                  fontFamily: "Manrope",
+                  fontFamily: "Poppins",
                   fontWeight: "700",
                   lineHeight: "24px",
                   wordWrap: "break-word",
                 }}
               >
-                Last Week’s Performance
+                {t("leaderboard.lastWeekPerformance")}
               </div>
               <div
                 style={{
@@ -1035,13 +1037,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                       flexDirection: "column",
                       color: "rgba(255, 255, 255, 0.50)",
                       fontSize: 13,
-                      fontFamily: "Manrope",
+                      fontFamily: "Poppins",
                       fontWeight: "700",
                       lineHeight: "24px",
                       wordWrap: "break-word",
                     }}
                   >
-                    Points
+                    {t("leaderboard.points")}
                   </div>
                   <div
                     style={{
@@ -1051,7 +1053,7 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                       flexDirection: "column",
                       color: "#C9BDFF",
                       fontSize: 28,
-                      fontFamily: "Manrope",
+                      fontFamily: "Poppins",
                       fontWeight: "600",
                       lineHeight: "28px",
                       wordWrap: "break-word",
@@ -1079,13 +1081,13 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                       flexDirection: "column",
                       color: "rgba(255, 255, 255, 0.50)",
                       fontSize: 13,
-                      fontFamily: "Manrope",
+                      fontFamily: "Poppins",
                       fontWeight: "700",
                       lineHeight: "24px",
                       wordWrap: "break-word",
                     }}
                   >
-                    Rank
+                    {t("leaderboard.rank")}
                   </div>
                   <div
                     style={{
@@ -1095,7 +1097,7 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                       flexDirection: "column",
                       color: "#C9BDFF",
                       fontSize: 28,
-                      fontFamily: "Manrope",
+                      fontFamily: "Poppins",
                       fontWeight: "600",
                       lineHeight: "28px",
                       wordWrap: "break-word",

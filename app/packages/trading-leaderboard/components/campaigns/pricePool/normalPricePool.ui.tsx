@@ -146,8 +146,7 @@ export const NormalPricePoolUI: FC<NormalPricePoolUIProps> = ({
                 weight="semibold"
                 className="oui-text-base-contrast-54"
               >
-                {/* {t("tradingLeaderboard.prizePool")} */}
-                {"Total prize pool"}
+                {t("leaderboard.totalPrizePool")}
               </Text>
               <Tooltip
                 // @ts-ignore
@@ -191,8 +190,7 @@ export const NormalPricePoolUI: FC<NormalPricePoolUIProps> = ({
                   weight="semibold"
                   className="oui-text-base-contrast-54"
                 >
-                  {/* {t("tradingLeaderboard.ticketPrizePool")} */}
-                  {highlightPool?.label || "Raffle prize"}
+                  {highlightPool?.label || t("leaderboard.rafflePrize")}
                 </Text>
               </div>
               <div>

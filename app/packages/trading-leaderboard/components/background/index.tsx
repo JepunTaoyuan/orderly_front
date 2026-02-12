@@ -1,4 +1,5 @@
 import { FC, useMemo } from "react";
+import { i18n } from "@orderly.network/i18n";
 import { cn, useScreen } from "@orderly.network/ui";
 
 type BackgroundProps = {
@@ -47,7 +48,7 @@ export const Background: FC<BackgroundProps> = (props) => {
           <source src={props.backgroundSrc} type="video/webm" />
           <source src={props.backgroundSrc} type="video/ogg" />
           <source src={props.backgroundSrc} type="video/avi" />
-          Your browser does not support the video tag.
+          {i18n.t("leaderboard.browserNotSupported")}
         </video>
       </div>
     );

@@ -65,12 +65,12 @@ export function OrderEntryHeader(props: OrderEntryHeaderProps) {
       <Flex
         className={cn(
           isSmallScreen
-            ? "oui-grid-cols-1 oui-gap-y-2"
-            : "oui-grid-cols-2 oui-gap-x-2",
-          "oui-grid lg:oui-flex lg:oui-gap-x-[6px]",
+            ? "oui-flex-col oui-gap-y-2"
+            : "oui-flex-row oui-gap-x-2",
+          "oui-flex oui-items-center lg:oui-gap-x-[6px]",
         )}
       >
-        <div className="oui-w-full oui-min-w-0">
+        <div className="oui-flex-1 oui-min-w-0">
           <OrderTypeSelect
             type={order_type!}
             side={side}
@@ -80,7 +80,7 @@ export function OrderEntryHeader(props: OrderEntryHeaderProps) {
             }}
           />
         </div>
-        <div className="oui-w-full oui-min-w-0">
+        <div className="oui-shrink-0">
           <LeverageBadge
             symbol={props.symbol}
             side={props.side}

@@ -401,9 +401,9 @@ export const CustomOrderEntry = ({
             </button>
           </div>
 
-          <div className="oui-grid oui-w-full oui-flex-1 oui-gap-x-2 lg:oui-flex lg:oui-gap-x-[6px] oui-grid-cols-2">
+          <div className="oui-flex oui-w-full oui-gap-x-2 lg:oui-gap-x-[6px]">
             {/* Grid Type Selection */}
-            <div className="oui-w-full">
+            <div>
               <div className="oui-relative">
                 <button
                   type="button"

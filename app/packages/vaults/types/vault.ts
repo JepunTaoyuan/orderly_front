@@ -9,6 +9,8 @@ export interface VaultInfo {
   vault_id: string;
   vault_address: string;
   vault_type: string;
+  vault_name: string;
+  description: string;
   performance_fee_rate: number;
   supported_chains: VaultSupportedChain[];
   tvl: number;

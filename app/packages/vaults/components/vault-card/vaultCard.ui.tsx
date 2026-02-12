@@ -69,7 +69,7 @@ export const VaultCard: FC<VaultCardScript> = (props) => {
           style={{
             color: "rgba(255, 255, 255, 0.4)",
             fontSize: 12,
-            fontFamily: "Manrope",
+            fontFamily: "Poppins",
             fontWeight: "500",
             wordWrap: "break-word",
           }}

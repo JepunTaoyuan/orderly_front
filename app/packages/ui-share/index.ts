@@ -11,7 +11,7 @@ const SharePnLBottomSheetId = "sharePnLBottomSheet";
 registerSimpleDialog(SharePnLDialogId, SharePnLDialogWidget, {
   closable: true,
   classNames: {
-    content: "!oui-max-w-[624px] oui-p-0 lg:oui-p-0",
+    content: "!oui-max-w-[min(624px,calc(100vw-32px))] oui-p-0 lg:oui-p-0",
     body: "oui-p-0 lg:oui-p-0",
   },
 });

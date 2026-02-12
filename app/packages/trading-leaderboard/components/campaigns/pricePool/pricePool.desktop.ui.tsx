@@ -115,7 +115,7 @@ export const PricePoolDesktopUI: FC<PricePoolDesktopUIProps> = ({
       <div className="oui-flex oui-items-center">
         <div className="oui-flex oui-flex-1 oui-flex-col">
           <div className="oui-text-xs oui-font-semibold oui-text-base-contrast-54">
-            Current total prize pool
+            {t("leaderboard.currentTotalPrizePool")}
           </div>
           <div>
             <Text.gradient
@@ -140,7 +140,7 @@ export const PricePoolDesktopUI: FC<PricePoolDesktopUIProps> = ({
         {(ticketPrizePool || highlightPool) && (
           <div className="oui-flex oui-flex-1 oui-flex-col">
             <div className="oui-text-xs oui-font-semibold oui-text-base-contrast-54">
-              {highlightPool?.label || "Raffle prize"}
+              {highlightPool?.label || t("leaderboard.rafflePrize")}
             </div>
             <div>
               <Text.gradient

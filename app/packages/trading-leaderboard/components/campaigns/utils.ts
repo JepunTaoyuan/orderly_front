@@ -101,7 +101,7 @@ export const formatCampaignDateRange = (
         startTime,
         endTime,
       });
-      return "Invalid date range";
+      return i18n.t("leaderboard.invalidDateRange");
     }
 
     // Format dates using date-fns (will display in user's local timezone)
@@ -123,7 +123,7 @@ export const formatCampaignDateRange = (
       startTime,
       endTime,
     });
-    return "Date formatting error";
+    return i18n.t("leaderboard.dateFormattingError");
   }
 };
 
@@ -295,7 +295,7 @@ export const generateCampaignTimeline = (
 
   if (registerTime) {
     timeline.push({
-      title: "Battle Registration",
+      title: i18n.t("leaderboard.battleRegistration"),
       type: getTimelineType(registerTime),
       time: formatTimeDisplay(registerTime),
     });
