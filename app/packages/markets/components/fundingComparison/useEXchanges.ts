@@ -3,10 +3,9 @@ import { useMarketsContext } from "../marketsProvider";
 
 export const useEXchanges = () => {
   const { comparisonProps } = useMarketsContext();
-  const brokerName = comparisonProps?.exchangesName || "Orderly";
+  const brokerName = comparisonProps?.exchangesName || "Dexless";
   const brokerIconSrc =
-    comparisonProps?.exchangesIconSrc ||
-    "https://oss.orderly.network/static/exchange_logo/orderly.png";
+    comparisonProps?.exchangesIconSrc || "/images/dexless/dexless_logo.svg";
   const exchanges = useMemo<string[]>(() => {
     return [
       brokerName,

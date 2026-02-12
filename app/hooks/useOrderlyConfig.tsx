@@ -72,9 +72,9 @@ export const useOrderlyConfig = () => {
           initialMenu: PathEnum.Root,
         },
         footerProps: {
-          telegramUrl: "https://orderly.network",
-          discordUrl: "https://discord.com/invite/orderlynetwork",
-          twitterUrl: "https://twitter.com/OrderlyNetwork",
+          // telegramUrl: "https://orderly.network",
+          // discordUrl: "https://discord.com/invite/orderlynetwork",
+          twitterUrl: "https://x.com/dexlessex",
         },
       },
       orderlyAppProvider: {

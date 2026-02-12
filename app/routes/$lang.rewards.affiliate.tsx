@@ -22,7 +22,7 @@ export default function AffiliatePage() {
     >
       <Dashboard.DashboardPage
         classNames={{
-          root: "oui-flex oui-justify-center",
+          root: "oui-flex oui-justify-center oui-py-6",
           home: "oui-w-full lg:oui-px-6 lg:oui-py-12 xl:oui-pl-4 xl:oui-pr-6",
           dashboard: "",
         }}
