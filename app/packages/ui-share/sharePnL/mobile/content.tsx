@@ -92,13 +92,20 @@ export const MobileSharePnLContent: FC<{
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    if (carouselRef.current) {
-      const divWidth = carouselRef.current.offsetWidth;
-      const divHeight = divWidth / aspectRatio;
-      setCarouselHeight(divHeight);
-      setScale(divWidth / 552);
-    }
-  }, [carouselRef, domain]);
+    if (!carouselRef.current) return;
+    const measure = () => {
+      if (carouselRef.current) {
+        const divWidth = carouselRef.current.offsetWidth;
+        const divHeight = divWidth / aspectRatio;
+        setCarouselHeight(divHeight);
+        setScale(divWidth / 552);
+      }
+    };
+    measure();
+    const observer = new ResizeObserver(() => measure());
+    observer.observe(carouselRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   const onSharePnL = async (
     posterRef: React.MutableRefObject<PosterRef | null>,
@@ -157,19 +164,31 @@ export const MobileSharePnLContent: FC<{
           <CarouselContent style={{ height: `${carouselHeight}px` }}>
             {shareOptions?.backgroundImages?.map((item, index) => (
               <CarouselItem key={index}>
-                <Poster
-                  className="oui-origin-top-left oui-transform"
-                  style={{ scale: `${scale}` }}
-                  width={552}
-                  height={690}
-                  data={{
-                    backgroundImg: item,
-                    ...resetOptions,
-                    data: posterData,
+                <div
+                  style={{
+                    width: 552 * scale,
+                    height: 690 * scale,
+                    maxWidth: "100%",
+                    overflow: "hidden",
                   }}
-                  ratio={3}
-                  ref={posterRefs?.[index]}
-                />
+                >
+                  <Poster
+                    className="oui-origin-top-left"
+                    style={{
+                      transform: `scale(${scale})`,
+                      transformOrigin: "top left",
+                    }}
+                    width={552}
+                    height={690}
+                    data={{
+                      backgroundImg: item,
+                      ...resetOptions,
+                      data: posterData,
+                    }}
+                    ratio={3}
+                    ref={posterRefs?.[index]}
+                  />
+                </div>
               </CarouselItem>
             ))}
           </CarouselContent>

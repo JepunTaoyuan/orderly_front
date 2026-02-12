@@ -71,10 +71,10 @@ export const HeroCountdown: FC<{
   }, [campaign.start_time, campaign.end_time]);
 
   const timeUnits = [
-    { value: timeLeft.days, label: "Days" },
-    { value: timeLeft.hours, label: "Hours" },
-    { value: timeLeft.minutes, label: "Minutes" },
-    { value: timeLeft.seconds, label: "Seconds" },
+    { value: timeLeft.days, label: t("leaderboard.days") },
+    { value: timeLeft.hours, label: t("leaderboard.hours") },
+    { value: timeLeft.minutes, label: t("leaderboard.minutes") },
+    { value: timeLeft.seconds, label: t("leaderboard.seconds") },
   ];
 
   return (

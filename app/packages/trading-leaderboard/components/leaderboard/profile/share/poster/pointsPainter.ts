@@ -1,3 +1,4 @@
+import { i18n } from "@orderly.network/i18n";
 import { PointsDrawOptions, PointsShareData } from "../types";
 
 export class PointsPainter {
@@ -181,7 +182,7 @@ export class PointsPainter {
     // JSX: left: 30, top: 73, width: 471
     // Font: Poppins 20px 400 White
 
-    this.ctx.font = "400 20px Poppins, Manrope, sans-serif";
+    this.ctx.font = "400 20px Poppins, sans-serif";
     this.ctx.fillStyle = "white";
     this.ctx.textBaseline = "top"; // Crucial for matching CSS top positioning
 
@@ -200,7 +201,7 @@ export class PointsPainter {
 
     // Season 1
     // Font: Poppins 20px 400 White
-    this.ctx.font = "400 20px Poppins, Manrope, sans-serif";
+    this.ctx.font = "400 20px Poppins, sans-serif";
     this.ctx.fillStyle = "white";
     this.ctx.fillText(data.season, startX, currentY);
 
@@ -208,21 +209,20 @@ export class PointsPainter {
 
     // Rank 16
     // Font: Poppins 30px 600 #DBFD5C
-    this.ctx.font = "600 30px Poppins, Manrope, sans-serif";
+    this.ctx.font = "600 30px Poppins, sans-serif";
     this.ctx.fillStyle = "#DBFD5C";
     this.ctx.fillText(`Rank ${data.rank}`, startX, currentY);
 
     currentY += 30 + 13; // Height + gap
 
     // Stats Block
-    // JSX structure:
-    // Total Points (Label: Manrope 14px 500 White 50%, Value: Manrope 16px 500 White 90%)
+    // Total Points (Label: Poppins 14px 500 White 50%, Value: Poppins 16px 500 White 90%)
     // Gap 20 between items
     // Item gap 8
 
-    const labelFont = "500 14px Manrope, sans-serif";
+    const labelFont = "500 14px Poppins, sans-serif";
     const labelColor = "rgba(255, 255, 255, 0.50)";
-    const valueFont = "500 16px Manrope, sans-serif";
+    const valueFont = "500 16px Poppins, sans-serif";
     const valueColor = "rgba(255, 255, 255, 0.90)";
 
     const drawStat = (
@@ -245,14 +245,13 @@ export class PointsPainter {
       currentY += 16 + 20; // Value height + item gap
     };
 
-    drawStat("Total Points", `${data.totalPoints}`);
-    drawStat("Trading Volume", `$${data.volume}`);
-    drawStat("PnL", `$${data.pnl}`, "#FF41A3"); // PnL color
+    drawStat(i18n.t("leaderboard.totalPoints"), `${data.totalPoints}`);
+    drawStat(i18n.t("leaderboard.tradingVolume"), `$${data.volume}`);
+    drawStat(i18n.t("leaderboard.pnl"), `$${data.pnl}`, "#FF41A3");
 
     // Date
-    // left: 31, top: 641
-    // Font: Manrope 14px 500 White 90%
-    this.ctx.font = "500 14px Manrope, sans-serif";
+    // Font: Poppins 14px 500 White 90%
+    this.ctx.font = "500 14px Poppins, sans-serif";
     this.ctx.fillStyle = "rgba(255, 255, 255, 0.90)";
     this.ctx.fillText(data.date, 31, 641);
   }

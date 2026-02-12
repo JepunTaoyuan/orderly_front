@@ -55,6 +55,24 @@ export const DesktopSharePnLContent: FC<{
   const [domain, setDomain] = useState("");
 
   const posterRef = useRef<PosterRef | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [posterScale, setPosterScale] = useState(1);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const width = entry.contentRect.width;
+        if (width > 0 && width < 552) {
+          setPosterScale(width / 552);
+        } else {
+          setPosterScale(1);
+        }
+      }
+    });
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const currentDomain = window.location.hostname;
@@ -129,20 +147,41 @@ export const DesktopSharePnLContent: FC<{
         </div>
 
         {/* Poster Preview */}
-        <div className="oui-flex oui-flex-col oui-gap-2.5 oui-pt-4">
+        <div
+          className="oui-flex oui-flex-col oui-gap-2.5 oui-pt-4"
+          ref={containerRef}
+        >
           <Flex itemAlign={"center"} justify={"center"}>
-            <Poster
-              width={552}
-              height={690}
-              data={{
-                backgroundImg: curBgImg,
-                ...resetOptions,
-                data: posterData,
+            <div
+              style={{
+                width: 552 * posterScale,
+                height: 690 * posterScale,
+                maxWidth: "100%",
+                overflow: "hidden",
               }}
-              ratio={3}
-              ref={posterRef as any}
-              className="oui-rounded"
-            />
+            >
+              <div
+                style={{
+                  transform: `scale(${posterScale})`,
+                  transformOrigin: "top left",
+                  width: 552,
+                  height: 690,
+                }}
+              >
+                <Poster
+                  width={552}
+                  height={690}
+                  data={{
+                    backgroundImg: curBgImg,
+                    ...resetOptions,
+                    data: posterData,
+                  }}
+                  ratio={3}
+                  ref={posterRef as any}
+                  className="oui-rounded"
+                />
+              </div>
+            </div>
           </Flex>
         </div>
       </div>
@@ -206,7 +245,7 @@ export const DesktopSharePnLContent: FC<{
       {/* Bottom Buttons */}
       <div
         className="oui-flex oui-flex-col oui-gap-4"
-        style={{ padding: "0 48px" }}
+        style={{ padding: "0 clamp(16px, 5vw, 48px)" }}
       >
         <BottomButtons onClickCopy={onCopy} onClickDownload={onDownload} />
       </div>

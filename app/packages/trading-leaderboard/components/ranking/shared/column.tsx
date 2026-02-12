@@ -40,7 +40,7 @@ export const useRankingColumns = (
         render: (value: string, record: any) => {
           const isYou = record.key === getCurrentAddressRowKey(address!);
           if (isMobile && isYou) {
-            return <Text>You</Text>;
+            return <Text>{t("leaderboard.you")}</Text>;
           }
 
           return (
@@ -64,7 +64,7 @@ export const useRankingColumns = (
               >
                 {value}
               </Text.formatted>
-              {isYou && <Text> (You)</Text>}
+              {isYou && <Text>{t("leaderboard.youSuffix")}</Text>}
             </a>
           );
         },

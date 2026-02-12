@@ -148,14 +148,14 @@ export const RewardsDesktopUI: FC<RewardsDesktopUIProps> = ({
             >
               <Text.numeral
                 currency="$"
-                suffix=" volume"
+                suffix={" " + t("leaderboard.volume")}
                 dp={0}
                 className="oui-text-base-contrast-54"
               >
                 {tier.value}
               </Text.numeral>
               <div className="oui-text-base-contrast">
-                {tier.tickets} tickets
+                {tier.tickets} {t("leaderboard.tickets")}
               </div>
             </div>
           );

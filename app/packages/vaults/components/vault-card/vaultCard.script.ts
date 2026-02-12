@@ -92,8 +92,8 @@ export const useVaultCardScript = (vault: VaultInfo) => {
   };
 
   return {
-    title: t("vaults.card.orderly.title"),
-    description: t("vaults.card.orderly.description"),
+    title: vault.vault_name || t("vaults.card.orderly.title"),
+    description: vault.description || t("vaults.card.orderly.description"),
     icon: ORDERLY_ICON,
     vaultInfo: vault,
     lpInfo,

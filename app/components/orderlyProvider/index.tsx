@@ -1,5 +1,10 @@
 import { FC, ReactNode } from "react";
-import { LocaleProvider, LocaleCode, LocaleEnum } from "@orderly.network/i18n";
+import {
+  LocaleProvider,
+  LocaleCode,
+  LocaleEnum,
+  i18nCookieKey,
+} from "@orderly.network/i18n";
 import { i18n } from "@orderly.network/i18n";
 import { OrderlyAppProvider } from "@orderly.network/react-app";
 import { registerSimpleDialog, registerSimpleSheet } from "@orderly.network/ui";
@@ -29,6 +34,7 @@ const OrderlyProvider: FC<{ children: ReactNode }> = (props) => {
   const { onRouteChange } = useNav();
 
   const onLanguageChanged = async (lang: LocaleCode) => {
+    document.cookie = `${i18nCookieKey}=${lang};path=/;max-age=31536000`;
     window.history.replaceState({}, "", `/${lang}${path}`);
   };
 
