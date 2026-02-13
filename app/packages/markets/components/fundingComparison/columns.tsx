@@ -32,10 +32,7 @@ export const useFundingColumns = () => {
         className: isMobile ? "oui-pl-0" : undefined,
         render: (value) => (
           <Flex gapX={1}>
-            <TokenIcon
-              symbol={value}
-              className={isMobile ? "oui-size-[18px]" : "oui-size-5"}
-            />
+            <TokenIcon symbol={value} className="oui-size-3" />
             <Text.formatted
               rule="symbol"
               formatString="base-type"
@@ -77,13 +74,7 @@ export const useFundingColumns = () => {
                 <img
                   src={imgSrc}
                   className={cn(
-                    item === brokerName
-                      ? isMobile
-                        ? "oui-size-[14px]"
-                        : "oui-size-5"
-                      : isMobile
-                        ? "oui-size-[18px]"
-                        : "oui-size-6",
+                    "oui-size-3",
                     item === brokerName
                       ? "oui-object-contain"
                       : "oui-rounded-full oui-object-cover",

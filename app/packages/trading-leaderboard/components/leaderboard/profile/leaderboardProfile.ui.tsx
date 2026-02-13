@@ -91,7 +91,7 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
                     display: "flex",
                     flexDirection: "column",
                     color: "white",
-                    fontSize: 20,
+                    fontSize: 16,
                     fontFamily: "Poppins",
                     fontWeight: "700",
                     lineHeight: "36px",
