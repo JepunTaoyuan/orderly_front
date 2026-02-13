@@ -49,10 +49,7 @@ export const useFundingOverviewColumns = (
         className: isMobile ? "oui-pl-0" : undefined,
         render: (value) => (
           <Flex gapX={1}>
-            <TokenIcon
-              symbol={value}
-              className={isMobile ? "oui-size-[18px]" : "oui-size-5"}
-            />
+            <TokenIcon symbol={value} className="oui-size-3" />
 
             <Text.formatted
               rule="symbol"
