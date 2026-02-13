@@ -55,7 +55,7 @@ export default function MarketsPage() {
       style={{
         minHeight: 379,
         maxHeight: 2560,
-        overflow: "hidden",
+        overflow: "auto",
         height: isMobile
           ? "100%"
           : `calc(100vh - ${topNavbarHeight}px - ${footerHeight}px - ${
