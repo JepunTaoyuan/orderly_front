@@ -8,7 +8,11 @@ import {
 import { i18n } from "@orderly.network/i18n";
 import { OrderlyAppProvider } from "@orderly.network/react-app";
 import { registerSimpleDialog, registerSimpleSheet } from "@orderly.network/ui";
-import { WalletConnectorProvider } from "@orderly.network/wallet-connector";
+import {
+  Network,
+  WalletConnectorPrivyProvider,
+  wagmiConnectors,
+} from "@orderly.network/wallet-connector-privy";
 import { AccountCreationListener } from "@/components/custom/accountCreationListener";
 import { CustomWalletConnectorWidget } from "@/components/custom/customWalletConnectorWidget";
 import { KeyPairGenerator } from "@/components/custom/keyPairGenerator";
@@ -56,7 +60,36 @@ const OrderlyProvider: FC<{ children: ReactNode }> = (props) => {
         { localCode: LocaleEnum.tc, displayName: "繁體中文" },
       ]}
     >
-      <WalletConnectorProvider>
+      <WalletConnectorPrivyProvider
+        network={Network.mainnet}
+        privyConfig={{
+          appid: "cmlg35p5t013jjg0b4fy531sx",
+          config: {
+            appearance: {
+              theme: "dark",
+              accentColor: "#181C23",
+              logo: "/images/dexless/dexless_logo.svg",
+            },
+            loginMethods: ["email", "google", "twitter", "telegram"],
+          },
+        }}
+        wagmiConfig={{
+          connectors: [
+            wagmiConnectors.injected(),
+            wagmiConnectors.walletConnect({
+              projectId: "1f81be1dab1e063eb20b0bb26c6a2752",
+              showQrModal: true,
+              storageOptions: {},
+              metadata: {
+                name: "dexless",
+                description: "dexless - Orderly Network DEX",
+                url: "https://dexless.io",
+                icons: ["/images/dexless/dexless_logo.svg"],
+              },
+            }),
+          ],
+        }}
+      >
         <OrderlyAppProvider
           brokerId="dexless"
           brokerName="dexless"
@@ -71,7 +104,7 @@ const OrderlyProvider: FC<{ children: ReactNode }> = (props) => {
             {props.children}
           </GridStrategiesProvider>
         </OrderlyAppProvider>
-      </WalletConnectorProvider>
+      </WalletConnectorPrivyProvider>
     </LocaleProvider>
   );
 };

@@ -105,7 +105,12 @@ export default defineConfig(() => {
       },
     },
     ssr: {
-      noExternal,
+      noExternal: noExternal.filter((item: any) => {
+        // Exclude wallet-connector-privy from noExternal to avoid @abstract-foundation/agw-react ESM issue
+        if (typeof item === "string")
+          return item !== "@orderly.network/wallet-connector-privy";
+        return true;
+      }),
       // noExternal: [/^@orderly.*$/, "ethers"],
       external: [
         "@solana/web3.js",
@@ -114,6 +119,10 @@ export default defineConfig(() => {
         "stream-browserify",
         "inherits",
         "readable-stream",
+        "@orderly.network/wallet-connector-privy",
+        "@abstract-foundation/agw-react",
+        "@layerzerolabs/oft-v2-solana-sdk",
+        "@layerzerolabs/lz-utilities",
       ],
     },
     optimizeDeps: {
@@ -167,8 +176,10 @@ export default defineConfig(() => {
         ],
       },
       exclude: [
-        "@orderly/network-wallet-connector", // 新增
-        "@toruslabs/base-controllers", // 新增
+        "@orderly/network-wallet-connector",
+        "@toruslabs/base-controllers",
+        "@abstract-foundation/agw-react",
+        "recharts",
         "react/jsx-dev-runtime",
         "react/jsx-runtime",
       ],
