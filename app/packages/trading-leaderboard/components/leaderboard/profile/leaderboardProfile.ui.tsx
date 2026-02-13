@@ -47,7 +47,6 @@ export const LeaderboardProfile: FC<{ className?: string }> = ({
           className={className}
           style={{
             width: "fit-content",
-            height: "100%",
             padding: 24,
             background: "#131519",
             borderRadius: 4,

@@ -39,7 +39,7 @@ export const CampaignLeaderboard: FC<CampaignLeaderboardProps> = (props) => {
         intensity={900}
         width="100%"
         className={cn(
-          "oui-trading-leaderboard-campaign-leaderboard oui-relative",
+          "oui-trading-leaderboard-campaign-leaderboard oui-relative oui-overflow-auto",
         )}
       >
         <LeaderboardTabs
@@ -64,7 +64,7 @@ export const CampaignLeaderboard: FC<CampaignLeaderboardProps> = (props) => {
       r="2xl"
       intensity={900}
       className={cn(
-        "oui-trading-leaderboard-campaign-leaderboard oui-relative",
+        "oui-trading-leaderboard-campaign-leaderboard oui-relative oui-overflow-auto",
       )}
     >
       <LeaderboardTabs

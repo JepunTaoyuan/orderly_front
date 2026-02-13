@@ -79,8 +79,8 @@ export const GeneralLeaderboard: FC<GeneralLeaderboardProps> = (props) => {
       r="md"
       intensity={900}
       className={cn(
-        "oui-trading-leaderboard-general-leaderboard oui-relative",
-        showProfile ? "oui-h-full" : props.className,
+        "oui-trading-leaderboard-general-leaderboard oui-relative oui-overflow-auto",
+        props.className,
       )}
       style={showProfile ? undefined : props.style}
     >
@@ -128,13 +128,9 @@ export const GeneralLeaderboard: FC<GeneralLeaderboardProps> = (props) => {
         direction={isBelowDesktop ? "column" : "row"}
       >
         <LeaderboardProfile
-          className={isBelowDesktop ? "oui-w-full" : "oui-h-full"}
+          className={isBelowDesktop ? "oui-w-full" : undefined}
         />
-        <Box
-          className="oui-flex-1"
-          height="100%"
-          width={isBelowDesktop ? "100%" : undefined}
-        >
+        <Box className="oui-flex-1" width={isBelowDesktop ? "100%" : undefined}>
           {content}
         </Box>
       </Flex>

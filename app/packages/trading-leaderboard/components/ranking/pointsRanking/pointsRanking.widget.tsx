@@ -145,7 +145,7 @@ export const PointsRankingWidget: FC<PointsRankingWidgetProps> = (props) => {
       r="2xl"
       intensity={900}
       className={cn(
-        "oui-trading-leaderboard-points-ranking oui-relative",
+        "oui-trading-leaderboard-points-ranking oui-relative oui-overflow-auto",
         props.className,
       )}
       style={props.style}
@@ -192,7 +192,7 @@ export const PointsRankingWidget: FC<PointsRankingWidgetProps> = (props) => {
           root: "oui-trading-leaderboard-points-table",
           scroll: isMobile
             ? "oui-overflow-y-hidden oui-h-full"
-            : "oui-min-h-[400px] oui-max-h-[800px]",
+            : "oui-min-h-[400px] oui-max-h-[800px] oui-overflow-x-auto",
           body: isMobile ? "oui-text-2xs" : undefined,
         }}
         onRow={onRow}
