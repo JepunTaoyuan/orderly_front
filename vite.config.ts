@@ -74,6 +74,7 @@ export default defineConfig(() => {
     "pako",
     "buffer",
     "crypto-browserify",
+    "ramda",
   ];
   if (isProduction) {
     noExternal.push("ethers");
