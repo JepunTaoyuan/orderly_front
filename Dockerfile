@@ -4,8 +4,8 @@ FROM node:24-slim AS base
 FROM base AS deps
 WORKDIR /app
 ENV NPM_CONFIG_CACHE=/tmp/.npm
-ENV NPM_CONFIG_CACHE=/tmp/.npm
 COPY package.json package-lock.json ./
+COPY scripts/ ./scripts/
 RUN npm install && npm cache clean --force && rm -rf /tmp/.npm
 
 # TODO fix: use this layer will cause "Cannot find package buffer-polyfill"
