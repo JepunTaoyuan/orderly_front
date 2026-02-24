@@ -13,7 +13,7 @@
     "typecheck": "tsc",
     "copyLocales": "node scripts/copyLocales.mjs",
     "prepare": "husky",
-    "postinstall": "node scripts/patch-abstract-esm.mjs"
+    "postinstall": "node scripts/patch-abstract-esm.mjs && node scripts/patch-ramda-es.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
