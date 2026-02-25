@@ -75,6 +75,7 @@ export default defineConfig(() => {
     "buffer",
     "crypto-browserify",
     "ramda",
+    /^@noble.*$/,
   ];
   if (isProduction) {
     noExternal.push("ethers");
