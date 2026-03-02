@@ -8,7 +8,7 @@ export default function LandingPageFooter() {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const navLinks = [
-    { name: "Docs", href: "#" },
+    { name: "Docs", href: "https://docs.dexless.exchange/" },
     { name: "Security", href: "#" },
     { name: "Risk Disclosure", href: "#" },
     { name: "Terms", href: "#" },
