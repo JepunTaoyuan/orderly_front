@@ -1,119 +1,193 @@
 import React from "react";
+import { motion, Variants } from "framer-motion";
 import { useMediaQuery } from "@orderly.network/hooks";
 
+// 引入動畫庫
+
 export default function RiskDisclosure() {
-  // 只保留 LG 斷點判斷 (1024px)
-  const isLG = useMediaQuery("(max-width: 1024px)");
+  const isMobile = useMediaQuery("(max-width: 998px)");
+
+  // 定義左側內容的動畫 (由左往右淡入)
+  const contentVariants: Variants = {
+    hidden: { opacity: 0, x: -40 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
+  };
+
+  // 定義右側手掌的動畫 (由下往上浮現)
+  const handVariants: Variants = {
+    hidden: { opacity: 0, y: 100, x: isMobile ? "-40%" : "0" },
+    visible: {
+      opacity: 1,
+      y: 0,
+      x: isMobile ? "-40%" : "0", // 保持手機版的水平置中偏移
+      transition: { duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }, // 稍微延遲並使用彈性曲線
+    },
+  };
+
+  // 星星動畫 (縮放淡入)
+  const starVariants: Variants = {
+    hidden: { opacity: 0, scale: 0.5, rotate: -15 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      rotate: 0,
+      transition: { duration: 1, ease: "easeOut", delay: 0.4 },
+    },
+  };
 
   return (
     <section
-      className="oui-bg-white oui-text-black oui-flex oui-flex-col oui-items-center"
+      className="oui-bg-white"
       style={{
-        paddingTop: isLG ? "60px" : "120px",
-        paddingBottom: isLG ? "60px" : "120px",
-        // 手機版縮小外部間距
-        paddingLeft: isLG ? "20px" : "40px",
-        paddingRight: isLG ? "20px" : "40px",
+        padding: isMobile ? "60px 20px" : "100px 40px",
+        display: "flex",
+        justifyContent: "center",
+        backgroundColor: "#fff",
       }}
     >
-      <div
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
         style={{
           width: "100%",
-          maxWidth: "1400px",
-          height: isLG ? "auto" : "380px",
+          maxWidth: "1200px",
+          height: isMobile ? "auto" : "360px",
           position: "relative",
-          margin: "0 auto",
-          borderRadius: "32px",
-          // RWD 漸層方向：手機版垂直，電腦版橫向
-          background: isLG
-            ? "linear-gradient(180deg, #5B47D1 0%, #6891D1 50%, #C8F27A 100%)"
-            : "linear-gradient(90deg, #5B47D1 0%, #6891D1 50%, #C8F27A 100%)",
-          // 手機版隱藏溢出避免星星撐寬網頁，電腦版 visible 讓手掌立體
-          overflow: isLG ? "hidden" : "visible",
+          borderRadius: "24px",
+          background:
+            "linear-gradient(90deg, #E6FA95 0%, #8FEBC2 33%, #9A94FF 66%, #635BFF 100%)",
           display: "flex",
-          flexDirection: isLG ? "column" : "row",
-          alignItems: isLG ? "flex-start" : "center",
-          padding: isLG ? "48px 32px" : "0 0 0 64px",
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: isMobile ? "flex-start" : "center",
+          padding: isMobile ? "40px 24px 0" : "0 60px",
+          overflow: isMobile ? "hidden" : "visible",
         }}
       >
-        {/* 左側文字內容 */}
-        <div
+        {/* 左側內容區 */}
+        <motion.div
+          variants={contentVariants}
           style={{
-            maxWidth: isLG ? "100%" : "550px",
+            maxWidth: isMobile ? "100%" : "450px",
             position: "relative",
-            zIndex: 5,
-            color: "white",
-            marginBottom: isLG ? "40px" : "0",
+            zIndex: 10,
+            textAlign: "left",
+            marginBottom: isMobile ? "32px" : "0",
           }}
         >
-          <h3
+          <h2
             style={{
-              fontSize: isLG ? "28px" : "36px",
-              fontWeight: "700",
+              fontSize: isMobile ? "28px" : "32px",
+              fontWeight: "800",
+              color: "#000",
               marginBottom: "16px",
+              lineHeight: "1.2",
+              letterSpacing: "-0.5px",
             }}
           >
-            Risk Disclosure
-          </h3>
+            Your Assets, Your Rules.
+            <br />
+            No Exceptions.
+          </h2>
+
           <p
             style={{
-              fontSize: isLG ? "18px" : "20px",
-              fontWeight: "200",
-              lineHeight: "1.6",
+              fontSize: isMobile ? "14px" : "15px",
+              color: "#111",
+              fontWeight: "400",
+              lineHeight: "1.5",
+              marginBottom: "28px",
+              opacity: 0.9,
             }}
           >
-            Perpetual trading involves leverage and liquidation risk. Users
-            should understand the mechanics before trading.
+            Connect to Dexless and execute peer-to-peer transactions without
+            ever giving up your private keys. Experience a protocol where
+            security isn’t a promise—it’s written in the code.
           </p>
-        </div>
 
-        {/* 裝飾性星星 RWD */}
-        <img
+          <button
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              backgroundColor: "rgba(255, 255, 255, 0.2)",
+              border: "1px solid #000",
+              borderRadius: "100px",
+              padding: "10px 24px",
+              fontSize: "15px",
+              fontWeight: "600",
+              color: "#000",
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+              backdropFilter: "blur(4px)",
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.05)";
+              e.currentTarget.style.transform = "translateY(-2px)";
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.2)";
+              e.currentTarget.style.transform = "translateY(0)";
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M9.29424 6.75718L15.1159 0H13.7365L8.68114 5.87625L4.64448 0H0L6.10543 8.8854L0 16H1.37947L6.71805 9.76634L11.0053 16H15.6498L9.29391 6.75718H9.29424ZM7.41908 8.9507L6.80058 8.06606L1.87693 0.992648H4.00414L7.96783 6.64951L8.58633 7.53415L13.7371 14.8967H11.6099L7.41908 8.95103V8.9507Z" />
+            </svg>
+            Connect Us
+          </button>
+        </motion.div>
+
+        {/* 裝飾星星 1 */}
+        <motion.img
+          variants={starVariants}
           src="/images/landingpage/leftstar.png"
-          alt="star"
+          alt="deco"
           style={{
             position: "absolute",
-            // 電腦版在中間 top，LG版移動到右側當背景裝飾
-            left: isLG ? "auto" : "45%",
-            right: isLG ? "35%" : "auto",
-            top: isLG ? "40%" : "-60px",
-            width: isLG ? "140px" : "220px",
+            left: isMobile ? "80%" : "48%",
+            top: isMobile ? "45%" : "30%",
+            width: isMobile ? "60px" : "100px",
             zIndex: 1,
             pointerEvents: "none",
-            opacity: isLG ? 0.7 : 1,
           }}
         />
 
-        {/* 右下角小星星 RWD */}
-        <img
+        {/* 右下角點綴星星 2 */}
+        <motion.img
+          variants={starVariants}
           src="/images/landingpage/rightstar.png"
-          alt="star"
+          alt="deco"
           style={{
             position: "absolute",
-            right: isLG ? "15px" : "40px",
-            bottom: "0px",
-            width: isLG ? "120px" : "200px",
-            zIndex: 3,
+            right: isMobile ? "5%" : "8%",
+            bottom: isMobile ? "5%" : "10%",
+            width: isMobile ? "80px" : "130px",
+            zIndex: 6,
+            pointerEvents: "none",
           }}
         />
 
-        {/* 手掌圖片 RWD */}
-        <img
+        {/* 右側主視覺：手掌與盾牌 */}
+        <motion.img
+          variants={handVariants}
           src="/images/landingpage/hand.png"
-          alt="Risk Disclosure Hand"
+          alt="Security Hand"
           style={{
-            position: isLG ? "relative" : "absolute",
-            right: isLG ? "60px" : "-20px",
-            top: isLG ? "48px" : "-80px",
-            alignSelf: isLG ? "flex-end" : "auto",
-            height: isLG ? "200px" : "460px",
-            zIndex: 2,
+            position: isMobile ? "relative" : "absolute",
+            right: isMobile ? "auto" : "-10px",
+            bottom: "0px",
+            left: isMobile ? "50%" : "auto",
+            height: isMobile ? "320px" : "440px",
+            zIndex: 5,
             objectFit: "contain",
-            filter: "drop-shadow(-20px 20px 40px rgba(0,0,0,0.15))",
-            marginTop: isLG ? "10px" : "0",
+            filter: "drop-shadow(0px 20px 40px rgba(0,0,0,0.1))",
           }}
         />
-      </div>
+      </motion.div>
     </section>
   );
 }

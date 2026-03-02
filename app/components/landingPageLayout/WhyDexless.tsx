@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { motion, Variants } from "framer-motion";
 
 const FEATURES = [
   {
@@ -37,6 +38,30 @@ const FEATURES = [
 ];
 
 export default function WhyDexless() {
+  // 1. 父容器動畫配置：控制子元素交錯出現
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  // 3. 為 cardVariants 加上 Variants 型別標註
+  const cardVariants: Variants = {
+    hidden: { y: 50, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.7,
+        ease: "easeOut", // 現在 TypeScript 就會知道這個字串是合法的了
+      },
+    },
+  };
+
   return (
     <section
       className="relative oui-bg-cover oui-bg-center oui-text-black oui-flex oui-justify-center"
@@ -48,37 +73,67 @@ export default function WhyDexless() {
       }}
     >
       <div>
-        <div
+        {/* 標題區：淡入動畫 */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ staggerChildren: 0.3 }}
           className="oui-space-y-4 oui-flex oui-flex-col oui-items-center oui-text-center"
           style={{ paddingTop: "120px", paddingBottom: "120px" }}
         >
-          <h2 className="oui-text-6xl">Why Dexless?</h2>
-          <p
+          {/* 標題：從上方滑入 */}
+          <motion.h2
+            variants={{
+              hidden: { opacity: 0, y: -30 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="oui-text-6xl"
+          >
+            Why Dexless?
+          </motion.h2>
+
+          {/* 描述文字：從下方慢慢浮現 */}
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             className="oui-text-2xl"
             style={{ maxWidth: "650px", fontWeight: "400", color: "#666" }}
           >
             Trading platforms shouldn’t just execute trades — they should help
             traders understand, improve, and evolve.
-          </p>
-        </div>
-        <div
+          </motion.p>
+        </motion.div>
+
+        {/* 卡片區：交錯出現動畫 */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }} // 進入畫面 10% 就觸發
           className="oui-grid oui-gap-8 oui-grid-cols-1 sm:oui-grid-cols-2 lg:oui-grid-cols-2"
-          style={{
-            justifyItems: "center",
-          }}
+          style={{ justifyItems: "center" }}
         >
           {FEATURES.map((item) => (
-            <div
+            <motion.div
               key={item.title}
+              variants={cardVariants}
+              whileHover={{ y: -12, transition: { duration: 0.3 } }} // 滑鼠移入上浮
               style={{
                 borderRadius: "32px",
                 overflow: "hidden",
                 display: "flex",
                 flexDirection: "column",
-                height: "480px", // 設定固定高度
+                height: "480px",
                 width: "350px",
                 border: "1px solid rgba(255,255,255,0.4)",
                 boxShadow: "0 10px 30px rgba(0,0,0,0.05)",
+                backgroundColor: "#fff", // 確保卡片有底色
+                cursor: "pointer",
               }}
             >
               {/* 上半部：放置 3D 圖片 */}
@@ -94,7 +149,14 @@ export default function WhyDexless() {
                   padding: "20px",
                 }}
               >
-                <img
+                <motion.img
+                  // 圖片可以加一點微弱的呼吸感
+                  animate={{ y: [0, -5, 0] }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
                   src={item.url}
                   alt={item.title}
                   style={{
@@ -137,9 +199,9 @@ export default function WhyDexless() {
                   {item.desc}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
