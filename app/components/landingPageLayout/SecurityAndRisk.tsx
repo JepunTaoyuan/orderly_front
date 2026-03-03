@@ -65,8 +65,8 @@ export default function SecurityAndRisk() {
         <motion.p
           variants={textItemVariants}
           style={{
-            fontSize: "48px",
-            fontWeight: "600",
+            fontSize: "clamp(32px, 5vw, 40px)",
+            fontWeight: "700",
             lineHeight: "1.1",
             paddingBottom: "24px",
             maxWidth: "100%",
@@ -77,7 +77,7 @@ export default function SecurityAndRisk() {
         <motion.p
           variants={textItemVariants}
           style={{
-            fontSize: "30px",
+            fontSize: "24px",
             fontWeight: "500",
             maxWidth: "830px",
             margin: "0 auto", // 置中對齊
@@ -88,7 +88,7 @@ export default function SecurityAndRisk() {
         <motion.p
           variants={textItemVariants}
           style={{
-            fontSize: "20px",
+            fontSize: "16px",
             fontWeight: "400",
             color: "#666",
             marginTop: "8px",

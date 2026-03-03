@@ -89,7 +89,9 @@ export default function WhyDexless() {
               visible: { opacity: 1, y: 0 },
             }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="oui-text-6xl"
+            style={{
+              fontSize: "clamp(32px, 5vw, 40px)",
+            }}
           >
             Why Dexless?
           </motion.h2>
@@ -101,8 +103,12 @@ export default function WhyDexless() {
               visible: { opacity: 1, y: 0 },
             }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="oui-text-2xl"
-            style={{ maxWidth: "650px", fontWeight: "400", color: "#666" }}
+            style={{
+              maxWidth: "650px",
+              fontSize: "16px",
+              fontWeight: "400",
+              color: "#666",
+            }}
           >
             Trading platforms shouldn’t just execute trades — they should help
             traders understand, improve, and evolve.
@@ -128,8 +134,8 @@ export default function WhyDexless() {
                 overflow: "hidden",
                 display: "flex",
                 flexDirection: "column",
-                height: "480px",
-                width: "350px",
+                height: "450px",
+                width: "300px",
                 border: "1px solid rgba(255,255,255,0.4)",
                 boxShadow: "0 10px 30px rgba(0,0,0,0.05)",
                 backgroundColor: "#fff", // 確保卡片有底色
@@ -160,8 +166,8 @@ export default function WhyDexless() {
                   src={item.url}
                   alt={item.title}
                   style={{
-                    width: "188px",
-                    height: "250px",
+                    width: "168px",
+                    height: "220px",
                     objectFit: "contain",
                     filter: "drop-shadow(0 10px 15px rgba(0,0,0,0.1))",
                   }}

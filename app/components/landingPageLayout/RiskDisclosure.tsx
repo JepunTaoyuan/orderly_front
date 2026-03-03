@@ -6,6 +6,7 @@ import { useMediaQuery } from "@orderly.network/hooks";
 
 export default function RiskDisclosure() {
   const isMobile = useMediaQuery("(max-width: 998px)");
+  const isSmallMobile = useMediaQuery("(max-width: 550px)");
 
   // 定義左側內容的動畫 (由左往右淡入)
   const contentVariants: Variants = {
@@ -47,6 +48,8 @@ export default function RiskDisclosure() {
         display: "flex",
         justifyContent: "center",
         backgroundColor: "#fff",
+        position: "relative",
+        zIndex: 1,
       }}
     >
       <motion.div
@@ -148,8 +151,8 @@ export default function RiskDisclosure() {
           alt="deco"
           style={{
             position: "absolute",
-            left: isMobile ? "80%" : "48%",
-            top: isMobile ? "45%" : "30%",
+            left: isMobile ? "40%" : "48%",
+            top: isMobile ? "50%" : "30%",
             width: isMobile ? "60px" : "100px",
             zIndex: 1,
             pointerEvents: "none",
@@ -163,8 +166,8 @@ export default function RiskDisclosure() {
           alt="deco"
           style={{
             position: "absolute",
-            right: isMobile ? "5%" : "8%",
-            bottom: isMobile ? "5%" : "10%",
+            right: isMobile ? "1%" : "8%",
+            bottom: isMobile ? "0%" : "10%",
             width: isMobile ? "80px" : "130px",
             zIndex: 6,
             pointerEvents: "none",
@@ -179,7 +182,7 @@ export default function RiskDisclosure() {
           style={{
             position: isMobile ? "relative" : "absolute",
             right: isMobile ? "auto" : "-10px",
-            bottom: "0px",
+            bottom: isSmallMobile ? "-50px" : "-10px",
             left: isMobile ? "50%" : "auto",
             height: isMobile ? "320px" : "440px",
             zIndex: 5,

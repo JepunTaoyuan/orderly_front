@@ -45,7 +45,7 @@ export default function Diverse() {
           viewport={{ once: true, amount: 0.5 }} // 滾動到視野一半時觸發
           variants={titleVariants}
           style={{
-            fontSize: "48px",
+            fontSize: "clamp(32px, 5vw, 40px)",
             fontWeight: "700",
             marginBottom: "88px",
             color: "#000",
@@ -85,7 +85,7 @@ export default function Diverse() {
                   src={logo.src}
                   alt={logo.name}
                   style={{
-                    height: "70px",
+                    height: "clamp(50px, 8vw, 70px)",
                     width: "auto",
                     display: "block",
                     objectFit: "contain",

@@ -84,10 +84,18 @@ export default function Markets() {
           viewport={{ once: true, amount: 0.3 }}
           variants={fadeInUp}
         >
-          <p className="oui-text-6xl oui-font-bold">Markets</p>
+          <h2
+            style={{
+              fontSize: "clamp(32px, 5vw, 40px)",
+              fontWeight: "700",
+              marginBottom: "8px",
+            }}
+          >
+            Markets
+          </h2>
           <p
-            className="oui-text-2xl oui-py-4 oui-font-medium"
-            style={{ color: "#666" }}
+            className="oui-py-4 oui-font-medium"
+            style={{ fontSize: "16px", color: "#666" }}
           >
             Trade Everything. Spot & Perpetual Markets
           </p>
