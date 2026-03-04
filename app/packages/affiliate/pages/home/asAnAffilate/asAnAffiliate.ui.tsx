@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useNavigate } from "@remix-run/react";
 import { useTranslation } from "@orderly.network/i18n";
 import { Button, cn, Flex, Text } from "@orderly.network/ui";
 import { commifyOptional } from "@orderly.network/utils";
@@ -7,6 +8,10 @@ import { USDCIcon } from "../../../components/usdcIcon";
 import { AsAnAffiliateReturns } from "./asAnAffiliate.script";
 
 export const AsAnAffiliate: FC<AsAnAffiliateReturns> = (props) => {
+  const navigate = useNavigate(); // 初始化
+
+  // 直接定義一個簡單的跳轉函數
+  const handleNavigate = () => navigate("/rewards/aff");
   const { t } = useTranslation();
   return (
     <Flex
@@ -55,7 +60,7 @@ export const AsAnAffiliate: FC<AsAnAffiliateReturns> = (props) => {
           <Icon />
         </div>
       </Flex>
-      <Bottom {...props} />
+      <Bottom {...props} onNavigate={handleNavigate} />
     </Flex>
   );
 };
@@ -88,9 +93,13 @@ const Icon = () => {
   );
 };
 
-const Bottom: FC<AsAnAffiliateReturns> = (props) => {
-  const { t } = useTranslation();
+// 修正點：在 Bottom 的類型中加入 onNavigate
+interface BottomProps extends AsAnAffiliateReturns {
+  onNavigate: () => void;
+}
 
+const Bottom: FC<BottomProps> = (props) => {
+  const { t } = useTranslation();
   const content = () => {
     if (props.isAffiliate && !props.wrongNetwork) {
       const totalReferrerRebate =
@@ -135,7 +144,8 @@ const Bottom: FC<AsAnAffiliateReturns> = (props) => {
           variant="contained"
           color="light"
           size="lg"
-          onClick={props.becomeAnAffiliate}
+          // onClick={props.becomeAnAffiliate}
+          onClick={props.onNavigate}
           className="oui-rounded-full oui-px-10 oui-text-sm oui-text-primary-darken "
         >
           {/* {t("affiliate.asAffiliate.button")} */}

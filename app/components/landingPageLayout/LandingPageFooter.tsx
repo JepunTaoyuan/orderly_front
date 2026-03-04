@@ -9,10 +9,10 @@ export default function LandingPageFooter() {
 
   const navLinks = [
     { name: "Docs", href: "https://docs.dexless.exchange/" },
-    { name: "Security", href: "#" },
-    { name: "Risk Disclosure", href: "#" },
-    { name: "Terms", href: "#" },
-    { name: "Privacy", href: "#" },
+    // { name: "Security", href: "#" },
+    // { name: "Risk Disclosure", href: "#" },
+    // { name: "Terms", href: "#" },
+    // { name: "Privacy", href: "#" },
   ];
 
   return (
