@@ -34,7 +34,7 @@ export const MainLogo: FC<MainLogoProps> = (props) => {
           viewBox="0 0 105 16"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          onClick={() => navigate("/en/Markets")}
+          onClick={() => navigate("/en/landingPage")}
           style={{ cursor: "pointer" }}
         >
           <path

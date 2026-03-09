@@ -15,11 +15,11 @@ import {
   Spinner,
   Text,
 } from "@orderly.network/ui";
+import { WalletConnectorModalId } from "@orderly.network/ui-connector";
 import {
   ChainSelectorDialogId,
   ChainSelectorWidget,
-} from "@orderly.network/ui-chain-selector";
-import { WalletConnectorModalId } from "@orderly.network/ui-connector";
+} from "../../../ui-chain-selector/src";
 import { UseChainMenuScriptReturn } from "./chainMenu.script";
 
 const ModalTitle = () => {

@@ -73,7 +73,7 @@ export function AirdropDialog({ isOpen, onClose }: AirdropDialogProps) {
               fontFamily: "Inter, sans-serif",
             }}
           >
-            Points Challenge Coming Soon!
+            Points Challenge is Live!
           </h2>
 
           <p

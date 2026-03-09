@@ -1,65 +1,85 @@
 :root:not(.theme-dark) {
-	--tv-color-platform-background: #d1c4e9;
-	--tv-color-pane-background: rgb(251, 223, 244);
-	--tv-color-toolbar-button-background-hover: rgb(244, 143, 177);
-	--tv-color-toolbar-button-background-expanded: rgb(244, 143, 177);
-	--tv-color-toolbar-button-background-active: rgb(249, 185, 233);
-	--tv-color-toolbar-button-background-active-hover: rgb(244, 143, 177);
-	--tv-color-toolbar-button-text: rgb(136, 24, 79);
-	--tv-color-toolbar-button-text-hover: rgb(74, 20, 140);
-	--tv-color-toolbar-button-text-active: red;
-	--tv-color-toolbar-button-text-active-hover: red;
-	--tv-color-item-active-text: rgb(6, 6, 255);
-	--tv-color-toolbar-toggle-button-background-active: red;
-	--tv-color-toolbar-toggle-button-background-active-hover: magenta;
-	--tv-color-toolbar-divider-background: rgb(251, 223, 244);
-	--tv-color-toolbar-save-layout-loader: rgb(106, 109, 120);
+    /* 平台與面板背景 - 乾淨的淺灰藍 */
+    --tv-color-platform-background: #f0f3fa;
+    --tv-color-pane-background: #ffffff;
 
-	--tv-color-popup-background: rgb(241, 188, 225);
-	--tv-color-popup-element-text: rgb(136, 24, 79);
-	--tv-color-popup-element-text-hover: rgb(74, 20, 140);
-	--tv-color-popup-element-background-hover: rgb(244, 143, 177);
-	--tv-color-popup-element-divider-background: rgb(251, 223, 244);
-	--tv-color-popup-element-secondary-text: rgb(74, 20, 140);
-	--tv-color-popup-element-hint-text: rgb(74, 20, 140);
-	--tv-color-popup-element-text-active: rgb(6, 6, 255);
-	--tv-color-popup-element-background-active: red;
-	--tv-color-popup-element-toolbox-text: rgb(136, 24, 79);
-	--tv-color-popup-element-toolbox-text-hover: rgb(74, 20, 140);
-	--tv-color-popup-element-toolbox-text-active-hover: rgb(74, 20, 140);
-	--tv-color-popup-element-toolbox-background-hover: rgb(222, 89, 132);
-	--tv-color-popup-element-toolbox-background-active-hover: magenta;
+    /* 工具欄按鈕狀態 - 柔和灰 */
+    --tv-color-toolbar-button-background-hover: #e0e3eb;
+    --tv-color-toolbar-button-background-expanded: #e0e3eb;
+    --tv-color-toolbar-button-background-active: #d1d4dc;
+    --tv-color-toolbar-button-background-active-hover: #d1d4dc;
+
+    /* 字體與 Icon 顏色 - 高對比深色，確保圖標顯眼 */
+    --tv-color-toolbar-button-text: #131722;
+    --tv-color-toolbar-button-text-hover: #2962ff;
+    --tv-color-toolbar-button-text-active: #2962ff;
+    --tv-color-toolbar-button-text-active-hover: #2962ff;
+    --tv-color-item-active-text: #2962ff;
+
+    /* 切換按鈕與分割線 */
+    --tv-color-toolbar-toggle-button-background-active: #2962ff;
+    --tv-color-toolbar-toggle-button-background-active-hover: #1e53e5;
+    --tv-color-toolbar-divider-background: #e0e3eb;
+    --tv-color-toolbar-save-layout-loader: #787b86;
+
+    /* 彈窗選單 (Popups) - 白色底搭配藍色高亮 */
+    --tv-color-popup-background: #ffffff;
+    --tv-color-popup-element-text: #131722;
+    --tv-color-popup-element-text-hover: #ffffff;
+    --tv-color-popup-element-background-hover: #2962ff;
+    --tv-color-popup-element-divider-background: #f0f3fa;
+    --tv-color-popup-element-secondary-text: #787b86;
+    --tv-color-popup-element-hint-text: #787b86;
+    --tv-color-popup-element-text-active: #ffffff;
+    --tv-color-popup-element-background-active: #2962ff;
+
+    /* 彈窗內工具箱顏色 */
+    --tv-color-popup-element-toolbox-text: #787b86;
+    --tv-color-popup-element-toolbox-text-hover: #131722;
+    --tv-color-popup-element-toolbox-text-active-hover: #131722;
+    --tv-color-popup-element-toolbox-background-hover: #e0e3eb;
+    --tv-color-popup-element-toolbox-background-active-hover: #d1d4dc;
 }
 
 .theme-dark:root {
-	--tv-color-platform-background: #d1c4e9;
-	--tv-color-pane-background: rgb(251, 223, 244);
-	--tv-color-toolbar-button-background-hover: rgb(244, 143, 177);
-	--tv-color-toolbar-button-background-expanded: rgb(244, 143, 177);
-	--tv-color-toolbar-button-background-active: rgb(249, 185, 233);
-	--tv-color-toolbar-button-background-active-hover: rgb(244, 143, 177);
-	--tv-color-toolbar-button-text: rgb(136, 24, 79);
-	--tv-color-toolbar-button-text-hover: rgb(74, 20, 140);
-	--tv-color-toolbar-button-text-active: red;
-	--tv-color-toolbar-button-text-active-hover: red;
-	--tv-color-item-active-text: rgb(6, 255, 6);
-	--tv-color-toolbar-toggle-button-background-active: red;
-	--tv-color-toolbar-toggle-button-background-active-hover: magenta;
-	--tv-color-toolbar-divider-background: rgb(251, 223, 244);
-	--tv-color-toolbar-save-layout-loader: rgb(134, 137, 147);
+    /* 平台與面板背景 - 交易所經典深色 */
+    --tv-color-platform-background: #0b0e11; /* Orderly/Binance 風格深黑 */
+    --tv-color-pane-background: #161a25;
 
-	--tv-color-popup-background: rgb(241, 188, 225);
-	--tv-color-popup-element-text: rgb(136, 24, 79);
-	--tv-color-popup-element-text-hover: rgb(74, 20, 140);
-	--tv-color-popup-element-background-hover: rgb(244, 143, 177);
-	--tv-color-popup-element-divider-background: rgb(251, 223, 244);
-	--tv-color-popup-element-secondary-text: rgb(74, 20, 140);
-	--tv-color-popup-element-hint-text: rgb(74, 20, 140);
-	--tv-color-popup-element-text-active: rgb(6, 6, 255);
-	--tv-color-popup-element-background-active: red;
-	--tv-color-popup-element-toolbox-text: rgb(136, 24, 79);
-	--tv-color-popup-element-toolbox-text-hover: rgb(74, 20, 140);
-	--tv-color-popup-element-toolbox-text-active-hover: rgb(74, 20, 140);
-	--tv-color-popup-element-toolbox-background-hover: rgb(222, 89, 132);
-	--tv-color-popup-element-toolbox-background-active-hover: magenta;
+    /* 工具欄按鈕狀態 - 深灰轉亮灰 */
+    --tv-color-toolbar-button-background-hover: #2a2e39;
+    --tv-color-toolbar-button-background-expanded: #2a2e39;
+    --tv-color-toolbar-button-background-active: #363a45;
+    --tv-color-toolbar-button-background-active-hover: #363a45;
+
+    /* 字體與 Icon 顏色 - 白色與淺灰，確保 Icon 顯示清晰 */
+    --tv-color-toolbar-button-text: #d1d4dc;
+    --tv-color-toolbar-button-text-hover: #ffffff;
+    --tv-color-toolbar-button-text-active: #2962ff;
+    --tv-color-toolbar-button-text-active-hover: #2962ff;
+    --tv-color-item-active-text: #00ff88; /* 活潑的亮綠點綴 */
+
+    /* 切換按鈕與分割線 */
+    --tv-color-toolbar-toggle-button-background-active: #2962ff;
+    --tv-color-toolbar-toggle-button-background-active-hover: #1e53e5;
+    --tv-color-toolbar-divider-background: #2a2e39;
+    --tv-color-toolbar-save-layout-loader: #868993;
+
+    /* 彈窗選單 (Popups) - 深藍黑底 */
+    --tv-color-popup-background: #1e222d;
+    --tv-color-popup-element-text: #d1d4dc;
+    --tv-color-popup-element-text-hover: #ffffff;
+    --tv-color-popup-element-background-hover: #2962ff;
+    --tv-color-popup-element-divider-background: #2a2e39;
+    --tv-color-popup-element-secondary-text: #787b86;
+    --tv-color-popup-element-hint-text: #787b86;
+    --tv-color-popup-element-text-active: #ffffff;
+    --tv-color-popup-element-background-active: #2962ff;
+
+    /* 彈窗內工具箱顏色 */
+    --tv-color-popup-element-toolbox-text: #787b86;
+    --tv-color-popup-element-toolbox-text-hover: #d1d4dc;
+    --tv-color-popup-element-toolbox-text-active-hover: #d1d4dc;
+    --tv-color-popup-element-toolbox-background-hover: #2a2e39;
+    --tv-color-popup-element-toolbox-background-active-hover: #363a45;
 }

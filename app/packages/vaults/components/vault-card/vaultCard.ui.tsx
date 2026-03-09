@@ -52,7 +52,7 @@ export const VaultCard: FC<VaultCardScript> = (props) => {
             {title}
           </div>
           {supportVaultsList}
-          <div
+          {/* <div
             className="oui-z-50 oui-ml-auto oui-cursor-pointer"
             onClick={openVaultWebsite}
           >
@@ -62,9 +62,21 @@ export const VaultCard: FC<VaultCardScript> = (props) => {
               height={18}
               viewBox="0 0 18 18"
             />
-          </div>
+          </div> */}
         </div>
-
+        {/* 原本的 */}
+        {/* <div
+          style={{
+            color: "rgba(255, 255, 255, 0.4)",
+            fontSize: 12,
+            fontFamily: "Manrope",
+            fontWeight: "500",
+            wordWrap: "break-word",
+          }}
+        >
+          {description}
+        </div> */}
+        {/* 修改後：支援三行截斷與連結解析 */}
         <div
           style={{
             color: "rgba(255, 255, 255, 0.4)",
@@ -72,9 +84,16 @@ export const VaultCard: FC<VaultCardScript> = (props) => {
             fontFamily: "Poppins",
             fontWeight: "500",
             wordWrap: "break-word",
+            // --- 以下為新增的截斷樣式 ---
+            display: "-webkit-box",
+            WebkitLineClamp: 3, // 限制三行
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            lineHeight: "18px", // 確保行高固定，方便計算高度
+            minHeight: "54px", // 18px * 3 = 54px，讓卡片高度保持一致
           }}
         >
-          {description}
+          {parseDescription(description)}
         </div>
 
         <div className="oui-flex oui-items-center oui-gap-2">
@@ -121,6 +140,52 @@ export const VaultCard: FC<VaultCardScript> = (props) => {
       </div>
     </div>
   );
+};
+/**
+ * 解析描述文字中的 Markdown 連結格式 [text](url)
+ */
+const parseDescription = (text: string) => {
+  if (!text) return null;
+
+  // 正則表達式匹配 [文字](網址)
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    // 插入匹配項之前的純文字
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+
+    // 插入轉換後的連結標籤
+    parts.push(
+      <a
+        key={match.index}
+        href={match[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="oui-text-brand oui-underline"
+        style={{
+          color: "rgba(201, 189, 255, 1)", // 配合你的 APY 顏色
+          textDecoration: "underline",
+          cursor: "pointer",
+        }}
+        onClick={(e) => e.stopPropagation()} // 防止觸發卡片整體的點擊事件
+      >
+        {match[1]}
+      </a>,
+    );
+    lastIndex = regex.lastIndex;
+  }
+
+  // 插入剩餘文字
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
 };
 
 const VaultInfoItem: FC<{

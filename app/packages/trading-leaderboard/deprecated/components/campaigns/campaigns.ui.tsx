@@ -171,7 +171,7 @@ const HeroCampaignItem: FC<{
         </Text>
 
         <Flex gap={3}>
-          <Button
+          {/* <Button
             variant="outlined"
             color="secondary"
             size="md"
@@ -180,7 +180,7 @@ const HeroCampaignItem: FC<{
             style={{ color: "rgba(255, 255, 255, 0.7)" }}
           >
             {t("tradingLeaderboard.learnMore")}
-          </Button>
+          </Button> */}
           <Button
             size="md"
             onClick={() => onTradeNow(campaign)}

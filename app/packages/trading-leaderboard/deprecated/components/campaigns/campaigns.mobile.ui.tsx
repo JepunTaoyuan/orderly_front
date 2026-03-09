@@ -210,7 +210,7 @@ const MobileHeroCampaignItem: FC<{
 
       {/* Buttons */}
       <Flex gap={3} className="oui-w-full">
-        <Button
+        {/* <Button
           variant="outlined"
           color="secondary"
           size="md"
@@ -220,7 +220,7 @@ const MobileHeroCampaignItem: FC<{
           style={{ color: "rgba(255, 255, 255, 0.7)" }}
         >
           {t("tradingLeaderboard.learnMore")}
-        </Button>
+        </Button> */}
         <Button
           size="md"
           fullWidth
