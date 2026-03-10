@@ -1,8 +1,9 @@
 import { FC } from "react";
 import { useNavigate } from "@remix-run/react";
-import { useTranslation } from "@orderly.network/i18n";
+import { generatePath, useTranslation } from "@orderly.network/i18n";
 import { Button, cn, Flex, Text } from "@orderly.network/ui";
 import { commifyOptional } from "@orderly.network/utils";
+import { PathEnum } from "@/constant";
 import { ArrowRightIcon } from "../../../components/arrowRightIcon";
 import { USDCIcon } from "../../../components/usdcIcon";
 import { AsAnAffiliateReturns } from "./asAnAffiliate.script";
@@ -11,7 +12,9 @@ export const AsAnAffiliate: FC<AsAnAffiliateReturns> = (props) => {
   const navigate = useNavigate(); // 初始化
 
   // 直接定義一個簡單的跳轉函數
-  const handleNavigate = () => navigate("/rewards/aff");
+  const handleNavigate = () => {
+    navigate(generatePath({ path: PathEnum.RewardsDashboard }));
+  };
   const { t } = useTranslation();
   return (
     <Flex

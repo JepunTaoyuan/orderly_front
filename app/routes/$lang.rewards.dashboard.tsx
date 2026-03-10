@@ -8,9 +8,10 @@ import { AffiliatePage } from "@/packages/affiliate/pages/affiliate";
 import { generatePageTitle } from "@/utils";
 
 export const meta: MetaFunction = () => {
-  return [{ title: generatePageTitle(PageTitleMap[PathEnum.RewardsAff]) }];
+  return [
+    { title: generatePageTitle(PageTitleMap[PathEnum.RewardsDashboard]) },
+  ];
 };
-
 export default function AffiliateRoute() {
   const is5XL = useMediaQuery("(min-width: 1920px)");
   return (

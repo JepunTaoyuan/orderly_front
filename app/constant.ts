@@ -17,7 +17,7 @@ export enum PathEnum {
   Rewards = "/rewards",
   RewardsTrading = "/rewards/trading",
   RewardsAffiliate = "/rewards/affiliate",
-  RewardsAff = "/rewards/aff",
+  RewardsDashboard = "/rewards/dashboard",
 
   Strategy = "/strategy",
 
@@ -40,7 +40,7 @@ export const PageTitleMap = {
   [PathEnum.Leaderboard]: "Leaderboard",
   [PathEnum.RewardsTrading]: "Trading Rewards",
   [PathEnum.RewardsAffiliate]: "Affiliate program",
-  [PathEnum.RewardsAff]: "Affiliate dashboard",
+  [PathEnum.RewardsDashboard]: "dashboard",
   [PathEnum.Strategy]: "Strategy",
   [PathEnum.Vaults]: "Vaults",
   [PathEnum.DexlessAi]: "dexlessAi",
