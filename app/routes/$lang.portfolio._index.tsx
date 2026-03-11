@@ -4,7 +4,8 @@ import { OverviewModule } from "@/packages/portfolio";
 import { generatePageTitle } from "@/utils";
 
 export const meta: MetaFunction = () => {
-  return [{ title: generatePageTitle(PageTitleMap[PathEnum.Portfolio]) }];
+  // return [{ title: generatePageTitle(PageTitleMap[PathEnum.Portfolio]) }];
+  return [{ title: `Portfolio | Dexless` }];
 };
 
 export default function PortfolioPage() {

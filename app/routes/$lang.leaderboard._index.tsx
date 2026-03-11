@@ -9,7 +9,8 @@ import { getSymbol } from "@/storage";
 import { generatePageTitle } from "@/utils";
 
 export const meta: MetaFunction = () => {
-  return [{ title: generatePageTitle(PageTitleMap[PathEnum.Leaderboard]) }];
+  // return [{ title: generatePageTitle(PageTitleMap[PathEnum.Leaderboard]) }];
+  return [{ title: `Leaderboard | Dexless` }];
 };
 
 function getCampaigns() {

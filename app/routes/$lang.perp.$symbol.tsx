@@ -10,7 +10,10 @@ import { updateSymbol } from "@/storage";
 import { formatSymbol, generatePageTitle } from "@/utils";
 
 export const meta: MetaFunction = ({ params }) => {
-  return [{ title: generatePageTitle(formatSymbol(params.symbol!)) }];
+  // return [{ title: generatePageTitle(formatSymbol(params.symbol!)) }];
+  const symbol = formatSymbol(params.symbol!);
+  // 手動定義標題
+  return [{ title: `${symbol} | Dexless` }];
 };
 
 export default function PerpPage() {

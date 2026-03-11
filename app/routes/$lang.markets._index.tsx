@@ -9,7 +9,8 @@ import { updateSymbol } from "@/storage";
 import { generatePageTitle } from "@/utils";
 
 export const meta: MetaFunction = () => {
-  return [{ title: generatePageTitle(PageTitleMap[PathEnum.Markets]) }];
+  // return [{ title: generatePageTitle(PageTitleMap[PathEnum.Markets]) }];
+  return [{ title: `Markets | Dexless` }];
 };
 
 export default function MarketsPage() {

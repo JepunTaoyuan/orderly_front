@@ -4,9 +4,10 @@ import { Dashboard, ReferralProvider } from "@/packages/affiliate";
 import { generatePageTitle } from "@/utils";
 
 export const meta: MetaFunction = () => {
-  return [
-    { title: generatePageTitle(PageTitleMap[PathEnum.RewardsAffiliate]) },
-  ];
+  // return [
+  //   { title: generatePageTitle(PageTitleMap[PathEnum.RewardsAffiliate]) },
+  // ];
+  return [{ title: `Affiliate program | Dexless` }];
 };
 
 export default function AffiliatePage() {
