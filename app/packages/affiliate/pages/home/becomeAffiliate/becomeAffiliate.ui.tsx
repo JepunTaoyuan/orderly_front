@@ -13,8 +13,8 @@ export const BecomeAffiliate: FC<BecomeAffiliateReturns> = (props) => {
   const applyText = useMemo(() => {
     if (!generateCode) {
       return {
-        title: t("affiliate.process.step1.title"),
-        desc: t("affiliate.process.step1.description"),
+        title: t("Apply"),
+        desc: t("Apply via the form."),
       };
     }
     if (generateCode.requireVolume > 0) {
