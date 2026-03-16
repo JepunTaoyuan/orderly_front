@@ -167,20 +167,24 @@ const HeroCampaignItem: FC<{
         </Flex>
 
         <Text size="sm" style={{ color: "rgba(255, 255, 255, 0.5)" }}>
-          {displayTime}
+          {/* {displayTime} */}
         </Text>
 
         <Flex gap={3}>
-          {/* <Button
-            variant="outlined"
-            color="secondary"
+          <Button
+            variant="text"
             size="md"
-            onClick={() => onLearnMore(campaign)}
-            className="oui-rounded-full oui-border-white/30 oui-px-5"
-            style={{ color: "rgba(255, 255, 255, 0.7)" }}
+            disabled
+            className="oui-rounded-full oui-px-5"
+            style={{
+              color: "rgba(255, 255, 255, 0.4)",
+              border: "1px solid rgba(255, 255, 255, 0.2)",
+              background: "transparent",
+              pointerEvents: "none",
+            }}
           >
             {t("tradingLeaderboard.learnMore")}
-          </Button> */}
+          </Button>
           <Button
             size="md"
             onClick={() => onTradeNow(campaign)}
@@ -198,7 +202,7 @@ const HeroCampaignItem: FC<{
 
       {/* Right Column - Countdown */}
       <div className="oui-flex-shrink-0">
-        <HeroCountdown endTime={endTime} startTime={startTime} />
+        {/* <HeroCountdown endTime={endTime} startTime={startTime} /> */}
       </div>
     </div>
   );

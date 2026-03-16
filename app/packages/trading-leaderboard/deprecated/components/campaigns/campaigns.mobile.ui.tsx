@@ -210,17 +210,20 @@ const MobileHeroCampaignItem: FC<{
 
       {/* Buttons */}
       <Flex gap={3} className="oui-w-full">
-        {/* <Button
-          variant="outlined"
-          color="secondary"
+        <Button
+          variant="text"
           size="md"
-          fullWidth
-          onClick={() => onLearnMore(campaign)}
-          className="oui-rounded-full oui-border-white/30 oui-px-5"
-          style={{ color: "rgba(255, 255, 255, 0.7)" }}
+          disabled
+          className="oui-rounded-full oui-px-5"
+          style={{
+            color: "rgba(255, 255, 255, 0.4)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            background: "transparent",
+            pointerEvents: "none",
+          }}
         >
           {t("tradingLeaderboard.learnMore")}
-        </Button> */}
+        </Button>
         <Button
           size="md"
           fullWidth

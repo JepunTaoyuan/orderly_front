@@ -70,40 +70,40 @@ export const useRankingColumns = (
         },
         width: 90,
       },
-      {
-        title: t("tradingLeaderboard.tradingVolume"),
-        dataIndex: "volume",
-        onSort: enableSort,
-        align: isMobile ? "right" : "left",
-        render: (value: string) => {
-          if (!value) {
-            return "-";
-          }
-          return (
-            <Text.numeral prefix="$" rule="price" dp={2}>
-              {value}
-            </Text.numeral>
-          );
-        },
-        width: 105,
-      },
-      {
-        title: t("common.pnl"),
-        dataIndex: "pnl",
-        onSort: enableSort,
-        align: isMobile ? "right" : "left",
-        render: (value: string) => {
-          if (!value) {
-            return "-";
-          }
-          return (
-            <Text.pnl prefix="$" rule="price" dp={2} coloring>
-              {value}
-            </Text.pnl>
-          );
-        },
-        width: 90,
-      },
+      // {
+      //   title: t("tradingLeaderboard.tradingVolume"),
+      //   dataIndex: "volume",
+      //   onSort: enableSort,
+      //   align: isMobile ? "right" : "left",
+      //   render: (value: string) => {
+      //     if (!value) {
+      //       return "-";
+      //     }
+      //     return (
+      //       <Text.numeral prefix="$" rule="price" dp={2}>
+      //         {value}
+      //       </Text.numeral>
+      //     );
+      //   },
+      //   width: 105,
+      // },
+      // {
+      //   title: t("common.pnl"),
+      //   dataIndex: "pnl",
+      //   onSort: enableSort,
+      //   align: isMobile ? "right" : "left",
+      //   render: (value: string) => {
+      //     if (!value) {
+      //       return "-";
+      //     }
+      //     return (
+      //       <Text.pnl prefix="$" rule="price" dp={2} coloring>
+      //         {value}
+      //       </Text.pnl>
+      //     );
+      //   },
+      //   width: 90,
+      // },
       {
         title: t("tradingLeaderboard.estimatedRewards"),
         dataIndex: "rewards",

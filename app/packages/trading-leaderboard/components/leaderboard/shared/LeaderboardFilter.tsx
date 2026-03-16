@@ -159,9 +159,9 @@ export const LeaderboardFilter: FC<LeaderboardFilterProps> = (props) => {
       className={cn("oui-trading-leaderboard-ranking-filter")}
     >
       <Flex gap={3}>
-        {useCampaignDateRange && weeklyView}
+        {/* {useCampaignDateRange && weeklyView}
         {!useCampaignDateRange && dateRangeView}
-        {!useCampaignDateRange && filterDayView}
+        {!useCampaignDateRange && filterDayView} */}
       </Flex>
       <Box width={240}>{input}</Box>
     </Flex>
