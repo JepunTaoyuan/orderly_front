@@ -20,6 +20,7 @@ export const useAsTraderScript = () => {
     setTab,
     mutate,
     userId,
+    getAuthHeaders,
     setOptimisticIsAffiliate,
     setOptimisticIsTrader,
   } = useReferralContext();
@@ -45,12 +46,20 @@ export const useAsTraderScript = () => {
   // 使用自訂 API 進行綁定
   const bindReferralCode = useCallback(
     async (referralCode: string) => {
-      if (!userId) {
+      if (!userId || !getAuthHeaders) {
         throw new Error("用戶未登入");
       }
-      return userApi.bindReferralCode(userId, { referral_code: referralCode });
+      const headers = await getAuthHeaders();
+      if (!headers) {
+        throw new Error("簽名失敗，請重試");
+      }
+      return userApi.bindReferralCode(
+        userId,
+        { referral_code: referralCode },
+        headers,
+      );
     },
-    [userId],
+    [userId, getAuthHeaders],
   );
 
   const onClickConfirm = async () => {

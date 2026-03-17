@@ -8,6 +8,8 @@ import {
   DailyVolumeItem,
   CommissionHistoryItem,
   RebateHistoryItem,
+  AuthHeaders,
+  AffiliateDashboardResponse,
 } from "@/services/api-refer-client";
 
 export enum TabTypes {
@@ -122,6 +124,12 @@ export type ReferralContextReturns = {
 
   // 用戶數據
   userId: string | null;
+  authToken?: AuthHeaders;
+  getAuthHeaders?: () => Promise<AuthHeaders | undefined>;
+  /** Full response from GET /dashboard/affiliate/{user_id}. null = not yet loaded. */
+  dashboardData?: AffiliateDashboardResponse | null;
+  /** True once the aggregate dashboard API has settled (success or failure). */
+  dashboardLoaded?: boolean;
   userInfo: UserResponse | null;
   totalCommission: number;
   weeklyCommission: number;

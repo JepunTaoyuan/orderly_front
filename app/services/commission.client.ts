@@ -15,54 +15,60 @@ import {
   MessageResponse,
   CommissionHistoryResponse,
   RebateHistoryResponse,
+  AffiliateDashboardResponse,
+  AffiliateDashboardParams,
 } from "./api-refer-client";
+import type { AuthHeaders } from "./api-refer-client";
 
 export const commissionApi = {
   // Get user commission
-  getUserCommission: (userId: string, token?: string) =>
-    api.get<UserCommissionResponse>(`/commissions/${userId}`, token),
+  getUserCommission: (userId: string, authHeaders?: AuthHeaders) =>
+    api.get<UserCommissionResponse>(`/commissions/${userId}`, authHeaders),
 
   // Calculate commissions for users
-  calculate: (data: CalculateCommissionsRequest, token?: string) =>
+  calculate: (data: CalculateCommissionsRequest, authHeaders?: AuthHeaders) =>
     api.post<CalculateCommissionsResponse>(
       "/commissions/calculate",
       data,
-      token,
+      authHeaders,
     ),
 
   // Process daily commissions (admin)
-  processDaily: (data: ProcessDailyCommissionsRequest, token?: string) =>
+  processDaily: (
+    data: ProcessDailyCommissionsRequest,
+    authHeaders?: AuthHeaders,
+  ) =>
     api.post<ProcessDailyCommissionsResponse>(
       "/commissions/process-daily",
       data,
-      token,
+      authHeaders,
     ),
 
   // Send weekly commissions (admin)
-  sendWeekly: (data: SendWeeklyCommissionRequest, token?: string) =>
+  sendWeekly: (data: SendWeeklyCommissionRequest, authHeaders?: AuthHeaders) =>
     api.post<SendWeeklyCommissionResponse>(
       "/commissions/send-weekly",
       data,
-      token,
+      authHeaders,
     ),
 
   // Get weekly commission summary (admin)
-  getWeeklySummary: (token?: string) =>
+  getWeeklySummary: (authHeaders?: AuthHeaders) =>
     api.get<WeeklyCommissionSummaryResponse>(
       "/commissions/weekly-summary",
-      token,
+      authHeaders,
     ),
 
   // Reset weekly commissions (admin)
-  resetWeekly: (token?: string) =>
-    api.post<MessageResponse>("/commissions/reset-weekly", {}, token),
+  resetWeekly: (authHeaders?: AuthHeaders) =>
+    api.post<MessageResponse>("/commissions/reset-weekly", {}, authHeaders),
 
   // Retry failed commission payouts (admin)
-  retryFailed: (data: RetryFailedUserRequest, token?: string) =>
+  retryFailed: (data: RetryFailedUserRequest, authHeaders?: AuthHeaders) =>
     api.post<RetryFailedUsersResponse>(
       "/commissions/retry-failed",
       data,
-      token,
+      authHeaders,
     ),
 
   // Reset all commissions (admin - dangerous)
@@ -79,7 +85,7 @@ export const commissionApi = {
       page?: number;
       pageSize?: number;
     },
-    token?: string,
+    authHeaders?: AuthHeaders,
   ) => {
     const searchParams = new URLSearchParams();
     if (params?.startDate) searchParams.append("start_date", params.startDate);
@@ -90,7 +96,7 @@ export const commissionApi = {
     const queryString = searchParams.toString();
     return api.get<CommissionHistoryResponse>(
       `/commissions/${userId}/history${queryString ? `?${queryString}` : ""}`,
-      token,
+      authHeaders,
     );
   },
 
@@ -103,7 +109,7 @@ export const commissionApi = {
       page?: number;
       pageSize?: number;
     },
-    token?: string,
+    authHeaders?: AuthHeaders,
   ) => {
     const searchParams = new URLSearchParams();
     if (params?.startDate) searchParams.append("start_date", params.startDate);
@@ -114,7 +120,59 @@ export const commissionApi = {
     const queryString = searchParams.toString();
     return api.get<RebateHistoryResponse>(
       `/commissions/rebates/${userId}/history${queryString ? `?${queryString}` : ""}`,
-      token,
+      authHeaders,
+    );
+  },
+};
+
+// ============================================================================
+// Affiliate Dashboard Aggregate API
+// First-screen: call this ONE endpoint → only ONE wallet-signing prompt needed.
+// Edit actions (change discount / note / code) still call the individual write
+// APIs, then call refreshDashboard() to sync.
+// ============================================================================
+
+export const dashboardApi = {
+  /**
+   * GET /api/v1/dashboard/affiliate/{user_id}
+   * Returns all affiliate dashboard data in a single signed request.
+   */
+  getAffiliateDashboard: (
+    userId: string,
+    params?: AffiliateDashboardParams,
+    authHeaders?: AuthHeaders,
+  ) => {
+    const searchParams = new URLSearchParams();
+    if (params?.period != null)
+      searchParams.append("period", String(params.period));
+    if (params?.referrals_page != null)
+      searchParams.append("referrals_page", String(params.referrals_page));
+    if (params?.referrals_page_size != null)
+      searchParams.append(
+        "referrals_page_size",
+        String(params.referrals_page_size),
+      );
+    if (params?.sub_agents_page != null)
+      searchParams.append("sub_agents_page", String(params.sub_agents_page));
+    if (params?.sub_agents_page_size != null)
+      searchParams.append(
+        "sub_agents_page_size",
+        String(params.sub_agents_page_size),
+      );
+    if (params?.commission_history_page != null)
+      searchParams.append(
+        "commission_history_page",
+        String(params.commission_history_page),
+      );
+    if (params?.commission_history_page_size != null)
+      searchParams.append(
+        "commission_history_page_size",
+        String(params.commission_history_page_size),
+      );
+    const qs = searchParams.toString();
+    return api.get<AffiliateDashboardResponse>(
+      `/dashboard/affiliate/${userId}${qs ? `?${qs}` : ""}`,
+      authHeaders,
     );
   },
 };

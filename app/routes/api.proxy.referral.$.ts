@@ -12,7 +12,8 @@ import {
   type ActionFunctionArgs,
 } from "@remix-run/node";
 
-const REFERRAL_API_URL = process.env.REFERRAL_API_URL || "http://referral:8000";
+const REFERRAL_API_URL =
+  process.env.REFERRAL_API_URL || "http://localhost:8000";
 
 /**
  * Proxy function that forwards requests to the backend

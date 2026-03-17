@@ -484,6 +484,106 @@ export interface AuthChallengeResponse {
   signature_validity_window: number;
 }
 
+// ============================================================================
+// Affiliate Dashboard Aggregate API
+// ============================================================================
+
+export interface AffiliateDashboardPagination {
+  total: number;
+  page: number;
+  page_size: number;
+  total_pages: number;
+}
+
+/** User shape as returned inside the aggregate dashboard payload */
+export interface AffiliateDashboardUser {
+  user_id: string;
+  wallet_address: string;
+  is_affiliate: boolean;
+  used_referral_code: string | null;
+  parent_affiliate_id: string | null;
+  note: string | null;
+  max_referral_rate: number;
+  fee_discount_rate: number;
+  is_admin: boolean;
+  created_at?: number | null;
+}
+
+export interface AffiliateDashboardResponse {
+  server_time: number;
+  user_role: {
+    user_id: string;
+    is_affiliate: boolean;
+    is_admin: boolean;
+  };
+  user: AffiliateDashboardUser;
+  commission_overview: {
+    total_commission_and_discount: number;
+    weekly_commission_and_discount: number;
+  };
+  affiliate_summary: AffiliateSummaryResponse;
+  referral_codes_stats: {
+    user_id: string;
+    codes: ReferralCodeStatsItem[];
+    total_codes: number;
+  };
+  commission_history: {
+    items: CommissionHistoryItem[];
+    pagination: AffiliateDashboardPagination;
+  };
+  referrals_detail: {
+    items: ReferralDetailItem[];
+    pagination: AffiliateDashboardPagination;
+  };
+  sub_affiliates: {
+    items: SubAffiliateItem[];
+    pagination: AffiliateDashboardPagination;
+  };
+}
+
+export interface AffiliateDashboardParams {
+  /** 1–365, default 30 */
+  period?: number;
+  referrals_page?: number;
+  referrals_page_size?: number;
+  sub_agents_page?: number;
+  sub_agents_page_size?: number;
+  commission_history_page?: number;
+  commission_history_page_size?: number;
+}
+
+// ============================================================================
+// Auth Headers (Challenge-Signature based auth)
+// ============================================================================
+
+export interface AuthHeaders {
+  userId: string;
+  signature: string;
+  timestamp: number;
+  nonce: string;
+  /** Unix timestamp (ms) until which these headers are valid */
+  expiresAt: number;
+}
+
+const CHALLENGE_URL = "/api/proxy/referral/api/auth";
+
+export async function getChallenge(): Promise<AuthChallengeResponse> {
+  const response = await fetch(`${CHALLENGE_URL}/challenge`);
+  if (!response.ok) {
+    throw new Error(`Failed to get challenge: ${response.status}`);
+  }
+  return response.json();
+}
+
+function buildXHeaders(h: AuthHeaders): Record<string, string> {
+  return {
+    "X-User-Id": h.userId,
+    "X-Signature": h.signature,
+    "X-Timestamp": String(h.timestamp),
+    "X-Nonce": h.nonce,
+  };
+}
+
 export interface MessageResponse {
   message: string;
 }
@@ -543,36 +643,36 @@ async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
 // ============================================================================
 
 export const api = {
-  get: <T>(endpoint: string, token?: string) =>
+  get: <T>(endpoint: string, authHeaders?: AuthHeaders) =>
     request<T>(endpoint, {
       method: "GET",
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      headers: authHeaders ? buildXHeaders(authHeaders) : {},
     }),
 
-  post: <T>(endpoint: string, data: unknown, token?: string) =>
+  post: <T>(endpoint: string, data: unknown, authHeaders?: AuthHeaders) =>
     request<T>(endpoint, {
       method: "POST",
       body: JSON.stringify(data),
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      headers: authHeaders ? buildXHeaders(authHeaders) : {},
     }),
 
-  put: <T>(endpoint: string, data: unknown, token?: string) =>
+  put: <T>(endpoint: string, data: unknown, authHeaders?: AuthHeaders) =>
     request<T>(endpoint, {
       method: "PUT",
       body: JSON.stringify(data),
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      headers: authHeaders ? buildXHeaders(authHeaders) : {},
     }),
 
-  patch: <T>(endpoint: string, data: unknown, token?: string) =>
+  patch: <T>(endpoint: string, data: unknown, authHeaders?: AuthHeaders) =>
     request<T>(endpoint, {
       method: "PATCH",
       body: JSON.stringify(data),
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      headers: authHeaders ? buildXHeaders(authHeaders) : {},
     }),
 
-  delete: <T = void>(endpoint: string, token?: string) =>
+  delete: <T = void>(endpoint: string, authHeaders?: AuthHeaders) =>
     request<T>(endpoint, {
       method: "DELETE",
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      headers: authHeaders ? buildXHeaders(authHeaders) : {},
     }),
 };

@@ -28,7 +28,8 @@ export const EditReferralModal: FC<EditReferralModalProps> = ({
   maxCommissionRate,
 }) => {
   const { t } = useTranslation();
-  const { userId, isTopLevelAgent, userInfo } = useReferralContext();
+  const { userId, getAuthHeaders, isTopLevelAgent, userInfo } =
+    useReferralContext();
 
   // 使用 userInfo 的 max_referral_rate 或 props 傳入的值，頂級代理預設 40%
   const totalRate = maxCommissionRate ?? userInfo?.max_referral_rate ?? 0.4;
@@ -151,25 +152,40 @@ export const EditReferralModal: FC<EditReferralModalProps> = ({
 
   // Edit Invitee - Confirm
   const handleEditConfirm = async () => {
-    if (!userId || !referral) return;
+    if (!userId || !referral || !getAuthHeaders) return;
 
     setIsLoading(true);
     setError(null);
 
     try {
+      const headers = await getAuthHeaders();
+      if (!headers) {
+        throw new Error("簽名失敗");
+      }
+
       // 更新 note (如有變更)
       if (editNote !== (referral.note || "")) {
-        await userApi.updateReferralNote(userId, referral.user_id, {
-          note: editNote,
-        });
+        await userApi.updateReferralNote(
+          userId,
+          referral.user_id,
+          {
+            note: editNote,
+          },
+          headers,
+        );
       }
 
       // 更新 commission rate (fee discount)
       const newRate = parseFloat(editRateInvitee) / 100;
       if (newRate !== referral.commission_rate_invitee) {
-        await userApi.updateFeeDiscount(userId, referral.user_id, {
-          new_fee_discount_rate: newRate,
-        });
+        await userApi.updateFeeDiscount(
+          userId,
+          referral.user_id,
+          {
+            new_fee_discount_rate: newRate,
+          },
+          headers,
+        );
       }
 
       onSuccess?.();
@@ -186,22 +202,37 @@ export const EditReferralModal: FC<EditReferralModalProps> = ({
 
   // Upgrade Sub-Agent - Upgrade
   const handleUpgrade = async () => {
-    if (!userId || !referral) return;
+    if (!userId || !referral || !getAuthHeaders) return;
 
     setIsLoading(true);
     setError(null);
 
     try {
+      const headers = await getAuthHeaders();
+      if (!headers) {
+        throw new Error("簽名失敗");
+      }
+
       // 升級為 sub-affiliate，設定 max_referral_rate
-      await userApi.upgradeToSubAffiliate(userId, referral.user_id, {
-        max_referral_rate: parseFloat(upgradeRateSubAgent) / 100,
-      });
+      await userApi.upgradeToSubAffiliate(
+        userId,
+        referral.user_id,
+        {
+          max_referral_rate: parseFloat(upgradeRateSubAgent) / 100,
+        },
+        headers,
+      );
 
       // 更新 note (如有)
       if (upgradeNote) {
-        await userApi.updateReferralNote(userId, referral.user_id, {
-          note: upgradeNote,
-        });
+        await userApi.updateReferralNote(
+          userId,
+          referral.user_id,
+          {
+            note: upgradeNote,
+          },
+          headers,
+        );
       }
 
       onSuccess?.();

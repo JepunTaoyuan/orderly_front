@@ -18,7 +18,7 @@ export type RebatesItem = RefferalAPI.RefereeRebateSummary & {
 };
 
 export const useRebatesScript = () => {
-  const { userId, dailyVolumeData } = useReferralContext();
+  const { userId, getAuthHeaders, dailyVolumeData } = useReferralContext();
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: subDays(new Date(), 90),
     to: subDays(new Date(), 1),
@@ -37,17 +37,28 @@ export const useRebatesScript = () => {
   });
 
   const fetchRebateHistory = useCallback(async () => {
-    if (!userId) return;
+    if (!userId || !getAuthHeaders) return;
     setApiLoading(true);
     try {
-      const response = await commissionApi.getRebateHistory(userId, {
-        startDate: dateRange?.from
-          ? format(dateRange.from, "yyyy-MM-dd")
-          : undefined,
-        endDate: dateRange?.to ? format(dateRange.to, "yyyy-MM-dd") : undefined,
-        page: !isLG ? page : undefined,
-        pageSize,
-      });
+      const headers = await getAuthHeaders();
+      if (!headers) {
+        setApiData([]);
+        return;
+      }
+      const response = await commissionApi.getRebateHistory(
+        userId,
+        {
+          startDate: dateRange?.from
+            ? format(dateRange.from, "yyyy-MM-dd")
+            : undefined,
+          endDate: dateRange?.to
+            ? format(dateRange.to, "yyyy-MM-dd")
+            : undefined,
+          page: !isLG ? page : undefined,
+          pageSize,
+        },
+        headers,
+      );
       setApiData(response.data || []);
       setApiMeta({
         total: response.total || 0,
@@ -59,7 +70,7 @@ export const useRebatesScript = () => {
     } finally {
       setApiLoading(false);
     }
-  }, [userId, dateRange, page, pageSize, isLG]);
+  }, [userId, getAuthHeaders, dateRange, page, pageSize, isLG]);
 
   useEffect(() => {
     fetchRebateHistory();

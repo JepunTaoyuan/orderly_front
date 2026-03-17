@@ -54,7 +54,7 @@ export const CreateReferralCodeModal = modal.create<{
   const { mutate } = props;
   const { visible, hide, onOpenChange } = useModal();
   const { t } = useTranslation();
-  const { userId, userInfo } = useReferralContext();
+  const { userId, getAuthHeaders, userInfo } = useReferralContext();
 
   // 從 userInfo 獲取 max_referral_rate，頂級代理預設 40% (0.4)
   const totalRate = userInfo?.max_referral_rate ?? 0.4;
@@ -115,7 +115,7 @@ export const CreateReferralCodeModal = modal.create<{
       /^[A-Z0-9]+$/.test(customCode.toUpperCase()));
 
   const handleSubmit = async () => {
-    if (!userId) {
+    if (!userId || !getAuthHeaders) {
       setError("User not logged in");
       return;
     }
@@ -134,12 +134,21 @@ export const CreateReferralCodeModal = modal.create<{
     setError(null);
 
     try {
+      const headers = await getAuthHeaders();
+      if (!headers) {
+        setError("Signature failed");
+        return;
+      }
+
       // 調用 referralApi.createForAffiliate
-      await referralApi.createForAffiliate({
-        affiliate_id: userId,
-        fee_discount_rate: parseFloat(refereeRate) / 100,
-        custom_code: customCode.toUpperCase() || undefined,
-      });
+      await referralApi.createForAffiliate(
+        {
+          affiliate_id: userId,
+          fee_discount_rate: parseFloat(refereeRate) / 100,
+          custom_code: customCode.toUpperCase() || undefined,
+        },
+        headers,
+      );
 
       toast.success(
         t("affiliate.createCode.success", "Referral code created successfully"),

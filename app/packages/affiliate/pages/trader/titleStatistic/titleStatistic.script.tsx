@@ -23,6 +23,7 @@ export const useTitleStatisticScript = (): TitleStatisticReturns => {
   const { t } = useTranslation();
   const {
     userId,
+    getAuthHeaders,
     rebateHistory: contextHistory,
     dailyVolume,
     dailyVolumeData,
@@ -80,18 +81,27 @@ export const useTitleStatisticScript = (): TitleStatisticReturns => {
   const [apiHistory, setApiHistory] = useState<RebateHistoryItem[]>([]);
 
   const fetchHistory = useCallback(async () => {
-    if (!userId) return;
+    if (!userId || !getAuthHeaders) return;
     try {
-      const response = await commissionApi.getRebateHistory(userId, {
-        startDate: format(dateRange.startDate, "yyyy-MM-dd"),
-        endDate: format(dateRange.endDate, "yyyy-MM-dd"),
-        pageSize: Number(period),
-      });
+      const headers = await getAuthHeaders();
+      if (!headers) {
+        setApiHistory([]);
+        return;
+      }
+      const response = await commissionApi.getRebateHistory(
+        userId,
+        {
+          startDate: format(dateRange.startDate, "yyyy-MM-dd"),
+          endDate: format(dateRange.endDate, "yyyy-MM-dd"),
+          pageSize: Number(period),
+        },
+        headers,
+      );
       setApiHistory(response.data || []);
     } catch {
       setApiHistory([]);
     }
-  }, [userId, dateRange.startDate, dateRange.endDate, period]);
+  }, [userId, getAuthHeaders, dateRange.startDate, dateRange.endDate, period]);
 
   useEffect(() => {
     fetchHistory();

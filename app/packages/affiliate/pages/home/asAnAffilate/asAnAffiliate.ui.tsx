@@ -1,20 +1,12 @@
 import { FC } from "react";
-import { useNavigate } from "@remix-run/react";
-import { generatePath, useTranslation } from "@orderly.network/i18n";
+import { useTranslation } from "@orderly.network/i18n";
 import { Button, cn, Flex, Text } from "@orderly.network/ui";
 import { commifyOptional } from "@orderly.network/utils";
-import { PathEnum } from "@/constant";
 import { ArrowRightIcon } from "../../../components/arrowRightIcon";
 import { USDCIcon } from "../../../components/usdcIcon";
 import { AsAnAffiliateReturns } from "./asAnAffiliate.script";
 
 export const AsAnAffiliate: FC<AsAnAffiliateReturns> = (props) => {
-  const navigate = useNavigate(); // 初始化
-
-  // 直接定義一個簡單的跳轉函數
-  const handleNavigate = () => {
-    navigate(generatePath({ path: PathEnum.RewardsDashboard }));
-  };
   const { t } = useTranslation();
   return (
     <Flex
@@ -63,7 +55,7 @@ export const AsAnAffiliate: FC<AsAnAffiliateReturns> = (props) => {
           <Icon />
         </div>
       </Flex>
-      <Bottom {...props} onNavigate={handleNavigate} />
+      <Bottom {...props} />
     </Flex>
   );
 };
@@ -96,12 +88,7 @@ const Icon = () => {
   );
 };
 
-// 修正點：在 Bottom 的類型中加入 onNavigate
-interface BottomProps extends AsAnAffiliateReturns {
-  onNavigate: () => void;
-}
-
-const Bottom: FC<BottomProps> = (props) => {
+const Bottom: FC<AsAnAffiliateReturns> = (props) => {
   const { t } = useTranslation();
   const content = () => {
     if (props.isAffiliate && !props.wrongNetwork) {
@@ -147,12 +134,10 @@ const Bottom: FC<BottomProps> = (props) => {
           variant="contained"
           color="light"
           size="lg"
-          // onClick={props.becomeAnAffiliate}
-          onClick={props.onNavigate}
+          onClick={props.becomeAnAffiliate}
           className="oui-rounded-full oui-px-10 oui-text-sm oui-text-primary-darken "
         >
-          {/* {t("affiliate.asAffiliate.button")} */}
-          {t("Dashboard")}
+          {t("affiliate.asAffiliate.button")}
         </Button>
         <Flex
           direction={"column"}

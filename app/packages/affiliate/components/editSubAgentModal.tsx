@@ -30,7 +30,7 @@ export const EditSubAgentModal: FC<EditSubAgentModalProps> = ({
   onSuccess,
 }) => {
   const { t } = useTranslation();
-  const { userId } = useReferralContext();
+  const { userId, getAuthHeaders } = useReferralContext();
 
   const [commissionRateYou, setCommissionRateYou] = useState<string>("");
   const [commissionRateSub, setCommissionRateSub] = useState<string>("");
@@ -53,25 +53,40 @@ export const EditSubAgentModal: FC<EditSubAgentModalProps> = ({
   }, [subAgent]);
 
   const handleSave = async () => {
-    if (!userId || !subAgent) return;
+    if (!userId || !subAgent || !getAuthHeaders) return;
 
     setIsLoading(true);
     setError(null);
 
     try {
+      const headers = await getAuthHeaders();
+      if (!headers) {
+        throw new Error("簽名失敗");
+      }
+
       // 更新 note
       if (note !== (subAgent.note || "")) {
-        await userApi.updateSubAffiliateNote(userId, subAgent.user_id, {
-          note,
-        });
+        await userApi.updateSubAffiliateNote(
+          userId,
+          subAgent.user_id,
+          {
+            note,
+          },
+          headers,
+        );
       }
 
       // 更新 commission rate
       const newRate = parseFloat(commissionRateSub) / 100;
       if (newRate !== subAgent.commission_rate_sub) {
-        await userApi.updateFeeDiscount(userId, subAgent.user_id, {
-          new_fee_discount_rate: newRate,
-        });
+        await userApi.updateFeeDiscount(
+          userId,
+          subAgent.user_id,
+          {
+            new_fee_discount_rate: newRate,
+          },
+          headers,
+        );
       }
 
       onSuccess?.();

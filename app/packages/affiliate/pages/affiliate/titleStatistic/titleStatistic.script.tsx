@@ -22,7 +22,13 @@ export type TitleStatisticReturns = {
 
 export const useTitleStatisticScript = (): TitleStatisticReturns => {
   const { t } = useTranslation();
-  const { userId, commissionHistory: contextHistory } = useReferralContext();
+  const {
+    userId,
+    getAuthHeaders,
+    commissionHistory: contextHistory,
+    dashboardData,
+    dashboardLoaded,
+  } = useReferralContext();
 
   const [period, setPeriod] = useState("7");
 
@@ -73,26 +79,46 @@ export const useTitleStatisticScript = (): TitleStatisticReturns => {
     }
   }, [period]);
 
-  // orderly_refer API 數據
+  // Context history comes from the aggregate API (period=90) — no extra signing needed.
+  // Just filter by the selected period client-side.
+  const contextFiltered = useMemo(() => {
+    if (!contextHistory || contextHistory.length === 0) return [];
+    const cutoff = format(dateRange.startDate, "yyyy-MM-dd");
+    return contextHistory.filter((item) => item.date >= cutoff);
+  }, [contextHistory, dateRange.startDate]);
+
+  // Local API state — fallback when aggregate API is unavailable
   const [apiHistory, setApiHistory] = useState<CommissionHistoryItem[]>([]);
 
   const fetchHistory = useCallback(async () => {
-    if (!userId) return;
+    if (!userId || !getAuthHeaders) return;
     try {
-      const response = await commissionApi.getCommissionHistory(userId, {
-        startDate: format(dateRange.startDate, "yyyy-MM-dd"),
-        endDate: format(dateRange.endDate, "yyyy-MM-dd"),
-        pageSize: Number(period),
-      });
+      const headers = await getAuthHeaders();
+      if (!headers) {
+        setApiHistory([]);
+        return;
+      }
+      const response = await commissionApi.getCommissionHistory(
+        userId,
+        {
+          startDate: format(dateRange.startDate, "yyyy-MM-dd"),
+          endDate: format(dateRange.endDate, "yyyy-MM-dd"),
+          pageSize: Number(period),
+        },
+        headers,
+      );
       setApiHistory(response.data || []);
     } catch {
       setApiHistory([]);
     }
-  }, [userId, dateRange.startDate, dateRange.endDate, period]);
+  }, [userId, getAuthHeaders, dateRange.startDate, dateRange.endDate, period]);
 
+  // Fetch individually only when aggregate API failed / is unavailable
   useEffect(() => {
-    fetchHistory();
-  }, [fetchHistory]);
+    if (dashboardLoaded && !dashboardData) {
+      fetchHistory();
+    }
+  }, [dashboardLoaded, dashboardData, fetchHistory]);
 
   // Legacy Orderly API (回退)
   const [rebateSummary] = useReferralRebateSummary({
@@ -102,9 +128,12 @@ export const useTitleStatisticScript = (): TitleStatisticReturns => {
   });
 
   const dataSource = useMemo(() => {
-    // 優先使用 orderly_refer API
-    if (apiHistory.length > 0) {
-      return apiHistory
+    // Priority 1: context data filtered to current period (zero signs)
+    const activeHistory =
+      contextFiltered.length > 0 ? contextFiltered : apiHistory;
+
+    if (activeHistory.length > 0) {
+      return activeHistory
         .map((e) => ({
           date: e.date,
           volume:
@@ -113,7 +142,7 @@ export const useTitleStatisticScript = (): TitleStatisticReturns => {
         .reverse();
     }
 
-    // 回退到 Orderly API
+    // Priority 2: Legacy Orderly API (回退)
     return (
       (rebateSummary as RefferalAPI.ReferralRebateSummary[] | null)?.map(
         (e) => ({
@@ -122,7 +151,7 @@ export const useTitleStatisticScript = (): TitleStatisticReturns => {
         }),
       ) || []
     ).reverse();
-  }, [apiHistory, rebateSummary, volType]);
+  }, [contextFiltered, apiHistory, rebateSummary, volType]);
 
   return {
     period,

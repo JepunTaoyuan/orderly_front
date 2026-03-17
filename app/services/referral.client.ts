@@ -8,51 +8,62 @@ import {
   UpdateReferralCodeRequest,
   RenameReferralCodeRequest,
   VerifyReferralCodeResponse,
-  MessageResponse,
   ReferralCodeStatsResponse,
 } from "./api-refer-client";
+import type { AuthHeaders } from "./api-refer-client";
 
 export const referralApi = {
   // Create a referral code for regular user
-  create: (data: CreateReferralCodeRequest, token?: string) =>
-    api.post<ReferralCodeResponse>("/referrals/user", data, token),
+  create: (data: CreateReferralCodeRequest, authHeaders?: AuthHeaders) =>
+    api.post<ReferralCodeResponse>("/referrals/user", data, authHeaders),
 
   // Create referral code for affiliate (admin)
   createForAffiliate: (
     data: CreateAffiliateReferralCodeRequest,
-    token?: string,
-  ) => api.post<ReferralCodeResponse>("/referrals/affiliate", data, token),
+    authHeaders?: AuthHeaders,
+  ) =>
+    api.post<ReferralCodeResponse>("/referrals/affiliate", data, authHeaders),
 
   // Get referral codes by user
-  getByUser: (userId: string, token?: string) =>
-    api.get<ReferralCodeResponse[]>(`/referrals/user/${userId}`, token),
+  getByUser: (userId: string, authHeaders?: AuthHeaders) =>
+    api.get<ReferralCodeResponse[]>(`/referrals/user/${userId}`, authHeaders),
 
   // Get referral code by code string
-  getByCode: (code: string, token?: string) =>
-    api.get<ReferralCodeResponse>(`/referrals/by-code/${code}`, token),
+  getByCode: (code: string, authHeaders?: AuthHeaders) =>
+    api.get<ReferralCodeResponse>(`/referrals/by-code/${code}`, authHeaders),
 
   // Update referral code fee discount rate
-  update: (code: string, data: UpdateReferralCodeRequest, token?: string) =>
-    api.put<ReferralCodeResponse>(`/referrals/${code}/discount`, data, token),
+  update: (
+    code: string,
+    data: UpdateReferralCodeRequest,
+    authHeaders?: AuthHeaders,
+  ) =>
+    api.put<ReferralCodeResponse>(
+      `/referrals/${code}/discount`,
+      data,
+      authHeaders,
+    ),
 
   // Rename referral code
-  rename: (code: string, data: RenameReferralCodeRequest, token?: string) =>
-    api.put<ReferralCodeResponse>(`/referrals/${code}/rename`, data, token),
+  rename: (
+    code: string,
+    data: RenameReferralCodeRequest,
+    authHeaders?: AuthHeaders,
+  ) =>
+    api.put<ReferralCodeResponse>(
+      `/referrals/${code}/rename`,
+      data,
+      authHeaders,
+    ),
 
-  // Verify if referral code is valid
+  // Verify if referral code is valid (public endpoint, no auth needed)
   verify: (code: string) =>
     api.get<VerifyReferralCodeResponse>(`/referrals/verify/${code}`),
 
-  // Delete referral code
-  // WARNING: This endpoint is NOT implemented in the backend yet
-  // Uncomment when backend adds DELETE /referrals/{code} endpoint
-  // delete: (code: string, token?: string) =>
-  //   api.delete<MessageResponse>(`/referrals/${code}`, token),
-
   // Get all referral codes with detailed statistics
-  getCodesWithStats: (userId: string, token?: string) =>
+  getCodesWithStats: (userId: string, authHeaders?: AuthHeaders) =>
     api.get<ReferralCodeStatsResponse>(
       `/referrals/codes/${userId}/stats`,
-      token,
+      authHeaders,
     ),
 };

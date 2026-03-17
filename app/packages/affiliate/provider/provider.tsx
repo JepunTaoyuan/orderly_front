@@ -326,16 +326,21 @@ import {
 } from "@orderly.network/hooks";
 import { useAppContext } from "@orderly.network/react-app";
 import { AccountStatusEnum } from "@orderly.network/types";
+import { useMultiChainWallet } from "@/hooks/custom/useMultiChainWallet";
 import {
   UserResponse,
+  UserRoleResponse,
   AffiliateSummaryResponse,
   TraderSummaryResponse,
   ReferralCodeStatsResponse,
   DailyVolumeItem,
   CommissionHistoryItem,
   RebateHistoryItem,
+  AffiliateDashboardResponse,
+  AuthHeaders,
+  getChallenge,
 } from "@/services/api-refer-client";
-import { commissionApi } from "@/services/commission.client";
+import { commissionApi, dashboardApi } from "@/services/commission.client";
 import { referralApi } from "@/services/referral.client";
 import { userApi } from "@/services/user.client";
 import { MockData } from "../utils/mockData";
@@ -366,14 +371,76 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
 
   const { state } = useAccount();
   const useMockData = process.env.NODE_ENV === "development" && false; // 關閉 mock
+  const { signMessage, detectChainType } = useMultiChainWallet(
+    state.address || "",
+  );
 
   // 從 Orderly account 取得 userId
   const userId = state.accountId || null;
+  const walletAddress = state.address || null;
+  const { wrongNetwork, disabledConnect } = useAppContext();
+
+  // ============================================================================
+  // UI 狀態
+  // ============================================================================
+  const [showHome, setShowHome] = useState(true);
+  const [tab, setTab] = useState<TabTypes>(TabTypes.affiliate);
+
+  const [authToken, setAuthToken] = useState<AuthHeaders | undefined>(
+    undefined,
+  );
+  const authTokenRef = useRef<AuthHeaders | undefined>(undefined);
+
+  useEffect(() => {
+    authTokenRef.current = authToken;
+  }, [authToken]);
+
+  const ensureAuthHeaders = useCallback(
+    async (forceRefresh = false) => {
+      if (!userId || !walletAddress) {
+        setAuthToken(undefined);
+        return undefined;
+      }
+
+      const now = Date.now();
+      const currentAuthToken = authTokenRef.current;
+      if (
+        !forceRefresh &&
+        currentAuthToken &&
+        currentAuthToken.expiresAt > now + 5000
+      ) {
+        return currentAuthToken;
+      }
+
+      const challenge = await getChallenge();
+      const signature = await signMessage(
+        challenge.message,
+        detectChainType(walletAddress),
+      );
+
+      const nextHeaders: AuthHeaders = {
+        userId,
+        signature,
+        timestamp: challenge.timestamp,
+        nonce: challenge.nonce,
+        expiresAt: now + challenge.signature_validity_window * 1000,
+      };
+
+      setAuthToken(nextHeaders);
+      return nextHeaders;
+    },
+    [detectChainType, signMessage, userId, walletAddress],
+  );
+
+  const getAuthHeaders = useMemoizedFn(async () => {
+    return ensureAuthHeaders(true);
+  });
 
   // ============================================================================
   // orderly_refer API 數據狀態
   // ============================================================================
   const [userInfo, setUserInfo] = useState<UserResponse | null>(null);
+  const [userRole, setUserRole] = useState<UserRoleResponse | null>(null);
   const [totalCommission, setTotalCommission] = useState<number>(0);
   const [weeklyCommission, setWeeklyCommission] = useState<number>(0);
   const [affiliateSummary, setAffiliateSummary] =
@@ -388,6 +455,26 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
   >([]);
   const [rebateHistory, setRebateHistory] = useState<RebateHistoryItem[]>([]);
   const [customApiLoading, setCustomApiLoading] = useState<boolean>(false);
+  /** Full response from the aggregate dashboard API, null = not yet loaded */
+  const [dashboardData, setDashboardData] =
+    useState<AffiliateDashboardResponse | null>(null);
+  /** True once fetchCustomApiData has settled (success or failure) */
+  const [dashboardLoaded, setDashboardLoaded] = useState(false);
+  const dashboardFetchInFlightRef = useRef<Promise<void> | null>(null);
+
+  const fetchUserRole = useCallback(async () => {
+    if (!userId) {
+      setUserRole(null);
+      return;
+    }
+
+    try {
+      const role = await userApi.getUserRole(userId).catch(() => null);
+      setUserRole(role);
+    } catch {
+      setUserRole(null);
+    }
+  }, [userId]);
 
   // ============================================================================
   // Legacy Orderly API (逐步淘汰，暫時保留以確保兼容)
@@ -427,86 +514,131 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
     });
 
   // Mock data 支援
-  const referralInfo = useMockData ? MockData.referralInfo : apiData;
+  const referralInfo: API.ReferralInfo | undefined = useMockData
+    ? (MockData.referralInfo as API.ReferralInfo)
+    : apiData;
   const generateCode = useMockData
     ? MockData.autoGenerateCode
     : apiGenerateCode;
 
   // ============================================================================
-  // 獲取 orderly_refer API 數據
+  // 獲取 orderly_refer API 數據（使用聚合 API，只需一次錢包簽名）
   // ============================================================================
   const fetchCustomApiData = useCallback(async () => {
-    if (!userId) {
-      setUserInfo(null);
-      setTotalCommission(0);
-      setWeeklyCommission(0);
-      setAffiliateSummary(null);
-      setTraderSummary(null);
-      setReferralCodesStats(null);
-      setDailyVolumeData([]);
-      setCommissionHistory([]);
-      setRebateHistory([]);
+    if (dashboardFetchInFlightRef.current) {
+      await dashboardFetchInFlightRef.current;
       return;
     }
 
-    setCustomApiLoading(true);
-    try {
-      // 基本用戶數據
-      const [userResponse, commissionResponse] = await Promise.all([
-        userApi.getUser(userId).catch(() => null),
-        commissionApi.getUserCommission(userId).catch(() => null),
-      ]);
-
-      if (userResponse) {
-        setUserInfo(userResponse);
-
-        // 根據用戶類型獲取額外數據
-        if (userResponse.is_affiliate) {
-          // Affiliate: 獲取 summary, codes stats, commission history
-          const [summaryRes, codesRes, historyRes] = await Promise.all([
-            userApi.getAffiliateSummary(userId).catch(() => null),
-            referralApi.getCodesWithStats(userId).catch(() => null),
-            commissionApi.getCommissionHistory(userId).catch(() => null),
-          ]);
-
-          if (summaryRes) setAffiliateSummary(summaryRes);
-          if (codesRes) setReferralCodesStats(codesRes);
-          if (historyRes) setCommissionHistory(historyRes.data || []);
-        }
-
-        if (userResponse.used_referral_code) {
-          // Trader: 獲取 summary, rebate history, daily volume
-          const [traderRes, rebateRes, volumeRes] = await Promise.all([
-            userApi.getTraderSummary(userId).catch(() => null),
-            commissionApi.getRebateHistory(userId).catch(() => null),
-            userApi.getUserDailyVolume(userId).catch(() => null),
-          ]);
-
-          if (traderRes) setTraderSummary(traderRes);
-          if (rebateRes) setRebateHistory(rebateRes.data || []);
-          if (volumeRes) setDailyVolumeData(volumeRes.data || []);
-        }
+    const run = async () => {
+      if (!userId || !userRole?.is_affiliate) {
+        setUserInfo(null);
+        setTotalCommission(0);
+        setWeeklyCommission(0);
+        setAffiliateSummary(null);
+        setTraderSummary(null);
+        setReferralCodesStats(null);
+        setDailyVolumeData([]);
+        setCommissionHistory([]);
+        setRebateHistory([]);
+        setDashboardData(null);
+        setDashboardLoaded(true);
+        return;
       }
 
-      if (commissionResponse) {
+      setCustomApiLoading(true);
+      try {
+        // ✅ 只需一次 challenge + 一次簽名
+        const headers = await ensureAuthHeaders(true);
+        if (!headers) {
+          setDashboardLoaded(true);
+          return;
+        }
+
+        const dashboard = await dashboardApi
+          .getAffiliateDashboard(userId, { period: 90 }, headers)
+          .catch((err) => {
+            console.error("Aggregate dashboard API failed:", err);
+            return null;
+          });
+
+        if (!dashboard) {
+          setDashboardLoaded(true);
+          return;
+        }
+
+        // ── 拆包 → 填充各子狀態（保持向後相容）────────────────────────────
+        const u = dashboard.user;
+        setUserInfo({
+          user_id: u.user_id,
+          wallet_address: u.wallet_address,
+          is_affiliate: u.is_affiliate,
+          used_referral_code: u.used_referral_code ?? undefined,
+          parent_affiliate_id: u.parent_affiliate_id ?? undefined,
+          max_referral_rate: u.max_referral_rate,
+          fee_discount_rate: u.fee_discount_rate,
+          is_admin: u.is_admin,
+        });
         setTotalCommission(
-          commissionResponse.total_commission_and_discount || 0,
+          dashboard.commission_overview.total_commission_and_discount,
         );
         setWeeklyCommission(
-          commissionResponse.weekly_commission_and_discount || 0,
+          dashboard.commission_overview.weekly_commission_and_discount,
         );
-      }
-    } catch (error) {
-      console.error("Failed to fetch orderly_refer API data:", error);
-    } finally {
-      setCustomApiLoading(false);
-    }
-  }, [userId]);
+        setAffiliateSummary(dashboard.affiliate_summary);
+        setReferralCodesStats(dashboard.referral_codes_stats);
+        setCommissionHistory(dashboard.commission_history.items);
 
-  // 當 userId 變化時獲取數據
+        // trader 資料（后端若不含 sub_affiliates 也不影響）
+        if (u.used_referral_code) {
+          // TraderSummary 尚未進入聚合 API → 保留舊的個別呼叫（仍需一次簽名）
+          // 此處用 fresh headers（不進行多呼叫共用 nonce 的問題）
+          const traderHeaders = await ensureAuthHeaders(true);
+          if (traderHeaders) {
+            const [traderRes, rebateRes, volumeRes] = await Promise.allSettled([
+              userApi.getTraderSummary(userId, traderHeaders),
+              commissionApi.getRebateHistory(userId, undefined, traderHeaders),
+              userApi.getUserDailyVolume(
+                userId,
+                undefined,
+                undefined,
+                traderHeaders,
+              ),
+            ]);
+            if (traderRes.status === "fulfilled")
+              setTraderSummary(traderRes.value);
+            if (rebateRes.status === "fulfilled")
+              setRebateHistory(rebateRes.value?.data || []);
+            if (volumeRes.status === "fulfilled")
+              setDailyVolumeData(volumeRes.value?.data || []);
+          }
+        }
+
+        // 儲存完整聚合回應供 page scripts 取用
+        setDashboardData(dashboard);
+      } catch (error) {
+        console.error("Failed to fetch aggregate dashboard data:", error);
+      } finally {
+        setCustomApiLoading(false);
+        setDashboardLoaded(true);
+      }
+    };
+
+    dashboardFetchInFlightRef.current = run();
+    try {
+      await dashboardFetchInFlightRef.current;
+    } finally {
+      dashboardFetchInFlightRef.current = null;
+    }
+  }, [ensureAuthHeaders, userId, userRole?.is_affiliate]);
+
   useEffect(() => {
-    fetchCustomApiData();
-  }, [fetchCustomApiData]);
+    setAuthToken(undefined);
+  }, [userId, walletAddress]);
+
+  useEffect(() => {
+    fetchUserRole();
+  }, [fetchUserRole]);
 
   // ============================================================================
   // 身份判斷
@@ -526,9 +658,13 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
     if (userInfo) {
       return userInfo.is_affiliate;
     }
+    // 無簽名先用 role API 決定
+    if (userRole) {
+      return userRole.is_affiliate;
+    }
     // 回退到 Orderly API
     return (referralInfo?.referrer_info?.referral_codes?.length || 0) > 0;
-  }, [optimisticIsAffiliate, userInfo, referralInfo?.referrer_info]);
+  }, [optimisticIsAffiliate, userInfo, userRole, referralInfo?.referrer_info]);
 
   // 樂觀更新：手動設置 isTrader 狀態
   const [optimisticIsTrader, setOptimisticIsTrader] = useState<boolean | null>(
@@ -563,22 +699,31 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
     return userInfo.is_affiliate && !userInfo.parent_affiliate_id;
   }, [userInfo]);
 
-  // ============================================================================
-  // UI 狀態
-  // ============================================================================
-  const [showHome, setShowHome] = useState(orderlyLoading);
-  const [tab, setTab] = useState<TabTypes>(TabTypes.affiliate);
-  const { wrongNetwork, disabledConnect } = useAppContext();
-
   useEffect(() => {
     setShowHome(true);
   }, [orderlyLoading]);
 
+  const hasFetchedDashboardRef = useRef(false);
+
+  // 只有進入 dashboard 後，且確定是 affiliate，才抓取需要簽名的 API 資料
+  // 並且同一次進入 dashboard 只抓一次，避免 callback identity 變動造成重複觸發。
   useEffect(() => {
-    if (isAffiliate || isTrader) {
-      setShowHome(false);
+    if (showHome) {
+      hasFetchedDashboardRef.current = false;
+      return;
     }
-  }, [isAffiliate, isTrader]);
+
+    if (!userRole?.is_affiliate) {
+      return;
+    }
+
+    if (hasFetchedDashboardRef.current) {
+      return;
+    }
+
+    hasFetchedDashboardRef.current = true;
+    fetchCustomApiData();
+  }, [fetchCustomApiData, showHome, userRole?.is_affiliate]);
 
   // 用戶交易量統計 (混合來源)
   const userVolume = useMemo<UserVolumeType>(() => {
@@ -677,6 +822,10 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
 
       // 用戶數據
       userId,
+      authToken,
+      getAuthHeaders,
+      dashboardData,
+      dashboardLoaded,
       userInfo,
       totalCommission,
       weeklyCommission,
@@ -722,6 +871,10 @@ export const ReferralProvider: FC<PropsWithChildren<ReferralContextProps>> = (
     setOptimisticIsTrader,
     isTopLevelAgent,
     userId,
+    authToken,
+    getAuthHeaders,
+    dashboardData,
+    dashboardLoaded,
     userInfo,
     totalCommission,
     weeklyCommission,

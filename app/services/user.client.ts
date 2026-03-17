@@ -19,6 +19,7 @@ import {
   TraderSummaryResponse,
   DailyVolumeResponse,
 } from "./api-refer-client";
+import type { AuthHeaders } from "./api-refer-client";
 
 export const userApi = {
   // Create a new user
@@ -29,24 +30,24 @@ export const userApi = {
   checkExist: (userId: string) => api.get<boolean>(`/users/${userId}/exist`),
 
   // Get user by ID
-  getUser: (userId: string, token?: string) =>
-    api.get<UserResponse>(`/users/${userId}`, token),
+  getUser: (userId: string, authHeaders?: AuthHeaders) =>
+    api.get<UserResponse>(`/users/${userId}`, authHeaders),
 
   // Get user role information
-  getUserRole: (userId: string, token?: string) =>
-    api.get<UserRoleResponse>(`/users/${userId}/role`, token),
+  getUserRole: (userId: string, authHeaders?: AuthHeaders) =>
+    api.get<UserRoleResponse>(`/users/${userId}/role`, authHeaders),
 
   // Upgrade user to sub-affiliate (affiliate upgrades their referral to sub-affiliate)
   upgradeToSubAffiliate: (
     affiliateId: string,
     userId: string,
     data: UpgradeToSubAffiliateRequest,
-    token?: string,
+    authHeaders?: AuthHeaders,
   ) =>
     api.post<UserResponse>(
       `/users/affiliates/${affiliateId}/upgrade-referral/${userId}`,
       data,
-      token,
+      authHeaders,
     ),
 
   // Update referral user's fee discount rate (affiliate modifies their referral's discount)
@@ -54,12 +55,12 @@ export const userApi = {
     affiliateId: string,
     userId: string,
     data: UpdateUserFeeDiscountRequest,
-    token?: string,
+    authHeaders?: AuthHeaders,
   ) =>
     api.put<UserResponse>(
       `/users/affiliates/${affiliateId}/referrals/${userId}/fee-discount`,
       data,
-      token,
+      authHeaders,
     ),
 
   // Update referral note for a user
@@ -67,12 +68,12 @@ export const userApi = {
     affiliateId: string,
     referralUserId: string,
     data: UpdateReferralNoteRequest,
-    token?: string,
+    authHeaders?: AuthHeaders,
   ) =>
     api.put<UserResponse>(
       `/users/affiliates/${affiliateId}/referrals/${referralUserId}/note`,
       data,
-      token,
+      authHeaders,
     ),
 
   // Update sub-affiliate note
@@ -82,32 +83,36 @@ export const userApi = {
     affiliateId: string,
     subAffiliateId: string,
     data: UpdateReferralNoteRequest,
-    token?: string,
+    authHeaders?: AuthHeaders,
   ) =>
     api.put<UserResponse>(
       `/users/affiliates/${affiliateId}/referrals/${subAffiliateId}/note`,
       data,
-      token,
+      authHeaders,
     ),
 
   // Bind referral code to user
   bindReferralCode: (
     userId: string,
     data: BindReferralCodeRequest,
-    token?: string,
+    authHeaders?: AuthHeaders,
   ) =>
-    api.post<UserResponse>(`/users/${userId}/bind-referral-code`, data, token),
+    api.post<UserResponse>(
+      `/users/${userId}/bind-referral-code`,
+      data,
+      authHeaders,
+    ),
 
   // Get affiliate's referrals (paginated)
   getReferrals: (
     affiliateId: string,
     page: number = 1,
     pageSize: number = 10,
-    token?: string,
+    authHeaders?: AuthHeaders,
   ) =>
     api.get<PaginatedReferralsResponse>(
       `/users/affiliates/${affiliateId}/referrals?page=${page}&page_size=${pageSize}`,
-      token,
+      authHeaders,
     ),
 
   // Get affiliate's referrals with detail
@@ -115,59 +120,62 @@ export const userApi = {
     affiliateId: string,
     page: number = 1,
     pageSize: number = 10,
-    token?: string,
+    authHeaders?: AuthHeaders,
   ) =>
     api.get<PaginatedReferralDetailResponse>(
       `/users/affiliates/${affiliateId}/referrals-detail?page=${page}&page_size=${pageSize}`,
-      token,
+      authHeaders,
     ),
 
   // Get affiliate's sub-affiliates
-  getSubAffiliates: (affiliateId: string, token?: string) =>
+  getSubAffiliates: (affiliateId: string, authHeaders?: AuthHeaders) =>
     api.get<SubAffiliatesListResponse>(
       `/users/affiliates/${affiliateId}/sub-affiliates`,
-      token,
+      authHeaders,
     ),
 
   // Sync volume data (admin)
-  syncVolume: (targetDate?: string, token?: string) => {
+  syncVolume: (targetDate?: string, authHeaders?: AuthHeaders) => {
     const params = targetDate ? `?target_date=${targetDate}` : "";
     return api.post<SyncVolumeResponse>(
       `/users/volume/sync${params}`,
       {},
-      token,
+      authHeaders,
     );
   },
 
   // Get user volume
-  getUserVolume: (userId: string, token?: string) =>
-    api.get<UserVolumeResponse>(`/users/volume/${userId}`, token),
+  getUserVolume: (userId: string, authHeaders?: AuthHeaders) =>
+    api.get<UserVolumeResponse>(`/users/volume/${userId}`, authHeaders),
 
   // Reset weekly volume (admin)
-  resetWeeklyVolume: (token?: string) =>
+  resetWeeklyVolume: (authHeaders?: AuthHeaders) =>
     api.post<ResetWeeklyVolumeResponse>(
       "/users/volume/reset-weekly",
       {},
-      token,
+      authHeaders,
     ),
 
   // Get affiliate summary statistics
-  getAffiliateSummary: (affiliateId: string, token?: string) =>
+  getAffiliateSummary: (affiliateId: string, authHeaders?: AuthHeaders) =>
     api.get<AffiliateSummaryResponse>(
       `/users/affiliates/${affiliateId}/summary`,
-      token,
+      authHeaders,
     ),
 
   // Get trader summary statistics
-  getTraderSummary: (userId: string, token?: string) =>
-    api.get<TraderSummaryResponse>(`/users/traders/${userId}/summary`, token),
+  getTraderSummary: (userId: string, authHeaders?: AuthHeaders) =>
+    api.get<TraderSummaryResponse>(
+      `/users/traders/${userId}/summary`,
+      authHeaders,
+    ),
 
   // Get user daily volume history
   getUserDailyVolume: (
     userId: string,
     startDate?: string,
     endDate?: string,
-    token?: string,
+    authHeaders?: AuthHeaders,
   ) => {
     const params = new URLSearchParams();
     if (startDate) params.append("start_date", startDate);
@@ -175,7 +183,7 @@ export const userApi = {
     const queryString = params.toString();
     return api.get<DailyVolumeResponse>(
       `/users/volume/${userId}/daily${queryString ? `?${queryString}` : ""}`,
-      token,
+      authHeaders,
     );
   },
 };
