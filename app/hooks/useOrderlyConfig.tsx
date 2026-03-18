@@ -82,7 +82,7 @@ export const useOrderlyConfig = () => {
           main: {
             component: (
               <img
-                alt="Orderly logo"
+                alt="Dexless logo"
                 src="/images/dexless/dexless_logo.svg"
                 style={{ width: 100, height: 40 }}
               />

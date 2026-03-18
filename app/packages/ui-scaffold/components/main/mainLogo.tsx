@@ -3,7 +3,6 @@ import { useNavigate } from "@remix-run/react";
 import { useMediaQuery } from "@orderly.network/hooks";
 import { useAppConfig } from "@orderly.network/react-app";
 import { Logo } from "@orderly.network/ui";
-import { OrderlyLogo } from "../icons";
 
 type MainLogoProps = {
   src?: string;
@@ -185,6 +184,4 @@ export const MainLogo: FC<MainLogoProps> = (props) => {
   // if (main?.component) {
   //   return main.component;
   // }
-
-  // return <OrderlyLogo />;
 };
