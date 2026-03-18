@@ -1,3 +1,4 @@
+import { useEffect, useLayoutEffect } from "react";
 import {
   Links,
   Meta,
@@ -10,15 +11,24 @@ import { getLocalePathFromPathname, i18n } from "@orderly.network/i18n";
 import OrderlyProvider from "@/components/orderlyProvider";
 import "./styles/index.css";
 
+// useLayoutEffect runs synchronously before the browser paints, preventing a
+// flash of the wrong language.  On the server there is no DOM, so we fall back
+// to useEffect (which is a no-op there anyway).
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const localePath = getLocalePathFromPathname(location.pathname);
   const isLandingPage =
     location.pathname === "/" || location.pathname.includes("landing");
-  // if url is include lang, and url lang is not the same as the i18n language, change the i18n language
-  if (localePath && localePath !== i18n.language) {
-    i18n.changeLanguage(localePath);
-  }
+
+  // Keep render pure to avoid hydration flashes on first paint.
+  useIsomorphicLayoutEffect(() => {
+    if (localePath && localePath !== i18n.language) {
+      i18n.changeLanguage(localePath);
+    }
+  }, [localePath]);
 
   return (
     <html lang="en">

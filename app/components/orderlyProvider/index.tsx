@@ -1,4 +1,5 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useEffect, useRef } from "react";
+import { useStorageChain, useWalletConnector } from "@orderly.network/hooks";
 import {
   LocaleProvider,
   LocaleCode,
@@ -7,6 +8,7 @@ import {
 } from "@orderly.network/i18n";
 import { i18n } from "@orderly.network/i18n";
 import { OrderlyAppProvider } from "@orderly.network/react-app";
+import { useAppContext } from "@orderly.network/react-app";
 import { registerSimpleDialog, registerSimpleSheet } from "@orderly.network/ui";
 import {
   Network,
@@ -31,6 +33,52 @@ registerSimpleDialog("walletConnector", CustomWalletConnectorWidget, {
 registerSimpleSheet("walletConnectorSheet", CustomWalletConnectorWidget, {
   title: () => i18n.t("connector.connectWallet"),
 });
+
+const DEFAULT_BNB_CHAIN_ID = 56;
+
+const DefaultBnbChainGuard = () => {
+  const { connectedChain } = useWalletConnector();
+  const { initialized, currentChainId, setCurrentChainId } = useAppContext();
+  const { storageChain, setStorageChain } = useStorageChain();
+  const appliedOnThisLoadRef = useRef(false);
+
+  useEffect(() => {
+    if (appliedOnThisLoadRef.current) {
+      return;
+    }
+
+    // Wait until app context is initialized before deciding default behavior.
+    if (!initialized) {
+      return;
+    }
+
+    if (connectedChain) {
+      // Wallet-connected sessions should always follow wallet chain.
+      appliedOnThisLoadRef.current = true;
+      return;
+    }
+
+    appliedOnThisLoadRef.current = true;
+
+    // On page reload without wallet connection, force default to BNB and
+    // overwrite any previously stored chain for this fresh page load.
+    if (storageChain?.chainId !== DEFAULT_BNB_CHAIN_ID) {
+      setStorageChain(DEFAULT_BNB_CHAIN_ID);
+    }
+    if (currentChainId !== DEFAULT_BNB_CHAIN_ID) {
+      setCurrentChainId(DEFAULT_BNB_CHAIN_ID);
+    }
+  }, [
+    initialized,
+    connectedChain,
+    currentChainId,
+    setCurrentChainId,
+    setStorageChain,
+    storageChain?.chainId,
+  ]);
+
+  return null;
+};
 
 const OrderlyProvider: FC<{ children: ReactNode }> = (props) => {
   const config = useOrderlyConfig();
@@ -94,9 +142,11 @@ const OrderlyProvider: FC<{ children: ReactNode }> = (props) => {
           brokerId="dexless"
           brokerName="dexless"
           networkId="mainnet"
+          defaultChain={{ mainnet: { id: DEFAULT_BNB_CHAIN_ID } }}
           appIcons={config.orderlyAppProvider.appIcons}
           onRouteChange={onRouteChange}
         >
+          <DefaultBnbChainGuard />
           <GridStrategiesProvider>
             <KeyPairGenerator />
             <ReferralCodeInterceptor />

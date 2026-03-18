@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useLocation } from "@remix-run/react";
 import { useTranslation } from "@orderly.network/i18n";
 import { i18n } from "@orderly.network/i18n";
 import { VaultsIcon } from "@orderly.network/ui";
@@ -24,6 +25,7 @@ export type BaseLayoutProps = {
 
 export const BaseLayout: FC<BaseLayoutProps> = (props) => {
   const config = useOrderlyConfig();
+  const location = useLocation();
 
   const bottomNavProps = useBottomNav();
 
