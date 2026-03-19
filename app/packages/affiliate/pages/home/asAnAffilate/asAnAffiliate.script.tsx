@@ -22,8 +22,13 @@ export const useAsAnAffiliateScript = () => {
       onEnterAffiliatePage();
       return;
     }
+
+    const applyFormUrl =
+      "https://docs.google.com/forms/d/1ke61l1MyVGXutR7W86RcZYa4suoQOR8vm8Kik6jmcr4/viewform";
+
     // 否則開啟外部申請 URL
-    window.open(becomeAnAffiliateUrl, "_blank");
+    window.open(applyFormUrl, "_blank");
+    // window.open(becomeAnAffiliateUrl, "_blank");
   };
 
   const onEnterAffiliatePage = () => {

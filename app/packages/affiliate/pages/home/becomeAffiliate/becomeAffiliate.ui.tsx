@@ -17,21 +17,23 @@ export const BecomeAffiliate: FC<BecomeAffiliateReturns> = (props) => {
         desc: t("Apply via the form."),
       };
     }
-    if (generateCode.requireVolume > 0) {
-      return {
-        title: t("affiliate.process.step1.volumeGt0.title", {
-          requireVolume: generateCode.requireVolume,
-        }),
-        desc: t("affiliate.process.step1.volumeGt0.description", {
-          volume: commify(generateCode.completedVolume ?? 0, 2),
-          requireVolume: commify(generateCode.requireVolume),
-        }),
-      };
-    }
+    // if (generateCode.requireVolume > 0) {
+    //   return {
+    //     title: t("affiliate.process.step1.volumeGt0.title", {
+    //       requireVolume: generateCode.requireVolume,
+    //     }),
+    //     desc: t("affiliate.process.step1.volumeGt0.description", {
+    //       volume: commify(generateCode.completedVolume ?? 0, 2),
+    //       requireVolume: commify(generateCode.requireVolume),
+    //     }),
+    //   };
+    // }
     // require volume = 0;
     return {
-      title: t("affiliate.process.step1.volumeEq0.title"),
-      desc: t("affiliate.process.step1.volumeEq0.description"),
+      title: t("Apply"),
+      desc: t("Apply via the form."),
+      // title: t("affiliate.process.step1.volumeEq0.title"),
+      // desc: t("affiliate.process.step1.volumeEq0.description"),
     };
   }, [generateCode, t]);
 
