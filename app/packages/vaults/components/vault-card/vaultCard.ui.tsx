@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, useMemo, useState, useRef, useLayoutEffect } from "react";
 import { useTranslation } from "@orderly.network/i18n";
 import {
   Text,
@@ -23,8 +23,39 @@ export const VaultCard: FC<VaultCardScript> = (props) => {
     openVaultWebsite,
   } = props;
 
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isOverflow, setIsOverflow] = useState(false);
+  const descriptionRef = useRef<HTMLDivElement>(null);
+
   const { t } = useTranslation();
   const { isMobile } = useScreen();
+
+  // 使用 ResizeObserver 監聽元素，解決寬度改變導致的行數變化
+  useLayoutEffect(() => {
+    const element = descriptionRef.current;
+    if (!element) return;
+
+    const checkOverflow = () => {
+      // 暫時移除 LineClamp 限制來測量真實內容高度
+      const originalStyle = element.style.webkitLineClamp;
+      element.style.webkitLineClamp = "unset";
+      const fullHeight = element.scrollHeight;
+      element.style.webkitLineClamp = originalStyle;
+
+      // 判斷是否超過 3 行 (18px * 3 = 54px)
+      // 使用 55 避開瀏覽器渲染誤差 (18*3=54)
+      setIsOverflow(fullHeight > 55);
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+      checkOverflow();
+    });
+
+    resizeObserver.observe(element);
+    checkOverflow(); // 初始檢查
+
+    return () => resizeObserver.disconnect();
+  }, [description]);
 
   const supportVaultsList = useMemo(() => {
     return <div className="oui-flex oui-items-center"></div>;
@@ -46,7 +77,7 @@ export const VaultCard: FC<VaultCardScript> = (props) => {
         }}
       ></div>
 
-      <div className="oui-relative oui-z-20 oui-flex oui-flex-col oui-gap-4 oui-p-6">
+      <div className="oui-relative oui-z-20 oui-flex oui-flex-col oui-gap-4 oui-p-6 oui-h-full">
         <div className="oui-flex oui-items-center oui-gap-2">
           <div className="oui-text-[18px] oui-font-semibold oui-text-white">
             {title}
@@ -64,7 +95,7 @@ export const VaultCard: FC<VaultCardScript> = (props) => {
             />
           </div> */}
         </div>
-        {/* 原本的 */}
+
         {/* <div
           style={{
             color: "rgba(255, 255, 255, 0.4)",
@@ -76,71 +107,87 @@ export const VaultCard: FC<VaultCardScript> = (props) => {
         >
           {description}
         </div> */}
-        {/* 修改後：支援三行截斷與連結解析 */}
-        <div
-          style={{
-            color: "rgba(255, 255, 255, 0.4)",
-            fontSize: 12,
-            fontFamily: "Poppins",
-            fontWeight: "500",
-            wordWrap: "break-word",
-            // --- 以下為新增的截斷樣式 ---
-            display: "-webkit-box",
-            WebkitLineClamp: 3, // 限制三行
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-            lineHeight: "18px", // 確保行高固定，方便計算高度
-            minHeight: "54px", // 18px * 3 = 54px，讓卡片高度保持一致
-          }}
-        >
-          {parseDescription(description)}
-        </div>
 
-        <div className="oui-flex oui-items-center oui-gap-2">
-          <VaultInfoItem
-            label={t("vaults.card.tvl")}
-            value={vaultInfo.tvl}
-            textProps={{
-              currency: "$",
-              dp: 0,
-              type: "numeral",
+        <div className="oui-flex oui-flex-col">
+          <div
+            ref={descriptionRef}
+            style={{
+              color: "rgba(255, 255, 255, 0.4)",
+              fontSize: 12,
+              fontFamily: "Poppins",
+              fontWeight: "500",
+              wordWrap: "break-word",
+              // --- 以下為新增的截斷樣式 ---
+              display: "-webkit-box",
+              WebkitLineClamp: isExpanded ? "unset" : 3, // 根據狀態切換展開
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              lineHeight: "18px", // 確保行高固定，方便計算高度
+              minHeight: !isExpanded && isOverflow ? "54px" : "auto",
             }}
-          />
-          <VaultInfoItem
-            label={t("vaults.card.apy")}
-            value={(vaultInfo["30d_apy"] * 100).toFixed(2) + "%"}
-            textProps={{
-              color: "brand",
-              type: "gradient",
-            }}
-          />
+          >
+            {parseDescription(description)}
+          </div>
+          {isOverflow && (
+            <div
+              className="oui-cursor-pointer oui-text-brand oui-text-[10px] oui-mt-1 oui-opacity-80 hover:oui-opacity-100"
+              style={{ color: "rgba(201, 189, 255, 1)" }}
+              onClick={() => setIsExpanded(!isExpanded)}
+            >
+              {isExpanded ? "Show less" : "...Read more"}
+            </div>
+          )}
         </div>
 
-        <div className="oui-mt-3 oui-flex oui-flex-col oui-items-center oui-gap-2 oui-rounded-lg oui-bg-white/[0.06] oui-p-3">
+        {/* 使用 oui-mt-auto 確保以下內容始終對齊底部 */}
+        <div className="oui-mt-auto oui-flex oui-flex-col oui-gap-4">
+          <div className="oui-flex oui-items-center oui-gap-2">
+            <VaultInfoItem
+              label={t("vaults.card.tvl")}
+              value={vaultInfo.tvl}
+              textProps={{
+                currency: "$",
+                dp: 0,
+                type: "numeral",
+              }}
+            />
+            <VaultInfoItem
+              label={t("vaults.card.apy")}
+              value={(vaultInfo["30d_apy"] * 100).toFixed(2) + "%"}
+              textProps={{
+                color: "brand",
+                type: "gradient",
+              }}
+            />
+          </div>
+
+          <div className="oui-mt-3 oui-flex oui-flex-col oui-items-center oui-gap-2 oui-rounded-lg oui-bg-white/[0.06] oui-p-3">
+            <LpInfoItem
+              label={t("vaults.card.myDeposits")}
+              value={lpInfo.deposits}
+            />
+            <LpInfoItem
+              label={t("vaults.card.myEarnings")}
+              value={lpInfo.earnings}
+            />
+          </div>
+
           <LpInfoItem
-            label={t("vaults.card.myDeposits")}
-            value={lpInfo.deposits}
+            label={t("vaults.card.accountBalance")}
+            value={availableBalance}
           />
-          <LpInfoItem
-            label={t("vaults.card.myEarnings")}
-            value={lpInfo.earnings}
+
+          <VaultCardOperation
+            isEVMConnected={isEVMConnected}
+            isSOLConnected={isSOLConnected}
+            openDepositAndWithdraw={openDepositAndWithdraw}
           />
         </div>
-
-        <LpInfoItem
-          label={t("vaults.card.accountBalance")}
-          value={availableBalance}
-        />
-
-        <VaultCardOperation
-          isEVMConnected={isEVMConnected}
-          isSOLConnected={isSOLConnected}
-          openDepositAndWithdraw={openDepositAndWithdraw}
-        />
       </div>
     </div>
   );
 };
+
 /**
  * 解析描述文字中的 Markdown 連結格式 [text](url)
  */
