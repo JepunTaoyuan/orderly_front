@@ -82,14 +82,16 @@ export const useOrderlyConfig = () => {
           main: {
             component: (
               <img
-                alt="Orderly logo"
-                src="/images/dexless/dexless_logo.svg"
+                alt="Dexless logo"
+                // src="/images/dexless/dexless_logo.svg"
+                src="/favicon.ico"
                 style={{ width: 100, height: 40 }}
               />
             ),
           },
           secondary: {
-            img: "/images/dexless/dexless_logo.svg",
+            // img: "/images/dexless/dexless_logo.svg",
+            img: "/favicon.ico",
           },
         },
         restrictedInfo: {

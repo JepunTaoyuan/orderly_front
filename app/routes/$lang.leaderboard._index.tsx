@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { MetaFunction } from "@remix-run/node";
 import { useAccount, useWalletConnector } from "@orderly.network/hooks";
-import { i18n, parseI18nLang } from "@orderly.network/i18n";
+import { i18n, parseI18nLang, useTranslation } from "@orderly.network/i18n";
 import { useAppContext } from "@orderly.network/react-app";
 import { AccountStatusEnum } from "@orderly.network/types";
 import { Box, useScreen } from "@orderly.network/ui";
@@ -18,6 +18,7 @@ export const meta: MetaFunction = () => {
 };
 
 function getCampaigns() {
+  const { t } = useTranslation();
   const addDays = (date: Date, days: number) => {
     const result = new Date(date);
     result.setDate(result.getDate() + days);
@@ -36,8 +37,8 @@ function getCampaigns() {
   return dateRange.map(
     (date) =>
       ({
-        title: i18n.t("leaderboard.riseAbove"),
-        description: i18n.t("leaderboard.riseAboveDescription"),
+        title: t("leaderboard.riseAbove"),
+        description: t("leaderboard.riseAboveDescription"),
         image: "/images/leaderboard/campaign.jpg",
         href: "https://orderly.network/",
         ...date,
